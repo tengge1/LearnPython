@@ -1,5 +1,7 @@
 # Fasttext for text classification
 
+# https://keras.io/examples/imdb_fasttext/
+
 # This example demonstrates the use of fasttext for text classification
 # Based on Joulin et al's paper:
 

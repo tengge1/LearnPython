@@ -1,3 +1,7 @@
+# Stateful LSTM
+
+# https://keras.io/examples/lstm_stateful/
+
 # How to use a stateful LSTM model, stateful vs stateless LSTM performance comparison
 # More documentation about the Keras LSTM model
 

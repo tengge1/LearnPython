@@ -1,3 +1,7 @@
+# Sequence to sequence - prediction
+
+# https://keras.io/examples/lstm_seq2seq_restore/
+
 # Restore a character-level sequence to sequence model from to generate predictions.
 
 # This script loads the s2s.h5 model saved by lstm_seq2seq.py and generates sequences

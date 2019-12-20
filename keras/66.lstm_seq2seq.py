@@ -1,5 +1,7 @@
 # Sequence to sequence - training
 
+# https://keras.io/examples/lstm_seq2seq/
+
 # Sequence to sequence example in Keras (character-level).
 # This script demonstrates how to implement a basic character-level
 # sequence-to-sequence model. We apply it to translating short English

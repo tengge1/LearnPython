@@ -1,5 +1,7 @@
 # Sentiment classification CNN-LSTM
 
+# https://keras.io/examples/imdb_cnn_lstm/
+
 # Train a recurrent convolutional network on the IMDB
 # sentiment classfication task.
 
