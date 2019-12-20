@@ -1,5 +1,7 @@
 # Deep Dream
 
+# https://keras.io/examples/deep_dream/
+
 # Deep Dreaming in Keras.
 
 # Run the script with:
