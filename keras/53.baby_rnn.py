@@ -1,16 +1,70 @@
-from functools import reduce
-import re
-import tarfile
+# Baby RNN
 
-import numpy as np
+# https://keras.io/examples/babi_rnn/
 
-from tensorflow import keras
-from tensorflow.keras.utils import get_file
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras import layers
-from tensorflow.keras.layers import recurrent
-from tensorflow.keras.models import Model
+# Trains two recurrent neural networks based upon a story and a question.
+# The resulting merged vector is then queried to answer a range of bAbI tasks.
+
+# The results are comparable to those for an LSTM model provided in Weston et al.:
+# "Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks"
+# http://arxiv.org/abs/1502.05698
+
+# Task Number	FB LSTM Baseline	Keras QA
+# QA1 - Single Supporting Fact	50	52.1
+# QA2 - Two Supporting Facts	20	37.0
+# QA3 - Three Supporting Facts	20	20.5
+# QA4 - Two Arg. Relations	61	62.9
+# QA5 - Three Arg. Relations	70	61.9
+# QA6 - yes/No Questions	48	50.7
+# QA7 - Counting	49	78.9
+# QA8 - Lists/Sets	45	77.2
+# QA9 - Simple Negation	64	64.0
+# QA10 - Indefinite Knowledge	44	47.7
+# QA11 - Basic Coreference	72	74.9
+# QA12 - Conjunction	74	76.4
+# QA13 - Compound Coreference	94	94.4
+# QA14 - Time Reasoning	27	34.8
+# QA15 - Basic Deduction	21	32.4
+# QA16 - Basic Induction	23	50.6
+# QA17 - Positional Reasoning	51	49.1
+# QA18 - Size Reasoning	52	90.8
+# QA19 - Path Finding	8	9.0
+# QA20 - Agent's Motivations	91	90.7
+
+# For the resources related to the bAbI project, refer to:
+# https://research.facebook.com/researchers/1543934539189348
+
+# Notes
+
+# 1. With default word, sentence, and query vector sizes, the GRU model achieves:
+#    52.1% test accuracy on QA1 in 20 epochs (2 seconds per epoch on CPU)
+#
+# 2. 37.0% test accuracy on QA2 in 20 epochs (16 seconds per epoch on CPU) In comparison,
+#    the Facebook paper achieves 50% and 20% for the LSTM baseline.
+# 3. The task does not traditionally parse the question separately. This likely improves
+#    accuracy and is a good example of merging two RNNs.
+# 4. The word vector embeddings are not shared between the story and question RNNs.
+# 5. See how the accuracy changes given 10,000 training samples (en-10k) instead of only
+#    1000. 1000 was used in order to be comparable to the original paper.
+# 6. Experiment with GRU, LSTM, and JZS1-3 as they give subtly different results.
+# 7. The length and noise (i.e. 'useless' story components) impact the ability of LSTMs / GRUs
+#    to provide the correct answer. Given only the supporting facts, these RNNs can achieve
+#    100% accuracy on many tasks. Memory networks and neural networks that use attentional
+#    processes can efficiently search through this noise to find the relevant statements,
+#    improving performance substantially. This becomes especially obvious on QA2 and QA3, both
+#    far longer than QA1.
+
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.utils import get_file
+from tensorflow import keras
+import numpy as np
+import tarfile
+import re
+from functools import reduce
 
 
 def tokenize(sent):
@@ -85,7 +139,7 @@ def vectorize_stories(data, word_idx, story_maxlen, query_maxlen):
             pad_sequences(xqs, maxlen=query_maxlen), np.array(ys))
 
 
-RNN = recurrent.LSTM
+RNN = LSTM
 EMBED_HIDDEN_SIZE = 50
 SENT_HIDDEN_SIZE = 100
 QUERY_HIDDEN_SIZE = 100

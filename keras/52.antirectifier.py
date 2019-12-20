@@ -1,5 +1,7 @@
 # Custom layer - antirectifier
 
+# https://keras.io/examples/antirectifier/
+
 # This example demonstrates how to write custom layers for Keras.
 # We build a custom activation layer called 'Antirectifier', which
 # modifies the shape of the tensor that passes through it. We need
