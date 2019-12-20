@@ -1,9 +1,18 @@
+# Convolution filter visualization
+
+# https://keras.io/examples/conv_filter_visualization/
+
+# Visualization of the filters of VGG16, via gradient ascent in input space.
+# This script can run on CPU in a few minutes.
+
+# Results example: Visualization
+
 import time
 import numpy as np
 from PIL import Image as pil_image
 from tensorflow.keras.preprocessing.image import save_img
 from tensorflow.keras import layers
-from tenosrflow.keras.applications import vgg16
+from tensorflow.keras.applications import vgg16
 from tensorflow.keras import backend as K
 
 
