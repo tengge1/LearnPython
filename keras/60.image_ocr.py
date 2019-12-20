@@ -1,5 +1,7 @@
 # Image OCR
 
+# https://keras.io/examples/image_ocr/
+
 # Optical character recognition
 
 # This example uses a convolutional stack followed by a recurrent stack and a CTC logloss function
