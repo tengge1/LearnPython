@@ -1,3 +1,15 @@
+# Custom layer - antirectifier
+
+# This example demonstrates how to write custom layers for Keras.
+# We build a custom activation layer called 'Antirectifier', which
+# modifies the shape of the tensor that passes through it. We need
+# to specify two methods: compute_output_shape and call.
+
+# Note that the same result can also be achieved via a Lambda layer.
+
+# Because our custom layer is written with primitives from the Keras
+# # backend (K), our code can run both on TensorFlow and Theano.
+
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import layers
