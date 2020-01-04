@@ -1,0 +1,828 @@
+Help on module smtpd:
+
+NAME
+    smtpd - An RFC 5321 smtp proxy with optional RFC 1870 and RFC 6531 extensions.
+
+DESCRIPTION
+    Usage: %(program)s [options] [localhost:localport [remotehost:remoteport]]
+    
+    Options:
+    
+        --nosetuid
+        -n
+            This program generally tries to setuid `nobody', unless this flag is
+            set.  The setuid call will fail if this program is not run as root (in
+            which case, use this flag).
+    
+        --version
+        -V
+            Print the version number and exit.
+    
+        --class classname
+        -c classname
+            Use `classname' as the concrete SMTP proxy class.  Uses `PureProxy' by
+            default.
+    
+        --size limit
+        -s limit
+            Restrict the total size of the incoming message to "limit" number of
+            bytes via the RFC 1870 SIZE extension.  Defaults to 33554432 bytes.
+    
+        --smtputf8
+        -u
+            Enable the SMTPUTF8 extension and behave as an RFC 6531 smtp proxy.
+    
+        --debug
+        -d
+            Turn on debugging prints.
+    
+        --help
+        -h
+            Print this message and exit.
+    
+    Version: %(__version__)s
+    
+    If localhost is not given then `localhost' is used, and if localport is not
+    given then 8025 is used.  If remotehost is not given then `localhost' is used,
+    and if remoteport is not given, then 25 is used.
+
+CLASSES
+    asynchat.async_chat(asyncore.dispatcher)
+        SMTPChannel
+    asyncore.dispatcher(builtins.object)
+        SMTPServer
+            DebuggingServer
+            PureProxy
+                MailmanProxy
+    
+    class DebuggingServer(SMTPServer)
+     |  DebuggingServer(localaddr, remoteaddr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |  
+     |  Method resolution order:
+     |      DebuggingServer
+     |      SMTPServer
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  process_message(self, peer, mailfrom, rcpttos, data, **kwargs)
+     |      Override this abstract method to handle messages from the client.
+     |      
+     |      peer is a tuple containing (ipaddr, port) of the client that made the
+     |      socket connection to our smtp port.
+     |      
+     |      mailfrom is the raw address the client claims the message is coming
+     |      from.
+     |      
+     |      rcpttos is a list of raw addresses the client wishes to deliver the
+     |      message to.
+     |      
+     |      data is a string containing the entire full text of the message,
+     |      headers (if supplied) and all.  It has been `de-transparencied'
+     |      according to RFC 821, Section 4.5.2.  In other words, a line
+     |      containing a `.' followed by other text has had the leading dot
+     |      removed.
+     |      
+     |      kwargs is a dictionary containing additional information.  It is
+     |      empty if decode_data=True was given as init parameter, otherwise
+     |      it will contain the following keys:
+     |          'mail_options': list of parameters to the mail command.  All
+     |                          elements are uppercase strings.  Example:
+     |                          ['BODY=8BITMIME', 'SMTPUTF8'].
+     |          'rcpt_options': same, for the rcpt command.
+     |      
+     |      This function should return None for a normal `250 Ok' response;
+     |      otherwise, it should return the desired response string in RFC 821
+     |      format.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SMTPServer:
+     |  
+     |  __init__(self, localaddr, remoteaddr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  handle_accepted(self, conn, addr)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SMTPServer:
+     |  
+     |  channel_class = <class 'smtpd.SMTPChannel'>
+     |      This is an abstract class.  You must derive from this class, and add
+     |      the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  readable(self)
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  writable(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+    
+    class MailmanProxy(PureProxy)
+     |  MailmanProxy(*args, **kwargs)
+     |  
+     |  Method resolution order:
+     |      MailmanProxy
+     |      PureProxy
+     |      SMTPServer
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  process_message(self, peer, mailfrom, rcpttos, data)
+     |      Override this abstract method to handle messages from the client.
+     |      
+     |      peer is a tuple containing (ipaddr, port) of the client that made the
+     |      socket connection to our smtp port.
+     |      
+     |      mailfrom is the raw address the client claims the message is coming
+     |      from.
+     |      
+     |      rcpttos is a list of raw addresses the client wishes to deliver the
+     |      message to.
+     |      
+     |      data is a string containing the entire full text of the message,
+     |      headers (if supplied) and all.  It has been `de-transparencied'
+     |      according to RFC 821, Section 4.5.2.  In other words, a line
+     |      containing a `.' followed by other text has had the leading dot
+     |      removed.
+     |      
+     |      kwargs is a dictionary containing additional information.  It is
+     |      empty if decode_data=True was given as init parameter, otherwise
+     |      it will contain the following keys:
+     |          'mail_options': list of parameters to the mail command.  All
+     |                          elements are uppercase strings.  Example:
+     |                          ['BODY=8BITMIME', 'SMTPUTF8'].
+     |          'rcpt_options': same, for the rcpt command.
+     |      
+     |      This function should return None for a normal `250 Ok' response;
+     |      otherwise, it should return the desired response string in RFC 821
+     |      format.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SMTPServer:
+     |  
+     |  handle_accepted(self, conn, addr)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SMTPServer:
+     |  
+     |  channel_class = <class 'smtpd.SMTPChannel'>
+     |      This is an abstract class.  You must derive from this class, and add
+     |      the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  readable(self)
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  writable(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+    
+    class PureProxy(SMTPServer)
+     |  PureProxy(*args, **kwargs)
+     |  
+     |  Method resolution order:
+     |      PureProxy
+     |      SMTPServer
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  process_message(self, peer, mailfrom, rcpttos, data)
+     |      Override this abstract method to handle messages from the client.
+     |      
+     |      peer is a tuple containing (ipaddr, port) of the client that made the
+     |      socket connection to our smtp port.
+     |      
+     |      mailfrom is the raw address the client claims the message is coming
+     |      from.
+     |      
+     |      rcpttos is a list of raw addresses the client wishes to deliver the
+     |      message to.
+     |      
+     |      data is a string containing the entire full text of the message,
+     |      headers (if supplied) and all.  It has been `de-transparencied'
+     |      according to RFC 821, Section 4.5.2.  In other words, a line
+     |      containing a `.' followed by other text has had the leading dot
+     |      removed.
+     |      
+     |      kwargs is a dictionary containing additional information.  It is
+     |      empty if decode_data=True was given as init parameter, otherwise
+     |      it will contain the following keys:
+     |          'mail_options': list of parameters to the mail command.  All
+     |                          elements are uppercase strings.  Example:
+     |                          ['BODY=8BITMIME', 'SMTPUTF8'].
+     |          'rcpt_options': same, for the rcpt command.
+     |      
+     |      This function should return None for a normal `250 Ok' response;
+     |      otherwise, it should return the desired response string in RFC 821
+     |      format.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SMTPServer:
+     |  
+     |  handle_accepted(self, conn, addr)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SMTPServer:
+     |  
+     |  channel_class = <class 'smtpd.SMTPChannel'>
+     |      This is an abstract class.  You must derive from this class, and add
+     |      the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  readable(self)
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  writable(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+    
+    class SMTPChannel(asynchat.async_chat)
+     |  SMTPChannel(server, conn, addr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |  
+     |  This is an abstract class.  You must derive from this class, and add
+     |  the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  Method resolution order:
+     |      SMTPChannel
+     |      asynchat.async_chat
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, server, conn, addr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  collect_incoming_data(self, data)
+     |      # Implementation of base class abstract method
+     |  
+     |  found_terminator(self)
+     |      # Implementation of base class abstract method
+     |  
+     |  push(self, msg)
+     |      # Overrides base class for convenience.
+     |  
+     |  smtp_DATA(self, arg)
+     |  
+     |  smtp_EHLO(self, arg)
+     |  
+     |  smtp_EXPN(self, arg)
+     |      # Commands that have not been implemented
+     |  
+     |  smtp_HELO(self, arg)
+     |      # SMTP and ESMTP commands
+     |  
+     |  smtp_HELP(self, arg)
+     |  
+     |  smtp_MAIL(self, arg)
+     |  
+     |  smtp_NOOP(self, arg)
+     |  
+     |  smtp_QUIT(self, arg)
+     |  
+     |  smtp_RCPT(self, arg)
+     |  
+     |  smtp_RSET(self, arg)
+     |  
+     |  smtp_VRFY(self, arg)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  max_command_size_limit
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  COMMAND = 0
+     |  
+     |  DATA = 1
+     |  
+     |  command_size_limit = 512
+     |  
+     |  command_size_limits = defaultdict(<function SMTPChannel.<lambda> at 0x...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asynchat.async_chat:
+     |  
+     |  close_when_done(self)
+     |      automatically close this channel once the outgoing queue is empty
+     |  
+     |  discard_buffers(self)
+     |  
+     |  get_terminator(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  initiate_send(self)
+     |  
+     |  push_with_producer(self, producer)
+     |  
+     |  readable(self)
+     |      predicate for inclusion in the readable for select()
+     |  
+     |  set_terminator(self, term)
+     |      Set the input delimiter.
+     |      
+     |      Can be a fixed string of any length, an integer, or None.
+     |  
+     |  writable(self)
+     |      predicate for inclusion in the writable for select()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asynchat.async_chat:
+     |  
+     |  ac_in_buffer_size = 65536
+     |  
+     |  ac_out_buffer_size = 65536
+     |  
+     |  encoding = 'latin-1'
+     |  
+     |  use_encoding = 0
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_accepted(self, sock, addr)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+    
+    class SMTPServer(asyncore.dispatcher)
+     |  SMTPServer(localaddr, remoteaddr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |  
+     |  Method resolution order:
+     |      SMTPServer
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, localaddr, remoteaddr, data_size_limit=33554432, map=None, enable_SMTPUTF8=False, decode_data=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  handle_accepted(self, conn, addr)
+     |  
+     |  process_message(self, peer, mailfrom, rcpttos, data, **kwargs)
+     |      Override this abstract method to handle messages from the client.
+     |      
+     |      peer is a tuple containing (ipaddr, port) of the client that made the
+     |      socket connection to our smtp port.
+     |      
+     |      mailfrom is the raw address the client claims the message is coming
+     |      from.
+     |      
+     |      rcpttos is a list of raw addresses the client wishes to deliver the
+     |      message to.
+     |      
+     |      data is a string containing the entire full text of the message,
+     |      headers (if supplied) and all.  It has been `de-transparencied'
+     |      according to RFC 821, Section 4.5.2.  In other words, a line
+     |      containing a `.' followed by other text has had the leading dot
+     |      removed.
+     |      
+     |      kwargs is a dictionary containing additional information.  It is
+     |      empty if decode_data=True was given as init parameter, otherwise
+     |      it will contain the following keys:
+     |          'mail_options': list of parameters to the mail command.  All
+     |                          elements are uppercase strings.  Example:
+     |                          ['BODY=8BITMIME', 'SMTPUTF8'].
+     |          'rcpt_options': same, for the rcpt command.
+     |      
+     |      This function should return None for a normal `250 Ok' response;
+     |      otherwise, it should return the desired response string in RFC 821
+     |      format.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  channel_class = <class 'smtpd.SMTPChannel'>
+     |      This is an abstract class.  You must derive from this class, and add
+     |      the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  readable(self)
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  writable(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+
+DATA
+    __all__ = ['SMTPChannel', 'SMTPServer', 'DebuggingServer', 'PureProxy'...
+
+VERSION
+    Python SMTP proxy version 0.3
+
+FILE
+    c:\program files\python37\lib\smtpd.py
+
+

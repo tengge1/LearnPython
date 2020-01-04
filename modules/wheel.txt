@@ -1,0 +1,22 @@
+Help on package wheel:
+
+NAME
+    wheel - # __variables__ with double-quoted values will be available in setup.py:
+
+PACKAGE CONTENTS
+    __main__
+    bdist_wheel
+    cli (package)
+    metadata
+    pep425tags
+    pkginfo
+    util
+    wheelfile
+
+VERSION
+    0.33.6
+
+FILE
+    c:\program files\python37\lib\site-packages\wheel\__init__.py
+
+

@@ -1,0 +1,139 @@
+Help on module signal:
+
+NAME
+    signal
+
+MODULE REFERENCE
+    https://docs.python.org/3.7/library/signal
+    
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+CLASSES
+    enum.IntEnum(builtins.int, enum.Enum)
+        Handlers
+        Signals
+    
+    class Handlers(enum.IntEnum)
+     |  Handlers(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  An enumeration.
+     |  
+     |  Method resolution order:
+     |      Handlers
+     |      enum.IntEnum
+     |      builtins.int
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  SIG_DFL = <Handlers.SIG_DFL: 0>
+     |  
+     |  SIG_IGN = <Handlers.SIG_IGN: 1>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class Signals(enum.IntEnum)
+     |  Signals(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  An enumeration.
+     |  
+     |  Method resolution order:
+     |      Signals
+     |      enum.IntEnum
+     |      builtins.int
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  CTRL_BREAK_EVENT = <Signals.CTRL_BREAK_EVENT: 1>
+     |  
+     |  CTRL_C_EVENT = <Signals.CTRL_C_EVENT: 0>
+     |  
+     |  SIGABRT = <Signals.SIGABRT: 22>
+     |  
+     |  SIGBREAK = <Signals.SIGBREAK: 21>
+     |  
+     |  SIGFPE = <Signals.SIGFPE: 8>
+     |  
+     |  SIGILL = <Signals.SIGILL: 4>
+     |  
+     |  SIGINT = <Signals.SIGINT: 2>
+     |  
+     |  SIGSEGV = <Signals.SIGSEGV: 11>
+     |  
+     |  SIGTERM = <Signals.SIGTERM: 15>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+FUNCTIONS
+    default_int_handler(...)
+        default_int_handler(...)
+        
+        The default handler for SIGINT installed by Python.
+        It raises KeyboardInterrupt.
+    
+    set_wakeup_fd(...)
+        set_wakeup_fd(fd, *, warn_on_full_buffer=True) -> fd
+        
+        Sets the fd to be written to (with the signal number) when a signal
+        comes in.  A library can use this to wakeup select or poll.
+        The previous fd or -1 is returned.
+        
+        The fd must be non-blocking.
+
+DATA
+    CTRL_BREAK_EVENT = <Signals.CTRL_BREAK_EVENT: 1>
+    CTRL_C_EVENT = <Signals.CTRL_C_EVENT: 0>
+    NSIG = 23
+    SIGABRT = <Signals.SIGABRT: 22>
+    SIGBREAK = <Signals.SIGBREAK: 21>
+    SIGFPE = <Signals.SIGFPE: 8>
+    SIGILL = <Signals.SIGILL: 4>
+    SIGINT = <Signals.SIGINT: 2>
+    SIGSEGV = <Signals.SIGSEGV: 11>
+    SIGTERM = <Signals.SIGTERM: 15>
+    SIG_DFL = <Handlers.SIG_DFL: 0>
+    SIG_IGN = <Handlers.SIG_IGN: 1>
+
+FILE
+    c:\program files\python37\lib\signal.py
+
+

@@ -1,0 +1,12 @@
+Help on module hello:
+
+NAME
+    hello
+
+DATA
+    a = 100
+
+FILE
+    e:\github\learnpython\python\hello.py
+
+

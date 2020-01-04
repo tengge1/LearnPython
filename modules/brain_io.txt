@@ -1,0 +1,15 @@
+Help on module brain_io:
+
+NAME
+    brain_io - Astroid brain hints for some of the _io C objects.
+
+DATA
+    BUFFERED = {'BufferedReader', 'BufferedWriter'}
+    BufferedWriter = 'BufferedWriter'
+    FileIO = 'FileIO'
+    TextIOWrapper = 'TextIOWrapper'
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_io.py
+
+

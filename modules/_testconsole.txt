@@ -1,0 +1,16 @@
+Help on module _testconsole:
+
+NAME
+    _testconsole - Test module for the Windows console
+
+FUNCTIONS
+    read_output(file)
+        Reads a str from the console as written to stdout.
+    
+    write_input(file, s)
+        Writes UTF-16-LE encoded bytes to the console as if typed by a user.
+
+FILE
+    c:\program files\python37\dlls\_testconsole.pyd
+
+

@@ -1,0 +1,62 @@
+Help on module stringprep:
+
+NAME
+    stringprep - Library that exposes various tables found in the StringPrep RFC 3454.
+
+DESCRIPTION
+    There are two kinds of tables: sets, for which a member test is provided,
+    and mappings, for which a mapping function is provided.
+
+FUNCTIONS
+    in_table_a1(code)
+    
+    in_table_b1(code)
+    
+    in_table_c11(code)
+    
+    in_table_c11_c12(code)
+    
+    in_table_c12(code)
+    
+    in_table_c21(code)
+    
+    in_table_c21_c22(code)
+    
+    in_table_c22(code)
+    
+    in_table_c3(code)
+    
+    in_table_c4(code)
+    
+    in_table_c5(code)
+    
+    in_table_c6(code)
+    
+    in_table_c7(code)
+    
+    in_table_c8(code)
+    
+    in_table_c9(code)
+    
+    in_table_d1(code)
+    
+    in_table_d2(code)
+    
+    map_table_b2(a)
+    
+    map_table_b3(code)
+
+DATA
+    b1_set = {173, 847, 6150, 6155, 6156, 6157, ...}
+    b3_exceptions = {181: '¦Ì', 223: 'ss', 304: 'i\u0307', 329: '\u02bcn', 383: 's', ...
+    c22_specials = {1757, 1807, 6158, 8204, 8205, 8232, ...}
+    c6_set = {65529, 65530, 65531, 65532, 65533}
+    c7_set = {12272, 12273, 12274, 12275, 12276, 12277, ...}
+    c8_set = {832, 833, 8206, 8207, 8234, 8235, ...}
+    c9_set = {917505, 917536, 917537, 917538, 917539, 917540, ...}
+    unicodedata = <unicodedata.UCD object>
+
+FILE
+    c:\program files\python37\lib\stringprep.py
+
+

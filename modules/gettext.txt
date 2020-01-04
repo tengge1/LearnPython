@@ -1,0 +1,149 @@
+Help on module gettext:
+
+NAME
+    gettext - Internationalization and localization support.
+
+DESCRIPTION
+    This module provides internationalization (I18N) and localization (L10N)
+    support for your Python programs by providing an interface to the GNU gettext
+    message catalog library.
+    
+    I18N refers to the operation by which a program is made aware of multiple
+    languages.  L10N refers to the adaptation of your program, once
+    internationalized, to the local language and cultural habits.
+
+CLASSES
+    builtins.object
+        NullTranslations
+            GNUTranslations
+    
+    class GNUTranslations(NullTranslations)
+     |  GNUTranslations(fp=None)
+     |  
+     |  Method resolution order:
+     |      GNUTranslations
+     |      NullTranslations
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  gettext(self, message)
+     |  
+     |  lgettext(self, message)
+     |  
+     |  lngettext(self, msgid1, msgid2, n)
+     |  
+     |  ngettext(self, msgid1, msgid2, n)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  BE_MAGIC = 3725722773
+     |  
+     |  LE_MAGIC = 2500072158
+     |  
+     |  VERSIONS = (0, 1)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from NullTranslations:
+     |  
+     |  __init__(self, fp=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_fallback(self, fallback)
+     |  
+     |  charset(self)
+     |  
+     |  info(self)
+     |  
+     |  install(self, names=None)
+     |  
+     |  output_charset(self)
+     |  
+     |  set_output_charset(self, charset)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from NullTranslations:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class NullTranslations(builtins.object)
+     |  NullTranslations(fp=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, fp=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_fallback(self, fallback)
+     |  
+     |  charset(self)
+     |  
+     |  gettext(self, message)
+     |  
+     |  info(self)
+     |  
+     |  install(self, names=None)
+     |  
+     |  lgettext(self, message)
+     |  
+     |  lngettext(self, msgid1, msgid2, n)
+     |  
+     |  ngettext(self, msgid1, msgid2, n)
+     |  
+     |  output_charset(self)
+     |  
+     |  set_output_charset(self, charset)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    Catalog = translation(domain, localedir=None, languages=None, class_=None, fallback=False, codeset=None)
+    
+    bind_textdomain_codeset(domain, codeset=None)
+    
+    bindtextdomain(domain, localedir=None)
+    
+    dgettext(domain, message)
+    
+    dngettext(domain, msgid1, msgid2, n)
+    
+    find(domain, localedir=None, languages=None, all=False)
+        # Locate a .mo file using the gettext strategy
+    
+    gettext(message)
+    
+    install(domain, localedir=None, codeset=None, names=None)
+    
+    ldgettext(domain, message)
+    
+    ldngettext(domain, msgid1, msgid2, n)
+    
+    lgettext(message)
+    
+    lngettext(msgid1, msgid2, n)
+    
+    ngettext(msgid1, msgid2, n)
+    
+    textdomain(domain=None)
+    
+    translation(domain, localedir=None, languages=None, class_=None, fallback=False, codeset=None)
+
+DATA
+    __all__ = ['NullTranslations', 'GNUTranslations', 'Catalog', 'find', '...
+
+FILE
+    c:\program files\python37\lib\gettext.py
+
+

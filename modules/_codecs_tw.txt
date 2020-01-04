@@ -1,0 +1,12 @@
+Help on built-in module _codecs_tw:
+
+NAME
+    _codecs_tw
+
+FUNCTIONS
+    getcodec(...)
+
+FILE
+    (built-in)
+
+

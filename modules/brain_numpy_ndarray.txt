@@ -1,0 +1,12 @@
+Help on module brain_numpy_ndarray:
+
+NAME
+    brain_numpy_ndarray - Astroid hooks for numpy ndarray class.
+
+FUNCTIONS
+    infer_numpy_ndarray(node, context=None)
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_ndarray.py
+
+

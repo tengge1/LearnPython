@@ -1,0 +1,14 @@
+Help on built-in module _collections:
+
+NAME
+    _collections
+
+DESCRIPTION
+    High performance data structures.
+    - deque:        ordered collection accessible from endpoints only
+    - defaultdict:  dict subclass with a default value factory
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,20 @@
+Help on module brain_random:
+
+NAME
+    brain_random
+
+DESCRIPTION
+    # Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+    # For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
+FUNCTIONS
+    infer_random_sample(node, context=None)
+
+DATA
+    ACCEPTED_ITERABLES_FOR_SAMPLE = (<class 'astroid.node_classes.List'>, ...
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_random.py
+
+

@@ -1,0 +1,15 @@
+Help on module brain_numpy_core_function_base:
+
+NAME
+    brain_numpy_core_function_base - Astroid hooks for numpy.core.function_base module.
+
+DATA
+    METHODS_TO_BE_INFERRED = {'geomspace': 'def geomspace(start, stop, num...
+    func_name = 'geomspace'
+    func_src = 'def geomspace(start, stop, num=50, endpoint=True...axis=0)...
+    inference_function = functools.partial(<function infer_numpy_member a....
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_function_base.py
+
+

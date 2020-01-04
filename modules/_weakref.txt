@@ -1,0 +1,22 @@
+Help on built-in module _weakref:
+
+NAME
+    _weakref - Weak-reference support module.
+
+FUNCTIONS
+    getweakrefcount(object, /)
+        Return the number of weak references to 'object'.
+    
+    getweakrefs(...)
+        getweakrefs(object) -- return a list of all weak reference objects
+        that point to 'object'.
+    
+    proxy(...)
+        proxy(object[, callback]) -- create a proxy object that weakly
+        references 'object'.  'callback', if given, is called with a
+        reference to the proxy when 'object' is about to be finalized.
+
+FILE
+    (built-in)
+
+

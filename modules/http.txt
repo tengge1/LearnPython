@@ -1,0 +1,182 @@
+Help on package http:
+
+NAME
+    http
+
+PACKAGE CONTENTS
+    client
+    cookiejar
+    cookies
+    server
+
+CLASSES
+    enum.IntEnum(builtins.int, enum.Enum)
+        HTTPStatus
+    
+    class HTTPStatus(enum.IntEnum)
+     |  HTTPStatus(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  HTTP status codes and reason phrases
+     |  
+     |  Status codes from the following RFCs are all observed:
+     |  
+     |      * RFC 7231: Hypertext Transfer Protocol (HTTP/1.1), obsoletes 2616
+     |      * RFC 6585: Additional HTTP Status Codes
+     |      * RFC 3229: Delta encoding in HTTP
+     |      * RFC 4918: HTTP Extensions for WebDAV, obsoletes 2518
+     |      * RFC 5842: Binding Extensions to WebDAV
+     |      * RFC 7238: Permanent Redirect
+     |      * RFC 2295: Transparent Content Negotiation in HTTP
+     |      * RFC 2774: An HTTP Extension Framework
+     |      * RFC 7540: Hypertext Transfer Protocol Version 2 (HTTP/2)
+     |  
+     |  Method resolution order:
+     |      HTTPStatus
+     |      enum.IntEnum
+     |      builtins.int
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  ACCEPTED = <HTTPStatus.ACCEPTED: 202>
+     |  
+     |  ALREADY_REPORTED = <HTTPStatus.ALREADY_REPORTED: 208>
+     |  
+     |  BAD_GATEWAY = <HTTPStatus.BAD_GATEWAY: 502>
+     |  
+     |  BAD_REQUEST = <HTTPStatus.BAD_REQUEST: 400>
+     |  
+     |  CONFLICT = <HTTPStatus.CONFLICT: 409>
+     |  
+     |  CONTINUE = <HTTPStatus.CONTINUE: 100>
+     |  
+     |  CREATED = <HTTPStatus.CREATED: 201>
+     |  
+     |  EXPECTATION_FAILED = <HTTPStatus.EXPECTATION_FAILED: 417>
+     |  
+     |  FAILED_DEPENDENCY = <HTTPStatus.FAILED_DEPENDENCY: 424>
+     |  
+     |  FORBIDDEN = <HTTPStatus.FORBIDDEN: 403>
+     |  
+     |  FOUND = <HTTPStatus.FOUND: 302>
+     |  
+     |  GATEWAY_TIMEOUT = <HTTPStatus.GATEWAY_TIMEOUT: 504>
+     |  
+     |  GONE = <HTTPStatus.GONE: 410>
+     |  
+     |  HTTP_VERSION_NOT_SUPPORTED = <HTTPStatus.HTTP_VERSION_NOT_SUPPORTED: 5...
+     |  
+     |  IM_USED = <HTTPStatus.IM_USED: 226>
+     |  
+     |  INSUFFICIENT_STORAGE = <HTTPStatus.INSUFFICIENT_STORAGE: 507>
+     |  
+     |  INTERNAL_SERVER_ERROR = <HTTPStatus.INTERNAL_SERVER_ERROR: 500>
+     |  
+     |  LENGTH_REQUIRED = <HTTPStatus.LENGTH_REQUIRED: 411>
+     |  
+     |  LOCKED = <HTTPStatus.LOCKED: 423>
+     |  
+     |  LOOP_DETECTED = <HTTPStatus.LOOP_DETECTED: 508>
+     |  
+     |  METHOD_NOT_ALLOWED = <HTTPStatus.METHOD_NOT_ALLOWED: 405>
+     |  
+     |  MISDIRECTED_REQUEST = <HTTPStatus.MISDIRECTED_REQUEST: 421>
+     |  
+     |  MOVED_PERMANENTLY = <HTTPStatus.MOVED_PERMANENTLY: 301>
+     |  
+     |  MULTIPLE_CHOICES = <HTTPStatus.MULTIPLE_CHOICES: 300>
+     |  
+     |  MULTI_STATUS = <HTTPStatus.MULTI_STATUS: 207>
+     |  
+     |  NETWORK_AUTHENTICATION_REQUIRED = <HTTPStatus.NETWORK_AUTHENTICATION_R...
+     |  
+     |  NON_AUTHORITATIVE_INFORMATION = <HTTPStatus.NON_AUTHORITATIVE_INFORMAT...
+     |  
+     |  NOT_ACCEPTABLE = <HTTPStatus.NOT_ACCEPTABLE: 406>
+     |  
+     |  NOT_EXTENDED = <HTTPStatus.NOT_EXTENDED: 510>
+     |  
+     |  NOT_FOUND = <HTTPStatus.NOT_FOUND: 404>
+     |  
+     |  NOT_IMPLEMENTED = <HTTPStatus.NOT_IMPLEMENTED: 501>
+     |  
+     |  NOT_MODIFIED = <HTTPStatus.NOT_MODIFIED: 304>
+     |  
+     |  NO_CONTENT = <HTTPStatus.NO_CONTENT: 204>
+     |  
+     |  OK = <HTTPStatus.OK: 200>
+     |  
+     |  PARTIAL_CONTENT = <HTTPStatus.PARTIAL_CONTENT: 206>
+     |  
+     |  PAYMENT_REQUIRED = <HTTPStatus.PAYMENT_REQUIRED: 402>
+     |  
+     |  PERMANENT_REDIRECT = <HTTPStatus.PERMANENT_REDIRECT: 308>
+     |  
+     |  PRECONDITION_FAILED = <HTTPStatus.PRECONDITION_FAILED: 412>
+     |  
+     |  PRECONDITION_REQUIRED = <HTTPStatus.PRECONDITION_REQUIRED: 428>
+     |  
+     |  PROCESSING = <HTTPStatus.PROCESSING: 102>
+     |  
+     |  PROXY_AUTHENTICATION_REQUIRED = <HTTPStatus.PROXY_AUTHENTICATION_REQUI...
+     |  
+     |  REQUESTED_RANGE_NOT_SATISFIABLE = <HTTPStatus.REQUESTED_RANGE_NOT_SATI...
+     |  
+     |  REQUEST_ENTITY_TOO_LARGE = <HTTPStatus.REQUEST_ENTITY_TOO_LARGE: 413>
+     |  
+     |  REQUEST_HEADER_FIELDS_TOO_LARGE = <HTTPStatus.REQUEST_HEADER_FIELDS_TO...
+     |  
+     |  REQUEST_TIMEOUT = <HTTPStatus.REQUEST_TIMEOUT: 408>
+     |  
+     |  REQUEST_URI_TOO_LONG = <HTTPStatus.REQUEST_URI_TOO_LONG: 414>
+     |  
+     |  RESET_CONTENT = <HTTPStatus.RESET_CONTENT: 205>
+     |  
+     |  SEE_OTHER = <HTTPStatus.SEE_OTHER: 303>
+     |  
+     |  SERVICE_UNAVAILABLE = <HTTPStatus.SERVICE_UNAVAILABLE: 503>
+     |  
+     |  SWITCHING_PROTOCOLS = <HTTPStatus.SWITCHING_PROTOCOLS: 101>
+     |  
+     |  TEMPORARY_REDIRECT = <HTTPStatus.TEMPORARY_REDIRECT: 307>
+     |  
+     |  TOO_MANY_REQUESTS = <HTTPStatus.TOO_MANY_REQUESTS: 429>
+     |  
+     |  UNAUTHORIZED = <HTTPStatus.UNAUTHORIZED: 401>
+     |  
+     |  UNPROCESSABLE_ENTITY = <HTTPStatus.UNPROCESSABLE_ENTITY: 422>
+     |  
+     |  UNSUPPORTED_MEDIA_TYPE = <HTTPStatus.UNSUPPORTED_MEDIA_TYPE: 415>
+     |  
+     |  UPGRADE_REQUIRED = <HTTPStatus.UPGRADE_REQUIRED: 426>
+     |  
+     |  USE_PROXY = <HTTPStatus.USE_PROXY: 305>
+     |  
+     |  VARIANT_ALSO_NEGOTIATES = <HTTPStatus.VARIANT_ALSO_NEGOTIATES: 506>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+DATA
+    __all__ = ['HTTPStatus']
+
+FILE
+    c:\program files\python37\lib\http\__init__.py
+
+

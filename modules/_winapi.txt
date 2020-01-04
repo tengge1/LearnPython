@@ -1,0 +1,190 @@
+Help on built-in module _winapi:
+
+NAME
+    _winapi
+
+CLASSES
+    builtins.object
+        Overlapped
+    
+    class Overlapped(builtins.object)
+     |  OVERLAPPED structure wrapper
+     |  
+     |  Methods defined here:
+     |  
+     |  GetOverlappedResult(self, wait, /)
+     |  
+     |  cancel(self, /)
+     |  
+     |  getbuffer(self, /)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  event
+     |      overlapped event handle
+
+FUNCTIONS
+    CloseHandle(handle, /)
+        Close handle.
+    
+    ConnectNamedPipe(handle, overlapped=False)
+    
+    CreateFile(file_name, desired_access, share_mode, security_attributes, creation_disposition, flags_and_attributes, template_file, /)
+    
+    CreateJunction(src_path, dst_path, /)
+    
+    CreateNamedPipe(name, open_mode, pipe_mode, max_instances, out_buffer_size, in_buffer_size, default_timeout, security_attributes, /)
+    
+    CreatePipe(pipe_attrs, size, /)
+        Create an anonymous pipe.
+        
+          pipe_attrs
+            Ignored internally, can be None.
+        
+        Returns a 2-tuple of handles, to the read and write ends of the pipe.
+    
+    CreateProcess(application_name, command_line, proc_attrs, thread_attrs, inherit_handles, creation_flags, env_mapping, current_directory, startup_info, /)
+        Create a new process and its primary thread.
+        
+          command_line
+            Can be str or None
+          proc_attrs
+            Ignored internally, can be None.
+          thread_attrs
+            Ignored internally, can be None.
+        
+        The return value is a tuple of the process handle, thread handle,
+        process ID, and thread ID.
+    
+    DuplicateHandle(source_process_handle, source_handle, target_process_handle, desired_access, inherit_handle, options=0, /)
+        Return a duplicate handle object.
+        
+        The duplicate handle refers to the same object as the original
+        handle. Therefore, any changes to the object are reflected
+        through both handles.
+    
+    ExitProcess(ExitCode, /)
+    
+    GetACP()
+        Get the current Windows ANSI code page identifier.
+    
+    GetCurrentProcess()
+        Return a handle object for the current process.
+    
+    GetExitCodeProcess(process, /)
+        Return the termination status of the specified process.
+    
+    GetFileType(handle)
+    
+    GetLastError()
+    
+    GetModuleFileName(module_handle, /)
+        Return the fully-qualified path for the file that contains module.
+        
+        The module must have been loaded by the current process.
+        
+        The module parameter should be a handle to the loaded module
+        whose path is being requested. If this parameter is 0,
+        GetModuleFileName retrieves the path of the executable file
+        of the current process.
+    
+    GetStdHandle(std_handle, /)
+        Return a handle to the specified standard device.
+        
+          std_handle
+            One of STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, or STD_ERROR_HANDLE.
+        
+        The integer associated with the handle object is returned.
+    
+    GetVersion()
+        Return the version number of the current operating system.
+    
+    OpenProcess(desired_access, inherit_handle, process_id, /)
+    
+    PeekNamedPipe(handle, size=0, /)
+    
+    ReadFile(handle, size, overlapped=False)
+    
+    SetNamedPipeHandleState(named_pipe, mode, max_collection_count, collect_data_timeout, /)
+    
+    TerminateProcess(handle, exit_code, /)
+        Terminate the specified process and all of its threads.
+    
+    WaitForMultipleObjects(handle_seq, wait_flag, milliseconds=4294967295, /)
+    
+    WaitForSingleObject(handle, milliseconds, /)
+        Wait for a single object.
+        
+        Wait until the specified object is in the signaled state or
+        the time-out interval elapses. The timeout value is specified
+        in milliseconds.
+    
+    WaitNamedPipe(name, timeout, /)
+    
+    WriteFile(handle, buffer, overlapped=False)
+
+DATA
+    ABOVE_NORMAL_PRIORITY_CLASS = 32768
+    BELOW_NORMAL_PRIORITY_CLASS = 16384
+    CREATE_BREAKAWAY_FROM_JOB = 16777216
+    CREATE_DEFAULT_ERROR_MODE = 67108864
+    CREATE_NEW_CONSOLE = 16
+    CREATE_NEW_PROCESS_GROUP = 512
+    CREATE_NO_WINDOW = 134217728
+    DETACHED_PROCESS = 8
+    DUPLICATE_CLOSE_SOURCE = 1
+    DUPLICATE_SAME_ACCESS = 2
+    ERROR_ALREADY_EXISTS = 183
+    ERROR_BROKEN_PIPE = 109
+    ERROR_IO_PENDING = 997
+    ERROR_MORE_DATA = 234
+    ERROR_NETNAME_DELETED = 64
+    ERROR_NO_DATA = 232
+    ERROR_NO_SYSTEM_RESOURCES = 1450
+    ERROR_OPERATION_ABORTED = 995
+    ERROR_PIPE_BUSY = 231
+    ERROR_PIPE_CONNECTED = 535
+    ERROR_SEM_TIMEOUT = 121
+    FILE_FLAG_FIRST_PIPE_INSTANCE = 524288
+    FILE_FLAG_OVERLAPPED = 1073741824
+    FILE_GENERIC_READ = 1179785
+    FILE_GENERIC_WRITE = 1179926
+    FILE_TYPE_CHAR = 2
+    FILE_TYPE_DISK = 1
+    FILE_TYPE_PIPE = 3
+    FILE_TYPE_REMOTE = 32768
+    FILE_TYPE_UNKNOWN = 0
+    GENERIC_READ = 2147483648
+    GENERIC_WRITE = 1073741824
+    HIGH_PRIORITY_CLASS = 128
+    IDLE_PRIORITY_CLASS = 64
+    INFINITE = 4294967295
+    NMPWAIT_WAIT_FOREVER = 4294967295
+    NORMAL_PRIORITY_CLASS = 32
+    NULL = 0
+    OPEN_EXISTING = 3
+    PIPE_ACCESS_DUPLEX = 3
+    PIPE_ACCESS_INBOUND = 1
+    PIPE_READMODE_MESSAGE = 2
+    PIPE_TYPE_MESSAGE = 4
+    PIPE_UNLIMITED_INSTANCES = 255
+    PIPE_WAIT = 0
+    PROCESS_ALL_ACCESS = 2097151
+    PROCESS_DUP_HANDLE = 64
+    REALTIME_PRIORITY_CLASS = 256
+    STARTF_USESHOWWINDOW = 1
+    STARTF_USESTDHANDLES = 256
+    STD_ERROR_HANDLE = 4294967284
+    STD_INPUT_HANDLE = 4294967286
+    STD_OUTPUT_HANDLE = 4294967285
+    STILL_ACTIVE = 259
+    SW_HIDE = 0
+    WAIT_ABANDONED_0 = 128
+    WAIT_OBJECT_0 = 0
+    WAIT_TIMEOUT = 258
+
+FILE
+    (built-in)
+
+

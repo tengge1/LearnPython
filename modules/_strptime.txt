@@ -1,0 +1,22 @@
+Help on module _strptime:
+
+NAME
+    _strptime - Strptime-related classes and functions.
+
+DESCRIPTION
+    CLASSES:
+        LocaleTime -- Discovers and stores locale-specific time information
+        TimeRE -- Creates regexes for pattern matching a string of text containing
+                    time information
+    
+    FUNCTIONS:
+        _getlang -- Figure out what language is being used for the locale
+        strptime -- Calculates the time struct represented by the passed-in string
+
+DATA
+    __all__ = []
+
+FILE
+    c:\program files\python37\lib\_strptime.py
+
+

@@ -1,0 +1,92 @@
+Help on module cgitb:
+
+NAME
+    cgitb - More comprehensive traceback formatting for Python scripts.
+
+DESCRIPTION
+    To enable this module, do:
+    
+        import cgitb; cgitb.enable()
+    
+    at the top of your script.  The optional arguments to enable() are:
+    
+        display     - if true, tracebacks are displayed in the web browser
+        logdir      - if set, tracebacks are written to files in this directory
+        context     - number of lines of source code to show for each stack frame
+        format      - 'text' or 'html' controls the output format
+    
+    By default, tracebacks are displayed but not saved, the context is 5 lines
+    and the output format is 'html' (for backwards compatibility with the
+    original use of this module)
+    
+    Alternatively, if you have caught an exception and want cgitb to display it
+    for you, call cgitb.handler().  The optional argument to handler() is a
+    3-item tuple (etype, evalue, etb) just like the value of sys.exc_info().
+    The default handler displays output as HTML.
+
+CLASSES
+    builtins.object
+        Hook
+    
+    class Hook(builtins.object)
+     |  Hook(display=1, logdir=None, context=5, file=None, format='html')
+     |  
+     |  A hook to replace sys.excepthook that shows tracebacks in HTML.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, etype, evalue, etb)
+     |      Call self as a function.
+     |  
+     |  __init__(self, display=1, logdir=None, context=5, file=None, format='html')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  handle(self, info=None)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    enable(display=1, logdir=None, context=5, format='html')
+        Install an exception handler that formats tracebacks as HTML.
+        
+        The optional argument 'display' can be set to 0 to suppress sending the
+        traceback to the browser, and 'logdir' can be set to a directory to cause
+        tracebacks to be written to files there.
+    
+    grey(text)
+    
+    handler = handle(info=None) method of Hook instance
+    
+    html(einfo, context=5)
+        Return a nice HTML document describing a given traceback.
+    
+    lookup(name, frame, locals)
+        Find the value for a given name in the given environment.
+    
+    reset()
+        Return a string that resets the CGI and browser to a known state.
+    
+    scanvars(reader, frame, locals)
+        Scan one logical line of Python and look up values of variables used.
+    
+    small(text)
+    
+    strong(text)
+    
+    text(einfo, context=5)
+        Return a plain text document describing a given traceback.
+
+DATA
+    __UNDEF__ = []
+
+FILE
+    c:\program files\python37\lib\cgitb.py
+
+

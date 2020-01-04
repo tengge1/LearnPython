@@ -1,0 +1,303 @@
+Help on module enum:
+
+NAME
+    enum
+
+CLASSES
+    builtins.int(builtins.object)
+        IntEnum(builtins.int, Enum)
+        IntFlag(builtins.int, Flag)
+    builtins.object
+        Enum
+            Flag
+                IntFlag(builtins.int, Flag)
+            IntEnum(builtins.int, Enum)
+        auto
+    builtins.type(builtins.object)
+        EnumMeta
+    
+    class Enum(builtins.object)
+     |  Enum(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Generic enumeration.
+     |  
+     |  Derive from this class to define new enumerations.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class EnumMeta(builtins.type)
+     |  EnumMeta(cls, bases, classdict)
+     |  
+     |  Metaclass for Enum
+     |  
+     |  Method resolution order:
+     |      EnumMeta
+     |      builtins.type
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __bool__(self)
+     |      classes/types should always be True.
+     |  
+     |  __call__(cls, value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |      Either returns an existing member, or creates a new enum class.
+     |      
+     |      This method is used both when an enum class is given a value to match
+     |      to an enumeration member (i.e. Color(3)) and for the functional API
+     |      (i.e. Color = Enum('Color', names='RED GREEN BLUE')).
+     |      
+     |      When used for the functional API:
+     |      
+     |      `value` will be the name of the new class.
+     |      
+     |      `names` should be either a string of white-space/comma delimited names
+     |      (values will start at `start`), or an iterator/mapping of name, value pairs.
+     |      
+     |      `module` should be set to the module this class is being created in;
+     |      if it is not set, an attempt to find that module will be made, but if
+     |      it fails the class will not be picklable.
+     |      
+     |      `qualname` should be set to the actual location this class can be found
+     |      at in its module; by default it is set to the global scope.  If this is
+     |      not correct, unpickling will fail in some circumstances.
+     |      
+     |      `type`, if set, will be mixed in as the first base class.
+     |  
+     |  __contains__(cls, member)
+     |  
+     |  __delattr__(cls, attr)
+     |      Implement delattr(self, name).
+     |  
+     |  __dir__(self)
+     |      Specialized __dir__ implementation for types.
+     |  
+     |  __getattr__(cls, name)
+     |      Return the enum member matching `name`
+     |      
+     |      We use __getattr__ instead of descriptors or inserting into the enum
+     |      class' __dict__ in order to support `name` and `value` being both
+     |      properties for enum members (which live in the class' __dict__) and
+     |      enum members themselves.
+     |  
+     |  __getitem__(cls, name)
+     |  
+     |  __iter__(cls)
+     |  
+     |  __len__(cls)
+     |  
+     |  __repr__(cls)
+     |      Return repr(self).
+     |  
+     |  __reversed__(cls)
+     |  
+     |  __setattr__(cls, name, value)
+     |      Block attempts to reassign Enum members.
+     |      
+     |      A simple assignment to the class namespace only changes one of the
+     |      several possible ways to get an Enum member from the Enum class,
+     |      resulting in an inconsistent Enumeration.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __prepare__(cls, bases) from builtins.type
+     |      __prepare__() -> dict
+     |      used to create the namespace for the class statement
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(metacls, cls, bases, classdict)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.type:
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __instancecheck__(self, instance, /)
+     |      Check if an object is an instance.
+     |  
+     |  __sizeof__(self, /)
+     |      Return memory consumption of the type object.
+     |  
+     |  __subclasscheck__(self, subclass, /)
+     |      Check if a class is a subclass.
+     |  
+     |  __subclasses__(self, /)
+     |      Return a list of immediate subclasses.
+     |  
+     |  mro(self, /)
+     |      Return a type's method resolution order.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.type:
+     |  
+     |  __abstractmethods__
+     |  
+     |  __dict__
+     |  
+     |  __text_signature__
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.type:
+     |  
+     |  __base__ = <class 'type'>
+     |      type(object_or_name, bases, dict)
+     |      type(object) -> the object's type
+     |      type(name, bases, dict) -> a new type
+     |  
+     |  __bases__ = (<class 'type'>,)
+     |  
+     |  __basicsize__ = 864
+     |  
+     |  __dictoffset__ = 264
+     |  
+     |  __flags__ = 2148292097
+     |  
+     |  __itemsize__ = 40
+     |  
+     |  __mro__ = (<class 'enum.EnumMeta'>, <class 'type'>, <class 'object'>)
+     |  
+     |  __weakrefoffset__ = 368
+    
+    class Flag(Enum)
+     |  Flag(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Support for flags
+     |  
+     |  Method resolution order:
+     |      Flag
+     |      Enum
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class IntEnum(builtins.int, Enum)
+     |  IntEnum(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Enum where members are also (and must be) ints
+     |  
+     |  Method resolution order:
+     |      IntEnum
+     |      builtins.int
+     |      Enum
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class IntFlag(builtins.int, Flag)
+     |  IntFlag(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Support for integer-based Flags
+     |  
+     |  Method resolution order:
+     |      IntFlag
+     |      builtins.int
+     |      Flag
+     |      Enum
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class auto(builtins.object)
+     |  Instances are replaced with an appropriate value in Enum class suites.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  value = <object object>
+
+FUNCTIONS
+    unique(enumeration)
+        Class decorator for enumerations ensuring unique member values.
+
+DATA
+    __all__ = ['EnumMeta', 'Enum', 'IntEnum', 'Flag', 'IntFlag', 'auto', '...
+
+FILE
+    c:\program files\python37\lib\enum.py
+
+

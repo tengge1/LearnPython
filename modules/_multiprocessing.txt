@@ -1,0 +1,64 @@
+Help on module _multiprocessing:
+
+NAME
+    _multiprocessing
+
+CLASSES
+    builtins.object
+        SemLock
+    
+    class SemLock(builtins.object)
+     |  Semaphore/Mutex type
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(...)
+     |      enter the semaphore/lock
+     |  
+     |  __exit__(...)
+     |      exit the semaphore/lock
+     |  
+     |  acquire(...)
+     |      acquire the semaphore/lock
+     |  
+     |  release(...)
+     |      release the semaphore/lock
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  handle
+     |  
+     |  kind
+     |  
+     |  maxvalue
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  SEM_VALUE_MAX = 2147483647
+
+FUNCTIONS
+    closesocket(...)
+    
+    recv(...)
+    
+    sem_unlink(...)
+    
+    send(...)
+
+DATA
+    flags = {}
+
+FILE
+    c:\program files\python37\dlls\_multiprocessing.pyd
+
+

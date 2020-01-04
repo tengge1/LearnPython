@@ -1,0 +1,309 @@
+Help on built-in module _lsprof:
+
+NAME
+    _lsprof - Fast profiler
+
+CLASSES
+    builtins.object
+        Profiler
+    builtins.tuple(builtins.object)
+        profiler_entry
+        profiler_subentry
+    
+    class Profiler(builtins.object)
+     |  Profiler(timer=None, timeunit=None, subcalls=True, builtins=True)
+     |  
+     |  Builds a profiler object using the specified timer function.
+     |  The default timer is a fast built-in one based on real time.
+     |  For custom timer functions returning integers, timeunit can
+     |  be a float specifying a scale (i.e. how long each integer unit
+     |  is, in seconds).
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  clear(...)
+     |      clear()
+     |      
+     |      Clear all profiling information collected so far.
+     |  
+     |  disable(...)
+     |      disable()
+     |      
+     |      Stop collecting profiling information.
+     |  
+     |  enable(...)
+     |      enable(subcalls=True, builtins=True)
+     |      
+     |      Start collecting profiling information.
+     |      If 'subcalls' is True, also records for each function
+     |      statistics separated according to its current caller.
+     |      If 'builtins' is True, records the time spent in
+     |      built-in functions separately from their caller.
+     |  
+     |  getstats(...)
+     |      getstats() -> list of profiler_entry objects
+     |      
+     |      Return all information collected by the profiler.
+     |      Each profiler_entry is a tuple-like object with the
+     |      following attributes:
+     |      
+     |          code          code object
+     |          callcount     how many times this was called
+     |          reccallcount  how many times called recursively
+     |          totaltime     total time in this entry
+     |          inlinetime    inline time in this entry (not in subcalls)
+     |          calls         details of the calls
+     |      
+     |      The calls attribute is either None or a list of
+     |      profiler_subentry objects:
+     |      
+     |          code          called code object
+     |          callcount     how many times this is called
+     |          reccallcount  how many times this is called recursively
+     |          totaltime     total time spent in this call
+     |          inlinetime    inline time (not in further subcalls)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class profiler_entry(builtins.tuple)
+     |  profiler_entry(iterable=(), /)
+     |  
+     |  Built-in immutable sequence.
+     |  
+     |  If no argument is given, the constructor returns an empty tuple.
+     |  If iterable is specified the tuple is initialized from iterable's items.
+     |  
+     |  If the argument is a tuple, the return value is the same object.
+     |  
+     |  Method resolution order:
+     |      profiler_entry
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  callcount
+     |      how many times this was called
+     |  
+     |  calls
+     |      details of the calls
+     |  
+     |  code
+     |      code object or built-in function name
+     |  
+     |  inlinetime
+     |      inline time in this entry (not in subcalls)
+     |  
+     |  reccallcount
+     |      how many times called recursively
+     |  
+     |  totaltime
+     |      total time in this entry
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  n_fields = 6
+     |  
+     |  n_sequence_fields = 6
+     |  
+     |  n_unnamed_fields = 0
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __getnewargs__(self, /)
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+    
+    class profiler_subentry(builtins.tuple)
+     |  profiler_subentry(iterable=(), /)
+     |  
+     |  Built-in immutable sequence.
+     |  
+     |  If no argument is given, the constructor returns an empty tuple.
+     |  If iterable is specified the tuple is initialized from iterable's items.
+     |  
+     |  If the argument is a tuple, the return value is the same object.
+     |  
+     |  Method resolution order:
+     |      profiler_subentry
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  callcount
+     |      how many times this is called
+     |  
+     |  code
+     |      called code object or built-in function name
+     |  
+     |  inlinetime
+     |      inline time (not in further subcalls)
+     |  
+     |  reccallcount
+     |      how many times this is called recursively
+     |  
+     |  totaltime
+     |      total time spent in this call
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  n_fields = 5
+     |  
+     |  n_sequence_fields = 5
+     |  
+     |  n_unnamed_fields = 0
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __getnewargs__(self, /)
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,263 @@
+Help on module fractions:
+
+NAME
+    fractions - Fraction, infinite-precision, real numbers.
+
+CLASSES
+    numbers.Rational(numbers.Real)
+        Fraction
+    
+    class Fraction(numbers.Rational)
+     |  Fraction(numerator=0, denominator=None, *, _normalize=True)
+     |  
+     |  This class implements rational numbers.
+     |  
+     |  In the two-argument form of the constructor, Fraction(8, 6) will
+     |  produce a rational number equivalent to 4/3. Both arguments must
+     |  be Rational. The numerator defaults to 0 and the denominator
+     |  defaults to 1 so that Fraction(3) == 3 and Fraction() == 0.
+     |  
+     |  Fractions can also be constructed from:
+     |  
+     |    - numeric strings similar to those accepted by the
+     |      float constructor (for example, '-2.3' or '1e10')
+     |  
+     |    - strings of the form '123/456'
+     |  
+     |    - float and Decimal instances
+     |  
+     |    - other Rational instances (including integers)
+     |  
+     |  Method resolution order:
+     |      Fraction
+     |      numbers.Rational
+     |      numbers.Real
+     |      numbers.Complex
+     |      numbers.Number
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __abs__(a)
+     |      abs(a)
+     |  
+     |  __add__(a, b)
+     |      a + b
+     |  
+     |  __bool__(a)
+     |      a != 0
+     |  
+     |  __ceil__(a)
+     |      Will be math.ceil(a) in 3.0.
+     |  
+     |  __copy__(self)
+     |  
+     |  __deepcopy__(self, memo)
+     |  
+     |  __eq__(a, b)
+     |      a == b
+     |  
+     |  __floor__(a)
+     |      Will be math.floor(a) in 3.0.
+     |  
+     |  __floordiv__(a, b)
+     |      a // b
+     |  
+     |  __ge__(a, b)
+     |      a >= b
+     |  
+     |  __gt__(a, b)
+     |      a > b
+     |  
+     |  __hash__(self)
+     |      hash(self)
+     |  
+     |  __le__(a, b)
+     |      a <= b
+     |  
+     |  __lt__(a, b)
+     |      a < b
+     |  
+     |  __mod__(a, b)
+     |      a % b
+     |  
+     |  __mul__(a, b)
+     |      a * b
+     |  
+     |  __neg__(a)
+     |      -a
+     |  
+     |  __pos__(a)
+     |      +a: Coerces a subclass instance to Fraction
+     |  
+     |  __pow__(a, b)
+     |      a ** b
+     |      
+     |      If b is not an integer, the result will be a float or complex
+     |      since roots are generally irrational. If b is an integer, the
+     |      result will be rational.
+     |  
+     |  __radd__(b, a)
+     |      a + b
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self)
+     |      repr(self)
+     |  
+     |  __rfloordiv__(b, a)
+     |      a // b
+     |  
+     |  __rmod__(b, a)
+     |      a % b
+     |  
+     |  __rmul__(b, a)
+     |      a * b
+     |  
+     |  __round__(self, ndigits=None)
+     |      Will be round(self, ndigits) in 3.0.
+     |      
+     |      Rounds half toward even.
+     |  
+     |  __rpow__(b, a)
+     |      a ** b
+     |  
+     |  __rsub__(b, a)
+     |      a - b
+     |  
+     |  __rtruediv__(b, a)
+     |      a / b
+     |  
+     |  __str__(self)
+     |      str(self)
+     |  
+     |  __sub__(a, b)
+     |      a - b
+     |  
+     |  __truediv__(a, b)
+     |      a / b
+     |  
+     |  __trunc__(a)
+     |      trunc(a)
+     |  
+     |  limit_denominator(self, max_denominator=1000000)
+     |      Closest Fraction to self with denominator at most max_denominator.
+     |      
+     |      >>> Fraction('3.141592653589793').limit_denominator(10)
+     |      Fraction(22, 7)
+     |      >>> Fraction('3.141592653589793').limit_denominator(100)
+     |      Fraction(311, 99)
+     |      >>> Fraction(4321, 8765).limit_denominator(10000)
+     |      Fraction(4321, 8765)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_decimal(dec) from abc.ABCMeta
+     |      Converts a finite Decimal instance to a rational number, exactly.
+     |  
+     |  from_float(f) from abc.ABCMeta
+     |      Converts a finite float to a rational number, exactly.
+     |      
+     |      Beware that Fraction.from_float(0.3) != Fraction(3, 10).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(cls, numerator=0, denominator=None, *, _normalize=True)
+     |      Constructs a Rational.
+     |      
+     |      Takes a string like '3/2' or '1.5', another Rational instance, a
+     |      numerator/denominator pair, or a float.
+     |      
+     |      Examples
+     |      --------
+     |      
+     |      >>> Fraction(10, -8)
+     |      Fraction(-5, 4)
+     |      >>> Fraction(Fraction(1, 7), 5)
+     |      Fraction(1, 35)
+     |      >>> Fraction(Fraction(1, 7), Fraction(2, 3))
+     |      Fraction(3, 14)
+     |      >>> Fraction('314')
+     |      Fraction(314, 1)
+     |      >>> Fraction('-35/4')
+     |      Fraction(-35, 4)
+     |      >>> Fraction('3.1415') # conversion from numeric string
+     |      Fraction(6283, 2000)
+     |      >>> Fraction('-47e-2') # string may include a decimal exponent
+     |      Fraction(-47, 100)
+     |      >>> Fraction(1.47)  # direct construction from float (exact conversion)
+     |      Fraction(6620291452234629, 4503599627370496)
+     |      >>> Fraction(2.25)
+     |      Fraction(9, 4)
+     |      >>> Fraction(Decimal('1.47'))
+     |      Fraction(147, 100)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  denominator
+     |  
+     |  numerator
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from numbers.Rational:
+     |  
+     |  __float__(self)
+     |      float(self) = self.numerator / self.denominator
+     |      
+     |      It's important that this conversion use the integer's "true"
+     |      division rather than casting one side to float before dividing
+     |      so that ratios of huge integers convert without overflowing.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from numbers.Real:
+     |  
+     |  __complex__(self)
+     |      complex(self) == complex(float(self), 0)
+     |  
+     |  __divmod__(self, other)
+     |      divmod(self, other): The pair (self // other, self % other).
+     |      
+     |      Sometimes this can be computed faster than the pair of
+     |      operations.
+     |  
+     |  __rdivmod__(self, other)
+     |      divmod(other, self): The pair (self // other, self % other).
+     |      
+     |      Sometimes this can be computed faster than the pair of
+     |      operations.
+     |  
+     |  conjugate(self)
+     |      Conjugate is a no-op for Reals.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from numbers.Real:
+     |  
+     |  imag
+     |      Real numbers have no imaginary component.
+     |  
+     |  real
+     |      Real numbers are their real component.
+
+FUNCTIONS
+    gcd(a, b)
+        Calculate the Greatest Common Divisor of a and b.
+        
+        Unless b==0, the result will have the same sign as b (so that when
+        b is divided by it, the result comes out positive).
+
+DATA
+    __all__ = ['Fraction', 'gcd']
+
+FILE
+    c:\program files\python37\lib\fractions.py
+
+

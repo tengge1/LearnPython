@@ -1,0 +1,114 @@
+Help on built-in module _blake2:
+
+NAME
+    _blake2 - _blake2b provides BLAKE2b for hashlib
+
+CLASSES
+    builtins.object
+        blake2b
+        blake2s
+    
+    class blake2b(builtins.object)
+     |  blake2b(data=b'', /, *, digest_size=64, key=b'', salt=b'', person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0, node_depth=0, inner_size=0, last_node=False)
+     |  
+     |  Return a new BLAKE2b hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  MAX_DIGEST_SIZE = 64
+     |  
+     |  MAX_KEY_SIZE = 64
+     |  
+     |  PERSON_SIZE = 16
+     |  
+     |  SALT_SIZE = 16
+    
+    class blake2s(builtins.object)
+     |  blake2s(data=b'', /, *, digest_size=32, key=b'', salt=b'', person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0, node_depth=0, inner_size=0, last_node=False)
+     |  
+     |  Return a new BLAKE2s hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  MAX_DIGEST_SIZE = 32
+     |  
+     |  MAX_KEY_SIZE = 32
+     |  
+     |  PERSON_SIZE = 8
+     |  
+     |  SALT_SIZE = 8
+
+DATA
+    BLAKE2B_MAX_DIGEST_SIZE = 64
+    BLAKE2B_MAX_KEY_SIZE = 64
+    BLAKE2B_PERSON_SIZE = 16
+    BLAKE2B_SALT_SIZE = 16
+    BLAKE2S_MAX_DIGEST_SIZE = 32
+    BLAKE2S_MAX_KEY_SIZE = 32
+    BLAKE2S_PERSON_SIZE = 8
+    BLAKE2S_SALT_SIZE = 8
+
+FILE
+    (built-in)
+
+

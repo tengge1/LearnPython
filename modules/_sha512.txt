@@ -1,0 +1,69 @@
+Help on built-in module _sha512:
+
+NAME
+    _sha512
+
+CLASSES
+    builtins.object
+        sha384
+        sha512
+    
+    SHA384Type = class sha384(builtins.object)
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, obj, /)
+     |      Update this hash object's state with the provided string.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    SHA512Type = class sha512(builtins.object)
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, obj, /)
+     |      Update this hash object's state with the provided string.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+
+FUNCTIONS
+    sha384(string=b'')
+        Return a new SHA-384 hash object; optionally initialized with a string.
+    
+    sha512(string=b'')
+        Return a new SHA-512 hash object; optionally initialized with a string.
+
+FILE
+    (built-in)
+
+

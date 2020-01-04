@@ -1,0 +1,21 @@
+Help on module save_help:
+
+NAME
+    save_help
+
+DATA
+    __warningregistry__ = {'version': 89}
+    f = <_io.TextIOWrapper name='modules.txt' mode='r' encoding='cp936'>
+    module = 'zlib'
+    modules = ['PIL', 'bdb', 'gast', 're', '__future__', 'binascii', 'gc',...
+
+FILE
+    e:\github\learnpython\python\save_help.py
+
+
+_help.txt' mode='w'...
+
+FILE
+    e:\github\learnpython\python\save_help.py
+
+

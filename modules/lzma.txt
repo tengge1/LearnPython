@@ -1,0 +1,507 @@
+Help on module lzma:
+
+NAME
+    lzma - Interface to the liblzma compression library.
+
+DESCRIPTION
+    This module provides a class for reading and writing compressed files,
+    classes for incremental (de)compression, and convenience functions for
+    one-shot (de)compression.
+    
+    These classes and functions support both the XZ and legacy LZMA
+    container formats, as well as raw compressed data streams.
+
+CLASSES
+    _compression.BaseStream(io.BufferedIOBase)
+        LZMAFile
+    builtins.Exception(builtins.BaseException)
+        _lzma.LZMAError
+    builtins.object
+        _lzma.LZMACompressor
+        _lzma.LZMADecompressor
+    
+    class LZMACompressor(builtins.object)
+     |  LZMACompressor(format=FORMAT_XZ, check=-1, preset=None, filters=None)
+     |  
+     |  Create a compressor object for compressing data incrementally.
+     |  
+     |  format specifies the container format to use for the output. This can
+     |  be FORMAT_XZ (default), FORMAT_ALONE, or FORMAT_RAW.
+     |  
+     |  check specifies the integrity check to use. For FORMAT_XZ, the default
+     |  is CHECK_CRC64. FORMAT_ALONE and FORMAT_RAW do not support integrity
+     |  checks; for these formats, check must be omitted, or be CHECK_NONE.
+     |  
+     |  The settings used by the compressor can be specified either as a
+     |  preset compression level (with the 'preset' argument), or in detail
+     |  as a custom filter chain (with the 'filters' argument). For FORMAT_XZ
+     |  and FORMAT_ALONE, the default is to use the PRESET_DEFAULT preset
+     |  level. For FORMAT_RAW, the caller must always specify a filter chain;
+     |  the raw compressor does not support preset compression levels.
+     |  
+     |  preset (if provided) should be an integer in the range 0-9, optionally
+     |  OR-ed with the constant PRESET_EXTREME.
+     |  
+     |  filters (if provided) should be a sequence of dicts. Each dict should
+     |  have an entry for "id" indicating the ID of the filter, plus
+     |  additional entries for options to the filter.
+     |  
+     |  For one-shot compression, use the compress() function instead.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getstate__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  compress(self, data, /)
+     |      Provide data to the compressor object.
+     |      
+     |      Returns a chunk of compressed data if possible, or b'' otherwise.
+     |      
+     |      When you have finished providing data to the compressor, call the
+     |      flush() method to finish the compression process.
+     |  
+     |  flush(self, /)
+     |      Finish the compression process.
+     |      
+     |      Returns the compressed data left in internal buffers.
+     |      
+     |      The compressor object may not be used after this method is called.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class LZMADecompressor(builtins.object)
+     |  LZMADecompressor(format=0, memlimit=None, filters=None)
+     |  
+     |  Create a decompressor object for decompressing data incrementally.
+     |  
+     |    format
+     |      Specifies the container format of the input stream.  If this is
+     |      FORMAT_AUTO (the default), the decompressor will automatically detect
+     |      whether the input is FORMAT_XZ or FORMAT_ALONE.  Streams created with
+     |      FORMAT_RAW cannot be autodetected.
+     |    memlimit
+     |      Limit the amount of memory used by the decompressor.  This will cause
+     |      decompression to fail if the input cannot be decompressed within the
+     |      given limit.
+     |    filters
+     |      A custom filter chain.  This argument is required for FORMAT_RAW, and
+     |      not accepted with any other format.  When provided, this should be a
+     |      sequence of dicts, each indicating the ID and options for a single
+     |      filter.
+     |  
+     |  For one-shot decompression, use the decompress() function instead.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getstate__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  decompress(self, /, data, max_length=-1)
+     |      Decompress *data*, returning uncompressed data as bytes.
+     |      
+     |      If *max_length* is nonnegative, returns at most *max_length* bytes of
+     |      decompressed data. If this limit is reached and further output can be
+     |      produced, *self.needs_input* will be set to ``False``. In this case, the next
+     |      call to *decompress()* may provide *data* as b'' to obtain more of the output.
+     |      
+     |      If all of the input data was decompressed and returned (either because this
+     |      was less than *max_length* bytes, or because *max_length* was negative),
+     |      *self.needs_input* will be set to True.
+     |      
+     |      Attempting to decompress data after the end of stream is reached raises an
+     |      EOFError.  Any data found after the end of the stream is ignored and saved in
+     |      the unused_data attribute.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  check
+     |      ID of the integrity check used by the input stream.
+     |  
+     |  eof
+     |      True if the end-of-stream marker has been reached.
+     |  
+     |  needs_input
+     |      True if more input is needed before more decompressed data can be produced.
+     |  
+     |  unused_data
+     |      Data found after the end of the compressed stream.
+    
+    class LZMAError(builtins.Exception)
+     |  Call to liblzma failed.
+     |  
+     |  Method resolution order:
+     |      LZMAError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class LZMAFile(_compression.BaseStream)
+     |  LZMAFile(filename=None, mode='r', *, format=None, check=-1, preset=None, filters=None)
+     |  
+     |  A file object providing transparent LZMA (de)compression.
+     |  
+     |  An LZMAFile can act as a wrapper for an existing file object, or
+     |  refer directly to a named file on disk.
+     |  
+     |  Note that LZMAFile provides a *binary* file interface - data read
+     |  is returned as bytes, and data to be written must be given as bytes.
+     |  
+     |  Method resolution order:
+     |      LZMAFile
+     |      _compression.BaseStream
+     |      io.BufferedIOBase
+     |      _io._BufferedIOBase
+     |      io.IOBase
+     |      _io._IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, filename=None, mode='r', *, format=None, check=-1, preset=None, filters=None)
+     |      Open an LZMA-compressed file in binary mode.
+     |      
+     |      filename can be either an actual file name (given as a str,
+     |      bytes, or PathLike object), in which case the named file is
+     |      opened, or it can be an existing file object to read from or
+     |      write to.
+     |      
+     |      mode can be "r" for reading (default), "w" for (over)writing,
+     |      "x" for creating exclusively, or "a" for appending. These can
+     |      equivalently be given as "rb", "wb", "xb" and "ab" respectively.
+     |      
+     |      format specifies the container format to use for the file.
+     |      If mode is "r", this defaults to FORMAT_AUTO. Otherwise, the
+     |      default is FORMAT_XZ.
+     |      
+     |      check specifies the integrity check to use. This argument can
+     |      only be used when opening a file for writing. For FORMAT_XZ,
+     |      the default is CHECK_CRC64. FORMAT_ALONE and FORMAT_RAW do not
+     |      support integrity checks - for these formats, check must be
+     |      omitted, or be CHECK_NONE.
+     |      
+     |      When opening a file for reading, the *preset* argument is not
+     |      meaningful, and should be omitted. The *filters* argument should
+     |      also be omitted, except when format is FORMAT_RAW (in which case
+     |      it is required).
+     |      
+     |      When opening a file for writing, the settings used by the
+     |      compressor can be specified either as a preset compression
+     |      level (with the *preset* argument), or in detail as a custom
+     |      filter chain (with the *filters* argument). For FORMAT_XZ and
+     |      FORMAT_ALONE, the default is to use the PRESET_DEFAULT preset
+     |      level. For FORMAT_RAW, the caller must always specify a filter
+     |      chain; the raw compressor does not support preset compression
+     |      levels.
+     |      
+     |      preset (if provided) should be an integer in the range 0-9,
+     |      optionally OR-ed with the constant PRESET_EXTREME.
+     |      
+     |      filters (if provided) should be a sequence of dicts. Each dict
+     |      should have an entry for "id" indicating ID of the filter, plus
+     |      additional entries for options to the filter.
+     |  
+     |  close(self)
+     |      Flush and close the file.
+     |      
+     |      May be called more than once without error. Once the file is
+     |      closed, any other operation on it will raise a ValueError.
+     |  
+     |  fileno(self)
+     |      Return the file descriptor for the underlying file.
+     |  
+     |  peek(self, size=-1)
+     |      Return buffered data without advancing the file position.
+     |      
+     |      Always returns at least one byte of data, unless at EOF.
+     |      The exact number of bytes returned is unspecified.
+     |  
+     |  read(self, size=-1)
+     |      Read up to size uncompressed bytes from the file.
+     |      
+     |      If size is negative or omitted, read until EOF is reached.
+     |      Returns b"" if the file is already at EOF.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size uncompressed bytes, while trying to avoid
+     |      making multiple reads from the underlying stream. Reads up to a
+     |      buffer's worth of data if size is negative.
+     |      
+     |      Returns b"" if the file is at EOF.
+     |  
+     |  readable(self)
+     |      Return whether the file was opened for reading.
+     |  
+     |  readline(self, size=-1)
+     |      Read a line of uncompressed bytes from the file.
+     |      
+     |      The terminating newline (if present) is retained. If size is
+     |      non-negative, no more than size bytes will be read (in which
+     |      case the line may be incomplete). Returns b'' if already at EOF.
+     |  
+     |  seek(self, offset, whence=0)
+     |      Change the file position.
+     |      
+     |      The new position is specified by offset, relative to the
+     |      position indicated by whence. Possible values for whence are:
+     |      
+     |          0: start of stream (default): offset must not be negative
+     |          1: current stream position
+     |          2: end of stream; offset must not be positive
+     |      
+     |      Returns the new file position.
+     |      
+     |      Note that seeking is emulated, so depending on the parameters,
+     |      this operation may be extremely slow.
+     |  
+     |  seekable(self)
+     |      Return whether the file supports seeking.
+     |  
+     |  tell(self)
+     |      Return the current file position.
+     |  
+     |  writable(self)
+     |      Return whether the file was opened for writing.
+     |  
+     |  write(self, data)
+     |      Write a bytes object to the file.
+     |      
+     |      Returns the number of uncompressed bytes written, which is
+     |      always len(data). Note that due to buffering, the file on disk
+     |      may not reflect the data written until close() is called.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closed
+     |      True if this file is closed.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _io._BufferedIOBase:
+     |  
+     |  detach(self, /)
+     |      Disconnect this buffer from its underlying raw stream and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  readinto(self, buffer, /)
+     |  
+     |  readinto1(self, buffer, /)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _io._IOBase:
+     |  
+     |  __del__(...)
+     |  
+     |  __enter__(...)
+     |  
+     |  __exit__(...)
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __next__(self, /)
+     |      Implement next(self).
+     |  
+     |  flush(self, /)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self, /)
+     |      Return whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readlines(self, hint=-1, /)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  truncate(...)
+     |      Truncate file to size bytes.
+     |      
+     |      File pointer is left unchanged.  Size defaults to the current IO
+     |      position as reported by tell().  Returns the new size.
+     |  
+     |  writelines(self, lines, /)
+     |      Write a list of lines to stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the
+     |      lines provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from _io._IOBase:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _io._IOBase:
+     |  
+     |  __dict__
+
+FUNCTIONS
+    compress(data, format=1, check=-1, preset=None, filters=None)
+        Compress a block of data.
+        
+        Refer to LZMACompressor's docstring for a description of the
+        optional arguments *format*, *check*, *preset* and *filters*.
+        
+        For incremental compression, use an LZMACompressor instead.
+    
+    decompress(data, format=0, memlimit=None, filters=None)
+        Decompress a block of data.
+        
+        Refer to LZMADecompressor's docstring for a description of the
+        optional arguments *format*, *check* and *filters*.
+        
+        For incremental decompression, use an LZMADecompressor instead.
+    
+    is_check_supported(check_id, /)
+        Test whether the given integrity check is supported.
+        
+        Always returns True for CHECK_NONE and CHECK_CRC32.
+    
+    open(filename, mode='rb', *, format=None, check=-1, preset=None, filters=None, encoding=None, errors=None, newline=None)
+        Open an LZMA-compressed file in binary or text mode.
+        
+        filename can be either an actual file name (given as a str, bytes,
+        or PathLike object), in which case the named file is opened, or it
+        can be an existing file object to read from or write to.
+        
+        The mode argument can be "r", "rb" (default), "w", "wb", "x", "xb",
+        "a", or "ab" for binary mode, or "rt", "wt", "xt", or "at" for text
+        mode.
+        
+        The format, check, preset and filters arguments specify the
+        compression settings, as for LZMACompressor, LZMADecompressor and
+        LZMAFile.
+        
+        For binary mode, this function is equivalent to the LZMAFile
+        constructor: LZMAFile(filename, mode, ...). In this case, the
+        encoding, errors and newline arguments must not be provided.
+        
+        For text mode, an LZMAFile object is created, and wrapped in an
+        io.TextIOWrapper instance with the specified encoding, error
+        handling behavior, and line ending(s).
+
+DATA
+    CHECK_CRC32 = 1
+    CHECK_CRC64 = 4
+    CHECK_ID_MAX = 15
+    CHECK_NONE = 0
+    CHECK_SHA256 = 10
+    CHECK_UNKNOWN = 16
+    FILTER_ARM = 7
+    FILTER_ARMTHUMB = 8
+    FILTER_DELTA = 3
+    FILTER_IA64 = 6
+    FILTER_LZMA1 = 4611686018427387905
+    FILTER_LZMA2 = 33
+    FILTER_POWERPC = 5
+    FILTER_SPARC = 9
+    FILTER_X86 = 4
+    FORMAT_ALONE = 2
+    FORMAT_AUTO = 0
+    FORMAT_RAW = 3
+    FORMAT_XZ = 1
+    MF_BT2 = 18
+    MF_BT3 = 19
+    MF_BT4 = 20
+    MF_HC3 = 3
+    MF_HC4 = 4
+    MODE_FAST = 1
+    MODE_NORMAL = 2
+    PRESET_DEFAULT = 6
+    PRESET_EXTREME = 2147483648
+    __all__ = ['CHECK_NONE', 'CHECK_CRC32', 'CHECK_CRC64', 'CHECK_SHA256',...
+
+FILE
+    c:\program files\python37\lib\lzma.py
+
+

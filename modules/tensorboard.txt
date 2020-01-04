@@ -1,0 +1,45 @@
+Help on package tensorboard:
+
+NAME
+    tensorboard - TensorBoard is a webapp for understanding TensorFlow runs and graphs.
+
+PACKAGE CONTENTS
+    _vendor (package)
+    backend (package)
+    compat (package)
+    data (package)
+    data_compat
+    default
+    errors
+    lazy
+    main
+    manager
+    notebook
+    plugin_util
+    plugins (package)
+    program
+    summary (package)
+    util (package)
+    version
+
+FUNCTIONS
+    load_ipython_extension(ipython)
+        IPython API entry point.
+        
+        Only intended to be called by the IPython runtime.
+        
+        See:
+          https://ipython.readthedocs.io/en/stable/config/extensions/index.html
+
+DATA
+    absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
+    division = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192...
+    print_function = _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0)...
+
+VERSION
+    2.0.0
+
+FILE
+    c:\program files\python37\lib\site-packages\tensorboard\__init__.py
+
+

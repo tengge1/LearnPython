@@ -1,0 +1,12 @@
+Help on module brain_numpy_core_fromnumeric:
+
+NAME
+    brain_numpy_core_fromnumeric - Astroid hooks for numpy.core.fromnumeric module.
+
+FUNCTIONS
+    numpy_core_fromnumeric_transform()
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_fromnumeric.py
+
+

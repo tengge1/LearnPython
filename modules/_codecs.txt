@@ -1,0 +1,131 @@
+Help on built-in module _codecs:
+
+NAME
+    _codecs
+
+FUNCTIONS
+    ascii_decode(data, errors=None, /)
+    
+    ascii_encode(str, errors=None, /)
+    
+    charmap_build(map, /)
+    
+    charmap_decode(data, errors=None, mapping=None, /)
+    
+    charmap_encode(str, errors=None, mapping=None, /)
+    
+    code_page_decode(codepage, data, errors=None, final=False, /)
+    
+    code_page_encode(code_page, str, errors=None, /)
+    
+    decode(obj, encoding='utf-8', errors='strict')
+        Decodes obj using the codec registered for encoding.
+        
+        Default encoding is 'utf-8'.  errors may be given to set a
+        different error handling scheme.  Default is 'strict' meaning that encoding
+        errors raise a ValueError.  Other possible values are 'ignore', 'replace'
+        and 'backslashreplace' as well as any other name registered with
+        codecs.register_error that can handle ValueErrors.
+    
+    encode(obj, encoding='utf-8', errors='strict')
+        Encodes obj using the codec registered for encoding.
+        
+        The default encoding is 'utf-8'.  errors may be given to set a
+        different error handling scheme.  Default is 'strict' meaning that encoding
+        errors raise a ValueError.  Other possible values are 'ignore', 'replace'
+        and 'backslashreplace' as well as any other name registered with
+        codecs.register_error that can handle ValueErrors.
+    
+    escape_decode(data, errors=None, /)
+    
+    escape_encode(data, errors=None, /)
+    
+    latin_1_decode(data, errors=None, /)
+    
+    latin_1_encode(str, errors=None, /)
+    
+    lookup(encoding, /)
+        Looks up a codec tuple in the Python codec registry and returns a CodecInfo object.
+    
+    lookup_error(name, /)
+        lookup_error(errors) -> handler
+        
+        Return the error handler for the specified error handling name or raise a
+        LookupError, if no handler exists under this name.
+    
+    mbcs_decode(data, errors=None, final=False, /)
+    
+    mbcs_encode(str, errors=None, /)
+    
+    oem_decode(data, errors=None, final=False, /)
+    
+    oem_encode(str, errors=None, /)
+    
+    raw_unicode_escape_decode(data, errors=None, /)
+    
+    raw_unicode_escape_encode(str, errors=None, /)
+    
+    readbuffer_encode(data, errors=None, /)
+    
+    register(search_function, /)
+        Register a codec search function.
+        
+        Search functions are expected to take one argument, the encoding name in
+        all lower case letters, and either return None, or a tuple of functions
+        (encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object).
+    
+    register_error(errors, handler, /)
+        Register the specified error handler under the name errors.
+        
+        handler must be a callable object, that will be called with an exception
+        instance containing information about the location of the encoding/decoding
+        error and must return a (replacement, new position) tuple.
+    
+    unicode_escape_decode(data, errors=None, /)
+    
+    unicode_escape_encode(str, errors=None, /)
+    
+    unicode_internal_decode(obj, errors=None, /)
+    
+    unicode_internal_encode(obj, errors=None, /)
+    
+    utf_16_be_decode(data, errors=None, final=False, /)
+    
+    utf_16_be_encode(str, errors=None, /)
+    
+    utf_16_decode(data, errors=None, final=False, /)
+    
+    utf_16_encode(str, errors=None, byteorder=0, /)
+    
+    utf_16_ex_decode(data, errors=None, byteorder=0, final=False, /)
+    
+    utf_16_le_decode(data, errors=None, final=False, /)
+    
+    utf_16_le_encode(str, errors=None, /)
+    
+    utf_32_be_decode(data, errors=None, final=False, /)
+    
+    utf_32_be_encode(str, errors=None, /)
+    
+    utf_32_decode(data, errors=None, final=False, /)
+    
+    utf_32_encode(str, errors=None, byteorder=0, /)
+    
+    utf_32_ex_decode(data, errors=None, byteorder=0, final=False, /)
+    
+    utf_32_le_decode(data, errors=None, final=False, /)
+    
+    utf_32_le_encode(str, errors=None, /)
+    
+    utf_7_decode(data, errors=None, final=False, /)
+    
+    utf_7_encode(str, errors=None, /)
+    
+    utf_8_decode(data, errors=None, final=False, /)
+    
+    utf_8_encode(str, errors=None, /)
+
+FILE
+    (built-in)
+
+

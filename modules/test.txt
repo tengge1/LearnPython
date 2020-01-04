@@ -1,0 +1,9 @@
+Help on module test:
+
+NAME
+    test
+
+FILE
+    e:\github\learnpython\python\test.py
+
+

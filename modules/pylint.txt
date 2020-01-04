@@ -1,0 +1,50 @@
+Help on package pylint:
+
+NAME
+    pylint
+
+DESCRIPTION
+    # Copyright (c) 2008, 2012 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>
+    # Copyright (c) 2014, 2016-2017 Claudiu Popa <pcmanticore@gmail.com>
+    # Copyright (c) 2014 Arun Persaud <arun@nubati.net>
+    # Copyright (c) 2015 Ionel Cristian Maries <contact@ionelmc.ro>
+    # Copyright (c) 2018 Nick Drozd <nicholasdrozd@gmail.com>
+
+PACKAGE CONTENTS
+    __main__
+    __pkginfo__
+    checkers (package)
+    config
+    constants
+    epylint
+    exceptions
+    extensions (package)
+    graph
+    interfaces
+    lint
+    message (package)
+    pyreverse (package)
+    reporters (package)
+    testutils
+    utils (package)
+
+FUNCTIONS
+    run_epylint()
+        run pylint
+    
+    run_pylint()
+        run pylint
+    
+    run_pyreverse()
+        run pyreverse
+    
+    run_symilar()
+        run symilar
+
+VERSION
+    2.4.4
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\pylint\__init__.py
+
+

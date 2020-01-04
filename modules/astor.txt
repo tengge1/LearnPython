@@ -1,0 +1,53 @@
+Help on package astor:
+
+NAME
+    astor - Part of the astor library for Python AST manipulation.
+
+DESCRIPTION
+    License: 3-clause BSD
+    
+    Copyright 2012 (c) Patrick Maupin
+    Copyright 2013 (c) Berker Peksag
+
+PACKAGE CONTENTS
+    code_gen
+    codegen
+    file_util
+    node_util
+    op_util
+    rtrip
+    source_repr
+    string_repr
+    tree_walk
+
+FUNCTIONS
+    codetoast = newfunc(*args, **kwarg)
+    
+    dump = newfunc(*args, **kwarg)
+    
+    get_anyop = newfunc(*args, **kwarg)
+    
+    get_binop = newfunc(*args, **kwarg)
+    
+    get_boolop = newfunc(*args, **kwarg)
+    
+    get_cmpop = newfunc(*args, **kwarg)
+    
+    get_unaryop = newfunc(*args, **kwarg)
+    
+    parsefile = newfunc(*args, **kwarg)
+
+DATA
+    all_symbols = <astor.deprecate.<locals>.wrap.<locals>.ModProxy object>
+    code_to_ast = <astor.file_util.CodeToAst object>
+    codegen = <astor.deprecate.<locals>.wrap.<locals>.ModProxy object>
+    symbol_data = {<class '_ast.GeneratorExp'>: '', <class '_ast.Assign'>:...
+    treewalk = <astor.deprecate.<locals>.wrap.<locals>.ModProxy object>
+
+VERSION
+    0.8.0
+
+FILE
+    c:\program files\python37\lib\site-packages\astor\__init__.py
+
+

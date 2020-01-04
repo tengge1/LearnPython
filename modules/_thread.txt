@@ -1,0 +1,272 @@
+Help on built-in module _thread:
+
+NAME
+    _thread
+
+MODULE REFERENCE
+    https://docs.python.org/3.7/library/_thread
+    
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    This module provides primitive operations to write multi-threaded programs.
+    The 'threading' module provides a more convenient interface.
+
+CLASSES
+    builtins.object
+        RLock
+        lock
+    
+    LockType = class lock(builtins.object)
+     |  A lock object is a synchronization primitive.  To create a lock,
+     |  call threading.Lock().  Methods are:
+     |  
+     |  acquire() -- lock the lock, possibly blocking until it can be obtained
+     |  release() -- unlock of the lock
+     |  locked() -- test whether the lock is currently locked
+     |  
+     |  A lock is not owned by the thread that locked it; another thread may
+     |  unlock it.  A thread attempting to lock a lock that it has already locked
+     |  will block until another thread unlocks it.  Deadlocks may ensue.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(...)
+     |      acquire(blocking=True, timeout=-1) -> bool
+     |      (acquire_lock() is an obsolete synonym)
+     |      
+     |      Lock the lock.  Without argument, this blocks if the lock is already
+     |      locked (even by the same thread), waiting for another thread to release
+     |      the lock, and return True once the lock is acquired.
+     |      With an argument, this will only block if the argument is true,
+     |      and the return value reflects whether the lock is acquired.
+     |      The blocking operation is interruptible.
+     |  
+     |  __exit__(...)
+     |      release()
+     |      (release_lock() is an obsolete synonym)
+     |      
+     |      Release the lock, allowing another thread that is blocked waiting for
+     |      the lock to acquire the lock.  The lock must be in the locked state,
+     |      but it needn't be locked by the same thread that unlocks it.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  acquire(...)
+     |      acquire(blocking=True, timeout=-1) -> bool
+     |      (acquire_lock() is an obsolete synonym)
+     |      
+     |      Lock the lock.  Without argument, this blocks if the lock is already
+     |      locked (even by the same thread), waiting for another thread to release
+     |      the lock, and return True once the lock is acquired.
+     |      With an argument, this will only block if the argument is true,
+     |      and the return value reflects whether the lock is acquired.
+     |      The blocking operation is interruptible.
+     |  
+     |  acquire_lock(...)
+     |      acquire(blocking=True, timeout=-1) -> bool
+     |      (acquire_lock() is an obsolete synonym)
+     |      
+     |      Lock the lock.  Without argument, this blocks if the lock is already
+     |      locked (even by the same thread), waiting for another thread to release
+     |      the lock, and return True once the lock is acquired.
+     |      With an argument, this will only block if the argument is true,
+     |      and the return value reflects whether the lock is acquired.
+     |      The blocking operation is interruptible.
+     |  
+     |  locked(...)
+     |      locked() -> bool
+     |      (locked_lock() is an obsolete synonym)
+     |      
+     |      Return whether the lock is in the locked state.
+     |  
+     |  locked_lock(...)
+     |      locked() -> bool
+     |      (locked_lock() is an obsolete synonym)
+     |      
+     |      Return whether the lock is in the locked state.
+     |  
+     |  release(...)
+     |      release()
+     |      (release_lock() is an obsolete synonym)
+     |      
+     |      Release the lock, allowing another thread that is blocked waiting for
+     |      the lock to acquire the lock.  The lock must be in the locked state,
+     |      but it needn't be locked by the same thread that unlocks it.
+     |  
+     |  release_lock(...)
+     |      release()
+     |      (release_lock() is an obsolete synonym)
+     |      
+     |      Release the lock, allowing another thread that is blocked waiting for
+     |      the lock to acquire the lock.  The lock must be in the locked state,
+     |      but it needn't be locked by the same thread that unlocks it.
+    
+    class RLock(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __enter__(...)
+     |      acquire(blocking=True) -> bool
+     |      
+     |      Lock the lock.  `blocking` indicates whether we should wait
+     |      for the lock to be available or not.  If `blocking` is False
+     |      and another thread holds the lock, the method will return False
+     |      immediately.  If `blocking` is True and another thread holds
+     |      the lock, the method will wait for the lock to be released,
+     |      take it and then return True.
+     |      (note: the blocking operation is interruptible.)
+     |      
+     |      In all other cases, the method will return True immediately.
+     |      Precisely, if the current thread already holds the lock, its
+     |      internal counter is simply incremented. If nobody holds the lock,
+     |      the lock is taken and its internal counter initialized to 1.
+     |  
+     |  __exit__(...)
+     |      release()
+     |      
+     |      Release the lock, allowing another thread that is blocked waiting for
+     |      the lock to acquire the lock.  The lock must be in the locked state,
+     |      and must be locked by the same thread that unlocks it; otherwise a
+     |      `RuntimeError` is raised.
+     |      
+     |      Do note that if the lock was acquire()d several times in a row by the
+     |      current thread, release() needs to be called as many times for the lock
+     |      to be available for other threads.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  acquire(...)
+     |      acquire(blocking=True) -> bool
+     |      
+     |      Lock the lock.  `blocking` indicates whether we should wait
+     |      for the lock to be available or not.  If `blocking` is False
+     |      and another thread holds the lock, the method will return False
+     |      immediately.  If `blocking` is True and another thread holds
+     |      the lock, the method will wait for the lock to be released,
+     |      take it and then return True.
+     |      (note: the blocking operation is interruptible.)
+     |      
+     |      In all other cases, the method will return True immediately.
+     |      Precisely, if the current thread already holds the lock, its
+     |      internal counter is simply incremented. If nobody holds the lock,
+     |      the lock is taken and its internal counter initialized to 1.
+     |  
+     |  release(...)
+     |      release()
+     |      
+     |      Release the lock, allowing another thread that is blocked waiting for
+     |      the lock to acquire the lock.  The lock must be in the locked state,
+     |      and must be locked by the same thread that unlocks it; otherwise a
+     |      `RuntimeError` is raised.
+     |      
+     |      Do note that if the lock was acquire()d several times in a row by the
+     |      current thread, release() needs to be called as many times for the lock
+     |      to be available for other threads.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+
+FUNCTIONS
+    allocate(...)
+        allocate_lock() -> lock object
+        (allocate() is an obsolete synonym)
+        
+        Create a new lock object. See help(type(threading.Lock())) for
+        information about locks.
+    
+    allocate_lock(...)
+        allocate_lock() -> lock object
+        (allocate() is an obsolete synonym)
+        
+        Create a new lock object. See help(type(threading.Lock())) for
+        information about locks.
+    
+    exit(...)
+        exit()
+        (exit_thread() is an obsolete synonym)
+        
+        This is synonymous to ``raise SystemExit''.  It will cause the current
+        thread to exit silently unless the exception is caught.
+    
+    exit_thread(...)
+        exit()
+        (exit_thread() is an obsolete synonym)
+        
+        This is synonymous to ``raise SystemExit''.  It will cause the current
+        thread to exit silently unless the exception is caught.
+    
+    get_ident(...)
+        get_ident() -> integer
+        
+        Return a non-zero integer that uniquely identifies the current thread
+        amongst other threads that exist simultaneously.
+        This may be used to identify per-thread resources.
+        Even though on some platforms threads identities may appear to be
+        allocated consecutive numbers starting at 1, this behavior should not
+        be relied upon, and the number should be seen purely as a magic cookie.
+        A thread's identity may be reused for another thread after it exits.
+    
+    interrupt_main(...)
+        interrupt_main()
+        
+        Raise a KeyboardInterrupt in the main thread.
+        A subthread can use this function to interrupt the main thread.
+    
+    stack_size(...)
+        stack_size([size]) -> size
+        
+        Return the thread stack size used when creating new threads.  The
+        optional size argument specifies the stack size (in bytes) to be used
+        for subsequently created threads, and must be 0 (use platform or
+        configured default) or a positive integer value of at least 32,768 (32k).
+        If changing the thread stack size is unsupported, a ThreadError
+        exception is raised.  If the specified size is invalid, a ValueError
+        exception is raised, and the stack size is unmodified.  32k bytes
+         currently the minimum supported stack size value to guarantee
+        sufficient stack space for the interpreter itself.
+        
+        Note that some platforms may have particular restrictions on values for
+        the stack size, such as requiring a minimum stack size larger than 32 KiB or
+        requiring allocation in multiples of the system memory page size
+        - platform documentation should be referred to for more information
+        (4 KiB pages are common; using multiples of 4096 for the stack size is
+        the suggested approach in the absence of more specific information).
+    
+    start_new(...)
+        start_new_thread(function, args[, kwargs])
+        (start_new() is an obsolete synonym)
+        
+        Start a new thread and return its identifier.  The thread will call the
+        function with positional arguments from the tuple args and keyword arguments
+        taken from the optional dictionary kwargs.  The thread exits when the
+        function returns; the return value is ignored.  The thread will also exit
+        when the function raises an unhandled exception; a stack trace will be
+        printed unless the exception is SystemExit.
+    
+    start_new_thread(...)
+        start_new_thread(function, args[, kwargs])
+        (start_new() is an obsolete synonym)
+        
+        Start a new thread and return its identifier.  The thread will call the
+        function with positional arguments from the tuple args and keyword arguments
+        taken from the optional dictionary kwargs.  The thread exits when the
+        function returns; the return value is ignored.  The thread will also exit
+        when the function raises an unhandled exception; a stack trace will be
+        printed unless the exception is SystemExit.
+
+DATA
+    TIMEOUT_MAX = 4294967.0
+
+FILE
+    (built-in)
+
+

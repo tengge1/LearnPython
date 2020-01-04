@@ -1,0 +1,114 @@
+Help on module hmac:
+
+NAME
+    hmac - HMAC (Keyed-Hashing for Message Authentication) Python module.
+
+DESCRIPTION
+    Implements the HMAC algorithm as described by RFC 2104.
+
+CLASSES
+    builtins.object
+        HMAC
+    
+    class HMAC(builtins.object)
+     |  HMAC(key, msg=None, digestmod=None)
+     |  
+     |  RFC 2104 HMAC class.  Also complies with RFC 4231.
+     |  
+     |  This supports the API for Cryptographic Hash Functions (PEP 247).
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, key, msg=None, digestmod=None)
+     |      Create a new HMAC object.
+     |      
+     |      key:       key for the keyed hash object.
+     |      msg:       Initial input for the hash, if provided.
+     |      digestmod: A module supporting PEP 247.  *OR*
+     |                 A hashlib constructor returning a new hash object. *OR*
+     |                 A hash name suitable for hashlib.new().
+     |                 Defaults to hashlib.md5.
+     |                 Implicit default to hashlib.md5 is deprecated since Python
+     |                 3.4 and will be removed in Python 3.8.
+     |      
+     |      Note: key and msg must be a bytes or bytearray objects.
+     |  
+     |  copy(self)
+     |      Return a separate copy of this hashing object.
+     |      
+     |      An update to this copy won't affect the original object.
+     |  
+     |  digest(self)
+     |      Return the hash value of this hashing object.
+     |      
+     |      This returns a string containing 8-bit data.  The object is
+     |      not altered in any way by this function; you can continue
+     |      updating the object after calling this function.
+     |  
+     |  hexdigest(self)
+     |      Like digest(), but returns a string of hexadecimal digits instead.
+     |  
+     |  update(self, msg)
+     |      Update this hashing object with the string msg.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  blocksize = 64
+
+FUNCTIONS
+    compare_digest = _compare_digest(a, b, /)
+        Return 'a == b'.
+        
+        This function uses an approach designed to prevent
+        timing analysis, making it appropriate for cryptography.
+        
+        a and b must both be of the same type: either str (ASCII only),
+        or any bytes-like object.
+        
+        Note: If a and b are of different lengths, or if an error occurs,
+        a timing attack could theoretically reveal information about the
+        types and lengths of a and b--but not their values.
+    
+    digest(key, msg, digest)
+        Fast inline implementation of HMAC
+        
+        key:    key for the keyed hash object.
+        msg:    input message
+        digest: A hash name suitable for hashlib.new() for best performance. *OR*
+                A hashlib constructor returning a new hash object. *OR*
+                A module supporting PEP 247.
+        
+        Note: key and msg must be a bytes or bytearray objects.
+    
+    new(key, msg=None, digestmod=None)
+        Create a new hashing object and return it.
+        
+        key: The starting key for the hash.
+        msg: if available, will immediately be hashed into the object's starting
+        state.
+        
+        You can now feed arbitrary strings into the object using its update()
+        method, and can ask for the hash value at any time by calling its digest()
+        method.
+
+DATA
+    digest_size = None
+    trans_36 = b'67452301>?<=:;89&\'$%"# !./,-*+()\x16\x17\x14\...\xc2\xc3...
+    trans_5C = b'\\]^_XYZ[TUVWPQRSLMNOHIJKDEFG@ABC|}~\x7fxyz{tu...\xa8\xa9...
+
+FILE
+    c:\program files\python37\lib\hmac.py
+
+

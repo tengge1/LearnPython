@@ -1,0 +1,465 @@
+Help on module shelve:
+
+NAME
+    shelve - Manage shelves of pickled objects.
+
+DESCRIPTION
+    A "shelf" is a persistent, dictionary-like object.  The difference
+    with dbm databases is that the values (not the keys!) in a shelf can
+    be essentially arbitrary Python objects -- anything that the "pickle"
+    module can handle.  This includes most class instances, recursive data
+    types, and objects containing lots of shared sub-objects.  The keys
+    are ordinary strings.
+    
+    To summarize the interface (key is a string, data is an arbitrary
+    object):
+    
+            import shelve
+            d = shelve.open(filename) # open, with (g)dbm filename -- no suffix
+    
+            d[key] = data   # store data at key (overwrites old data if
+                            # using an existing key)
+            data = d[key]   # retrieve a COPY of the data at key (raise
+                            # KeyError if no such key) -- NOTE that this
+                            # access returns a *copy* of the entry!
+            del d[key]      # delete data stored at key (raises KeyError
+                            # if no such key)
+            flag = key in d # true if the key exists
+            list = d.keys() # a list of all existing keys (slow!)
+    
+            d.close()       # close it
+    
+    Dependent on the implementation, closing a persistent dictionary may
+    or may not be necessary to flush changes to disk.
+    
+    Normally, d[key] returns a COPY of the entry.  This needs care when
+    mutable entries are mutated: for example, if d[key] is a list,
+            d[key].append(anitem)
+    does NOT modify the entry d[key] itself, as stored in the persistent
+    mapping -- it only modifies the copy, which is then immediately
+    discarded, so that the append has NO effect whatsoever.  To append an
+    item to d[key] in a way that will affect the persistent mapping, use:
+            data = d[key]
+            data.append(anitem)
+            d[key] = data
+    
+    To avoid the problem with mutable entries, you may pass the keyword
+    argument writeback=True in the call to shelve.open.  When you use:
+            d = shelve.open(filename, writeback=True)
+    then d keeps a cache of all entries you access, and writes them all back
+    to the persistent mapping when you call d.close().  This ensures that
+    such usage as d[key].append(anitem) works as intended.
+    
+    However, using keyword argument writeback=True may consume vast amount
+    of memory for the cache, and it may make d.close() very slow, if you
+    access many of d's entries after opening it in this way: d has no way to
+    check which of the entries you access are mutable and/or which ones you
+    actually mutate, so it must cache, and write back at close, all of the
+    entries that you access.  You can call d.sync() to write back all the
+    entries in the cache, and empty the cache (d.sync() also synchronizes
+    the persistent dictionary on disk, if feasible).
+
+CLASSES
+    collections.abc.MutableMapping(collections.abc.Mapping)
+        Shelf
+            BsdDbShelf
+            DbfilenameShelf
+    
+    class BsdDbShelf(Shelf)
+     |  BsdDbShelf(dict, protocol=None, writeback=False, keyencoding='utf-8')
+     |  
+     |  Shelf implementation using the "BSD" db interface.
+     |  
+     |  This adds methods first(), next(), previous(), last() and
+     |  set_location() that have no counterpart in [g]dbm databases.
+     |  
+     |  The actual database must be opened using one of the "bsddb"
+     |  modules "open" routines (i.e. bsddb.hashopen, bsddb.btopen or
+     |  bsddb.rnopen) and passed to the constructor.
+     |  
+     |  See the module's __doc__ string for an overview of the interface.
+     |  
+     |  Method resolution order:
+     |      BsdDbShelf
+     |      Shelf
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, dict, protocol=None, writeback=False, keyencoding='utf-8')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  first(self)
+     |  
+     |  last(self)
+     |  
+     |  next(self)
+     |  
+     |  previous(self)
+     |  
+     |  set_location(self, key)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Shelf:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __del__(self)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  close(self)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  sync(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Shelf:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  pop(self, key, default=<object object at 0x000001E148267140>)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class DbfilenameShelf(Shelf)
+     |  DbfilenameShelf(filename, flag='c', protocol=None, writeback=False)
+     |  
+     |  Shelf implementation using the "dbm" generic dbm interface.
+     |  
+     |  This is initialized with the filename for the dbm database.
+     |  See the module's __doc__ string for an overview of the interface.
+     |  
+     |  Method resolution order:
+     |      DbfilenameShelf
+     |      Shelf
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, filename, flag='c', protocol=None, writeback=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Shelf:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __del__(self)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  close(self)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  sync(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Shelf:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  pop(self, key, default=<object object at 0x000001E148267140>)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class Shelf(collections.abc.MutableMapping)
+     |  Shelf(dict, protocol=None, writeback=False, keyencoding='utf-8')
+     |  
+     |  Base class for shelf implementations.
+     |  
+     |  This is initialized with a dictionary-like object.
+     |  See the module's __doc__ string for an overview of the interface.
+     |  
+     |  Method resolution order:
+     |      Shelf
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __del__(self)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __init__(self, dict, protocol=None, writeback=False, keyencoding='utf-8')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  close(self)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  sync(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  pop(self, key, default=<object object at 0x000001E148267140>)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+
+FUNCTIONS
+    open(filename, flag='c', protocol=None, writeback=False)
+        Open a persistent dictionary for reading and writing.
+        
+        The filename parameter is the base filename for the underlying
+        database.  As a side-effect, an extension may be added to the
+        filename and more than one file may be created.  The optional flag
+        parameter has the same interpretation as the flag parameter of
+        dbm.open(). The optional protocol parameter specifies the
+        version of the pickle protocol.
+        
+        See the module's __doc__ string for an overview of the interface.
+
+DATA
+    __all__ = ['Shelf', 'BsdDbShelf', 'DbfilenameShelf', 'open']
+
+FILE
+    c:\program files\python37\lib\shelve.py
+
+

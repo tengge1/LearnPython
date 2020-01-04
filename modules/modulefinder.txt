@@ -1,0 +1,125 @@
+Help on module modulefinder:
+
+NAME
+    modulefinder - Find modules used by a script, using introspection.
+
+CLASSES
+    builtins.object
+        Module
+        ModuleFinder
+    
+    class Module(builtins.object)
+     |  Module(name, file=None, path=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name, file=None, path=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ModuleFinder(builtins.object)
+     |  ModuleFinder(path=None, debug=0, excludes=[], replace_paths=[])
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, path=None, debug=0, excludes=[], replace_paths=[])
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_module(self, fqname)
+     |  
+     |  any_missing(self)
+     |      Return a list of modules that appear to be missing. Use
+     |      any_missing_maybe() if you want to know which modules are
+     |      certain to be missing, and which *may* be missing.
+     |  
+     |  any_missing_maybe(self)
+     |      Return two lists, one with modules that are certainly missing
+     |      and one with modules that *may* be missing. The latter names could
+     |      either be submodules *or* just global names in the package.
+     |      
+     |      The reason it can't always be determined is that it's impossible to
+     |      tell which names are imported when "from module import *" is done
+     |      with an extension module, short of actually importing it.
+     |  
+     |  determine_parent(self, caller, level=-1)
+     |  
+     |  ensure_fromlist(self, m, fromlist, recursive=0)
+     |  
+     |  find_all_submodules(self, m)
+     |  
+     |  find_head_package(self, parent, name)
+     |  
+     |  find_module(self, name, path, parent=None)
+     |  
+     |  import_hook(self, name, caller=None, fromlist=None, level=-1)
+     |  
+     |  import_module(self, partname, fqname, parent)
+     |  
+     |  load_file(self, pathname)
+     |  
+     |  load_module(self, fqname, fp, pathname, file_info)
+     |  
+     |  load_package(self, fqname, pathname)
+     |  
+     |  load_tail(self, q, tail)
+     |  
+     |  msg(self, level, str, *args)
+     |  
+     |  msgin(self, *args)
+     |  
+     |  msgout(self, *args)
+     |  
+     |  replace_paths_in_code(self, co)
+     |  
+     |  report(self)
+     |      Print a report to stdout, listing the found modules with their
+     |      paths, as well as modules that are missing, or seem to be missing.
+     |  
+     |  run_script(self, pathname)
+     |  
+     |  scan_code(self, co, m)
+     |  
+     |  scan_opcodes(self, co)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    AddPackagePath(packagename, path)
+        # A Public interface
+    
+    ReplacePackage(oldname, newname)
+    
+    test()
+
+DATA
+    EXTENDED_ARG = 144
+    IMPORT_NAME = 108
+    LOAD_CONST = 100
+    STORE_GLOBAL = 97
+    STORE_NAME = 90
+    STORE_OPS = (90, 97)
+    packagePathMap = {}
+    replacePackageMap = {}
+
+FILE
+    c:\program files\python37\lib\modulefinder.py
+
+

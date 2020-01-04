@@ -1,0 +1,216 @@
+Help on built-in module zipimport:
+
+NAME
+    zipimport - zipimport provides support for importing Python modules from Zip archives.
+
+MODULE REFERENCE
+    https://docs.python.org/3.7/library/zipimport
+    
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    This module exports three objects:
+    - zipimporter: a class; its constructor takes a path to a Zip archive.
+    - ZipImportError: exception raised by zipimporter objects. It's a
+      subclass of ImportError, so it can be caught as ImportError, too.
+    - _zip_directory_cache: a dict, mapping archive paths to zip directory
+      info dicts, as used in zipimporter._files.
+    
+    It is usually not needed to use the zipimport module explicitly; it is
+    used by the builtin import mechanism for sys.path items that are paths
+    to Zip archives.
+
+CLASSES
+    builtins.ImportError(builtins.Exception)
+        ZipImportError
+    builtins.object
+        zipimporter
+    
+    class ZipImportError(builtins.ImportError)
+     |  Import can't find module, or can't find name in module.
+     |  
+     |  Method resolution order:
+     |      ZipImportError
+     |      builtins.ImportError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ImportError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.ImportError:
+     |  
+     |  msg
+     |      exception message
+     |  
+     |  name
+     |      module name
+     |  
+     |  path
+     |      module path
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class zipimporter(builtins.object)
+     |  zipimporter(archivepath, /)
+     |  
+     |  Create a new zipimporter instance.
+     |  
+     |    archivepath
+     |      A path-like object to a zipfile, or to a specific path inside
+     |      a zipfile.
+     |  
+     |  'archivepath' must be a path-like object to a zipfile, or to a specific path
+     |  inside a zipfile. For example, it can be '/tmp/myimport.zip', or
+     |  '/tmp/myimport.zip/mydirectory', if mydirectory is a valid directory inside
+     |  the archive.
+     |  
+     |  'ZipImportError' is raised if 'archivepath' doesn't point to a valid Zip
+     |  archive.
+     |  
+     |  The 'archive' attribute of the zipimporter object contains the name of the
+     |  zipfile targeted.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  find_loader(self, fullname, path=None, /)
+     |      Search for a module specified by 'fullname'.
+     |      
+     |      'fullname' must be the fully qualified (dotted) module name. It returns the
+     |      zipimporter instance itself if the module was found, a string containing the
+     |      full path name if it's possibly a portion of a namespace package,
+     |      or None otherwise. The optional 'path' argument is ignored -- it's
+     |      there for compatibility with the importer protocol.
+     |  
+     |  find_module(self, fullname, path=None, /)
+     |      Search for a module specified by 'fullname'.
+     |      
+     |      'fullname' must be the fully qualified (dotted) module name. It returns the
+     |      zipimporter instance itself if the module was found, or None if it wasn't.
+     |      The optional 'path' argument is ignored -- it's there for compatibility
+     |      with the importer protocol.
+     |  
+     |  get_code(self, fullname, /)
+     |      Return the code object for the specified module.
+     |      
+     |      Raise ZipImportError if the module couldn't be found.
+     |  
+     |  get_data(self, pathname, /)
+     |      Return the data associated with 'pathname'.
+     |      
+     |      Raise OSError if the file was not found.
+     |  
+     |  get_filename(self, fullname, /)
+     |      Return the filename for the specified module.
+     |  
+     |  get_resource_reader(self, fullname, /)
+     |      Return the ResourceReader for a package in a zip file.
+     |      
+     |      If 'fullname' is a package within the zip file, return the 'ResourceReader'
+     |      object for the package.  Otherwise return None.
+     |  
+     |  get_source(self, fullname, /)
+     |      Return the source code for the specified module.
+     |      
+     |      Raise ZipImportError if the module couldn't be found, return None if the
+     |      archive does contain the module, but has no source for it.
+     |  
+     |  is_package(self, fullname, /)
+     |      Return True if the module specified by fullname is a package.
+     |      
+     |      Raise ZipImportError if the module couldn't be found.
+     |  
+     |  load_module(self, fullname, /)
+     |      Load the module specified by 'fullname'.
+     |      
+     |      'fullname' must be the fully qualified (dotted) module name. It returns the
+     |      imported module, or raises ZipImportError if it wasn't found.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  archive
+     |  
+     |  prefix
+
+FILE
+    (built-in)
+
+

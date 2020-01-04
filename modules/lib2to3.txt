@@ -1,0 +1,24 @@
+Help on package lib2to3:
+
+NAME
+    lib2to3 - #empty
+
+PACKAGE CONTENTS
+    __main__
+    btm_matcher
+    btm_utils
+    fixer_base
+    fixer_util
+    fixes (package)
+    main
+    patcomp
+    pgen2 (package)
+    pygram
+    pytree
+    refactor
+    tests (package)
+
+FILE
+    c:\program files\python37\lib\lib2to3\__init__.py
+
+

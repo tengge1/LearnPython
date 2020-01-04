@@ -1,0 +1,97 @@
+Help on module _hashlib:
+
+NAME
+    _hashlib
+
+CLASSES
+    builtins.object
+        HASH
+    
+    class HASH(builtins.object)
+     |  A hash represents the object used to calculate a checksum of a
+     |  string of information.
+     |  
+     |  Methods:
+     |  
+     |  update() -- updates the current digest with an additional string
+     |  digest() -- return the current digest value
+     |  hexdigest() -- return the current digest as a string of hexadecimal digits
+     |  copy() -- return a copy of the current hash object
+     |  
+     |  Attributes:
+     |  
+     |  name -- the hash algorithm being used by this object
+     |  digest_size -- number of bytes in this hashes output
+     |  
+     |  Methods defined here:
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  copy(...)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(...)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(...)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(...)
+     |      Update this hash object's state with the provided string.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+     |      algorithm name.
+
+FUNCTIONS
+    hmac_digest(key, msg, digest)
+        Single-shot HMAC.
+    
+    new(...)
+        Return a new hash object using the named algorithm.
+        An optional string argument may be provided and will be
+        automatically hashed.
+        
+        The MD5 and SHA1 algorithms are always supported.
+    
+    openssl_md5(...)
+        Returns a md5 hash object; optionally initialized with a string
+    
+    openssl_sha1(...)
+        Returns a sha1 hash object; optionally initialized with a string
+    
+    openssl_sha224(...)
+        Returns a sha224 hash object; optionally initialized with a string
+    
+    openssl_sha256(...)
+        Returns a sha256 hash object; optionally initialized with a string
+    
+    openssl_sha384(...)
+        Returns a sha384 hash object; optionally initialized with a string
+    
+    openssl_sha512(...)
+        Returns a sha512 hash object; optionally initialized with a string
+    
+    pbkdf2_hmac(...)
+        pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None) -> key
+        
+        Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as
+        pseudorandom function.
+    
+    scrypt(password, *, salt=None, n=None, r=None, p=None, maxmem=0, dklen=64)
+        scrypt password-based key derivation function.
+
+DATA
+    openssl_md_meth_names = frozenset({'blake2b512', 'blake2s256', 'md4', ...
+
+FILE
+    c:\program files\python37\dlls\_hashlib.pyd
+
+

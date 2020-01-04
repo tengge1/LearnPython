@@ -1,0 +1,33 @@
+Help on module opcode:
+
+NAME
+    opcode
+
+DESCRIPTION
+    opcode module - potentially shared between dis and other modules which
+    operate on bytecodes (e.g. peephole optimizers).
+
+FUNCTIONS
+    stack_effect(opcode, oparg=None, /)
+        Compute the stack effect of the opcode.
+
+DATA
+    EXTENDED_ARG = 144
+    HAVE_ARGUMENT = 90
+    __all__ = ['cmp_op', 'hasconst', 'hasname', 'hasjrel', 'hasjabs', 'has...
+    cmp_op = ('<', '<=', '==', '!=', '>', '>=', 'in', 'not in', 'is', 'is ...
+    hascompare = [107]
+    hasconst = [100]
+    hasfree = [135, 136, 137, 138, 148]
+    hasjabs = [111, 112, 113, 114, 115, 119]
+    hasjrel = [93, 110, 120, 121, 122, 143, 154]
+    haslocal = [124, 125, 126]
+    hasname = [90, 91, 95, 96, 97, 98, 101, 106, 108, 109, 116, 160]
+    hasnargs = []
+    opmap = {'BEFORE_ASYNC_WITH': 52, 'BINARY_ADD': 23, 'BINARY_AND': 64, ...
+    opname = ['<0>', 'POP_TOP', 'ROT_TWO', 'ROT_THREE', 'DUP_TOP', 'DUP_TO...
+
+FILE
+    c:\program files\python37\lib\opcode.py
+
+

@@ -1,0 +1,16 @@
+Help on module brain_pytest:
+
+NAME
+    brain_pytest - Astroid hooks for pytest.
+
+FUNCTIONS
+    pytest_transform()
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+    absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_pytest.py
+
+

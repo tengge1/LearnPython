@@ -1,0 +1,23 @@
+Help on built-in module _warnings:
+
+NAME
+    _warnings
+
+DESCRIPTION
+    _warnings provides basic warning filtering support.
+    It is a helper module to speed up interpreter start-up.
+
+FUNCTIONS
+    warn(message, category=None, stacklevel=1, source=None)
+        Issue a warning, or maybe ignore it or raise an exception.
+    
+    warn_explicit(...)
+        Low-level inferface to warnings functionality.
+
+DATA
+    filters = [('ignore', re.compile('numpy.ndarray size changed', re.IGNO...
+
+FILE
+    (built-in)
+
+

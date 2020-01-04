@@ -1,0 +1,137 @@
+Help on package venv:
+
+NAME
+    venv - Virtual environment (venv) package for Python. Based on PEP 405.
+
+DESCRIPTION
+    Copyright (C) 2011-2014 Vinay Sajip.
+    Licensed to the PSF under a contributor agreement.
+
+PACKAGE CONTENTS
+    __main__
+
+CLASSES
+    builtins.object
+        EnvBuilder
+    
+    class EnvBuilder(builtins.object)
+     |  EnvBuilder(system_site_packages=False, clear=False, symlinks=False, upgrade=False, with_pip=False, prompt=None)
+     |  
+     |  This class exists to allow virtual environment creation to be
+     |  customized. The constructor parameters determine the builder's
+     |  behaviour when called upon to create a virtual environment.
+     |  
+     |  By default, the builder makes the system (global) site-packages dir
+     |  *un*available to the created environment.
+     |  
+     |  If invoked using the Python -m option, the default is to use copying
+     |  on Windows platforms but symlinks elsewhere. If instantiated some
+     |  other way, the default is to *not* use symlinks.
+     |  
+     |  :param system_site_packages: If True, the system (global) site-packages
+     |                               dir is available to created environments.
+     |  :param clear: If True, delete the contents of the environment directory if
+     |                it already exists, before environment creation.
+     |  :param symlinks: If True, attempt to symlink rather than copy files into
+     |                   virtual environment.
+     |  :param upgrade: If True, upgrade an existing virtual environment.
+     |  :param with_pip: If True, ensure pip is installed in the virtual
+     |                   environment
+     |  :param prompt: Alternative terminal prefix for the environment.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, system_site_packages=False, clear=False, symlinks=False, upgrade=False, with_pip=False, prompt=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  clear_directory(self, path)
+     |  
+     |  create(self, env_dir)
+     |      Create a virtual environment in a directory.
+     |      
+     |      :param env_dir: The target directory to create an environment in.
+     |  
+     |  create_configuration(self, context)
+     |      Create a configuration file indicating where the environment's Python
+     |      was copied from, and whether the system site-packages should be made
+     |      available in the environment.
+     |      
+     |      :param context: The information for the environment creation request
+     |                      being processed.
+     |  
+     |  ensure_directories(self, env_dir)
+     |      Create the directories for the environment.
+     |      
+     |      Returns a context object which holds paths in the environment,
+     |      for use by subsequent logic.
+     |  
+     |  install_scripts(self, context, path)
+     |      Install scripts into the created environment from a directory.
+     |      
+     |      :param context: The information for the environment creation request
+     |                      being processed.
+     |      :param path:    Absolute pathname of a directory containing script.
+     |                      Scripts in the 'common' subdirectory of this directory,
+     |                      and those in the directory named for the platform
+     |                      being run on, are installed in the created environment.
+     |                      Placeholder variables are replaced with environment-
+     |                      specific values.
+     |  
+     |  post_setup(self, context)
+     |      Hook for post-setup modification of the venv. Subclasses may install
+     |      additional packages or scripts here, add activation shell scripts, etc.
+     |      
+     |      :param context: The information for the environment creation request
+     |                      being processed.
+     |  
+     |  replace_variables(self, text, context)
+     |      Replace variable placeholders in script text with context-specific
+     |      variables.
+     |      
+     |      Return the text passed in , but with variables replaced.
+     |      
+     |      :param text: The text in which to replace placeholder variables.
+     |      :param context: The information for the environment creation request
+     |                      being processed.
+     |  
+     |  setup_python(self, context)
+     |      Set up a Python executable in the environment.
+     |      
+     |      :param context: The information for the environment creation request
+     |                      being processed.
+     |  
+     |  setup_scripts(self, context)
+     |      Set up scripts into the created environment from a directory.
+     |      
+     |      This method installs the default scripts into the environment
+     |      being created. You can prevent the default installation by overriding
+     |      this method if you really need to, or if you need to specify
+     |      a different location for the scripts to install. By default, the
+     |      'scripts' directory in the venv package is used as the source of
+     |      scripts to install.
+     |  
+     |  symlink_or_copy(self, src, dst, relative_symlinks_ok=False)
+     |      Try symlinking a file, and if that fails, fall back to copying.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    create(env_dir, system_site_packages=False, clear=False, symlinks=False, with_pip=False, prompt=None)
+        Create a virtual environment in a directory.
+    
+    main(args=None)
+
+DATA
+    logger = <Logger venv (WARNING)>
+
+FILE
+    c:\program files\python37\lib\venv\__init__.py
+
+

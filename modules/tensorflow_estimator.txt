@@ -1,0 +1,19 @@
+Help on package tensorflow_estimator:
+
+NAME
+    tensorflow_estimator - Public API for tf. namespace.
+
+PACKAGE CONTENTS
+    _api (package)
+    python (package)
+
+SUBMODULES
+    estimator
+
+DATA
+    __all__ = ['estimator', 'python']
+
+FILE
+    c:\program files\python37\lib\site-packages\tensorflow_estimator\__init__.py
+
+

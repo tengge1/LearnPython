@@ -1,0 +1,1096 @@
+Help on module pdb:
+
+NAME
+    pdb
+
+DESCRIPTION
+    The Python Debugger Pdb
+    =======================
+    
+    To use the debugger in its simplest form:
+    
+            >>> import pdb
+            >>> pdb.run('<a statement>')
+    
+    The debugger's prompt is '(Pdb) '.  This will stop in the first
+    function call in <a statement>.
+    
+    Alternatively, if a statement terminated with an unhandled exception,
+    you can use pdb's post-mortem facility to inspect the contents of the
+    traceback:
+    
+            >>> <a statement>
+            <exception traceback>
+            >>> import pdb
+            >>> pdb.pm()
+    
+    The commands recognized by the debugger are listed in the next
+    section.  Most can be abbreviated as indicated; e.g., h(elp) means
+    that 'help' can be typed as 'h' or 'help' (but not as 'he' or 'hel',
+    nor as 'H' or 'Help' or 'HELP').  Optional arguments are enclosed in
+    square brackets.  Alternatives in the command syntax are separated
+    by a vertical bar (|).
+    
+    A blank line repeats the previous command literally, except for
+    'list', where it lists the next 11 lines.
+    
+    Commands that the debugger doesn't recognize are assumed to be Python
+    statements and are executed in the context of the program being
+    debugged.  Python statements can also be prefixed with an exclamation
+    point ('!').  This is a powerful way to inspect the program being
+    debugged; it is even possible to change variables or call functions.
+    When an exception occurs in such a statement, the exception name is
+    printed but the debugger's state is not changed.
+    
+    The debugger supports aliases, which can save typing.  And aliases can
+    have parameters (see the alias help entry) which allows one a certain
+    level of adaptability to the context under examination.
+    
+    Multiple commands may be entered on a single line, separated by the
+    pair ';;'.  No intelligence is applied to separating the commands; the
+    input is split at the first ';;', even if it is in the middle of a
+    quoted string.
+    
+    If a file ".pdbrc" exists in your home directory or in the current
+    directory, it is read in and executed as if it had been typed at the
+    debugger prompt.  This is particularly useful for aliases.  If both
+    files exist, the one in the home directory is read first and aliases
+    defined there can be overridden by the local file.  This behavior can be
+    disabled by passing the "readrc=False" argument to the Pdb constructor.
+    
+    Aside from aliases, the debugger is not directly programmable; but it
+    is implemented as a class from which you can derive your own debugger
+    class, which you can make as fancy as you like.
+    
+    
+    Debugger commands
+    =================
+    
+    h(elp)
+            Without argument, print the list of available commands.
+            With a command name as argument, print help about that command.
+            "help pdb" shows the full pdb documentation.
+            "help exec" gives help on the ! command.
+    
+    w(here)
+            Print a stack trace, with the most recent frame at the bottom.
+            An arrow indicates the "current frame", which determines the
+            context of most commands.  'bt' is an alias for this command.
+    
+    d(own) [count]
+            Move the current frame count (default one) levels down in the
+            stack trace (to a newer frame).
+    
+    u(p) [count]
+            Move the current frame count (default one) levels up in the
+            stack trace (to an older frame).
+    
+    b(reak) [ ([filename:]lineno | function) [, condition] ]
+            Without argument, list all breaks.
+    
+            With a line number argument, set a break at this line in the
+            current file.  With a function name, set a break at the first
+            executable line of that function.  If a second argument is
+            present, it is a string specifying an expression which must
+            evaluate to true before the breakpoint is honored.
+    
+            The line number may be prefixed with a filename and a colon,
+            to specify a breakpoint in another file (probably one that
+            hasn't been loaded yet).  The file is searched for on
+            sys.path; the .py suffix may be omitted.
+    
+    tbreak [ ([filename:]lineno | function) [, condition] ]
+            Same arguments as break, but sets a temporary breakpoint: it
+            is automatically deleted when first hit.
+    
+    cl(ear) filename:lineno
+    cl(ear) [bpnumber [bpnumber...]]
+            With a space separated list of breakpoint numbers, clear
+            those breakpoints.  Without argument, clear all breaks (but
+            first ask confirmation).  With a filename:lineno argument,
+            clear all breaks at that line in that file.
+    
+    disable bpnumber [bpnumber ...]
+            Disables the breakpoints given as a space separated list of
+            breakpoint numbers.  Disabling a breakpoint means it cannot
+            cause the program to stop execution, but unlike clearing a
+            breakpoint, it remains in the list of breakpoints and can be
+            (re-)enabled.
+    
+    enable bpnumber [bpnumber ...]
+            Enables the breakpoints given as a space separated list of
+            breakpoint numbers.
+    
+    ignore bpnumber [count]
+            Set the ignore count for the given breakpoint number.  If
+            count is omitted, the ignore count is set to 0.  A breakpoint
+            becomes active when the ignore count is zero.  When non-zero,
+            the count is decremented each time the breakpoint is reached
+            and the breakpoint is not disabled and any associated
+            condition evaluates to true.
+    
+    condition bpnumber [condition]
+            Set a new condition for the breakpoint, an expression which
+            must evaluate to true before the breakpoint is honored.  If
+            condition is absent, any existing condition is removed; i.e.,
+            the breakpoint is made unconditional.
+    
+    commands [bpnumber]
+            (com) ...
+            (com) end
+            (Pdb)
+    
+            Specify a list of commands for breakpoint number bpnumber.
+            The commands themselves are entered on the following lines.
+            Type a line containing just 'end' to terminate the commands.
+            The commands are executed when the breakpoint is hit.
+    
+            To remove all commands from a breakpoint, type commands and
+            follow it immediately with end; that is, give no commands.
+    
+            With no bpnumber argument, commands refers to the last
+            breakpoint set.
+    
+            You can use breakpoint commands to start your program up
+            again.  Simply use the continue command, or step, or any other
+            command that resumes execution.
+    
+            Specifying any command resuming execution (currently continue,
+            step, next, return, jump, quit and their abbreviations)
+            terminates the command list (as if that command was
+            immediately followed by end).  This is because any time you
+            resume execution (even with a simple next or step), you may
+            encounter another breakpoint -- which could have its own
+            command list, leading to ambiguities about which list to
+            execute.
+    
+            If you use the 'silent' command in the command list, the usual
+            message about stopping at a breakpoint is not printed.  This
+            may be desirable for breakpoints that are to print a specific
+            message and then continue.  If none of the other commands
+            print anything, you will see no sign that the breakpoint was
+            reached.
+    
+    s(tep)
+            Execute the current line, stop at the first possible occasion
+            (either in a function that is called or in the current
+            function).
+    
+    n(ext)
+            Continue execution until the next line in the current function
+            is reached or it returns.
+    
+    unt(il) [lineno]
+            Without argument, continue execution until the line with a
+            number greater than the current one is reached.  With a line
+            number, continue execution until a line with a number greater
+            or equal to that is reached.  In both cases, also stop when
+            the current frame returns.
+    
+    j(ump) lineno
+            Set the next line that will be executed.  Only available in
+            the bottom-most frame.  This lets you jump back and execute
+            code again, or jump forward to skip code that you don't want
+            to run.
+    
+            It should be noted that not all jumps are allowed -- for
+            instance it is not possible to jump into the middle of a
+            for loop or out of a finally clause.
+    
+    r(eturn)
+            Continue execution until the current function returns.
+    
+    retval
+            Print the return value for the last return of a function.
+    
+    run [args...]
+            Restart the debugged python program. If a string is supplied
+            it is split with "shlex", and the result is used as the new
+            sys.argv.  History, breakpoints, actions and debugger options
+            are preserved.  "restart" is an alias for "run".
+    
+    c(ont(inue))
+            Continue execution, only stop when a breakpoint is encountered.
+    
+    l(ist) [first [,last] | .]
+    
+            List source code for the current file.  Without arguments,
+            list 11 lines around the current line or continue the previous
+            listing.  With . as argument, list 11 lines around the current
+            line.  With one argument, list 11 lines starting at that line.
+            With two arguments, list the given range; if the second
+            argument is less than the first, it is a count.
+    
+            The current line in the current frame is indicated by "->".
+            If an exception is being debugged, the line where the
+            exception was originally raised or propagated is indicated by
+            ">>", if it differs from the current line.
+    
+    longlist | ll
+            List the whole source code for the current function or frame.
+    
+    a(rgs)
+            Print the argument list of the current function.
+    
+    p expression
+            Print the value of the expression.
+    
+    pp expression
+            Pretty-print the value of the expression.
+    
+    whatis arg
+            Print the type of the argument.
+    
+    source expression
+            Try to get source code for the given object and display it.
+    
+    display [expression]
+    
+            Display the value of the expression if it changed, each time execution
+            stops in the current frame.
+    
+            Without expression, list all display expressions for the current frame.
+    
+    undisplay [expression]
+    
+            Do not display the expression any more in the current frame.
+    
+            Without expression, clear all display expressions for the current frame.
+    
+    interact
+    
+            Start an interactive interpreter whose global namespace
+            contains all the (global and local) names found in the current scope.
+    
+    alias [name [command [parameter parameter ...] ]]
+            Create an alias called 'name' that executes 'command'.  The
+            command must *not* be enclosed in quotes.  Replaceable
+            parameters can be indicated by %1, %2, and so on, while %* is
+            replaced by all the parameters.  If no command is given, the
+            current alias for name is shown. If no name is given, all
+            aliases are listed.
+    
+            Aliases may be nested and can contain anything that can be
+            legally typed at the pdb prompt.  Note!  You *can* override
+            internal pdb commands with aliases!  Those internal commands
+            are then hidden until the alias is removed.  Aliasing is
+            recursively applied to the first word of the command line; all
+            other words in the line are left alone.
+    
+            As an example, here are two useful aliases (especially when
+            placed in the .pdbrc file):
+    
+            # Print instance variables (usage "pi classInst")
+            alias pi for k in %1.__dict__.keys(): print("%1.",k,"=",%1.__dict__[k])
+            # Print instance variables in self
+            alias ps pi self
+    
+    unalias name
+            Delete the specified alias.
+    
+    debug code
+            Enter a recursive debugger that steps through the code
+            argument (which is an arbitrary expression or statement to be
+            executed in the current environment).
+    
+    q(uit)
+    exit
+            Quit from the debugger. The program being executed is aborted.
+    
+    (!) statement
+            Execute the (one-line) statement in the context of the current
+            stack frame.  The exclamation point can be omitted unless the
+            first word of the statement resembles a debugger command.  To
+            assign to a global variable you must always prefix the command
+            with a 'global' command, e.g.:
+            (Pdb) global list_options; list_options = ['-l']
+            (Pdb)
+
+CLASSES
+    bdb.Bdb(builtins.object)
+        Pdb(bdb.Bdb, cmd.Cmd)
+    cmd.Cmd(builtins.object)
+        Pdb(bdb.Bdb, cmd.Cmd)
+    
+    class Pdb(bdb.Bdb, cmd.Cmd)
+     |  Pdb(completekey='tab', stdin=None, stdout=None, skip=None, nosigint=False, readrc=True)
+     |  
+     |  Generic Python debugger base class.
+     |  
+     |  This class takes care of details of the trace facility;
+     |  a derived class should implement user interaction.
+     |  The standard debugger class (pdb.Pdb) is an example.
+     |  
+     |  The optional skip argument must be an iterable of glob-style
+     |  module name patterns.  The debugger will not step into frames
+     |  that originate in a module that matches one of these patterns.
+     |  Whether a frame is considered to originate in a certain module
+     |  is determined by the __name__ in the frame globals.
+     |  
+     |  Method resolution order:
+     |      Pdb
+     |      bdb.Bdb
+     |      cmd.Cmd
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, completekey='tab', stdin=None, stdout=None, skip=None, nosigint=False, readrc=True)
+     |      Instantiate a line-oriented interpreter framework.
+     |      
+     |      The optional argument 'completekey' is the readline name of a
+     |      completion key; it defaults to the Tab key. If completekey is
+     |      not None and the readline module is available, command completion
+     |      is done automatically. The optional arguments stdin and stdout
+     |      specify alternate input and output file objects; if not specified,
+     |      sys.stdin and sys.stdout are used.
+     |  
+     |  bp_commands(self, frame)
+     |      Call every command that was set for the current active breakpoint
+     |      (if there is one).
+     |      
+     |      Returns True if the normal interaction function must be called,
+     |      False otherwise.
+     |  
+     |  checkline(self, filename, lineno)
+     |      Check whether specified line seems to be executable.
+     |      
+     |      Return `lineno` if it is, 0 if not (e.g. a docstring, comment, blank
+     |      line or EOF). Warning: testing is not comprehensive.
+     |  
+     |  complete_b = _complete_location(self, text, line, begidx, endidx)
+     |  
+     |  complete_break = _complete_location(self, text, line, begidx, endidx)
+     |  
+     |  complete_cl = _complete_location(self, text, line, begidx, endidx)
+     |  
+     |  complete_clear = _complete_location(self, text, line, begidx, endidx)
+     |  
+     |  complete_commands = _complete_bpnumber(self, text, line, begidx, endidx)
+     |  
+     |  complete_condition = _complete_bpnumber(self, text, line, begidx, endidx)
+     |  
+     |  complete_debug = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_disable = _complete_bpnumber(self, text, line, begidx, endidx)
+     |  
+     |  complete_display = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_enable = _complete_bpnumber(self, text, line, begidx, endidx)
+     |  
+     |  complete_ignore = _complete_bpnumber(self, text, line, begidx, endidx)
+     |  
+     |  complete_p = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_pp = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_print = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_source = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  complete_tbreak = _complete_location(self, text, line, begidx, endidx)
+     |  
+     |  complete_unalias(self, text, line, begidx, endidx)
+     |  
+     |  complete_undisplay(self, text, line, begidx, endidx)
+     |  
+     |  complete_whatis = _complete_expression(self, text, line, begidx, endidx)
+     |  
+     |  default(self, line)
+     |      Called on an input line when the command prefix is not recognized.
+     |      
+     |      If this method is not overridden, it prints an error message and
+     |      returns.
+     |  
+     |  defaultFile(self)
+     |      Produce a reasonable default.
+     |  
+     |  displayhook(self, obj)
+     |      Custom displayhook for the exec in default(), which prevents
+     |      assignment of the _ variable in the builtins.
+     |  
+     |  do_EOF(self, arg)
+     |      EOF
+     |      Handles the receipt of EOF as a command.
+     |  
+     |  do_a = do_args(self, arg)
+     |  
+     |  do_alias(self, arg)
+     |      alias [name [command [parameter parameter ...] ]]
+     |      Create an alias called 'name' that executes 'command'.  The
+     |      command must *not* be enclosed in quotes.  Replaceable
+     |      parameters can be indicated by %1, %2, and so on, while %* is
+     |      replaced by all the parameters.  If no command is given, the
+     |      current alias for name is shown. If no name is given, all
+     |      aliases are listed.
+     |      
+     |      Aliases may be nested and can contain anything that can be
+     |      legally typed at the pdb prompt.  Note!  You *can* override
+     |      internal pdb commands with aliases!  Those internal commands
+     |      are then hidden until the alias is removed.  Aliasing is
+     |      recursively applied to the first word of the command line; all
+     |      other words in the line are left alone.
+     |      
+     |      As an example, here are two useful aliases (especially when
+     |      placed in the .pdbrc file):
+     |      
+     |      # Print instance variables (usage "pi classInst")
+     |      alias pi for k in %1.__dict__.keys(): print("%1.",k,"=",%1.__dict__[k])
+     |      # Print instance variables in self
+     |      alias ps pi self
+     |  
+     |  do_args(self, arg)
+     |      a(rgs)
+     |      Print the argument list of the current function.
+     |  
+     |  do_b = do_break(self, arg, temporary=0)
+     |  
+     |  do_break(self, arg, temporary=0)
+     |      b(reak) [ ([filename:]lineno | function) [, condition] ]
+     |      Without argument, list all breaks.
+     |      
+     |      With a line number argument, set a break at this line in the
+     |      current file.  With a function name, set a break at the first
+     |      executable line of that function.  If a second argument is
+     |      present, it is a string specifying an expression which must
+     |      evaluate to true before the breakpoint is honored.
+     |      
+     |      The line number may be prefixed with a filename and a colon,
+     |      to specify a breakpoint in another file (probably one that
+     |      hasn't been loaded yet).  The file is searched for on
+     |      sys.path; the .py suffix may be omitted.
+     |  
+     |  do_bt = do_where(self, arg)
+     |  
+     |  do_c = do_continue(self, arg)
+     |  
+     |  do_cl = do_clear(self, arg)
+     |  
+     |  do_clear(self, arg)
+     |      cl(ear) filename:lineno
+     |      cl(ear) [bpnumber [bpnumber...]]
+     |              With a space separated list of breakpoint numbers, clear
+     |              those breakpoints.  Without argument, clear all breaks (but
+     |              first ask confirmation).  With a filename:lineno argument,
+     |              clear all breaks at that line in that file.
+     |  
+     |  do_commands(self, arg)
+     |      commands [bpnumber]
+     |      (com) ...
+     |      (com) end
+     |      (Pdb)
+     |      
+     |      Specify a list of commands for breakpoint number bpnumber.
+     |      The commands themselves are entered on the following lines.
+     |      Type a line containing just 'end' to terminate the commands.
+     |      The commands are executed when the breakpoint is hit.
+     |      
+     |      To remove all commands from a breakpoint, type commands and
+     |      follow it immediately with end; that is, give no commands.
+     |      
+     |      With no bpnumber argument, commands refers to the last
+     |      breakpoint set.
+     |      
+     |      You can use breakpoint commands to start your program up
+     |      again.  Simply use the continue command, or step, or any other
+     |      command that resumes execution.
+     |      
+     |      Specifying any command resuming execution (currently continue,
+     |      step, next, return, jump, quit and their abbreviations)
+     |      terminates the command list (as if that command was
+     |      immediately followed by end).  This is because any time you
+     |      resume execution (even with a simple next or step), you may
+     |      encounter another breakpoint -- which could have its own
+     |      command list, leading to ambiguities about which list to
+     |      execute.
+     |      
+     |      If you use the 'silent' command in the command list, the usual
+     |      message about stopping at a breakpoint is not printed.  This
+     |      may be desirable for breakpoints that are to print a specific
+     |      message and then continue.  If none of the other commands
+     |      print anything, you will see no sign that the breakpoint was
+     |      reached.
+     |  
+     |  do_condition(self, arg)
+     |      condition bpnumber [condition]
+     |      Set a new condition for the breakpoint, an expression which
+     |      must evaluate to true before the breakpoint is honored.  If
+     |      condition is absent, any existing condition is removed; i.e.,
+     |      the breakpoint is made unconditional.
+     |  
+     |  do_cont = do_continue(self, arg)
+     |  
+     |  do_continue(self, arg)
+     |      c(ont(inue))
+     |      Continue execution, only stop when a breakpoint is encountered.
+     |  
+     |  do_d = do_down(self, arg)
+     |  
+     |  do_debug(self, arg)
+     |      debug code
+     |      Enter a recursive debugger that steps through the code
+     |      argument (which is an arbitrary expression or statement to be
+     |      executed in the current environment).
+     |  
+     |  do_disable(self, arg)
+     |      disable bpnumber [bpnumber ...]
+     |      Disables the breakpoints given as a space separated list of
+     |      breakpoint numbers.  Disabling a breakpoint means it cannot
+     |      cause the program to stop execution, but unlike clearing a
+     |      breakpoint, it remains in the list of breakpoints and can be
+     |      (re-)enabled.
+     |  
+     |  do_display(self, arg)
+     |      display [expression]
+     |      
+     |      Display the value of the expression if it changed, each time execution
+     |      stops in the current frame.
+     |      
+     |      Without expression, list all display expressions for the current frame.
+     |  
+     |  do_down(self, arg)
+     |      d(own) [count]
+     |      Move the current frame count (default one) levels down in the
+     |      stack trace (to a newer frame).
+     |  
+     |  do_enable(self, arg)
+     |      enable bpnumber [bpnumber ...]
+     |      Enables the breakpoints given as a space separated list of
+     |      breakpoint numbers.
+     |  
+     |  do_exit = do_quit(self, arg)
+     |  
+     |  do_h = do_help(self, arg)
+     |  
+     |  do_help(self, arg)
+     |      h(elp)
+     |      Without argument, print the list of available commands.
+     |      With a command name as argument, print help about that command.
+     |      "help pdb" shows the full pdb documentation.
+     |      "help exec" gives help on the ! command.
+     |  
+     |  do_ignore(self, arg)
+     |      ignore bpnumber [count]
+     |      Set the ignore count for the given breakpoint number.  If
+     |      count is omitted, the ignore count is set to 0.  A breakpoint
+     |      becomes active when the ignore count is zero.  When non-zero,
+     |      the count is decremented each time the breakpoint is reached
+     |      and the breakpoint is not disabled and any associated
+     |      condition evaluates to true.
+     |  
+     |  do_interact(self, arg)
+     |      interact
+     |      
+     |      Start an interactive interpreter whose global namespace
+     |      contains all the (global and local) names found in the current scope.
+     |  
+     |  do_j = do_jump(self, arg)
+     |  
+     |  do_jump(self, arg)
+     |      j(ump) lineno
+     |      Set the next line that will be executed.  Only available in
+     |      the bottom-most frame.  This lets you jump back and execute
+     |      code again, or jump forward to skip code that you don't want
+     |      to run.
+     |      
+     |      It should be noted that not all jumps are allowed -- for
+     |      instance it is not possible to jump into the middle of a
+     |      for loop or out of a finally clause.
+     |  
+     |  do_l = do_list(self, arg)
+     |  
+     |  do_list(self, arg)
+     |      l(ist) [first [,last] | .]
+     |      
+     |      List source code for the current file.  Without arguments,
+     |      list 11 lines around the current line or continue the previous
+     |      listing.  With . as argument, list 11 lines around the current
+     |      line.  With one argument, list 11 lines starting at that line.
+     |      With two arguments, list the given range; if the second
+     |      argument is less than the first, it is a count.
+     |      
+     |      The current line in the current frame is indicated by "->".
+     |      If an exception is being debugged, the line where the
+     |      exception was originally raised or propagated is indicated by
+     |      ">>", if it differs from the current line.
+     |  
+     |  do_ll = do_longlist(self, arg)
+     |  
+     |  do_longlist(self, arg)
+     |      longlist | ll
+     |      List the whole source code for the current function or frame.
+     |  
+     |  do_n = do_next(self, arg)
+     |  
+     |  do_next(self, arg)
+     |      n(ext)
+     |      Continue execution until the next line in the current function
+     |      is reached or it returns.
+     |  
+     |  do_p(self, arg)
+     |      p expression
+     |      Print the value of the expression.
+     |  
+     |  do_pp(self, arg)
+     |      pp expression
+     |      Pretty-print the value of the expression.
+     |  
+     |  do_q = do_quit(self, arg)
+     |  
+     |  do_quit(self, arg)
+     |      q(uit)
+     |      exit
+     |              Quit from the debugger. The program being executed is aborted.
+     |  
+     |  do_r = do_return(self, arg)
+     |  
+     |  do_restart = do_run(self, arg)
+     |  
+     |  do_return(self, arg)
+     |      r(eturn)
+     |      Continue execution until the current function returns.
+     |  
+     |  do_retval(self, arg)
+     |      retval
+     |      Print the return value for the last return of a function.
+     |  
+     |  do_run(self, arg)
+     |      run [args...]
+     |      Restart the debugged python program. If a string is supplied
+     |      it is split with "shlex", and the result is used as the new
+     |      sys.argv.  History, breakpoints, actions and debugger options
+     |      are preserved.  "restart" is an alias for "run".
+     |  
+     |  do_rv = do_retval(self, arg)
+     |  
+     |  do_s = do_step(self, arg)
+     |  
+     |  do_source(self, arg)
+     |      source expression
+     |      Try to get source code for the given object and display it.
+     |  
+     |  do_step(self, arg)
+     |      s(tep)
+     |      Execute the current line, stop at the first possible occasion
+     |      (either in a function that is called or in the current
+     |      function).
+     |  
+     |  do_tbreak(self, arg)
+     |      tbreak [ ([filename:]lineno | function) [, condition] ]
+     |      Same arguments as break, but sets a temporary breakpoint: it
+     |      is automatically deleted when first hit.
+     |  
+     |  do_u = do_up(self, arg)
+     |  
+     |  do_unalias(self, arg)
+     |      unalias name
+     |      Delete the specified alias.
+     |  
+     |  do_undisplay(self, arg)
+     |      undisplay [expression]
+     |      
+     |      Do not display the expression any more in the current frame.
+     |      
+     |      Without expression, clear all display expressions for the current frame.
+     |  
+     |  do_unt = do_until(self, arg)
+     |  
+     |  do_until(self, arg)
+     |      unt(il) [lineno]
+     |      Without argument, continue execution until the line with a
+     |      number greater than the current one is reached.  With a line
+     |      number, continue execution until a line with a number greater
+     |      or equal to that is reached.  In both cases, also stop when
+     |      the current frame returns.
+     |  
+     |  do_up(self, arg)
+     |      u(p) [count]
+     |      Move the current frame count (default one) levels up in the
+     |      stack trace (to an older frame).
+     |  
+     |  do_w = do_where(self, arg)
+     |  
+     |  do_whatis(self, arg)
+     |      whatis arg
+     |      Print the type of the argument.
+     |  
+     |  do_where(self, arg)
+     |      w(here)
+     |      Print a stack trace, with the most recent frame at the bottom.
+     |      An arrow indicates the "current frame", which determines the
+     |      context of most commands.  'bt' is an alias for this command.
+     |  
+     |  error(self, msg)
+     |  
+     |  execRcLines(self)
+     |      # Can be executed earlier than 'setup' if desired
+     |  
+     |  forget(self)
+     |  
+     |  handle_command_def(self, line)
+     |      Handles one command line during command list definition.
+     |  
+     |  help_exec(self)
+     |      (!) statement
+     |      Execute the (one-line) statement in the context of the current
+     |      stack frame.  The exclamation point can be omitted unless the
+     |      first word of the statement resembles a debugger command.  To
+     |      assign to a global variable you must always prefix the command
+     |      with a 'global' command, e.g.:
+     |      (Pdb) global list_options; list_options = ['-l']
+     |      (Pdb)
+     |  
+     |  help_pdb(self)
+     |  
+     |  interaction(self, frame, traceback)
+     |  
+     |  lineinfo(self, identifier)
+     |  
+     |  lookupmodule(self, filename)
+     |      Helper function for break/clear parsing -- may be overridden.
+     |      
+     |      lookupmodule() translates (possibly incomplete) file or module name
+     |      into an absolute file name.
+     |  
+     |  message(self, msg)
+     |  
+     |  onecmd(self, line)
+     |      Interpret the argument as though it had been typed in response
+     |      to the prompt.
+     |      
+     |      Checks whether this line is typed at the normal prompt or in
+     |      a breakpoint command list definition.
+     |  
+     |  precmd(self, line)
+     |      Handle alias expansion and ';;' separator.
+     |  
+     |  preloop(self)
+     |      Hook method executed once when the cmdloop() method is called.
+     |  
+     |  print_stack_entry(self, frame_lineno, prompt_prefix='\n-> ')
+     |  
+     |  print_stack_trace(self)
+     |  
+     |  reset(self)
+     |      Set values of attributes as ready to start debugging.
+     |  
+     |  setup(self, f, tb)
+     |  
+     |  sigint_handler(self, signum, frame)
+     |  
+     |  user_call(self, frame, argument_list)
+     |      This method is called when there is the remote possibility
+     |      that we ever need to stop in this function.
+     |  
+     |  user_exception(self, frame, exc_info)
+     |      This function is called if an exception occurs,
+     |      but only if we are to stop at or just below this level.
+     |  
+     |  user_line(self, frame)
+     |      This function is called when we stop or break at this line.
+     |  
+     |  user_return(self, frame, return_value)
+     |      This function is called when a return trap is set here.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  commands_resuming = ['do_continue', 'do_step', 'do_next', 'do_return',...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from bdb.Bdb:
+     |  
+     |  break_anywhere(self, frame)
+     |      Return True if there is any breakpoint for frame's filename.
+     |  
+     |  break_here(self, frame)
+     |      Return True if there is an effective breakpoint for this line.
+     |      
+     |      Check for line or function breakpoint and if in effect.
+     |      Delete temporary breakpoints if effective() says to.
+     |  
+     |  canonic(self, filename)
+     |      Return canonical form of filename.
+     |      
+     |      For real filenames, the canonical form is a case-normalized (on
+     |      case insenstive filesystems) absolute path.  'Filenames' with
+     |      angle brackets, such as "<stdin>", generated in interactive
+     |      mode, are returned unchanged.
+     |  
+     |  clear_all_breaks(self)
+     |      Delete all existing breakpoints.
+     |      
+     |      If none were set, return an error message.
+     |  
+     |  clear_all_file_breaks(self, filename)
+     |      Delete all breakpoints in filename.
+     |      
+     |      If none were set, return an error message.
+     |  
+     |  clear_bpbynumber(self, arg)
+     |      Delete a breakpoint by its index in Breakpoint.bpbynumber.
+     |      
+     |      If arg is invalid, return an error message.
+     |  
+     |  clear_break(self, filename, lineno)
+     |      Delete breakpoints for filename:lineno.
+     |      
+     |      If no breakpoints were set, return an error message.
+     |  
+     |  dispatch_call(self, frame, arg)
+     |      Invoke user function and return trace function for call event.
+     |      
+     |      If the debugger stops on this function call, invoke
+     |      self.user_call(). Raise BbdQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_exception(self, frame, arg)
+     |      Invoke user function and return trace function for exception event.
+     |      
+     |      If the debugger stops on this exception, invoke
+     |      self.user_exception(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_line(self, frame)
+     |      Invoke user function and return trace function for line event.
+     |      
+     |      If the debugger stops on the current line, invoke
+     |      self.user_line(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_return(self, frame, arg)
+     |      Invoke user function and return trace function for return event.
+     |      
+     |      If the debugger stops on this function return, invoke
+     |      self.user_return(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  format_stack_entry(self, frame_lineno, lprefix=': ')
+     |      Return a string with information about a stack entry.
+     |      
+     |      The stack entry frame_lineno is a (frame, lineno) tuple.  The
+     |      return string contains the canonical filename, the function name
+     |      or '<lambda>', the input arguments, the return value, and the
+     |      line of code (if it exists).
+     |  
+     |  get_all_breaks(self)
+     |      Return all breakpoints that are set.
+     |  
+     |  get_bpbynumber(self, arg)
+     |      Return a breakpoint by its index in Breakpoint.bybpnumber.
+     |      
+     |      For invalid arg values or if the breakpoint doesn't exist,
+     |      raise a ValueError.
+     |  
+     |  get_break(self, filename, lineno)
+     |      Return True if there is a breakpoint for filename:lineno.
+     |  
+     |  get_breaks(self, filename, lineno)
+     |      Return all breakpoints for filename:lineno.
+     |      
+     |      If no breakpoints are set, return an empty list.
+     |  
+     |  get_file_breaks(self, filename)
+     |      Return all lines with breakpoints for filename.
+     |      
+     |      If no breakpoints are set, return an empty list.
+     |  
+     |  get_stack(self, f, t)
+     |      Return a list of (frame, lineno) in a stack trace and a size.
+     |      
+     |      List starts with original calling frame, if there is one.
+     |      Size may be number of frames above or below f.
+     |  
+     |  is_skipped_module(self, module_name)
+     |      Return True if module_name matches any skip pattern.
+     |  
+     |  run(self, cmd, globals=None, locals=None)
+     |      Debug a statement executed via the exec() function.
+     |      
+     |      globals defaults to __main__.dict; locals defaults to globals.
+     |  
+     |  runcall(*args, **kwds)
+     |      Debug a single function call.
+     |      
+     |      Return the result of the function call.
+     |  
+     |  runctx(self, cmd, globals, locals)
+     |      For backwards-compatibility.  Defers to run().
+     |  
+     |  runeval(self, expr, globals=None, locals=None)
+     |      Debug an expression executed via the eval() function.
+     |      
+     |      globals defaults to __main__.dict; locals defaults to globals.
+     |  
+     |  set_break(self, filename, lineno, temporary=False, cond=None, funcname=None)
+     |      Set a new breakpoint for filename:lineno.
+     |      
+     |      If lineno doesn't exist for the filename, return an error message.
+     |      The filename should be in canonical form.
+     |  
+     |  set_continue(self)
+     |      Stop only at breakpoints or when finished.
+     |      
+     |      If there are no breakpoints, set the system trace function to None.
+     |  
+     |  set_next(self, frame)
+     |      Stop on the next line in or below the given frame.
+     |  
+     |  set_quit(self)
+     |      Set quitting attribute to True.
+     |      
+     |      Raises BdbQuit exception in the next call to a dispatch_*() method.
+     |  
+     |  set_return(self, frame)
+     |      Stop when returning from the given frame.
+     |  
+     |  set_step(self)
+     |      Stop after one line of code.
+     |  
+     |  set_trace(self, frame=None)
+     |      Start debugging from frame.
+     |      
+     |      If frame is not specified, debugging starts from caller's frame.
+     |  
+     |  set_until(self, frame, lineno=None)
+     |      Stop when the line with the lineno greater than the current one is
+     |      reached or when returning from current frame.
+     |  
+     |  stop_here(self, frame)
+     |      Return True if frame is below the starting frame in the stack.
+     |  
+     |  trace_dispatch(self, frame, event, arg)
+     |      Dispatch a trace function for debugged frames based on the event.
+     |      
+     |      This function is installed as the trace function for debugged
+     |      frames. Its return value is the new trace function, which is
+     |      usually itself. The default implementation decides how to
+     |      dispatch a frame, depending on the type of event (passed in as a
+     |      string) that is about to be executed.
+     |      
+     |      The event can be one of the following:
+     |          line: A new line of code is going to be executed.
+     |          call: A function is about to be called or another code block
+     |                is entered.
+     |          return: A function or other code block is about to return.
+     |          exception: An exception has occurred.
+     |          c_call: A C function is about to be called.
+     |          c_return: A C function has returned.
+     |          c_exception: A C function has raised an exception.
+     |      
+     |      For the Python events, specialized functions (see the dispatch_*()
+     |      methods) are called.  For the C events, no action is taken.
+     |      
+     |      The arg parameter depends on the previous event.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from bdb.Bdb:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from cmd.Cmd:
+     |  
+     |  cmdloop(self, intro=None)
+     |      Repeatedly issue a prompt, accept input, parse an initial prefix
+     |      off the received input, and dispatch to action methods, passing them
+     |      the remainder of the line as argument.
+     |  
+     |  columnize(self, list, displaywidth=80)
+     |      Display a list of strings as a compact set of columns.
+     |      
+     |      Each column is only as wide as necessary.
+     |      Columns are separated by two spaces (one was not legible enough).
+     |  
+     |  complete(self, text, state)
+     |      Return the next possible completion for 'text'.
+     |      
+     |      If a command has not been entered, then complete against command list.
+     |      Otherwise try to call complete_<command> to get list of completions.
+     |  
+     |  complete_help(self, *args)
+     |  
+     |  completedefault(self, *ignored)
+     |      Method called to complete an input line when no command-specific
+     |      complete_*() method is available.
+     |      
+     |      By default, it returns an empty list.
+     |  
+     |  completenames(self, text, *ignored)
+     |  
+     |  emptyline(self)
+     |      Called when an empty line is entered in response to the prompt.
+     |      
+     |      If this method is not overridden, it repeats the last nonempty
+     |      command entered.
+     |  
+     |  get_names(self)
+     |  
+     |  parseline(self, line)
+     |      Parse the line into a command name and a string containing
+     |      the arguments.  Returns a tuple containing (command, args, line).
+     |      'command' and 'args' may be None if the line couldn't be parsed.
+     |  
+     |  postcmd(self, stop, line)
+     |      Hook method executed just after a command dispatch is finished.
+     |  
+     |  postloop(self)
+     |      Hook method executed once when the cmdloop() method is about to
+     |      return.
+     |  
+     |  print_topics(self, header, cmds, cmdlen, maxcol)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmd.Cmd:
+     |  
+     |  doc_header = 'Documented commands (type help <topic>):'
+     |  
+     |  doc_leader = ''
+     |  
+     |  identchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123...
+     |  
+     |  intro = None
+     |  
+     |  lastcmd = ''
+     |  
+     |  misc_header = 'Miscellaneous help topics:'
+     |  
+     |  nohelp = '*** No help on %s'
+     |  
+     |  prompt = '(Cmd) '
+     |  
+     |  ruler = '='
+     |  
+     |  undoc_header = 'Undocumented commands:'
+     |  
+     |  use_rawinput = 1
+
+FUNCTIONS
+    help()
+        # print help
+    
+    pm()
+    
+    post_mortem(t=None)
+    
+    run(statement, globals=None, locals=None)
+    
+    runcall(*args, **kwds)
+    
+    runctx(statement, globals, locals)
+    
+    runeval(expression, globals=None, locals=None)
+    
+    set_trace(*, header=None)
+
+DATA
+    __all__ = ['run', 'pm', 'Pdb', 'runeval', 'runctx', 'runcall', 'set_tr...
+
+FILE
+    c:\program files\python37\lib\pdb.py
+
+

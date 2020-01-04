@@ -1,0 +1,96 @@
+Help on package astroid:
+
+NAME
+    astroid - Python Abstract Syntax Tree New Generation
+
+DESCRIPTION
+    The aim of this module is to provide a common base representation of
+    python source code for projects such as pychecker, pyreverse,
+    pylint... Well, actually the development of this library is essentially
+    governed by pylint's needs.
+    
+    It extends class defined in the python's _ast module with some
+    additional methods and attributes. Instance attributes are added by a
+    builder object, which can either generate extended ast (let's call
+    them astroid ;) by visiting an existent ast tree or by inspecting living
+    object. Methods are added by monkey patching ast classes.
+    
+    Main modules are:
+    
+    * nodes and scoped_nodes for more information about methods and
+      attributes added to different node classes
+    
+    * the manager contains a high level object to get astroid trees from
+      source files and living objects. It maintains a cache of previously
+      constructed tree for quick access
+    
+    * builder contains the class responsible to build astroid trees
+
+PACKAGE CONTENTS
+    __pkginfo__
+    _ast
+    arguments
+    as_string
+    bases
+    builder
+    context
+    decorators
+    exceptions
+    helpers
+    inference
+    interpreter (package)
+    manager
+    mixins
+    modutils
+    node_classes
+    nodes
+    objects
+    protocols
+    raw_building
+    rebuilder
+    scoped_nodes
+    test_utils
+    transforms
+    util
+
+FUNCTIONS
+    inference_tip(infer_function, raise_on_overwrite=False)
+        Given an instance specific inference function, return a function to be
+        given to MANAGER.register_transform to set this inference function.
+        
+        :param bool raise_on_overwrite: Raise an `InferenceOverwriteError`
+            if the inference tip will overwrite another. Used for debugging
+        
+        Typical usage
+        
+        .. sourcecode:: python
+        
+           MANAGER.register_transform(Call, inference_tip(infer_named_tuple),
+                                      predicate)
+        
+        .. Note::
+        
+            Using an inference tip will override
+            any previously set inference tip for the given
+            node. Use a predicate in the transform to prevent
+            excess overwrites.
+    
+    register_module_extender(manager, module_name, get_extension_mod)
+
+DATA
+    ALL_NODE_CLASSES = (<class 'astroid.scoped_nodes.AsyncFunctionDef'>, <...
+    BRAIN_MODULES_DIR = r'C:\Users\liteng\AppData\Roaming\Python\Python37\...
+    Del = <Context.Del: 3>
+    Load = <Context.Load: 1>
+    MANAGER = <astroid.manager.AstroidManager object>
+    Store = <Context.Store: 2>
+    Uninferable = Uninferable
+    module = '__pycache__'
+
+VERSION
+    2.3.3
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\__init__.py
+
+

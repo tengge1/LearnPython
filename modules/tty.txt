@@ -1,0 +1,2 @@
+problem in tty - ModuleNotFoundError: No module named 'termios'
+

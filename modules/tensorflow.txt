@@ -1,0 +1,47 @@
+Help on package tensorflow:
+
+NAME
+    tensorflow - TensorFlow root package
+
+PACKAGE CONTENTS
+
+
+DATA
+    __compiler_version__ = 'MSVC 191627032'
+    __cxx11_abi_flag__ = 0
+    __git_version__ = 'v2.0.0-rc2-26-g64c3d382ca'
+    __monolithic_build__ = 1
+    bfloat16 = tf.bfloat16
+    bool = tf.bool
+    complex128 = tf.complex128
+    complex64 = tf.complex64
+    double = tf.float64
+    float16 = tf.float16
+    float32 = tf.float32
+    float64 = tf.float64
+    half = tf.float16
+    int16 = tf.int16
+    int32 = tf.int32
+    int64 = tf.int64
+    int8 = tf.int8
+    newaxis = None
+    qint16 = tf.qint16
+    qint32 = tf.qint32
+    qint8 = tf.qint8
+    quint16 = tf.quint16
+    quint8 = tf.quint8
+    resource = tf.resource
+    string = tf.string
+    uint16 = tf.uint16
+    uint32 = tf.uint32
+    uint64 = tf.uint64
+    uint8 = tf.uint8
+    variant = tf.variant
+
+VERSION
+    2.0.0
+
+FILE
+    c:\program files\python37\lib\site-packages\tensorflow\__init__.py
+
+

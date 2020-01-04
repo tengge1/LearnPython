@@ -1,0 +1,184 @@
+Help on module imp:
+
+NAME
+    imp
+
+MODULE REFERENCE
+    https://docs.python.org/3.7/library/imp
+    
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    This module provides the components needed to build your own __import__
+    function.  Undocumented functions are obsolete.
+    
+    In most cases it is preferred you consider using the importlib module's
+    functionality over this module.
+
+CLASSES
+    builtins.object
+        NullImporter
+    
+    class NullImporter(builtins.object)
+     |  NullImporter(path)
+     |  
+     |  **DEPRECATED**
+     |  
+     |  Null import object.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, path)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  find_module(self, fullname)
+     |      Always returns None.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    acquire_lock()
+        Acquires the interpreter's import lock for the current thread.
+        
+        This lock should be used by import hooks to ensure thread-safety when importing
+        modules. On platforms without threads, this function does nothing.
+    
+    cache_from_source(path, debug_override=None)
+        **DEPRECATED**
+        
+        Given the path to a .py file, return the path to its .pyc file.
+        
+        The .py file does not need to exist; this simply returns the path to the
+        .pyc file calculated as if the .py file were imported.
+        
+        If debug_override is not None, then it must be a boolean and is used in
+        place of sys.flags.optimize.
+        
+        If sys.implementation.cache_tag is None then NotImplementedError is raised.
+    
+    create_dynamic(spec, file=None, /)
+        Create an extension module.
+    
+    find_module(name, path=None)
+        **DEPRECATED**
+        
+        Search for a module.
+        
+        If path is omitted or None, search for a built-in, frozen or special
+        module and continue search in sys.path. The module name cannot
+        contain '.'; to search for a submodule of a package, pass the
+        submodule name and the package's __path__.
+    
+    get_frozen_object(name, /)
+        Create a code object for a frozen module.
+    
+    get_magic()
+        **DEPRECATED**
+        
+        Return the magic number for .pyc files.
+    
+    get_suffixes()
+        **DEPRECATED**
+    
+    get_tag()
+        Return the magic tag for .pyc files.
+    
+    init_builtin(name)
+        **DEPRECATED**
+        
+        Load and return a built-in module by name, or None is such module doesn't
+        exist
+    
+    init_frozen(name, /)
+        Initializes a frozen module.
+    
+    is_builtin(name, /)
+        Returns True if the module name corresponds to a built-in module.
+    
+    is_frozen(name, /)
+        Returns True if the module name corresponds to a frozen module.
+    
+    is_frozen_package(name, /)
+        Returns True if the module name is of a frozen package.
+    
+    load_compiled(name, pathname, file=None)
+        **DEPRECATED**
+    
+    load_dynamic(name, path, file=None)
+        **DEPRECATED**
+        
+        Load an extension module.
+    
+    load_module(name, file, filename, details)
+        **DEPRECATED**
+        
+        Load a module, given information returned by find_module().
+        
+        The module name must include the full package name, if any.
+    
+    load_package(name, path)
+        **DEPRECATED**
+    
+    load_source(name, pathname, file=None)
+    
+    lock_held()
+        Return True if the import lock is currently held, else False.
+        
+        On platforms without threads, return False.
+    
+    new_module(name)
+        **DEPRECATED**
+        
+        Create a new module.
+        
+        The module is not entered into sys.modules.
+    
+    release_lock()
+        Release the interpreter's import lock.
+        
+        On platforms without threads, this function does nothing.
+    
+    reload(module)
+        **DEPRECATED**
+        
+        Reload the module and return it.
+        
+        The module must have been successfully imported before.
+    
+    source_from_cache(path)
+        **DEPRECATED**
+        
+        Given the path to a .pyc. file, return the path to its .py file.
+        
+        The .pyc file does not need to exist; this simply returns the path to
+        the .py file calculated to correspond to the .pyc file.  If path does
+        not conform to PEP 3147 format, ValueError will be raised. If
+        sys.implementation.cache_tag is None then NotImplementedError is raised.
+
+DATA
+    C_BUILTIN = 6
+    C_EXTENSION = 3
+    IMP_HOOK = 9
+    PKG_DIRECTORY = 5
+    PY_CODERESOURCE = 8
+    PY_COMPILED = 2
+    PY_FROZEN = 7
+    PY_RESOURCE = 4
+    PY_SOURCE = 1
+    SEARCH_ERROR = 0
+
+FILE
+    c:\program files\python37\lib\imp.py
+
+

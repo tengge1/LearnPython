@@ -1,0 +1,1135 @@
+Help on module imaplib:
+
+NAME
+    imaplib - IMAP4 client.
+
+DESCRIPTION
+    Based on RFC 2060.
+    
+    Public class:           IMAP4
+    Public variable:        Debug
+    Public functions:       Internaldate2tuple
+                            Int2AP
+                            ParseFlags
+                            Time2Internaldate
+
+CLASSES
+    builtins.object
+        IMAP4
+            IMAP4_SSL
+            IMAP4_stream
+    
+    class IMAP4(builtins.object)
+     |  IMAP4(host='', port=143)
+     |  
+     |  IMAP4 client class.
+     |  
+     |  Instantiate with: IMAP4([host[, port]])
+     |  
+     |          host - host's name (default: localhost);
+     |          port - port number (default: standard IMAP4 port).
+     |  
+     |  All IMAP4rev1 commands are supported by methods of the same
+     |  name (in lower-case).
+     |  
+     |  All arguments to commands are converted to strings, except for
+     |  AUTHENTICATE, and the last argument to APPEND which is passed as
+     |  an IMAP4 literal.  If necessary (the string contains any
+     |  non-printing characters or white-space and isn't enclosed with
+     |  either parentheses or double quotes) each string is quoted.
+     |  However, the 'password' argument to the LOGIN command is always
+     |  quoted.  If you want to avoid having an argument string quoted
+     |  (eg: the 'flags' argument to STORE) then enclose the string in
+     |  parentheses (eg: "(\Deleted)").
+     |  
+     |  Each command returns a tuple: (type, [data, ...]) where 'type'
+     |  is usually 'OK' or 'NO', and 'data' is either the text from the
+     |  tagged response, or untagged results from command. Each 'data'
+     |  is either a string, or a tuple. If a tuple, then the first part
+     |  is the header of the response, and the second part contains
+     |  the data (ie: 'literal' value).
+     |  
+     |  Errors raise the exception class <instance>.error("<reason>").
+     |  IMAP4 server errors raise <instance>.abort("<reason>"),
+     |  which is a sub-class of 'error'. Mailbox status changes
+     |  from READ-WRITE to READ-ONLY raise the exception class
+     |  <instance>.readonly("<reason>"), which is a sub-class of 'abort'.
+     |  
+     |  "error" exceptions imply a program error.
+     |  "abort" exceptions imply the connection should be reset, and
+     |          the command re-tried.
+     |  "readonly" exceptions imply the command should be re-tried.
+     |  
+     |  Note: to use this module, you must read the RFCs pertaining to the
+     |  IMAP4 protocol, as the semantics of the arguments to each IMAP4
+     |  command are left to the invoker, not to mention the results. Also,
+     |  most IMAP servers implement a sub-set of the commands available here.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __getattr__(self, attr)
+     |  
+     |  __init__(self, host='', port=143)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  append(self, mailbox, flags, date_time, message)
+     |      Append message to named mailbox.
+     |      
+     |      (typ, [data]) = <instance>.append(mailbox, flags, date_time, message)
+     |      
+     |              All args except `message' can be None.
+     |  
+     |  authenticate(self, mechanism, authobject)
+     |      Authenticate command - requires response processing.
+     |      
+     |      'mechanism' specifies which authentication mechanism is to
+     |      be used - it must appear in <instance>.capabilities in the
+     |      form AUTH=<mechanism>.
+     |      
+     |      'authobject' must be a callable object:
+     |      
+     |              data = authobject(response)
+     |      
+     |      It will be called to process server continuation responses; the
+     |      response argument it is passed will be a bytes.  It should return bytes
+     |      data that will be base64 encoded and sent to the server.  It should
+     |      return None if the client abort response '*' should be sent instead.
+     |  
+     |  capability(self)
+     |      (typ, [data]) = <instance>.capability()
+     |      Fetch capabilities list from server.
+     |  
+     |  check(self)
+     |      Checkpoint mailbox on server.
+     |      
+     |      (typ, [data]) = <instance>.check()
+     |  
+     |  close(self)
+     |      Close currently selected mailbox.
+     |      
+     |      Deleted messages are removed from writable mailbox.
+     |      This is the recommended command before 'LOGOUT'.
+     |      
+     |      (typ, [data]) = <instance>.close()
+     |  
+     |  copy(self, message_set, new_mailbox)
+     |      Copy 'message_set' messages onto end of 'new_mailbox'.
+     |      
+     |      (typ, [data]) = <instance>.copy(message_set, new_mailbox)
+     |  
+     |  create(self, mailbox)
+     |      Create new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.create(mailbox)
+     |  
+     |  delete(self, mailbox)
+     |      Delete old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.delete(mailbox)
+     |  
+     |  deleteacl(self, mailbox, who)
+     |      Delete the ACLs (remove any rights) set for who on mailbox.
+     |      
+     |      (typ, [data]) = <instance>.deleteacl(mailbox, who)
+     |  
+     |  enable(self, capability)
+     |      Send an RFC5161 enable string to the server.
+     |      
+     |      (typ, [data]) = <intance>.enable(capability)
+     |  
+     |  expunge(self)
+     |      Permanently remove deleted items from selected mailbox.
+     |      
+     |      Generates 'EXPUNGE' response for each deleted message.
+     |      
+     |      (typ, [data]) = <instance>.expunge()
+     |      
+     |      'data' is list of 'EXPUNGE'd message numbers in order received.
+     |  
+     |  fetch(self, message_set, message_parts)
+     |      Fetch (parts of) messages.
+     |      
+     |      (typ, [data, ...]) = <instance>.fetch(message_set, message_parts)
+     |      
+     |      'message_parts' should be a string of selected parts
+     |      enclosed in parentheses, eg: "(UID BODY[TEXT])".
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  getacl(self, mailbox)
+     |      Get the ACLs for a mailbox.
+     |      
+     |      (typ, [data]) = <instance>.getacl(mailbox)
+     |  
+     |  getannotation(self, mailbox, entry, attribute)
+     |      (typ, [data]) = <instance>.getannotation(mailbox, entry, attribute)
+     |      Retrieve ANNOTATIONs.
+     |  
+     |  getquota(self, root)
+     |      Get the quota root's resource usage and limits.
+     |      
+     |      Part of the IMAP4 QUOTA extension defined in rfc2087.
+     |      
+     |      (typ, [data]) = <instance>.getquota(root)
+     |  
+     |  getquotaroot(self, mailbox)
+     |      Get the list of quota roots for the named mailbox.
+     |      
+     |      (typ, [[QUOTAROOT responses...], [QUOTA responses]]) = <instance>.getquotaroot(mailbox)
+     |  
+     |  list(self, directory='""', pattern='*')
+     |      List mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data]) = <instance>.list(directory='""', pattern='*')
+     |      
+     |      'data' is list of LIST responses.
+     |  
+     |  login(self, user, password)
+     |      Identify client using plaintext password.
+     |      
+     |      (typ, [data]) = <instance>.login(user, password)
+     |      
+     |      NB: 'password' will be quoted.
+     |  
+     |  login_cram_md5(self, user, password)
+     |      Force use of CRAM-MD5 authentication.
+     |      
+     |      (typ, [data]) = <instance>.login_cram_md5(user, password)
+     |  
+     |  logout(self)
+     |      Shutdown connection to server.
+     |      
+     |      (typ, [data]) = <instance>.logout()
+     |      
+     |      Returns server 'BYE' response.
+     |  
+     |  lsub(self, directory='""', pattern='*')
+     |      List 'subscribed' mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data, ...]) = <instance>.lsub(directory='""', pattern='*')
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  myrights(self, mailbox)
+     |      Show my ACLs for a mailbox (i.e. the rights that I have on mailbox).
+     |      
+     |      (typ, [data]) = <instance>.myrights(mailbox)
+     |  
+     |  namespace(self)
+     |      Returns IMAP namespaces ala rfc2342
+     |      
+     |      (typ, [data, ...]) = <instance>.namespace()
+     |  
+     |  noop(self)
+     |      Send NOOP command.
+     |      
+     |      (typ, [data]) = <instance>.noop()
+     |  
+     |  open(self, host='', port=143)
+     |      Setup connection to remote server on "host:port"
+     |          (default: localhost:standard IMAP4 port).
+     |      This connection will be used by the routines:
+     |          read, readline, send, shutdown.
+     |  
+     |  partial(self, message_num, message_part, start, length)
+     |      Fetch truncated part of a message.
+     |      
+     |      (typ, [data, ...]) = <instance>.partial(message_num, message_part, start, length)
+     |      
+     |      'data' is tuple of message part envelope and data.
+     |  
+     |  print_log(self)
+     |  
+     |  proxyauth(self, user)
+     |      Assume authentication as "user".
+     |      
+     |      Allows an authorised administrator to proxy into any user's
+     |      mailbox.
+     |      
+     |      (typ, [data]) = <instance>.proxyauth(user)
+     |  
+     |  read(self, size)
+     |      Read 'size' bytes from remote.
+     |  
+     |  readline(self)
+     |      Read line from remote.
+     |  
+     |  recent(self)
+     |      Return most recent 'RECENT' responses if any exist,
+     |      else prompt server for an update using the 'NOOP' command.
+     |      
+     |      (typ, [data]) = <instance>.recent()
+     |      
+     |      'data' is None if no new messages,
+     |      else list of RECENT responses, most recent last.
+     |  
+     |  rename(self, oldmailbox, newmailbox)
+     |      Rename old mailbox name to new.
+     |      
+     |      (typ, [data]) = <instance>.rename(oldmailbox, newmailbox)
+     |  
+     |  response(self, code)
+     |      Return data for response 'code' if received, or None.
+     |      
+     |      Old value for response 'code' is cleared.
+     |      
+     |      (code, [data]) = <instance>.response(code)
+     |  
+     |  search(self, charset, *criteria)
+     |      Search mailbox for matching messages.
+     |      
+     |      (typ, [data]) = <instance>.search(charset, criterion, ...)
+     |      
+     |      'data' is space separated list of matching message numbers.
+     |      If UTF8 is enabled, charset MUST be None.
+     |  
+     |  select(self, mailbox='INBOX', readonly=False)
+     |      Select a mailbox.
+     |      
+     |      Flush all untagged responses.
+     |      
+     |      (typ, [data]) = <instance>.select(mailbox='INBOX', readonly=False)
+     |      
+     |      'data' is count of messages in mailbox ('EXISTS' response).
+     |      
+     |      Mandated responses are ('FLAGS', 'EXISTS', 'RECENT', 'UIDVALIDITY'), so
+     |      other responses should be obtained via <instance>.response('FLAGS') etc.
+     |  
+     |  send(self, data)
+     |      Send data to remote.
+     |  
+     |  setacl(self, mailbox, who, what)
+     |      Set a mailbox acl.
+     |      
+     |      (typ, [data]) = <instance>.setacl(mailbox, who, what)
+     |  
+     |  setannotation(self, *args)
+     |      (typ, [data]) = <instance>.setannotation(mailbox[, entry, attribute]+)
+     |      Set ANNOTATIONs.
+     |  
+     |  setquota(self, root, limits)
+     |      Set the quota root's resource limits.
+     |      
+     |      (typ, [data]) = <instance>.setquota(root, limits)
+     |  
+     |  shutdown(self)
+     |      Close I/O established in "open".
+     |  
+     |  socket(self)
+     |      Return socket instance used to connect to IMAP4 server.
+     |      
+     |      socket = <instance>.socket()
+     |  
+     |  sort(self, sort_criteria, charset, *search_criteria)
+     |      IMAP4rev1 extension SORT command.
+     |      
+     |      (typ, [data]) = <instance>.sort(sort_criteria, charset, search_criteria, ...)
+     |  
+     |  starttls(self, ssl_context=None)
+     |  
+     |  status(self, mailbox, names)
+     |      Request named status conditions for mailbox.
+     |      
+     |      (typ, [data]) = <instance>.status(mailbox, names)
+     |  
+     |  store(self, message_set, command, flags)
+     |      Alters flag dispositions for messages in mailbox.
+     |      
+     |      (typ, [data]) = <instance>.store(message_set, command, flags)
+     |  
+     |  subscribe(self, mailbox)
+     |      Subscribe to new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.subscribe(mailbox)
+     |  
+     |  thread(self, threading_algorithm, charset, *search_criteria)
+     |      IMAPrev1 extension THREAD command.
+     |      
+     |      (type, [data]) = <instance>.thread(threading_algorithm, charset, search_criteria, ...)
+     |  
+     |  uid(self, command, *args)
+     |      Execute "command arg ..." with messages identified by UID,
+     |              rather than message number.
+     |      
+     |      (typ, [data]) = <instance>.uid(command, arg1, arg2, ...)
+     |      
+     |      Returns response appropriate to 'command'.
+     |  
+     |  unsubscribe(self, mailbox)
+     |      Unsubscribe from old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.unsubscribe(mailbox)
+     |  
+     |  xatom(self, name, *args)
+     |      Allow simple extension commands
+     |              notified by server in CAPABILITY response.
+     |      
+     |      Assumes command is legal in current state.
+     |      
+     |      (typ, [data]) = <instance>.xatom(name, arg, ...)
+     |      
+     |      Returns response appropriate to extension command `name'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  abort = <class 'imaplib.IMAP4.abort'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  error = <class 'imaplib.IMAP4.error'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  readonly = <class 'imaplib.IMAP4.readonly'>
+     |      Common base class for all non-exit exceptions.
+    
+    class IMAP4_SSL(IMAP4)
+     |  IMAP4_SSL(host='', port=993, keyfile=None, certfile=None, ssl_context=None)
+     |  
+     |  IMAP4 client class over SSL connection
+     |  
+     |  Instantiate with: IMAP4_SSL([host[, port[, keyfile[, certfile[, ssl_context]]]]])
+     |  
+     |          host - host's name (default: localhost);
+     |          port - port number (default: standard IMAP4 SSL port);
+     |          keyfile - PEM formatted file that contains your private key (default: None);
+     |          certfile - PEM formatted certificate chain file (default: None);
+     |          ssl_context - a SSLContext object that contains your certificate chain
+     |                        and private key (default: None)
+     |          Note: if ssl_context is provided, then parameters keyfile or
+     |          certfile should not be set otherwise ValueError is raised.
+     |  
+     |  for more documentation see the docstring of the parent class IMAP4.
+     |  
+     |  Method resolution order:
+     |      IMAP4_SSL
+     |      IMAP4
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host='', port=993, keyfile=None, certfile=None, ssl_context=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  open(self, host='', port=993)
+     |      Setup connection to remote server on "host:port".
+     |          (default: localhost:standard IMAP4 SSL port).
+     |      This connection will be used by the routines:
+     |          read, readline, send, shutdown.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IMAP4:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __getattr__(self, attr)
+     |  
+     |  append(self, mailbox, flags, date_time, message)
+     |      Append message to named mailbox.
+     |      
+     |      (typ, [data]) = <instance>.append(mailbox, flags, date_time, message)
+     |      
+     |              All args except `message' can be None.
+     |  
+     |  authenticate(self, mechanism, authobject)
+     |      Authenticate command - requires response processing.
+     |      
+     |      'mechanism' specifies which authentication mechanism is to
+     |      be used - it must appear in <instance>.capabilities in the
+     |      form AUTH=<mechanism>.
+     |      
+     |      'authobject' must be a callable object:
+     |      
+     |              data = authobject(response)
+     |      
+     |      It will be called to process server continuation responses; the
+     |      response argument it is passed will be a bytes.  It should return bytes
+     |      data that will be base64 encoded and sent to the server.  It should
+     |      return None if the client abort response '*' should be sent instead.
+     |  
+     |  capability(self)
+     |      (typ, [data]) = <instance>.capability()
+     |      Fetch capabilities list from server.
+     |  
+     |  check(self)
+     |      Checkpoint mailbox on server.
+     |      
+     |      (typ, [data]) = <instance>.check()
+     |  
+     |  close(self)
+     |      Close currently selected mailbox.
+     |      
+     |      Deleted messages are removed from writable mailbox.
+     |      This is the recommended command before 'LOGOUT'.
+     |      
+     |      (typ, [data]) = <instance>.close()
+     |  
+     |  copy(self, message_set, new_mailbox)
+     |      Copy 'message_set' messages onto end of 'new_mailbox'.
+     |      
+     |      (typ, [data]) = <instance>.copy(message_set, new_mailbox)
+     |  
+     |  create(self, mailbox)
+     |      Create new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.create(mailbox)
+     |  
+     |  delete(self, mailbox)
+     |      Delete old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.delete(mailbox)
+     |  
+     |  deleteacl(self, mailbox, who)
+     |      Delete the ACLs (remove any rights) set for who on mailbox.
+     |      
+     |      (typ, [data]) = <instance>.deleteacl(mailbox, who)
+     |  
+     |  enable(self, capability)
+     |      Send an RFC5161 enable string to the server.
+     |      
+     |      (typ, [data]) = <intance>.enable(capability)
+     |  
+     |  expunge(self)
+     |      Permanently remove deleted items from selected mailbox.
+     |      
+     |      Generates 'EXPUNGE' response for each deleted message.
+     |      
+     |      (typ, [data]) = <instance>.expunge()
+     |      
+     |      'data' is list of 'EXPUNGE'd message numbers in order received.
+     |  
+     |  fetch(self, message_set, message_parts)
+     |      Fetch (parts of) messages.
+     |      
+     |      (typ, [data, ...]) = <instance>.fetch(message_set, message_parts)
+     |      
+     |      'message_parts' should be a string of selected parts
+     |      enclosed in parentheses, eg: "(UID BODY[TEXT])".
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  getacl(self, mailbox)
+     |      Get the ACLs for a mailbox.
+     |      
+     |      (typ, [data]) = <instance>.getacl(mailbox)
+     |  
+     |  getannotation(self, mailbox, entry, attribute)
+     |      (typ, [data]) = <instance>.getannotation(mailbox, entry, attribute)
+     |      Retrieve ANNOTATIONs.
+     |  
+     |  getquota(self, root)
+     |      Get the quota root's resource usage and limits.
+     |      
+     |      Part of the IMAP4 QUOTA extension defined in rfc2087.
+     |      
+     |      (typ, [data]) = <instance>.getquota(root)
+     |  
+     |  getquotaroot(self, mailbox)
+     |      Get the list of quota roots for the named mailbox.
+     |      
+     |      (typ, [[QUOTAROOT responses...], [QUOTA responses]]) = <instance>.getquotaroot(mailbox)
+     |  
+     |  list(self, directory='""', pattern='*')
+     |      List mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data]) = <instance>.list(directory='""', pattern='*')
+     |      
+     |      'data' is list of LIST responses.
+     |  
+     |  login(self, user, password)
+     |      Identify client using plaintext password.
+     |      
+     |      (typ, [data]) = <instance>.login(user, password)
+     |      
+     |      NB: 'password' will be quoted.
+     |  
+     |  login_cram_md5(self, user, password)
+     |      Force use of CRAM-MD5 authentication.
+     |      
+     |      (typ, [data]) = <instance>.login_cram_md5(user, password)
+     |  
+     |  logout(self)
+     |      Shutdown connection to server.
+     |      
+     |      (typ, [data]) = <instance>.logout()
+     |      
+     |      Returns server 'BYE' response.
+     |  
+     |  lsub(self, directory='""', pattern='*')
+     |      List 'subscribed' mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data, ...]) = <instance>.lsub(directory='""', pattern='*')
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  myrights(self, mailbox)
+     |      Show my ACLs for a mailbox (i.e. the rights that I have on mailbox).
+     |      
+     |      (typ, [data]) = <instance>.myrights(mailbox)
+     |  
+     |  namespace(self)
+     |      Returns IMAP namespaces ala rfc2342
+     |      
+     |      (typ, [data, ...]) = <instance>.namespace()
+     |  
+     |  noop(self)
+     |      Send NOOP command.
+     |      
+     |      (typ, [data]) = <instance>.noop()
+     |  
+     |  partial(self, message_num, message_part, start, length)
+     |      Fetch truncated part of a message.
+     |      
+     |      (typ, [data, ...]) = <instance>.partial(message_num, message_part, start, length)
+     |      
+     |      'data' is tuple of message part envelope and data.
+     |  
+     |  print_log(self)
+     |  
+     |  proxyauth(self, user)
+     |      Assume authentication as "user".
+     |      
+     |      Allows an authorised administrator to proxy into any user's
+     |      mailbox.
+     |      
+     |      (typ, [data]) = <instance>.proxyauth(user)
+     |  
+     |  read(self, size)
+     |      Read 'size' bytes from remote.
+     |  
+     |  readline(self)
+     |      Read line from remote.
+     |  
+     |  recent(self)
+     |      Return most recent 'RECENT' responses if any exist,
+     |      else prompt server for an update using the 'NOOP' command.
+     |      
+     |      (typ, [data]) = <instance>.recent()
+     |      
+     |      'data' is None if no new messages,
+     |      else list of RECENT responses, most recent last.
+     |  
+     |  rename(self, oldmailbox, newmailbox)
+     |      Rename old mailbox name to new.
+     |      
+     |      (typ, [data]) = <instance>.rename(oldmailbox, newmailbox)
+     |  
+     |  response(self, code)
+     |      Return data for response 'code' if received, or None.
+     |      
+     |      Old value for response 'code' is cleared.
+     |      
+     |      (code, [data]) = <instance>.response(code)
+     |  
+     |  search(self, charset, *criteria)
+     |      Search mailbox for matching messages.
+     |      
+     |      (typ, [data]) = <instance>.search(charset, criterion, ...)
+     |      
+     |      'data' is space separated list of matching message numbers.
+     |      If UTF8 is enabled, charset MUST be None.
+     |  
+     |  select(self, mailbox='INBOX', readonly=False)
+     |      Select a mailbox.
+     |      
+     |      Flush all untagged responses.
+     |      
+     |      (typ, [data]) = <instance>.select(mailbox='INBOX', readonly=False)
+     |      
+     |      'data' is count of messages in mailbox ('EXISTS' response).
+     |      
+     |      Mandated responses are ('FLAGS', 'EXISTS', 'RECENT', 'UIDVALIDITY'), so
+     |      other responses should be obtained via <instance>.response('FLAGS') etc.
+     |  
+     |  send(self, data)
+     |      Send data to remote.
+     |  
+     |  setacl(self, mailbox, who, what)
+     |      Set a mailbox acl.
+     |      
+     |      (typ, [data]) = <instance>.setacl(mailbox, who, what)
+     |  
+     |  setannotation(self, *args)
+     |      (typ, [data]) = <instance>.setannotation(mailbox[, entry, attribute]+)
+     |      Set ANNOTATIONs.
+     |  
+     |  setquota(self, root, limits)
+     |      Set the quota root's resource limits.
+     |      
+     |      (typ, [data]) = <instance>.setquota(root, limits)
+     |  
+     |  shutdown(self)
+     |      Close I/O established in "open".
+     |  
+     |  socket(self)
+     |      Return socket instance used to connect to IMAP4 server.
+     |      
+     |      socket = <instance>.socket()
+     |  
+     |  sort(self, sort_criteria, charset, *search_criteria)
+     |      IMAP4rev1 extension SORT command.
+     |      
+     |      (typ, [data]) = <instance>.sort(sort_criteria, charset, search_criteria, ...)
+     |  
+     |  starttls(self, ssl_context=None)
+     |  
+     |  status(self, mailbox, names)
+     |      Request named status conditions for mailbox.
+     |      
+     |      (typ, [data]) = <instance>.status(mailbox, names)
+     |  
+     |  store(self, message_set, command, flags)
+     |      Alters flag dispositions for messages in mailbox.
+     |      
+     |      (typ, [data]) = <instance>.store(message_set, command, flags)
+     |  
+     |  subscribe(self, mailbox)
+     |      Subscribe to new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.subscribe(mailbox)
+     |  
+     |  thread(self, threading_algorithm, charset, *search_criteria)
+     |      IMAPrev1 extension THREAD command.
+     |      
+     |      (type, [data]) = <instance>.thread(threading_algorithm, charset, search_criteria, ...)
+     |  
+     |  uid(self, command, *args)
+     |      Execute "command arg ..." with messages identified by UID,
+     |              rather than message number.
+     |      
+     |      (typ, [data]) = <instance>.uid(command, arg1, arg2, ...)
+     |      
+     |      Returns response appropriate to 'command'.
+     |  
+     |  unsubscribe(self, mailbox)
+     |      Unsubscribe from old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.unsubscribe(mailbox)
+     |  
+     |  xatom(self, name, *args)
+     |      Allow simple extension commands
+     |              notified by server in CAPABILITY response.
+     |      
+     |      Assumes command is legal in current state.
+     |      
+     |      (typ, [data]) = <instance>.xatom(name, arg, ...)
+     |      
+     |      Returns response appropriate to extension command `name'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IMAP4:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from IMAP4:
+     |  
+     |  abort = <class 'imaplib.IMAP4.abort'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  error = <class 'imaplib.IMAP4.error'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  readonly = <class 'imaplib.IMAP4.readonly'>
+     |      Common base class for all non-exit exceptions.
+    
+    class IMAP4_stream(IMAP4)
+     |  IMAP4_stream(command)
+     |  
+     |  IMAP4 client class over a stream
+     |  
+     |  Instantiate with: IMAP4_stream(command)
+     |  
+     |          "command" - a string that can be passed to subprocess.Popen()
+     |  
+     |  for more documentation see the docstring of the parent class IMAP4.
+     |  
+     |  Method resolution order:
+     |      IMAP4_stream
+     |      IMAP4
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, command)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  open(self, host=None, port=None)
+     |      Setup a stream connection.
+     |      This connection will be used by the routines:
+     |          read, readline, send, shutdown.
+     |  
+     |  read(self, size)
+     |      Read 'size' bytes from remote.
+     |  
+     |  readline(self)
+     |      Read line from remote.
+     |  
+     |  send(self, data)
+     |      Send data to remote.
+     |  
+     |  shutdown(self)
+     |      Close I/O established in "open".
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IMAP4:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __getattr__(self, attr)
+     |  
+     |  append(self, mailbox, flags, date_time, message)
+     |      Append message to named mailbox.
+     |      
+     |      (typ, [data]) = <instance>.append(mailbox, flags, date_time, message)
+     |      
+     |              All args except `message' can be None.
+     |  
+     |  authenticate(self, mechanism, authobject)
+     |      Authenticate command - requires response processing.
+     |      
+     |      'mechanism' specifies which authentication mechanism is to
+     |      be used - it must appear in <instance>.capabilities in the
+     |      form AUTH=<mechanism>.
+     |      
+     |      'authobject' must be a callable object:
+     |      
+     |              data = authobject(response)
+     |      
+     |      It will be called to process server continuation responses; the
+     |      response argument it is passed will be a bytes.  It should return bytes
+     |      data that will be base64 encoded and sent to the server.  It should
+     |      return None if the client abort response '*' should be sent instead.
+     |  
+     |  capability(self)
+     |      (typ, [data]) = <instance>.capability()
+     |      Fetch capabilities list from server.
+     |  
+     |  check(self)
+     |      Checkpoint mailbox on server.
+     |      
+     |      (typ, [data]) = <instance>.check()
+     |  
+     |  close(self)
+     |      Close currently selected mailbox.
+     |      
+     |      Deleted messages are removed from writable mailbox.
+     |      This is the recommended command before 'LOGOUT'.
+     |      
+     |      (typ, [data]) = <instance>.close()
+     |  
+     |  copy(self, message_set, new_mailbox)
+     |      Copy 'message_set' messages onto end of 'new_mailbox'.
+     |      
+     |      (typ, [data]) = <instance>.copy(message_set, new_mailbox)
+     |  
+     |  create(self, mailbox)
+     |      Create new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.create(mailbox)
+     |  
+     |  delete(self, mailbox)
+     |      Delete old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.delete(mailbox)
+     |  
+     |  deleteacl(self, mailbox, who)
+     |      Delete the ACLs (remove any rights) set for who on mailbox.
+     |      
+     |      (typ, [data]) = <instance>.deleteacl(mailbox, who)
+     |  
+     |  enable(self, capability)
+     |      Send an RFC5161 enable string to the server.
+     |      
+     |      (typ, [data]) = <intance>.enable(capability)
+     |  
+     |  expunge(self)
+     |      Permanently remove deleted items from selected mailbox.
+     |      
+     |      Generates 'EXPUNGE' response for each deleted message.
+     |      
+     |      (typ, [data]) = <instance>.expunge()
+     |      
+     |      'data' is list of 'EXPUNGE'd message numbers in order received.
+     |  
+     |  fetch(self, message_set, message_parts)
+     |      Fetch (parts of) messages.
+     |      
+     |      (typ, [data, ...]) = <instance>.fetch(message_set, message_parts)
+     |      
+     |      'message_parts' should be a string of selected parts
+     |      enclosed in parentheses, eg: "(UID BODY[TEXT])".
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  getacl(self, mailbox)
+     |      Get the ACLs for a mailbox.
+     |      
+     |      (typ, [data]) = <instance>.getacl(mailbox)
+     |  
+     |  getannotation(self, mailbox, entry, attribute)
+     |      (typ, [data]) = <instance>.getannotation(mailbox, entry, attribute)
+     |      Retrieve ANNOTATIONs.
+     |  
+     |  getquota(self, root)
+     |      Get the quota root's resource usage and limits.
+     |      
+     |      Part of the IMAP4 QUOTA extension defined in rfc2087.
+     |      
+     |      (typ, [data]) = <instance>.getquota(root)
+     |  
+     |  getquotaroot(self, mailbox)
+     |      Get the list of quota roots for the named mailbox.
+     |      
+     |      (typ, [[QUOTAROOT responses...], [QUOTA responses]]) = <instance>.getquotaroot(mailbox)
+     |  
+     |  list(self, directory='""', pattern='*')
+     |      List mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data]) = <instance>.list(directory='""', pattern='*')
+     |      
+     |      'data' is list of LIST responses.
+     |  
+     |  login(self, user, password)
+     |      Identify client using plaintext password.
+     |      
+     |      (typ, [data]) = <instance>.login(user, password)
+     |      
+     |      NB: 'password' will be quoted.
+     |  
+     |  login_cram_md5(self, user, password)
+     |      Force use of CRAM-MD5 authentication.
+     |      
+     |      (typ, [data]) = <instance>.login_cram_md5(user, password)
+     |  
+     |  logout(self)
+     |      Shutdown connection to server.
+     |      
+     |      (typ, [data]) = <instance>.logout()
+     |      
+     |      Returns server 'BYE' response.
+     |  
+     |  lsub(self, directory='""', pattern='*')
+     |      List 'subscribed' mailbox names in directory matching pattern.
+     |      
+     |      (typ, [data, ...]) = <instance>.lsub(directory='""', pattern='*')
+     |      
+     |      'data' are tuples of message part envelope and data.
+     |  
+     |  myrights(self, mailbox)
+     |      Show my ACLs for a mailbox (i.e. the rights that I have on mailbox).
+     |      
+     |      (typ, [data]) = <instance>.myrights(mailbox)
+     |  
+     |  namespace(self)
+     |      Returns IMAP namespaces ala rfc2342
+     |      
+     |      (typ, [data, ...]) = <instance>.namespace()
+     |  
+     |  noop(self)
+     |      Send NOOP command.
+     |      
+     |      (typ, [data]) = <instance>.noop()
+     |  
+     |  partial(self, message_num, message_part, start, length)
+     |      Fetch truncated part of a message.
+     |      
+     |      (typ, [data, ...]) = <instance>.partial(message_num, message_part, start, length)
+     |      
+     |      'data' is tuple of message part envelope and data.
+     |  
+     |  print_log(self)
+     |  
+     |  proxyauth(self, user)
+     |      Assume authentication as "user".
+     |      
+     |      Allows an authorised administrator to proxy into any user's
+     |      mailbox.
+     |      
+     |      (typ, [data]) = <instance>.proxyauth(user)
+     |  
+     |  recent(self)
+     |      Return most recent 'RECENT' responses if any exist,
+     |      else prompt server for an update using the 'NOOP' command.
+     |      
+     |      (typ, [data]) = <instance>.recent()
+     |      
+     |      'data' is None if no new messages,
+     |      else list of RECENT responses, most recent last.
+     |  
+     |  rename(self, oldmailbox, newmailbox)
+     |      Rename old mailbox name to new.
+     |      
+     |      (typ, [data]) = <instance>.rename(oldmailbox, newmailbox)
+     |  
+     |  response(self, code)
+     |      Return data for response 'code' if received, or None.
+     |      
+     |      Old value for response 'code' is cleared.
+     |      
+     |      (code, [data]) = <instance>.response(code)
+     |  
+     |  search(self, charset, *criteria)
+     |      Search mailbox for matching messages.
+     |      
+     |      (typ, [data]) = <instance>.search(charset, criterion, ...)
+     |      
+     |      'data' is space separated list of matching message numbers.
+     |      If UTF8 is enabled, charset MUST be None.
+     |  
+     |  select(self, mailbox='INBOX', readonly=False)
+     |      Select a mailbox.
+     |      
+     |      Flush all untagged responses.
+     |      
+     |      (typ, [data]) = <instance>.select(mailbox='INBOX', readonly=False)
+     |      
+     |      'data' is count of messages in mailbox ('EXISTS' response).
+     |      
+     |      Mandated responses are ('FLAGS', 'EXISTS', 'RECENT', 'UIDVALIDITY'), so
+     |      other responses should be obtained via <instance>.response('FLAGS') etc.
+     |  
+     |  setacl(self, mailbox, who, what)
+     |      Set a mailbox acl.
+     |      
+     |      (typ, [data]) = <instance>.setacl(mailbox, who, what)
+     |  
+     |  setannotation(self, *args)
+     |      (typ, [data]) = <instance>.setannotation(mailbox[, entry, attribute]+)
+     |      Set ANNOTATIONs.
+     |  
+     |  setquota(self, root, limits)
+     |      Set the quota root's resource limits.
+     |      
+     |      (typ, [data]) = <instance>.setquota(root, limits)
+     |  
+     |  socket(self)
+     |      Return socket instance used to connect to IMAP4 server.
+     |      
+     |      socket = <instance>.socket()
+     |  
+     |  sort(self, sort_criteria, charset, *search_criteria)
+     |      IMAP4rev1 extension SORT command.
+     |      
+     |      (typ, [data]) = <instance>.sort(sort_criteria, charset, search_criteria, ...)
+     |  
+     |  starttls(self, ssl_context=None)
+     |  
+     |  status(self, mailbox, names)
+     |      Request named status conditions for mailbox.
+     |      
+     |      (typ, [data]) = <instance>.status(mailbox, names)
+     |  
+     |  store(self, message_set, command, flags)
+     |      Alters flag dispositions for messages in mailbox.
+     |      
+     |      (typ, [data]) = <instance>.store(message_set, command, flags)
+     |  
+     |  subscribe(self, mailbox)
+     |      Subscribe to new mailbox.
+     |      
+     |      (typ, [data]) = <instance>.subscribe(mailbox)
+     |  
+     |  thread(self, threading_algorithm, charset, *search_criteria)
+     |      IMAPrev1 extension THREAD command.
+     |      
+     |      (type, [data]) = <instance>.thread(threading_algorithm, charset, search_criteria, ...)
+     |  
+     |  uid(self, command, *args)
+     |      Execute "command arg ..." with messages identified by UID,
+     |              rather than message number.
+     |      
+     |      (typ, [data]) = <instance>.uid(command, arg1, arg2, ...)
+     |      
+     |      Returns response appropriate to 'command'.
+     |  
+     |  unsubscribe(self, mailbox)
+     |      Unsubscribe from old mailbox.
+     |      
+     |      (typ, [data]) = <instance>.unsubscribe(mailbox)
+     |  
+     |  xatom(self, name, *args)
+     |      Allow simple extension commands
+     |              notified by server in CAPABILITY response.
+     |      
+     |      Assumes command is legal in current state.
+     |      
+     |      (typ, [data]) = <instance>.xatom(name, arg, ...)
+     |      
+     |      Returns response appropriate to extension command `name'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IMAP4:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from IMAP4:
+     |  
+     |  abort = <class 'imaplib.IMAP4.abort'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  error = <class 'imaplib.IMAP4.error'>
+     |      Common base class for all non-exit exceptions.
+     |  
+     |  readonly = <class 'imaplib.IMAP4.readonly'>
+     |      Common base class for all non-exit exceptions.
+
+FUNCTIONS
+    Int2AP(num)
+        Convert integer to A-P string representation.
+    
+    Internaldate2tuple(resp)
+        Parse an IMAP4 INTERNALDATE string.
+        
+        Return corresponding local time.  The return value is a
+        time.struct_time tuple or None if the string has wrong format.
+    
+    ParseFlags(resp)
+        Convert IMAP4 flags response to python tuple.
+    
+    Time2Internaldate(date_time)
+        Convert date_time to IMAP4 INTERNALDATE representation.
+        
+        Return string in form: '"DD-Mmm-YYYY HH:MM:SS +HHMM"'.  The
+        date_time argument can be a number (int or float) representing
+        seconds since epoch (as returned by time.time()), a 9-tuple
+        representing local time, an instance of time.struct_time (as
+        returned by time.localtime()), an aware datetime instance or a
+        double-quoted string.  In the last case, it is assumed to already
+        be in the correct format.
+
+DATA
+    __all__ = ['IMAP4', 'IMAP4_stream', 'Internaldate2tuple', 'Int2AP', 'P...
+
+VERSION
+    2.58
+
+FILE
+    c:\program files\python37\lib\imaplib.py
+
+

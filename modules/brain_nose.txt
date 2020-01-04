@@ -1,0 +1,9 @@
+Help on module brain_nose:
+
+NAME
+    brain_nose - Hooks for nose library.
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_nose.py
+
+

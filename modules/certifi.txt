@@ -1,0 +1,16 @@
+Help on package certifi:
+
+NAME
+    certifi
+
+PACKAGE CONTENTS
+    __main__
+    core
+
+VERSION
+    2019.11.28
+
+FILE
+    c:\program files\python37\lib\site-packages\certifi\__init__.py
+
+

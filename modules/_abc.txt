@@ -1,0 +1,17 @@
+Help on built-in module _abc:
+
+NAME
+    _abc - Module contains faster C implementation of abc.ABCMeta
+
+FUNCTIONS
+    get_cache_token()
+        Returns the current ABC cache token.
+        
+        The token is an opaque object (supporting equality testing) identifying the
+        current version of the ABC cache for virtual subclasses. The token changes
+        with every call to register() on any ABC.
+
+FILE
+    (built-in)
+
+

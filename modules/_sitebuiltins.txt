@@ -1,0 +1,36 @@
+Help on module _sitebuiltins:
+
+NAME
+    _sitebuiltins - The objects used by the site module to add custom builtins.
+
+CLASSES
+    builtins.object
+        Quitter
+    
+    class Quitter(builtins.object)
+     |  Quitter(name, eof)
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, code=None)
+     |      Call self as a function.
+     |  
+     |  __init__(self, name, eof)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FILE
+    c:\program files\python37\lib\_sitebuiltins.py
+
+

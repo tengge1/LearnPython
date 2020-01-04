@@ -1,0 +1,407 @@
+Help on module poplib:
+
+NAME
+    poplib - A POP3 client class.
+
+DESCRIPTION
+    Based on the J. Myers POP3 draft, Jan. 96
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        error_proto
+    builtins.object
+        POP3
+            POP3_SSL
+    
+    class POP3(builtins.object)
+     |  POP3(host, port=110, timeout=<object object at 0x000001E148267E00>)
+     |  
+     |  This class supports both the minimal and optional command sets.
+     |  Arguments can be strings or integers (where appropriate)
+     |  (e.g.: retr(1) and retr('1') both work equally well.
+     |  
+     |  Minimal Command Set:
+     |          USER name               user(name)
+     |          PASS string             pass_(string)
+     |          STAT                    stat()
+     |          LIST [msg]              list(msg = None)
+     |          RETR msg                retr(msg)
+     |          DELE msg                dele(msg)
+     |          NOOP                    noop()
+     |          RSET                    rset()
+     |          QUIT                    quit()
+     |  
+     |  Optional Commands (some servers support these):
+     |          RPOP name               rpop(name)
+     |          APOP name digest        apop(name, digest)
+     |          TOP msg n               top(msg, n)
+     |          UIDL [msg]              uidl(msg = None)
+     |          CAPA                    capa()
+     |          STLS                    stls()
+     |          UTF8                    utf8()
+     |  
+     |  Raises one exception: 'error_proto'.
+     |  
+     |  Instantiate with:
+     |          POP3(hostname, port=110)
+     |  
+     |  NB:     the POP protocol locks the mailbox from user
+     |          authorization until QUIT, so be sure to get in, suck
+     |          the messages, and quit, each time you access the
+     |          mailbox.
+     |  
+     |          POP is a line-based protocol, which means large mail
+     |          messages consume lots of python cycles reading them
+     |          line-by-line.
+     |  
+     |          If it's available on your mail server, use IMAP4
+     |          instead, it doesn't suffer from the two problems
+     |          above.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host, port=110, timeout=<object object at 0x000001E148267E00>)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  apop(self, user, password)
+     |      Authorisation
+     |      
+     |      - only possible if server has supplied a timestamp in initial greeting.
+     |      
+     |      Args:
+     |              user     - mailbox user;
+     |              password - mailbox password.
+     |      
+     |      NB: mailbox is locked by server from here to 'quit()'
+     |  
+     |  capa(self)
+     |      Return server capabilities (RFC 2449) as a dictionary
+     |      >>> c=poplib.POP3('localhost')
+     |      >>> c.capa()
+     |      {'IMPLEMENTATION': ['Cyrus', 'POP3', 'server', 'v2.2.12'],
+     |       'TOP': [], 'LOGIN-DELAY': ['0'], 'AUTH-RESP-CODE': [],
+     |       'EXPIRE': ['NEVER'], 'USER': [], 'STLS': [], 'PIPELINING': [],
+     |       'UIDL': [], 'RESP-CODES': []}
+     |      >>>
+     |      
+     |      Really, according to RFC 2449, the cyrus folks should avoid
+     |      having the implementation split into multiple arguments...
+     |  
+     |  close(self)
+     |      Close the connection without assuming anything about it.
+     |  
+     |  dele(self, which)
+     |      Delete message number 'which'.
+     |      
+     |      Result is 'response'.
+     |  
+     |  getwelcome(self)
+     |  
+     |  list(self, which=None)
+     |      Request listing, return result.
+     |      
+     |      Result without a message number argument is in form
+     |      ['response', ['mesg_num octets', ...], octets].
+     |      
+     |      Result when a message number argument is given is a
+     |      single response: the "scan listing" for that message.
+     |  
+     |  noop(self)
+     |      Does nothing.
+     |      
+     |      One supposes the response indicates the server is alive.
+     |  
+     |  pass_(self, pswd)
+     |      Send password, return response
+     |      
+     |      (response includes message count, mailbox size).
+     |      
+     |      NB: mailbox is locked by server from here to 'quit()'
+     |  
+     |  quit(self)
+     |      Signoff: commit changes on server, unlock mailbox, close connection.
+     |  
+     |  retr(self, which)
+     |      Retrieve whole message number 'which'.
+     |      
+     |      Result is in form ['response', ['line', ...], octets].
+     |  
+     |  rpop(self, user)
+     |      Not sure what this does.
+     |  
+     |  rset(self)
+     |      Unmark all messages marked for deletion.
+     |  
+     |  set_debuglevel(self, level)
+     |  
+     |  stat(self)
+     |      Get mailbox status.
+     |      
+     |      Result is tuple of 2 ints (message count, mailbox size)
+     |  
+     |  stls(self, context=None)
+     |      Start a TLS session on the active connection as specified in RFC 2595.
+     |      
+     |      context - a ssl.SSLContext
+     |  
+     |  top(self, which, howmuch)
+     |      Retrieve message header of message number 'which'
+     |      and first 'howmuch' lines of message body.
+     |      
+     |      Result is in form ['response', ['line', ...], octets].
+     |  
+     |  uidl(self, which=None)
+     |      Return message digest (unique id) list.
+     |      
+     |      If 'which', result contains unique id for that message
+     |      in the form 'response mesgnum uid', otherwise result is
+     |      the list ['response', ['mesgnum uid', ...], octets]
+     |  
+     |  user(self, user)
+     |      Send user name, return response
+     |      
+     |      (should indicate password required).
+     |  
+     |  utf8(self)
+     |      Try to enter UTF-8 mode (see RFC 6856). Returns server response.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  encoding = 'UTF-8'
+     |  
+     |  timestamp = re.compile(b'\\+OK.[^<]*(<.*>)')
+    
+    class POP3_SSL(POP3)
+     |  POP3_SSL(host, port=995, keyfile=None, certfile=None, timeout=<object object at 0x000001E148267E00>, context=None)
+     |  
+     |  POP3 client class over SSL connection
+     |  
+     |  Instantiate with: POP3_SSL(hostname, port=995, keyfile=None, certfile=None,
+     |                             context=None)
+     |  
+     |         hostname - the hostname of the pop3 over ssl server
+     |         port - port number
+     |         keyfile - PEM formatted file that contains your private key
+     |         certfile - PEM formatted certificate chain file
+     |         context - a ssl.SSLContext
+     |  
+     |  See the methods of the parent class POP3 for more documentation.
+     |  
+     |  Method resolution order:
+     |      POP3_SSL
+     |      POP3
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host, port=995, keyfile=None, certfile=None, timeout=<object object at 0x000001E148267E00>, context=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  stls(self, keyfile=None, certfile=None, context=None)
+     |      The method unconditionally raises an exception since the
+     |      STLS command doesn't make any sense on an already established
+     |      SSL/TLS session.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from POP3:
+     |  
+     |  apop(self, user, password)
+     |      Authorisation
+     |      
+     |      - only possible if server has supplied a timestamp in initial greeting.
+     |      
+     |      Args:
+     |              user     - mailbox user;
+     |              password - mailbox password.
+     |      
+     |      NB: mailbox is locked by server from here to 'quit()'
+     |  
+     |  capa(self)
+     |      Return server capabilities (RFC 2449) as a dictionary
+     |      >>> c=poplib.POP3('localhost')
+     |      >>> c.capa()
+     |      {'IMPLEMENTATION': ['Cyrus', 'POP3', 'server', 'v2.2.12'],
+     |       'TOP': [], 'LOGIN-DELAY': ['0'], 'AUTH-RESP-CODE': [],
+     |       'EXPIRE': ['NEVER'], 'USER': [], 'STLS': [], 'PIPELINING': [],
+     |       'UIDL': [], 'RESP-CODES': []}
+     |      >>>
+     |      
+     |      Really, according to RFC 2449, the cyrus folks should avoid
+     |      having the implementation split into multiple arguments...
+     |  
+     |  close(self)
+     |      Close the connection without assuming anything about it.
+     |  
+     |  dele(self, which)
+     |      Delete message number 'which'.
+     |      
+     |      Result is 'response'.
+     |  
+     |  getwelcome(self)
+     |  
+     |  list(self, which=None)
+     |      Request listing, return result.
+     |      
+     |      Result without a message number argument is in form
+     |      ['response', ['mesg_num octets', ...], octets].
+     |      
+     |      Result when a message number argument is given is a
+     |      single response: the "scan listing" for that message.
+     |  
+     |  noop(self)
+     |      Does nothing.
+     |      
+     |      One supposes the response indicates the server is alive.
+     |  
+     |  pass_(self, pswd)
+     |      Send password, return response
+     |      
+     |      (response includes message count, mailbox size).
+     |      
+     |      NB: mailbox is locked by server from here to 'quit()'
+     |  
+     |  quit(self)
+     |      Signoff: commit changes on server, unlock mailbox, close connection.
+     |  
+     |  retr(self, which)
+     |      Retrieve whole message number 'which'.
+     |      
+     |      Result is in form ['response', ['line', ...], octets].
+     |  
+     |  rpop(self, user)
+     |      Not sure what this does.
+     |  
+     |  rset(self)
+     |      Unmark all messages marked for deletion.
+     |  
+     |  set_debuglevel(self, level)
+     |  
+     |  stat(self)
+     |      Get mailbox status.
+     |      
+     |      Result is tuple of 2 ints (message count, mailbox size)
+     |  
+     |  top(self, which, howmuch)
+     |      Retrieve message header of message number 'which'
+     |      and first 'howmuch' lines of message body.
+     |      
+     |      Result is in form ['response', ['line', ...], octets].
+     |  
+     |  uidl(self, which=None)
+     |      Return message digest (unique id) list.
+     |      
+     |      If 'which', result contains unique id for that message
+     |      in the form 'response mesgnum uid', otherwise result is
+     |      the list ['response', ['mesgnum uid', ...], octets]
+     |  
+     |  user(self, user)
+     |      Send user name, return response
+     |      
+     |      (should indicate password required).
+     |  
+     |  utf8(self)
+     |      Try to enter UTF-8 mode (see RFC 6856). Returns server response.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from POP3:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from POP3:
+     |  
+     |  encoding = 'UTF-8'
+     |  
+     |  timestamp = re.compile(b'\\+OK.[^<]*(<.*>)')
+    
+    class error_proto(builtins.Exception)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      error_proto
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+DATA
+    __all__ = ['POP3', 'error_proto', 'POP3_SSL']
+
+FILE
+    c:\program files\python37\lib\poplib.py
+
+

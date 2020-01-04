@@ -1,0 +1,132 @@
+Help on module cProfile:
+
+NAME
+    cProfile
+
+DESCRIPTION
+    Python interface for the 'lsprof' profiler.
+    Compatible with the 'profile' module.
+
+CLASSES
+    _lsprof.Profiler(builtins.object)
+        Profile
+    
+    class Profile(_lsprof.Profiler)
+     |  Profile(timer=None, timeunit=None, subcalls=True, builtins=True)
+     |  
+     |  Builds a profiler object using the specified timer function.
+     |  The default timer is a fast built-in one based on real time.
+     |  For custom timer functions returning integers, timeunit can
+     |  be a float specifying a scale (i.e. how long each integer unit
+     |  is, in seconds).
+     |  
+     |  Method resolution order:
+     |      Profile
+     |      _lsprof.Profiler
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  create_stats(self)
+     |  
+     |  dump_stats(self, file)
+     |  
+     |  print_stats(self, sort=-1)
+     |  
+     |  run(self, cmd)
+     |  
+     |  runcall(*args, **kw)
+     |      # This method is more useful to profile a single function call.
+     |  
+     |  runctx(self, cmd, globals, locals)
+     |  
+     |  snapshot_stats(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _lsprof.Profiler:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  clear(...)
+     |      clear()
+     |      
+     |      Clear all profiling information collected so far.
+     |  
+     |  disable(...)
+     |      disable()
+     |      
+     |      Stop collecting profiling information.
+     |  
+     |  enable(...)
+     |      enable(subcalls=True, builtins=True)
+     |      
+     |      Start collecting profiling information.
+     |      If 'subcalls' is True, also records for each function
+     |      statistics separated according to its current caller.
+     |      If 'builtins' is True, records the time spent in
+     |      built-in functions separately from their caller.
+     |  
+     |  getstats(...)
+     |      getstats() -> list of profiler_entry objects
+     |      
+     |      Return all information collected by the profiler.
+     |      Each profiler_entry is a tuple-like object with the
+     |      following attributes:
+     |      
+     |          code          code object
+     |          callcount     how many times this was called
+     |          reccallcount  how many times called recursively
+     |          totaltime     total time in this entry
+     |          inlinetime    inline time in this entry (not in subcalls)
+     |          calls         details of the calls
+     |      
+     |      The calls attribute is either None or a list of
+     |      profiler_subentry objects:
+     |      
+     |          code          called code object
+     |          callcount     how many times this is called
+     |          reccallcount  how many times this is called recursively
+     |          totaltime     total time spent in this call
+     |          inlinetime    inline time (not in further subcalls)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from _lsprof.Profiler:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+
+FUNCTIONS
+    run(statement, filename=None, sort=-1)
+        Run statement under profiler optionally saving results in filename
+        
+        This function takes a single argument that can be passed to the
+        "exec" statement, and an optional file name.  In all cases this
+        routine attempts to "exec" its first argument and gather profiling
+        statistics from the execution. If no file name is present, then this
+        function automatically prints a simple profiling report, sorted by the
+        standard name string (file/line/function-name) that is presented in
+        each line.
+    
+    runctx(statement, globals, locals, filename=None, sort=-1)
+        Run statement under profiler, supplying your own globals and locals,
+        optionally saving results in filename.
+        
+        statement and filename have the same semantics as profile.run
+
+DATA
+    __all__ = ['run', 'runctx', 'Profile']
+
+FILE
+    c:\program files\python37\lib\cprofile.py
+
+

@@ -1,0 +1,1947 @@
+Help on module decimal:
+
+NAME
+    decimal - C decimal arithmetic module
+
+CLASSES
+    builtins.ArithmeticError(builtins.Exception)
+        DecimalException
+            Clamped
+            DivisionByZero(DecimalException, builtins.ZeroDivisionError)
+            FloatOperation(DecimalException, builtins.TypeError)
+            Inexact
+                Overflow(Inexact, Rounded)
+                Underflow(Inexact, Rounded, Subnormal)
+            InvalidOperation
+                ConversionSyntax
+                DivisionImpossible
+                DivisionUndefined(InvalidOperation, builtins.ZeroDivisionError)
+                InvalidContext
+            Rounded
+            Subnormal
+    builtins.object
+        Context
+        Decimal
+    builtins.tuple(builtins.object)
+        DecimalTuple
+    
+    class Clamped(DecimalException)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Clamped
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Context(builtins.object)
+     |  Context(prec=None, rounding=None, Emin=None, Emax=None, capitals=None, clamp=None, flags=None, traps=None)
+     |  
+     |  The context affects almost all operations and controls rounding,
+     |  Over/Underflow, raising of exceptions and much more.  A new context
+     |  can be constructed as follows:
+     |  
+     |      >>> c = Context(prec=28, Emin=-425000000, Emax=425000000,
+     |      ...             rounding=ROUND_HALF_EVEN, capitals=1, clamp=1,
+     |      ...             traps=[InvalidOperation, DivisionByZero, Overflow],
+     |      ...             flags=[])
+     |      >>>
+     |  
+     |  Methods defined here:
+     |  
+     |  Etiny(self, /)
+     |      Return a value equal to Emin - prec + 1, which is the minimum exponent value
+     |      for subnormal results.  When underflow occurs, the exponent is set to Etiny.
+     |  
+     |  Etop(self, /)
+     |      Return a value equal to Emax - prec + 1.  This is the maximum exponent
+     |      if the _clamp field of the context is set to 1 (IEEE clamp mode).  Etop()
+     |      must not be negative.
+     |  
+     |  __copy__(...)
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  abs(self, x, /)
+     |      Return the absolute value of x.
+     |  
+     |  add(self, x, y, /)
+     |      Return the sum of x and y.
+     |  
+     |  canonical(self, x, /)
+     |      Return a new instance of x.
+     |  
+     |  clear_flags(self, /)
+     |      Reset all flags to False.
+     |  
+     |  clear_traps(self, /)
+     |      Set all traps to False.
+     |  
+     |  compare(self, x, y, /)
+     |      Compare x and y numerically.
+     |  
+     |  compare_signal(self, x, y, /)
+     |      Compare x and y numerically.  All NaNs signal.
+     |  
+     |  compare_total(self, x, y, /)
+     |      Compare x and y using their abstract representation.
+     |  
+     |  compare_total_mag(self, x, y, /)
+     |      Compare x and y using their abstract representation, ignoring sign.
+     |  
+     |  copy(self, /)
+     |      Return a duplicate of the context with all flags cleared.
+     |  
+     |  copy_abs(self, x, /)
+     |      Return a copy of x with the sign set to 0.
+     |  
+     |  copy_decimal(self, x, /)
+     |      Return a copy of Decimal x.
+     |  
+     |  copy_negate(self, x, /)
+     |      Return a copy of x with the sign inverted.
+     |  
+     |  copy_sign(self, x, y, /)
+     |      Copy the sign from y to x.
+     |  
+     |  create_decimal(self, num='0', /)
+     |      Create a new Decimal instance from num, using self as the context. Unlike the
+     |      Decimal constructor, this function observes the context limits.
+     |  
+     |  create_decimal_from_float(self, f, /)
+     |      Create a new Decimal instance from float f.  Unlike the Decimal.from_float()
+     |      class method, this function observes the context limits.
+     |  
+     |  divide(self, x, y, /)
+     |      Return x divided by y.
+     |  
+     |  divide_int(self, x, y, /)
+     |      Return x divided by y, truncated to an integer.
+     |  
+     |  divmod(self, x, y, /)
+     |      Return quotient and remainder of the division x / y.
+     |  
+     |  exp(self, x, /)
+     |      Return e ** x.
+     |  
+     |  fma(self, x, y, z, /)
+     |      Return x multiplied by y, plus z.
+     |  
+     |  is_canonical(self, x, /)
+     |      Return True if x is canonical, False otherwise.
+     |  
+     |  is_finite(self, x, /)
+     |      Return True if x is finite, False otherwise.
+     |  
+     |  is_infinite(self, x, /)
+     |      Return True if x is infinite, False otherwise.
+     |  
+     |  is_nan(self, x, /)
+     |      Return True if x is a qNaN or sNaN, False otherwise.
+     |  
+     |  is_normal(self, x, /)
+     |      Return True if x is a normal number, False otherwise.
+     |  
+     |  is_qnan(self, x, /)
+     |      Return True if x is a quiet NaN, False otherwise.
+     |  
+     |  is_signed(self, x, /)
+     |      Return True if x is negative, False otherwise.
+     |  
+     |  is_snan(self, x, /)
+     |      Return True if x is a signaling NaN, False otherwise.
+     |  
+     |  is_subnormal(self, x, /)
+     |      Return True if x is subnormal, False otherwise.
+     |  
+     |  is_zero(self, x, /)
+     |      Return True if x is a zero, False otherwise.
+     |  
+     |  ln(self, x, /)
+     |      Return the natural (base e) logarithm of x.
+     |  
+     |  log10(self, x, /)
+     |      Return the base 10 logarithm of x.
+     |  
+     |  logb(self, x, /)
+     |      Return the exponent of the magnitude of the operand's MSD.
+     |  
+     |  logical_and(self, x, y, /)
+     |      Digit-wise and of x and y.
+     |  
+     |  logical_invert(self, x, /)
+     |      Invert all digits of x.
+     |  
+     |  logical_or(self, x, y, /)
+     |      Digit-wise or of x and y.
+     |  
+     |  logical_xor(self, x, y, /)
+     |      Digit-wise xor of x and y.
+     |  
+     |  max(self, x, y, /)
+     |      Compare the values numerically and return the maximum.
+     |  
+     |  max_mag(self, x, y, /)
+     |      Compare the values numerically with their sign ignored.
+     |  
+     |  min(self, x, y, /)
+     |      Compare the values numerically and return the minimum.
+     |  
+     |  min_mag(self, x, y, /)
+     |      Compare the values numerically with their sign ignored.
+     |  
+     |  minus(self, x, /)
+     |      Minus corresponds to the unary prefix minus operator in Python, but applies
+     |      the context to the result.
+     |  
+     |  multiply(self, x, y, /)
+     |      Return the product of x and y.
+     |  
+     |  next_minus(self, x, /)
+     |      Return the largest representable number smaller than x.
+     |  
+     |  next_plus(self, x, /)
+     |      Return the smallest representable number larger than x.
+     |  
+     |  next_toward(self, x, y, /)
+     |      Return the number closest to x, in the direction towards y.
+     |  
+     |  normalize(self, x, /)
+     |      Reduce x to its simplest form. Alias for reduce(x).
+     |  
+     |  number_class(self, x, /)
+     |      Return an indication of the class of x.
+     |  
+     |  plus(self, x, /)
+     |      Plus corresponds to the unary prefix plus operator in Python, but applies
+     |      the context to the result.
+     |  
+     |  power(self, /, a, b, modulo=None)
+     |      Compute a**b. If 'a' is negative, then 'b' must be integral. The result
+     |      will be inexact unless 'a' is integral and the result is finite and can
+     |      be expressed exactly in 'precision' digits.  In the Python version the
+     |      result is always correctly rounded, in the C version the result is almost
+     |      always correctly rounded.
+     |      
+     |      If modulo is given, compute (a**b) % modulo. The following restrictions
+     |      hold:
+     |      
+     |          * all three arguments must be integral
+     |          * 'b' must be nonnegative
+     |          * at least one of 'a' or 'b' must be nonzero
+     |          * modulo must be nonzero and less than 10**prec in absolute value
+     |  
+     |  quantize(self, x, y, /)
+     |      Return a value equal to x (rounded), having the exponent of y.
+     |  
+     |  radix(self, /)
+     |      Return 10.
+     |  
+     |  remainder(self, x, y, /)
+     |      Return the remainder from integer division.  The sign of the result,
+     |      if non-zero, is the same as that of the original dividend.
+     |  
+     |  remainder_near(self, x, y, /)
+     |      Return x - y * n, where n is the integer nearest the exact value of x / y
+     |      (if the result is 0 then its sign will be the sign of x).
+     |  
+     |  rotate(self, x, y, /)
+     |      Return a copy of x, rotated by y places.
+     |  
+     |  same_quantum(self, x, y, /)
+     |      Return True if the two operands have the same exponent.
+     |  
+     |  scaleb(self, x, y, /)
+     |      Return the first operand after adding the second value to its exp.
+     |  
+     |  shift(self, x, y, /)
+     |      Return a copy of x, shifted by y places.
+     |  
+     |  sqrt(self, x, /)
+     |      Square root of a non-negative number to context precision.
+     |  
+     |  subtract(self, x, y, /)
+     |      Return the difference between x and y.
+     |  
+     |  to_eng_string(self, x, /)
+     |      Convert a number to a string, using engineering notation.
+     |  
+     |  to_integral(self, x, /)
+     |      Identical to to_integral_value(x).
+     |  
+     |  to_integral_exact(self, x, /)
+     |      Round to an integer. Signal if the result is rounded or inexact.
+     |  
+     |  to_integral_value(self, x, /)
+     |      Round to an integer.
+     |  
+     |  to_sci_string(self, x, /)
+     |      Convert a number to a string using scientific notation.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  Emax
+     |  
+     |  Emin
+     |  
+     |  capitals
+     |  
+     |  clamp
+     |  
+     |  prec
+     |  
+     |  rounding
+    
+    class ConversionSyntax(InvalidOperation)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      ConversionSyntax
+     |      InvalidOperation
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Decimal(builtins.object)
+     |  Decimal(value='0', context=None)
+     |  
+     |  Construct a new Decimal object. 'value' can be an integer, string, tuple,
+     |  or another Decimal object. If no value is given, return Decimal('0'). The
+     |  context does not affect the conversion and is only passed to determine if
+     |  the InvalidOperation trap is active.
+     |  
+     |  Methods defined here:
+     |  
+     |  __abs__(self, /)
+     |      abs(self)
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __ceil__(...)
+     |  
+     |  __complex__(...)
+     |  
+     |  __copy__(...)
+     |  
+     |  __deepcopy__(...)
+     |  
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __float__(self, /)
+     |      float(self)
+     |  
+     |  __floor__(...)
+     |  
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |  
+     |  __format__(...)
+     |      Default object formatter.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __int__(self, /)
+     |      int(self)
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __neg__(self, /)
+     |      -self
+     |  
+     |  __pos__(self, /)
+     |      +self
+     |  
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |  
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |  
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |  
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __round__(...)
+     |  
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |  
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |  
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |  
+     |  __sizeof__(...)
+     |      Size of object in memory, in bytes.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |  
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |  
+     |  __trunc__(...)
+     |  
+     |  adjusted(self, /)
+     |      Return the adjusted exponent of the number.  Defined as exp + digits - 1.
+     |  
+     |  as_integer_ratio(self, /)
+     |      Decimal.as_integer_ratio() -> (int, int)
+     |      
+     |      Return a pair of integers, whose ratio is exactly equal to the original
+     |      Decimal and with a positive denominator. The ratio is in lowest terms.
+     |      Raise OverflowError on infinities and a ValueError on NaNs.
+     |  
+     |  as_tuple(self, /)
+     |      Return a tuple representation of the number.
+     |  
+     |  canonical(self, /)
+     |      Return the canonical encoding of the argument.  Currently, the encoding
+     |      of a Decimal instance is always canonical, so this operation returns its
+     |      argument unchanged.
+     |  
+     |  compare(self, /, other, context=None)
+     |      Compare self to other.  Return a decimal value:
+     |      
+     |      a or b is a NaN ==> Decimal('NaN')
+     |      a < b           ==> Decimal('-1')
+     |      a == b          ==> Decimal('0')
+     |      a > b           ==> Decimal('1')
+     |  
+     |  compare_signal(self, /, other, context=None)
+     |      Identical to compare, except that all NaNs signal.
+     |  
+     |  compare_total(self, /, other, context=None)
+     |      Compare two operands using their abstract representation rather than
+     |      their numerical value.  Similar to the compare() method, but the result
+     |      gives a total ordering on Decimal instances.  Two Decimal instances with
+     |      the same numeric value but different representations compare unequal
+     |      in this ordering:
+     |      
+     |          >>> Decimal('12.0').compare_total(Decimal('12'))
+     |          Decimal('-1')
+     |      
+     |      Quiet and signaling NaNs are also included in the total ordering. The result
+     |      of this function is Decimal('0') if both operands have the same representation,
+     |      Decimal('-1') if the first operand is lower in the total order than the second,
+     |      and Decimal('1') if the first operand is higher in the total order than the
+     |      second operand. See the specification for details of the total order.
+     |      
+     |      This operation is unaffected by context and is quiet: no flags are changed
+     |      and no rounding is performed. As an exception, the C version may raise
+     |      InvalidOperation if the second operand cannot be converted exactly.
+     |  
+     |  compare_total_mag(self, /, other, context=None)
+     |      Compare two operands using their abstract representation rather than their
+     |      value as in compare_total(), but ignoring the sign of each operand.
+     |      
+     |      x.compare_total_mag(y) is equivalent to x.copy_abs().compare_total(y.copy_abs()).
+     |      
+     |      This operation is unaffected by context and is quiet: no flags are changed
+     |      and no rounding is performed. As an exception, the C version may raise
+     |      InvalidOperation if the second operand cannot be converted exactly.
+     |  
+     |  conjugate(self, /)
+     |      Return self.
+     |  
+     |  copy_abs(self, /)
+     |      Return the absolute value of the argument.  This operation is unaffected by
+     |      context and is quiet: no flags are changed and no rounding is performed.
+     |  
+     |  copy_negate(self, /)
+     |      Return the negation of the argument.  This operation is unaffected by context
+     |      and is quiet: no flags are changed and no rounding is performed.
+     |  
+     |  copy_sign(self, /, other, context=None)
+     |      Return a copy of the first operand with the sign set to be the same as the
+     |      sign of the second operand. For example:
+     |      
+     |          >>> Decimal('2.3').copy_sign(Decimal('-1.5'))
+     |          Decimal('-2.3')
+     |      
+     |      This operation is unaffected by context and is quiet: no flags are changed
+     |      and no rounding is performed. As an exception, the C version may raise
+     |      InvalidOperation if the second operand cannot be converted exactly.
+     |  
+     |  exp(self, /, context=None)
+     |      Return the value of the (natural) exponential function e**x at the given
+     |      number.  The function always uses the ROUND_HALF_EVEN mode and the result
+     |      is correctly rounded.
+     |  
+     |  fma(self, /, other, third, context=None)
+     |      Fused multiply-add.  Return self*other+third with no rounding of the
+     |      intermediate product self*other.
+     |      
+     |          >>> Decimal(2).fma(3, 5)
+     |          Decimal('11')
+     |  
+     |  is_canonical(self, /)
+     |      Return True if the argument is canonical and False otherwise.  Currently,
+     |      a Decimal instance is always canonical, so this operation always returns
+     |      True.
+     |  
+     |  is_finite(self, /)
+     |      Return True if the argument is a finite number, and False if the argument
+     |      is infinite or a NaN.
+     |  
+     |  is_infinite(self, /)
+     |      Return True if the argument is either positive or negative infinity and
+     |      False otherwise.
+     |  
+     |  is_nan(self, /)
+     |      Return True if the argument is a (quiet or signaling) NaN and False
+     |      otherwise.
+     |  
+     |  is_normal(self, /, context=None)
+     |      Return True if the argument is a normal finite non-zero number with an
+     |      adjusted exponent greater than or equal to Emin. Return False if the
+     |      argument is zero, subnormal, infinite or a NaN.
+     |  
+     |  is_qnan(self, /)
+     |      Return True if the argument is a quiet NaN, and False otherwise.
+     |  
+     |  is_signed(self, /)
+     |      Return True if the argument has a negative sign and False otherwise.
+     |      Note that both zeros and NaNs can carry signs.
+     |  
+     |  is_snan(self, /)
+     |      Return True if the argument is a signaling NaN and False otherwise.
+     |  
+     |  is_subnormal(self, /, context=None)
+     |      Return True if the argument is subnormal, and False otherwise. A number is
+     |      subnormal if it is non-zero, finite, and has an adjusted exponent less
+     |      than Emin.
+     |  
+     |  is_zero(self, /)
+     |      Return True if the argument is a (positive or negative) zero and False
+     |      otherwise.
+     |  
+     |  ln(self, /, context=None)
+     |      Return the natural (base e) logarithm of the operand. The function always
+     |      uses the ROUND_HALF_EVEN mode and the result is correctly rounded.
+     |  
+     |  log10(self, /, context=None)
+     |      Return the base ten logarithm of the operand. The function always uses the
+     |      ROUND_HALF_EVEN mode and the result is correctly rounded.
+     |  
+     |  logb(self, /, context=None)
+     |      For a non-zero number, return the adjusted exponent of the operand as a
+     |      Decimal instance.  If the operand is a zero, then Decimal('-Infinity') is
+     |      returned and the DivisionByZero condition is raised. If the operand is
+     |      an infinity then Decimal('Infinity') is returned.
+     |  
+     |  logical_and(self, /, other, context=None)
+     |      Return the digit-wise 'and' of the two (logical) operands.
+     |  
+     |  logical_invert(self, /, context=None)
+     |      Return the digit-wise inversion of the (logical) operand.
+     |  
+     |  logical_or(self, /, other, context=None)
+     |      Return the digit-wise 'or' of the two (logical) operands.
+     |  
+     |  logical_xor(self, /, other, context=None)
+     |      Return the digit-wise 'exclusive or' of the two (logical) operands.
+     |  
+     |  max(self, /, other, context=None)
+     |      Maximum of self and other.  If one operand is a quiet NaN and the other is
+     |      numeric, the numeric operand is returned.
+     |  
+     |  max_mag(self, /, other, context=None)
+     |      Similar to the max() method, but the comparison is done using the absolute
+     |      values of the operands.
+     |  
+     |  min(self, /, other, context=None)
+     |      Minimum of self and other. If one operand is a quiet NaN and the other is
+     |      numeric, the numeric operand is returned.
+     |  
+     |  min_mag(self, /, other, context=None)
+     |      Similar to the min() method, but the comparison is done using the absolute
+     |      values of the operands.
+     |  
+     |  next_minus(self, /, context=None)
+     |      Return the largest number representable in the given context (or in the
+     |      current default context if no context is given) that is smaller than the
+     |      given operand.
+     |  
+     |  next_plus(self, /, context=None)
+     |      Return the smallest number representable in the given context (or in the
+     |      current default context if no context is given) that is larger than the
+     |      given operand.
+     |  
+     |  next_toward(self, /, other, context=None)
+     |      If the two operands are unequal, return the number closest to the first
+     |      operand in the direction of the second operand.  If both operands are
+     |      numerically equal, return a copy of the first operand with the sign set
+     |      to be the same as the sign of the second operand.
+     |  
+     |  normalize(self, /, context=None)
+     |      Normalize the number by stripping the rightmost trailing zeros and
+     |      converting any result equal to Decimal('0') to Decimal('0e0').  Used
+     |      for producing canonical values for members of an equivalence class.
+     |      For example, Decimal('32.100') and Decimal('0.321000e+2') both normalize
+     |      to the equivalent value Decimal('32.1').
+     |  
+     |  number_class(self, /, context=None)
+     |      Return a string describing the class of the operand.  The returned value
+     |      is one of the following ten strings:
+     |      
+     |          * '-Infinity', indicating that the operand is negative infinity.
+     |          * '-Normal', indicating that the operand is a negative normal number.
+     |          * '-Subnormal', indicating that the operand is negative and subnormal.
+     |          * '-Zero', indicating that the operand is a negative zero.
+     |          * '+Zero', indicating that the operand is a positive zero.
+     |          * '+Subnormal', indicating that the operand is positive and subnormal.
+     |          * '+Normal', indicating that the operand is a positive normal number.
+     |          * '+Infinity', indicating that the operand is positive infinity.
+     |          * 'NaN', indicating that the operand is a quiet NaN (Not a Number).
+     |          * 'sNaN', indicating that the operand is a signaling NaN.
+     |  
+     |  quantize(self, /, exp, rounding=None, context=None)
+     |      Return a value equal to the first operand after rounding and having the
+     |      exponent of the second operand.
+     |      
+     |          >>> Decimal('1.41421356').quantize(Decimal('1.000'))
+     |          Decimal('1.414')
+     |      
+     |      Unlike other operations, if the length of the coefficient after the quantize
+     |      operation would be greater than precision, then an InvalidOperation is signaled.
+     |      This guarantees that, unless there is an error condition, the quantized exponent
+     |      is always equal to that of the right-hand operand.
+     |      
+     |      Also unlike other operations, quantize never signals Underflow, even if the
+     |      result is subnormal and inexact.
+     |      
+     |      If the exponent of the second operand is larger than that of the first, then
+     |      rounding may be necessary. In this case, the rounding mode is determined by the
+     |      rounding argument if given, else by the given context argument; if neither
+     |      argument is given, the rounding mode of the current thread's context is used.
+     |  
+     |  radix(self, /)
+     |      Return Decimal(10), the radix (base) in which the Decimal class does
+     |      all its arithmetic. Included for compatibility with the specification.
+     |  
+     |  remainder_near(self, /, other, context=None)
+     |      Return the remainder from dividing self by other.  This differs from
+     |      self % other in that the sign of the remainder is chosen so as to minimize
+     |      its absolute value. More precisely, the return value is self - n * other
+     |      where n is the integer nearest to the exact value of self / other, and
+     |      if two integers are equally near then the even one is chosen.
+     |      
+     |      If the result is zero then its sign will be the sign of self.
+     |  
+     |  rotate(self, /, other, context=None)
+     |      Return the result of rotating the digits of the first operand by an amount
+     |      specified by the second operand.  The second operand must be an integer in
+     |      the range -precision through precision. The absolute value of the second
+     |      operand gives the number of places to rotate. If the second operand is
+     |      positive then rotation is to the left; otherwise rotation is to the right.
+     |      The coefficient of the first operand is padded on the left with zeros to
+     |      length precision if necessary. The sign and exponent of the first operand are
+     |      unchanged.
+     |  
+     |  same_quantum(self, /, other, context=None)
+     |      Test whether self and other have the same exponent or whether both are NaN.
+     |      
+     |      This operation is unaffected by context and is quiet: no flags are changed
+     |      and no rounding is performed. As an exception, the C version may raise
+     |      InvalidOperation if the second operand cannot be converted exactly.
+     |  
+     |  scaleb(self, /, other, context=None)
+     |      Return the first operand with the exponent adjusted the second.  Equivalently,
+     |      return the first operand multiplied by 10**other. The second operand must be
+     |      an integer.
+     |  
+     |  shift(self, /, other, context=None)
+     |      Return the result of shifting the digits of the first operand by an amount
+     |      specified by the second operand.  The second operand must be an integer in
+     |      the range -precision through precision. The absolute value of the second
+     |      operand gives the number of places to shift. If the second operand is
+     |      positive, then the shift is to the left; otherwise the shift is to the
+     |      right. Digits shifted into the coefficient are zeros. The sign and exponent
+     |      of the first operand are unchanged.
+     |  
+     |  sqrt(self, /, context=None)
+     |      Return the square root of the argument to full precision. The result is
+     |      correctly rounded using the ROUND_HALF_EVEN rounding mode.
+     |  
+     |  to_eng_string(self, /, context=None)
+     |      Convert to an engineering-type string.  Engineering notation has an exponent
+     |      which is a multiple of 3, so there are up to 3 digits left of the decimal
+     |      place. For example, Decimal('123E+1') is converted to Decimal('1.23E+3').
+     |      
+     |      The value of context.capitals determines whether the exponent sign is lower
+     |      or upper case. Otherwise, the context does not affect the operation.
+     |  
+     |  to_integral(self, /, rounding=None, context=None)
+     |      Identical to the to_integral_value() method.  The to_integral() name has been
+     |      kept for compatibility with older versions.
+     |  
+     |  to_integral_exact(self, /, rounding=None, context=None)
+     |      Round to the nearest integer, signaling Inexact or Rounded as appropriate if
+     |      rounding occurs.  The rounding mode is determined by the rounding parameter
+     |      if given, else by the given context. If neither parameter is given, then the
+     |      rounding mode of the current default context is used.
+     |  
+     |  to_integral_value(self, /, rounding=None, context=None)
+     |      Round to the nearest integer without signaling Inexact or Rounded.  The
+     |      rounding mode is determined by the rounding parameter if given, else by
+     |      the given context. If neither parameter is given, then the rounding mode
+     |      of the current default context is used.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_float(f, /) from builtins.type
+     |      Class method that converts a float to a decimal number, exactly.
+     |      Since 0.1 is not exactly representable in binary floating point,
+     |      Decimal.from_float(0.1) is not the same as Decimal('0.1').
+     |      
+     |          >>> Decimal.from_float(0.1)
+     |          Decimal('0.1000000000000000055511151231257827021181583404541015625')
+     |          >>> Decimal.from_float(float('nan'))
+     |          Decimal('NaN')
+     |          >>> Decimal.from_float(float('inf'))
+     |          Decimal('Infinity')
+     |          >>> Decimal.from_float(float('-inf'))
+     |          Decimal('-Infinity')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  imag
+     |  
+     |  real
+    
+    class DecimalException(builtins.ArithmeticError)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class DecimalTuple(builtins.tuple)
+     |  DecimalTuple(sign, digits, exponent)
+     |  
+     |  DecimalTuple(sign, digits, exponent)
+     |  
+     |  Method resolution order:
+     |      DecimalTuple
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __getnewargs__(self)
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |  
+     |  __repr__(self)
+     |      Return a nicely formatted representation string
+     |  
+     |  _asdict(self)
+     |      Return a new OrderedDict which maps field names to their values.
+     |  
+     |  _replace(_self, **kwds)
+     |      Return a new DecimalTuple object replacing specified fields with new values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  _make(iterable) from builtins.type
+     |      Make a new DecimalTuple object from a sequence or iterable
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(_cls, sign, digits, exponent)
+     |      Create new instance of DecimalTuple(sign, digits, exponent)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  sign
+     |      Alias for field number 0
+     |  
+     |  digits
+     |      Alias for field number 1
+     |  
+     |  exponent
+     |      Alias for field number 2
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _field_defaults = {}
+     |  
+     |  _fields = ('sign', 'digits', 'exponent')
+     |  
+     |  _fields_defaults = {}
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+    
+    class DivisionByZero(DecimalException, builtins.ZeroDivisionError)
+     |  Second argument to a division or modulo operation was zero.
+     |  
+     |  Method resolution order:
+     |      DivisionByZero
+     |      DecimalException
+     |      builtins.ZeroDivisionError
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ZeroDivisionError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ZeroDivisionError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class DivisionImpossible(InvalidOperation)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      DivisionImpossible
+     |      InvalidOperation
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class DivisionUndefined(InvalidOperation, builtins.ZeroDivisionError)
+     |  Second argument to a division or modulo operation was zero.
+     |  
+     |  Method resolution order:
+     |      DivisionUndefined
+     |      InvalidOperation
+     |      DecimalException
+     |      builtins.ZeroDivisionError
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ZeroDivisionError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ZeroDivisionError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class FloatOperation(DecimalException, builtins.TypeError)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      FloatOperation
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.TypeError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Inexact(DecimalException)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Inexact
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class InvalidContext(InvalidOperation)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      InvalidContext
+     |      InvalidOperation
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class InvalidOperation(DecimalException)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      InvalidOperation
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Overflow(Inexact, Rounded)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Overflow
+     |      Inexact
+     |      Rounded
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Rounded(DecimalException)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Rounded
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Subnormal(DecimalException)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Subnormal
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Underflow(Inexact, Rounded, Subnormal)
+     |  Base class for arithmetic errors.
+     |  
+     |  Method resolution order:
+     |      Underflow
+     |      Inexact
+     |      Rounded
+     |      Subnormal
+     |      DecimalException
+     |      builtins.ArithmeticError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from DecimalException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ArithmeticError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ArithmeticError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    getcontext()
+        Get the current default context.
+    
+    localcontext(ctx=None)
+        Return a context manager that will set the default context to a copy of ctx
+        on entry to the with-statement and restore the previous default context when
+        exiting the with-statement. If no context is specified, a copy of the current
+        default context is used.
+    
+    setcontext(context, /)
+        Set a new default context.
+
+DATA
+    BasicContext = Context(prec=9, rounding=ROUND_HALF_UP, Emin=-99...dOpe...
+    DefaultContext = Context(prec=28, rounding=ROUND_HALF_EVEN, Emin=...ap...
+    ExtendedContext = Context(prec=9, rounding=ROUND_HALF_EVEN, Emin=-...=...
+    HAVE_THREADS = True
+    MAX_EMAX = 999999999999999999
+    MAX_PREC = 999999999999999999
+    MIN_EMIN = -999999999999999999
+    MIN_ETINY = -1999999999999999997
+    ROUND_05UP = 'ROUND_05UP'
+    ROUND_CEILING = 'ROUND_CEILING'
+    ROUND_DOWN = 'ROUND_DOWN'
+    ROUND_FLOOR = 'ROUND_FLOOR'
+    ROUND_HALF_DOWN = 'ROUND_HALF_DOWN'
+    ROUND_HALF_EVEN = 'ROUND_HALF_EVEN'
+    ROUND_HALF_UP = 'ROUND_HALF_UP'
+    ROUND_UP = 'ROUND_UP'
+    __libmpdec_version__ = '2.4.2'
+
+VERSION
+    1.70
+
+FILE
+    c:\program files\python37\lib\decimal.py
+
+

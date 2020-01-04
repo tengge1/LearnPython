@@ -1,0 +1,12 @@
+Help on module brain_uuid:
+
+NAME
+    brain_uuid - Astroid hooks for the UUID module.
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_uuid.py
+
+

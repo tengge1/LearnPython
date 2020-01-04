@@ -1,0 +1,903 @@
+Help on module ftplib:
+
+NAME
+    ftplib - An FTP client class and some helper functions.
+
+DESCRIPTION
+    Based on RFC 959: File Transfer Protocol (FTP), by J. Postel and J. Reynolds
+    
+    Example:
+    
+    >>> from ftplib import FTP
+    >>> ftp = FTP('ftp.python.org') # connect to host, default port
+    >>> ftp.login() # default, i.e.: user anonymous, passwd anonymous@
+    '230 Guest login ok, access restrictions apply.'
+    >>> ftp.retrlines('LIST') # list directory contents
+    total 9
+    drwxr-xr-x   8 root     wheel        1024 Jan  3  1994 .
+    drwxr-xr-x   8 root     wheel        1024 Jan  3  1994 ..
+    drwxr-xr-x   2 root     wheel        1024 Jan  3  1994 bin
+    drwxr-xr-x   2 root     wheel        1024 Jan  3  1994 etc
+    d-wxrwxr-x   2 ftp      wheel        1024 Sep  5 13:43 incoming
+    drwxr-xr-x   2 root     wheel        1024 Nov 17  1993 lib
+    drwxr-xr-x   6 1094     wheel        1024 Sep 13 19:07 pub
+    drwxr-xr-x   3 root     wheel        1024 Jan  3  1994 usr
+    -rw-r--r--   1 root     root          312 Aug  1  1994 welcome.msg
+    '226 Transfer complete.'
+    >>> ftp.quit()
+    '221 Goodbye.'
+    >>>
+    
+    A nice test that reveals some of the network dialogue would be:
+    python ftplib.py -d localhost -l -p -l
+
+CLASSES
+    builtins.object
+        FTP
+            FTP_TLS
+    Error(builtins.Exception)
+        error_perm
+        error_proto
+        error_reply
+        error_temp
+    
+    class FTP(builtins.object)
+     |  FTP(host='', user='', passwd='', acct='', timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |  
+     |  An FTP client class.
+     |  
+     |  To create a connection, call the class using these arguments:
+     |          host, user, passwd, acct, timeout
+     |  
+     |  The first four arguments are all strings, and have default value ''.
+     |  timeout must be numeric and defaults to None if not passed,
+     |  meaning that no timeout will be set on any ftp socket(s)
+     |  If a timeout is passed, then this is now the default timeout for all ftp
+     |  socket operations for this instance.
+     |  
+     |  Then use self.connect() with optional host and port argument.
+     |  
+     |  To download a file, use ftp.retrlines('RETR ' + filename),
+     |  or ftp.retrbinary() with slightly different arguments.
+     |  To upload a file, use ftp.storlines() or ftp.storbinary(),
+     |  which have an open file as argument (see their definitions
+     |  below for details).
+     |  The download/upload functions first issue appropriate TYPE
+     |  and PORT or PASV commands.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |      # Context management protocol: try to quit() if active
+     |  
+     |  __init__(self, host='', user='', passwd='', acct='', timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  abort(self)
+     |      Abort a file transfer.  Uses out-of-band data.
+     |      This does not follow the procedure from the RFC to send Telnet
+     |      IP and Synch; that doesn't seem to work with the servers I've
+     |      tried.  Instead, just send the ABOR command as OOB data.
+     |  
+     |  acct(self, password)
+     |      Send new account name.
+     |  
+     |  close(self)
+     |      Close the connection without assuming anything about it.
+     |  
+     |  connect(self, host='', port=0, timeout=-999, source_address=None)
+     |      Connect to host.  Arguments are:
+     |      - host: hostname to connect to (string, default previous host)
+     |      - port: port to connect to (integer, default previous port)
+     |      - timeout: the timeout to set against the ftp socket(s)
+     |      - source_address: a 2-tuple (host, port) for the socket to bind
+     |        to as its source address before connecting.
+     |  
+     |  cwd(self, dirname)
+     |      Change to a directory.
+     |  
+     |  debug = set_debuglevel(self, level)
+     |  
+     |  delete(self, filename)
+     |      Delete a file.
+     |  
+     |  dir(self, *args)
+     |      List a directory in long form.
+     |      By default list current directory to stdout.
+     |      Optional last argument is callback function; all
+     |      non-empty arguments before it are concatenated to the
+     |      LIST command.  (This *should* only be used for a pathname.)
+     |  
+     |  getline(self)
+     |      # Internal: return one line from the server, stripping CRLF.
+     |      # Raise EOFError if the connection is closed
+     |  
+     |  getmultiline(self)
+     |      # Internal: get a response from the server, which may possibly
+     |      # consist of multiple lines.  Return a single string with no
+     |      # trailing CRLF.  If the response consists of multiple lines,
+     |      # these are separated by '\n' characters in the string
+     |  
+     |  getresp(self)
+     |      # Internal: get a response from the server.
+     |      # Raise various errors if the response indicates an error
+     |  
+     |  getwelcome(self)
+     |      Get the welcome message from the server.
+     |      (this is read and squirreled away by connect())
+     |  
+     |  login(self, user='', passwd='', acct='')
+     |      Login, default anonymous.
+     |  
+     |  makepasv(self)
+     |  
+     |  makeport(self)
+     |      Create a new socket and send a PORT command for it.
+     |  
+     |  mkd(self, dirname)
+     |      Make a directory, return its full pathname.
+     |  
+     |  mlsd(self, path='', facts=[])
+     |      List a directory in a standardized format by using MLSD
+     |      command (RFC-3659). If path is omitted the current directory
+     |      is assumed. "facts" is a list of strings representing the type
+     |      of information desired (e.g. ["type", "size", "perm"]).
+     |      
+     |      Return a generator object yielding a tuple of two elements
+     |      for every file found in path.
+     |      First element is the file name, the second one is a dictionary
+     |      including a variable number of "facts" depending on the server
+     |      and whether "facts" argument has been provided.
+     |  
+     |  nlst(self, *args)
+     |      Return a list of files in a given directory (default the current).
+     |  
+     |  ntransfercmd(self, cmd, rest=None)
+     |      Initiate a transfer over the data connection.
+     |      
+     |      If the transfer is active, send a port command and the
+     |      transfer command, and accept the connection.  If the server is
+     |      passive, send a pasv command, connect to it, and start the
+     |      transfer command.  Either way, return the socket for the
+     |      connection and the expected size of the transfer.  The
+     |      expected size may be None if it could not be determined.
+     |      
+     |      Optional `rest' argument can be a string that is sent as the
+     |      argument to a REST command.  This is essentially a server
+     |      marker used to tell the server to skip over any data up to the
+     |      given marker.
+     |  
+     |  putcmd(self, line)
+     |      # Internal: send one command to the server (through putline())
+     |  
+     |  putline(self, line)
+     |      # Internal: send one line to the server, appending CRLF
+     |  
+     |  pwd(self)
+     |      Return current working directory.
+     |  
+     |  quit(self)
+     |      Quit, and close the connection.
+     |  
+     |  rename(self, fromname, toname)
+     |      Rename a file.
+     |  
+     |  retrbinary(self, cmd, callback, blocksize=8192, rest=None)
+     |      Retrieve data in binary mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A RETR command.
+     |        callback: A single parameter callable to be called on each
+     |                  block of data read.
+     |        blocksize: The maximum number of bytes to read from the
+     |                   socket at one time.  [default: 8192]
+     |        rest: Passed to transfercmd().  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  retrlines(self, cmd, callback=None)
+     |      Retrieve data in line mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A RETR, LIST, or NLST command.
+     |        callback: An optional single parameter callable that is called
+     |                  for each line with the trailing CRLF stripped.
+     |                  [default: print_line()]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  rmd(self, dirname)
+     |      Remove a directory.
+     |  
+     |  sanitize(self, s)
+     |      # Internal: "sanitize" a string for printing
+     |  
+     |  sendcmd(self, cmd)
+     |      Send a command and return the response.
+     |  
+     |  sendeprt(self, host, port)
+     |      Send an EPRT command with the current host and the given port number.
+     |  
+     |  sendport(self, host, port)
+     |      Send a PORT command with the current host and the given
+     |      port number.
+     |  
+     |  set_debuglevel(self, level)
+     |      Set the debugging level.
+     |      The required argument level means:
+     |      0: no debugging output (default)
+     |      1: print commands and responses but not body text etc.
+     |      2: also print raw lines read and sent before stripping CR/LF
+     |  
+     |  set_pasv(self, val)
+     |      Use passive or active mode for data transfers.
+     |      With a false argument, use the normal PORT mode,
+     |      With a true argument, use the PASV command.
+     |  
+     |  size(self, filename)
+     |      Retrieve the size of a file.
+     |  
+     |  storbinary(self, cmd, fp, blocksize=8192, callback=None, rest=None)
+     |      Store a file in binary mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A STOR command.
+     |        fp: A file-like object with a read(num_bytes) method.
+     |        blocksize: The maximum data size to read from fp and send over
+     |                   the connection at once.  [default: 8192]
+     |        callback: An optional single parameter callable that is called on
+     |                  each block of data after it is sent.  [default: None]
+     |        rest: Passed to transfercmd().  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  storlines(self, cmd, fp, callback=None)
+     |      Store a file in line mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A STOR command.
+     |        fp: A file-like object with a readline() method.
+     |        callback: An optional single parameter callable that is called on
+     |                  each line after it is sent.  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  transfercmd(self, cmd, rest=None)
+     |      Like ntransfercmd() but returns only the socket.
+     |  
+     |  voidcmd(self, cmd)
+     |      Send a command and expect a response beginning with '2'.
+     |  
+     |  voidresp(self)
+     |      Expect a response beginning with '2'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  debugging = 0
+     |  
+     |  encoding = 'latin-1'
+     |  
+     |  file = None
+     |  
+     |  host = ''
+     |  
+     |  maxline = 8192
+     |  
+     |  passiveserver = 1
+     |  
+     |  port = 21
+     |  
+     |  sock = None
+     |  
+     |  welcome = None
+    
+    class FTP_TLS(FTP)
+     |  FTP_TLS(host='', user='', passwd='', acct='', keyfile=None, certfile=None, context=None, timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |  
+     |  A FTP subclass which adds TLS support to FTP as described
+     |  in RFC-4217.
+     |  
+     |  Connect as usual to port 21 implicitly securing the FTP control
+     |  connection before authenticating.
+     |  
+     |  Securing the data connection requires user to explicitly ask
+     |  for it by calling prot_p() method.
+     |  
+     |  Usage example:
+     |  >>> from ftplib import FTP_TLS
+     |  >>> ftps = FTP_TLS('ftp.python.org')
+     |  >>> ftps.login()  # login anonymously previously securing control channel
+     |  '230 Guest login ok, access restrictions apply.'
+     |  >>> ftps.prot_p()  # switch to secure data connection
+     |  '200 Protection level set to P'
+     |  >>> ftps.retrlines('LIST')  # list directory content securely
+     |  total 9
+     |  drwxr-xr-x   8 root     wheel        1024 Jan  3  1994 .
+     |  drwxr-xr-x   8 root     wheel        1024 Jan  3  1994 ..
+     |  drwxr-xr-x   2 root     wheel        1024 Jan  3  1994 bin
+     |  drwxr-xr-x   2 root     wheel        1024 Jan  3  1994 etc
+     |  d-wxrwxr-x   2 ftp      wheel        1024 Sep  5 13:43 incoming
+     |  drwxr-xr-x   2 root     wheel        1024 Nov 17  1993 lib
+     |  drwxr-xr-x   6 1094     wheel        1024 Sep 13 19:07 pub
+     |  drwxr-xr-x   3 root     wheel        1024 Jan  3  1994 usr
+     |  -rw-r--r--   1 root     root          312 Aug  1  1994 welcome.msg
+     |  '226 Transfer complete.'
+     |  >>> ftps.quit()
+     |  '221 Goodbye.'
+     |  >>>
+     |  
+     |  Method resolution order:
+     |      FTP_TLS
+     |      FTP
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host='', user='', passwd='', acct='', keyfile=None, certfile=None, context=None, timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  abort(self)
+     |      Abort a file transfer.  Uses out-of-band data.
+     |      This does not follow the procedure from the RFC to send Telnet
+     |      IP and Synch; that doesn't seem to work with the servers I've
+     |      tried.  Instead, just send the ABOR command as OOB data.
+     |  
+     |  auth(self)
+     |      Set up secure control connection by using TLS/SSL.
+     |  
+     |  ccc(self)
+     |      Switch back to a clear-text control connection.
+     |  
+     |  login(self, user='', passwd='', acct='', secure=True)
+     |      Login, default anonymous.
+     |  
+     |  ntransfercmd(self, cmd, rest=None)
+     |      Initiate a transfer over the data connection.
+     |      
+     |      If the transfer is active, send a port command and the
+     |      transfer command, and accept the connection.  If the server is
+     |      passive, send a pasv command, connect to it, and start the
+     |      transfer command.  Either way, return the socket for the
+     |      connection and the expected size of the transfer.  The
+     |      expected size may be None if it could not be determined.
+     |      
+     |      Optional `rest' argument can be a string that is sent as the
+     |      argument to a REST command.  This is essentially a server
+     |      marker used to tell the server to skip over any data up to the
+     |      given marker.
+     |  
+     |  prot_c(self)
+     |      Set up clear text data connection.
+     |  
+     |  prot_p(self)
+     |      Set up secure data connection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  ssl_version = <_SSLMethod.PROTOCOL_TLS_CLIENT: 16>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from FTP:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |      # Context management protocol: try to quit() if active
+     |  
+     |  acct(self, password)
+     |      Send new account name.
+     |  
+     |  close(self)
+     |      Close the connection without assuming anything about it.
+     |  
+     |  connect(self, host='', port=0, timeout=-999, source_address=None)
+     |      Connect to host.  Arguments are:
+     |      - host: hostname to connect to (string, default previous host)
+     |      - port: port to connect to (integer, default previous port)
+     |      - timeout: the timeout to set against the ftp socket(s)
+     |      - source_address: a 2-tuple (host, port) for the socket to bind
+     |        to as its source address before connecting.
+     |  
+     |  cwd(self, dirname)
+     |      Change to a directory.
+     |  
+     |  debug = set_debuglevel(self, level)
+     |  
+     |  delete(self, filename)
+     |      Delete a file.
+     |  
+     |  dir(self, *args)
+     |      List a directory in long form.
+     |      By default list current directory to stdout.
+     |      Optional last argument is callback function; all
+     |      non-empty arguments before it are concatenated to the
+     |      LIST command.  (This *should* only be used for a pathname.)
+     |  
+     |  getline(self)
+     |      # Internal: return one line from the server, stripping CRLF.
+     |      # Raise EOFError if the connection is closed
+     |  
+     |  getmultiline(self)
+     |      # Internal: get a response from the server, which may possibly
+     |      # consist of multiple lines.  Return a single string with no
+     |      # trailing CRLF.  If the response consists of multiple lines,
+     |      # these are separated by '\n' characters in the string
+     |  
+     |  getresp(self)
+     |      # Internal: get a response from the server.
+     |      # Raise various errors if the response indicates an error
+     |  
+     |  getwelcome(self)
+     |      Get the welcome message from the server.
+     |      (this is read and squirreled away by connect())
+     |  
+     |  makepasv(self)
+     |  
+     |  makeport(self)
+     |      Create a new socket and send a PORT command for it.
+     |  
+     |  mkd(self, dirname)
+     |      Make a directory, return its full pathname.
+     |  
+     |  mlsd(self, path='', facts=[])
+     |      List a directory in a standardized format by using MLSD
+     |      command (RFC-3659). If path is omitted the current directory
+     |      is assumed. "facts" is a list of strings representing the type
+     |      of information desired (e.g. ["type", "size", "perm"]).
+     |      
+     |      Return a generator object yielding a tuple of two elements
+     |      for every file found in path.
+     |      First element is the file name, the second one is a dictionary
+     |      including a variable number of "facts" depending on the server
+     |      and whether "facts" argument has been provided.
+     |  
+     |  nlst(self, *args)
+     |      Return a list of files in a given directory (default the current).
+     |  
+     |  putcmd(self, line)
+     |      # Internal: send one command to the server (through putline())
+     |  
+     |  putline(self, line)
+     |      # Internal: send one line to the server, appending CRLF
+     |  
+     |  pwd(self)
+     |      Return current working directory.
+     |  
+     |  quit(self)
+     |      Quit, and close the connection.
+     |  
+     |  rename(self, fromname, toname)
+     |      Rename a file.
+     |  
+     |  retrbinary(self, cmd, callback, blocksize=8192, rest=None)
+     |      Retrieve data in binary mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A RETR command.
+     |        callback: A single parameter callable to be called on each
+     |                  block of data read.
+     |        blocksize: The maximum number of bytes to read from the
+     |                   socket at one time.  [default: 8192]
+     |        rest: Passed to transfercmd().  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  retrlines(self, cmd, callback=None)
+     |      Retrieve data in line mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A RETR, LIST, or NLST command.
+     |        callback: An optional single parameter callable that is called
+     |                  for each line with the trailing CRLF stripped.
+     |                  [default: print_line()]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  rmd(self, dirname)
+     |      Remove a directory.
+     |  
+     |  sanitize(self, s)
+     |      # Internal: "sanitize" a string for printing
+     |  
+     |  sendcmd(self, cmd)
+     |      Send a command and return the response.
+     |  
+     |  sendeprt(self, host, port)
+     |      Send an EPRT command with the current host and the given port number.
+     |  
+     |  sendport(self, host, port)
+     |      Send a PORT command with the current host and the given
+     |      port number.
+     |  
+     |  set_debuglevel(self, level)
+     |      Set the debugging level.
+     |      The required argument level means:
+     |      0: no debugging output (default)
+     |      1: print commands and responses but not body text etc.
+     |      2: also print raw lines read and sent before stripping CR/LF
+     |  
+     |  set_pasv(self, val)
+     |      Use passive or active mode for data transfers.
+     |      With a false argument, use the normal PORT mode,
+     |      With a true argument, use the PASV command.
+     |  
+     |  size(self, filename)
+     |      Retrieve the size of a file.
+     |  
+     |  storbinary(self, cmd, fp, blocksize=8192, callback=None, rest=None)
+     |      Store a file in binary mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A STOR command.
+     |        fp: A file-like object with a read(num_bytes) method.
+     |        blocksize: The maximum data size to read from fp and send over
+     |                   the connection at once.  [default: 8192]
+     |        callback: An optional single parameter callable that is called on
+     |                  each block of data after it is sent.  [default: None]
+     |        rest: Passed to transfercmd().  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  storlines(self, cmd, fp, callback=None)
+     |      Store a file in line mode.  A new port is created for you.
+     |      
+     |      Args:
+     |        cmd: A STOR command.
+     |        fp: A file-like object with a readline() method.
+     |        callback: An optional single parameter callable that is called on
+     |                  each line after it is sent.  [default: None]
+     |      
+     |      Returns:
+     |        The response code.
+     |  
+     |  transfercmd(self, cmd, rest=None)
+     |      Like ntransfercmd() but returns only the socket.
+     |  
+     |  voidcmd(self, cmd)
+     |      Send a command and expect a response beginning with '2'.
+     |  
+     |  voidresp(self)
+     |      Expect a response beginning with '2'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from FTP:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from FTP:
+     |  
+     |  debugging = 0
+     |  
+     |  encoding = 'latin-1'
+     |  
+     |  file = None
+     |  
+     |  host = ''
+     |  
+     |  maxline = 8192
+     |  
+     |  passiveserver = 1
+     |  
+     |  port = 21
+     |  
+     |  sock = None
+     |  
+     |  welcome = None
+    
+    class error_perm(Error)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      error_perm
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class error_proto(Error)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      error_proto
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class error_reply(Error)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      error_reply
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class error_temp(Error)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      error_temp
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+DATA
+    __all__ = ['FTP', 'error_reply', 'error_temp', 'error_perm', 'error_pr...
+    all_errors = (<class 'ftplib.Error'>, <class 'OSError'>, <class 'EOFEr...
+
+FILE
+    c:\program files\python37\lib\ftplib.py
+
+

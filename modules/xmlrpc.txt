@@ -1,0 +1,13 @@
+Help on package xmlrpc:
+
+NAME
+    xmlrpc - # This directory is a Python package.
+
+PACKAGE CONTENTS
+    client
+    server
+
+FILE
+    c:\program files\python37\lib\xmlrpc\__init__.py
+
+

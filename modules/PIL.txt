@@ -1,0 +1,129 @@
+Help on package PIL:
+
+NAME
+    PIL - Pillow (Fork of the Python Imaging Library)
+
+DESCRIPTION
+    Pillow is the friendly PIL fork by Alex Clark and Contributors.
+        https://github.com/python-pillow/Pillow/
+    
+    Pillow is forked from PIL 1.1.7.
+    
+    PIL is the Python Imaging Library by Fredrik Lundh and Contributors.
+    Copyright (c) 1999 by Secret Labs AB.
+    
+    Use PIL.__version__ for this Pillow version.
+    PIL.VERSION is the old PIL version and will be removed in the future.
+    
+    ;-)
+
+PACKAGE CONTENTS
+    BdfFontFile
+    BlpImagePlugin
+    BmpImagePlugin
+    BufrStubImagePlugin
+    ContainerIO
+    CurImagePlugin
+    DcxImagePlugin
+    DdsImagePlugin
+    EpsImagePlugin
+    ExifTags
+    FitsStubImagePlugin
+    FliImagePlugin
+    FontFile
+    FpxImagePlugin
+    FtexImagePlugin
+    GbrImagePlugin
+    GdImageFile
+    GifImagePlugin
+    GimpGradientFile
+    GimpPaletteFile
+    GribStubImagePlugin
+    Hdf5StubImagePlugin
+    IcnsImagePlugin
+    IcoImagePlugin
+    ImImagePlugin
+    Image
+    ImageChops
+    ImageCms
+    ImageColor
+    ImageDraw
+    ImageDraw2
+    ImageEnhance
+    ImageFile
+    ImageFilter
+    ImageFont
+    ImageGrab
+    ImageMath
+    ImageMode
+    ImageMorph
+    ImageOps
+    ImagePalette
+    ImagePath
+    ImageQt
+    ImageSequence
+    ImageShow
+    ImageStat
+    ImageTk
+    ImageTransform
+    ImageWin
+    ImtImagePlugin
+    IptcImagePlugin
+    Jpeg2KImagePlugin
+    JpegImagePlugin
+    JpegPresets
+    McIdasImagePlugin
+    MicImagePlugin
+    MpegImagePlugin
+    MpoImagePlugin
+    MspImagePlugin
+    PSDraw
+    PaletteFile
+    PalmImagePlugin
+    PcdImagePlugin
+    PcfFontFile
+    PcxImagePlugin
+    PdfImagePlugin
+    PdfParser
+    PixarImagePlugin
+    PngImagePlugin
+    PpmImagePlugin
+    PsdImagePlugin
+    PyAccess
+    SgiImagePlugin
+    SpiderImagePlugin
+    SunImagePlugin
+    TarIO
+    TgaImagePlugin
+    TiffImagePlugin
+    TiffTags
+    WalImageFile
+    WebPImagePlugin
+    WmfImagePlugin
+    XVThumbImagePlugin
+    XbmImagePlugin
+    XpmImagePlugin
+    __main__
+    _binary
+    _imaging
+    _imagingcms
+    _imagingft
+    _imagingmath
+    _imagingmorph
+    _imagingtk
+    _tkinter_finder
+    _util
+    _version
+    _webp
+    features
+
+DATA
+    PILLOW_VERSION = '6.2.1'
+
+VERSION
+    6.2.1
+
+FILE
+    c:\program files\python37\lib\site-packages\pil\__init__.py
+
+

@@ -1,0 +1,2 @@
+problem in curses - ModuleNotFoundError: No module named '_curses'
+

@@ -1,0 +1,141 @@
+Help on package h5py:
+
+NAME
+    h5py
+
+DESCRIPTION
+    This is the h5py package, a Python interface to the HDF5
+    scientific data format.
+
+PACKAGE CONTENTS
+    _conv
+    _errors
+    _hl (package)
+    _objects
+    _proxy
+    defs
+    h5
+    h5a
+    h5ac
+    h5d
+    h5ds
+    h5f
+    h5fd
+    h5g
+    h5i
+    h5l
+    h5o
+    h5p
+    h5pl
+    h5py_warnings
+    h5r
+    h5s
+    h5t
+    h5z
+    highlevel
+    ipy_completer
+    tests (package)
+    utils
+    version
+
+SUBMODULES
+    filters
+
+FUNCTIONS
+    check_enum_dtype(...)
+        If the dtype represents an HDF5 enumerated type, returns the dictionary
+        mapping string names to integer values.
+        
+        Returns None if the dtype does not represent an HDF5 enumerated type.
+    
+    check_ref_dtype(...)
+        If the dtype represents an HDF5 reference type, returns the reference
+        class (either Reference or RegionReference).
+        
+        Returns None if the dtype does not represent an HDF5 reference type.
+    
+    check_string_dtype(...)
+        If the dtype represents an HDF5 string, returns a string_info object.
+        
+        The returned string_info object holds the encoding and the length.
+        The encoding can only be 'utf-8' or 'ascii'. The length may be None
+        for a variable-length string, or a fixed length in bytes.
+        
+        Returns None if the dtype does not represent an HDF5 string.
+    
+    check_vlen_dtype(...)
+        If the dtype represents an HDF5 vlen, returns the Python base class.
+        
+        Returns None if the dtype does not represent an HDF5 vlen.
+    
+    enable_ipython_completer()
+        Call this from an interactive IPython session to enable tab-completion
+        of group and attribute names.
+    
+    enum_dtype(...)
+        Create a NumPy representation of an HDF5 enumerated type
+        
+        *values_dict* maps string names to integer values. *basetype* is an
+        appropriate integer base dtype large enough to hold the possible options.
+    
+    get_config(...)
+        () => H5PYConfig
+        
+        Get a reference to the global library configuration object.
+    
+    get_enum = py_get_enum(...)
+        (DTYPE dt_in) => DICT
+        
+        Deprecated; use check_dtype() instead.
+    
+    get_vlen = py_get_vlen(...)
+        (OBJECT dt_in) => TYPE
+        
+        Deprecated; use check_vlen_dtype() instead.
+    
+    new_enum = py_new_enum(...)
+        (DTYPE dt_in, DICT enum_vals) => DTYPE
+        
+        Deprecated; use enum_dtype() instead.
+    
+    new_vlen = py_new_vlen(...)
+        (OBJECT kind) => DTYPE
+        
+        Deprecated; use vlen_dtype() instead.
+    
+    run_tests(args='')
+        Run tests with pytest and returns the exit status as an int.
+    
+    string_dtype(...)
+        Make a numpy dtype for HDF5 strings
+        
+        encoding may be 'utf-8' or 'ascii'.
+        
+        length may be an integer for a fixed length string dtype, or None for
+        variable length strings. String lengths for HDF5 are counted in bytes,
+        not unicode code points.
+        
+        For variable length strings, the data should be passed as Python str objects
+        (unicode in Python 2) if the encoding is 'utf-8', and bytes if it is 'ascii'.
+        For fixed length strings, the data should be numpy fixed length *bytes*
+        arrays, regardless of the encoding. Fixed length unicode data is not
+        supported.
+    
+    vlen_dtype(...)
+        Make a numpy dtype for an HDF5 variable-length datatype
+        
+        For variable-length string dtypes, use :func:`string_dtype` instead.
+
+DATA
+    absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
+    highlevel = <h5py.h5py_warnings.ModuleWrapper object>
+    ref_dtype = dtype('O')
+    regionref_dtype = dtype('O')
+
+VERSION
+    2.10.0
+
+FILE
+    c:\program files\python37\lib\site-packages\h5py\__init__.py
+
+

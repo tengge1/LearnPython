@@ -1,0 +1,296 @@
+Help on module xdrlib:
+
+NAME
+    xdrlib - Implements (a subset of) Sun XDR -- eXternal Data Representation.
+
+DESCRIPTION
+    See: RFC 1014
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        Error
+            ConversionError
+    builtins.object
+        Packer
+        Unpacker
+    
+    class ConversionError(Error)
+     |  ConversionError(msg)
+     |  
+     |  Exception class for this module. Use:
+     |  
+     |  except xdrlib.Error as var:
+     |      # var has the Error instance for the exception
+     |  
+     |  Public ivars:
+     |      msg -- contains the message
+     |  
+     |  Method resolution order:
+     |      ConversionError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods inherited from Error:
+     |  
+     |  __init__(self, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Error(builtins.Exception)
+     |  Error(msg)
+     |  
+     |  Exception class for this module. Use:
+     |  
+     |  except xdrlib.Error as var:
+     |      # var has the Error instance for the exception
+     |  
+     |  Public ivars:
+     |      msg -- contains the message
+     |  
+     |  Method resolution order:
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Packer(builtins.object)
+     |  Pack various data representations into a buffer.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  get_buf = get_buffer(self)
+     |  
+     |  get_buffer(self)
+     |  
+     |  pack_array(self, list, pack_item)
+     |  
+     |  pack_bool(self, x)
+     |  
+     |  pack_bytes = pack_string(self, s)
+     |  
+     |  pack_double(self, x)
+     |  
+     |  pack_enum = pack_int(self, x)
+     |  
+     |  pack_farray(self, n, list, pack_item)
+     |  
+     |  pack_float(self, x)
+     |  
+     |  pack_fopaque = pack_fstring(self, n, s)
+     |  
+     |  pack_fstring(self, n, s)
+     |  
+     |  pack_hyper = pack_uhyper(self, x)
+     |  
+     |  pack_int(self, x)
+     |  
+     |  pack_list(self, list, pack_item)
+     |  
+     |  pack_opaque = pack_string(self, s)
+     |  
+     |  pack_string(self, s)
+     |  
+     |  pack_uhyper(self, x)
+     |  
+     |  pack_uint(self, x)
+     |  
+     |  reset(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Unpacker(builtins.object)
+     |  Unpacker(data)
+     |  
+     |  Unpacks various data representations from the given buffer.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, data)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  done(self)
+     |  
+     |  get_buffer(self)
+     |  
+     |  get_position(self)
+     |  
+     |  reset(self, data)
+     |  
+     |  set_position(self, position)
+     |  
+     |  unpack_array(self, unpack_item)
+     |  
+     |  unpack_bool(self)
+     |  
+     |  unpack_bytes = unpack_string(self)
+     |  
+     |  unpack_double(self)
+     |  
+     |  unpack_enum = unpack_int(self)
+     |  
+     |  unpack_farray(self, n, unpack_item)
+     |  
+     |  unpack_float(self)
+     |  
+     |  unpack_fopaque = unpack_fstring(self, n)
+     |  
+     |  unpack_fstring(self, n)
+     |  
+     |  unpack_hyper(self)
+     |  
+     |  unpack_int(self)
+     |  
+     |  unpack_list(self, unpack_item)
+     |  
+     |  unpack_opaque = unpack_string(self)
+     |  
+     |  unpack_string(self)
+     |  
+     |  unpack_uhyper(self)
+     |  
+     |  unpack_uint(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+DATA
+    __all__ = ['Error', 'Packer', 'Unpacker', 'ConversionError']
+
+FILE
+    c:\program files\python37\lib\xdrlib.py
+
+

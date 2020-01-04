@@ -1,0 +1,115 @@
+Help on module _weakrefset:
+
+NAME
+    _weakrefset
+
+DESCRIPTION
+    # Access WeakSet through the weakref module.
+    # This code is separated-out because it is needed
+    # by abc.py to load everything else at startup.
+
+CLASSES
+    builtins.object
+        WeakSet
+    
+    class WeakSet(builtins.object)
+     |  WeakSet(data=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __and__ = intersection(self, other)
+     |  
+     |  __contains__(self, item)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__ = issuperset(self, other)
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __iand__(self, other)
+     |  
+     |  __init__(self, data=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __ior__(self, other)
+     |  
+     |  __isub__(self, other)
+     |  
+     |  __iter__(self)
+     |  
+     |  __ixor__(self, other)
+     |  
+     |  __le__ = issubset(self, other)
+     |  
+     |  __len__(self)
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__ = union(self, other)
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  __sub__ = difference(self, other)
+     |  
+     |  __xor__ = symmetric_difference(self, other)
+     |  
+     |  add(self, item)
+     |  
+     |  clear(self)
+     |  
+     |  copy(self)
+     |  
+     |  difference(self, other)
+     |  
+     |  difference_update(self, other)
+     |  
+     |  discard(self, item)
+     |  
+     |  intersection(self, other)
+     |  
+     |  intersection_update(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |  
+     |  issubset(self, other)
+     |  
+     |  issuperset(self, other)
+     |  
+     |  pop(self)
+     |  
+     |  remove(self, item)
+     |  
+     |  symmetric_difference(self, other)
+     |  
+     |  symmetric_difference_update(self, other)
+     |  
+     |  union(self, other)
+     |  
+     |  update(self, other)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+
+DATA
+    __all__ = ['WeakSet']
+
+FILE
+    c:\program files\python37\lib\_weakrefset.py
+
+

@@ -1,0 +1,16 @@
+Help on package iso8601:
+
+NAME
+    iso8601
+
+PACKAGE CONTENTS
+    iso8601
+    test_iso8601
+
+DATA
+    UTC = datetime.timezone.utc
+
+FILE
+    c:\program files\python37\lib\site-packages\iso8601\__init__.py
+
+

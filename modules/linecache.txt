@@ -1,0 +1,27 @@
+Help on module linecache:
+
+NAME
+    linecache - Cache lines from Python source files.
+
+DESCRIPTION
+    This is intended to read lines from modules imported -- hence if a filename
+    is not found, it will look down the module search path for a file by
+    that name.
+
+FUNCTIONS
+    checkcache(filename=None)
+        Discard cache entries that are out of date.
+        (This is not checked upon each call!)
+    
+    clearcache()
+        Clear the cache entirely.
+    
+    getline(filename, lineno, module_globals=None)
+
+DATA
+    __all__ = ['getline', 'clearcache', 'checkcache']
+
+FILE
+    c:\program files\python37\lib\linecache.py
+
+

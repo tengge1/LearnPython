@@ -1,0 +1,15 @@
+Help on module imghdr:
+
+NAME
+    imghdr - Recognize image file formats based on their first few bytes.
+
+FUNCTIONS
+    what(file, h=None)
+
+DATA
+    __all__ = ['what']
+
+FILE
+    c:\program files\python37\lib\imghdr.py
+
+

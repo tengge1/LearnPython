@@ -1,0 +1,15 @@
+Help on module brain_dateutil:
+
+NAME
+    brain_dateutil - Astroid hooks for dateutil
+
+FUNCTIONS
+    dateutil_transform()
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_dateutil.py
+
+

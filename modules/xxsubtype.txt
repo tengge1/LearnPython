@@ -1,0 +1,317 @@
+Help on built-in module xxsubtype:
+
+NAME
+    xxsubtype
+
+DESCRIPTION
+    xxsubtype is an example module showing how to subtype builtin types from C.
+    test_descr.py in the standard test suite requires it in order to complete.
+    If you don't care about the examples, and don't intend to run the Python
+    test suite, you can recompile Python without Modules/xxsubtype.c.
+
+CLASSES
+    builtins.dict(builtins.object)
+        spamdict
+    builtins.list(builtins.object)
+        spamlist
+    
+    class spamdict(builtins.dict)
+     |  dict() -> new empty dictionary
+     |  dict(mapping) -> new dictionary initialized from a mapping object's
+     |      (key, value) pairs
+     |  dict(iterable) -> new dictionary initialized as if via:
+     |      d = {}
+     |      for k, v in iterable:
+     |          d[k] = v
+     |  dict(**kwargs) -> new dictionary initialized with the name=value pairs
+     |      in the keyword argument list.  For example:  dict(one=1, two=2)
+     |  
+     |  Method resolution order:
+     |      spamdict
+     |      builtins.dict
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  getstate(...)
+     |      getstate() -> state
+     |  
+     |  setstate(...)
+     |      setstate(state)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  state
+     |      an int variable for demonstration purposes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.dict:
+     |  
+     |  __contains__(self, key, /)
+     |      True if the dictionary has the specified key, else False.
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      D.__sizeof__() -> size of D in memory, in bytes
+     |  
+     |  clear(...)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  copy(...)
+     |      D.copy() -> a shallow copy of D
+     |  
+     |  get(self, key, default=None, /)
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  items(...)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(...)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  pop(...)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised
+     |  
+     |  popitem(...)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair as a
+     |      2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None, /)
+     |      Insert key with a value of default if key is not in the dictionary.
+     |      
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  update(...)
+     |      D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
+     |      If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]
+     |      If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+     |      In either case, this is followed by: for k in F:  D[k] = F[k]
+     |  
+     |  values(...)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.dict:
+     |  
+     |  fromkeys(iterable, value=None, /) from builtins.type
+     |      Create a new dictionary with keys from iterable and values set to value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.dict:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.dict:
+     |  
+     |  __hash__ = None
+    
+    class spamlist(builtins.list)
+     |  spamlist(iterable=(), /)
+     |  
+     |  Built-in mutable sequence.
+     |  
+     |  If no argument is given, the constructor creates a new empty list.
+     |  The argument must be an iterable if specified.
+     |  
+     |  Method resolution order:
+     |      spamlist
+     |      builtins.list
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  getstate(...)
+     |      getstate() -> state
+     |  
+     |  setstate(...)
+     |      setstate(state)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  classmeth(...) from builtins.type
+     |      classmeth(*args, **kw)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  staticmeth(...)
+     |      staticmeth(*args, **kw)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  state
+     |      an int variable for demonstration purposes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.list:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, value, /)
+     |      Implement self+=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Implement self*=value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __reversed__(self, /)
+     |      Return a reverse iterator over the list.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(self, /)
+     |      Return the size of the list in memory, in bytes.
+     |  
+     |  append(self, object, /)
+     |      Append object to the end of the list.
+     |  
+     |  clear(self, /)
+     |      Remove all items from list.
+     |  
+     |  copy(self, /)
+     |      Return a shallow copy of the list.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  extend(self, iterable, /)
+     |      Extend list by appending elements from the iterable.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+     |  
+     |  insert(self, index, object, /)
+     |      Insert object before index.
+     |  
+     |  pop(self, index=-1, /)
+     |      Remove and return item at index (default last).
+     |      
+     |      Raises IndexError if list is empty or index is out of range.
+     |  
+     |  remove(self, value, /)
+     |      Remove first occurrence of value.
+     |      
+     |      Raises ValueError if the value is not present.
+     |  
+     |  reverse(self, /)
+     |      Reverse *IN PLACE*.
+     |  
+     |  sort(self, /, *, key=None, reverse=False)
+     |      Stable sort *IN PLACE*.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.list:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.list:
+     |  
+     |  __hash__ = None
+
+FUNCTIONS
+    bench(...)
+
+FILE
+    (built-in)
+
+

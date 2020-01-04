@@ -1,0 +1,19 @@
+Help on module brain_pkg_resources:
+
+NAME
+    brain_pkg_resources
+
+DESCRIPTION
+    # Copyright (c) 2016, 2018 Claudiu Popa <pcmanticore@gmail.com>
+    # Copyright (c) 2016 Ceridwen <ceridwenv@gmail.com>
+
+FUNCTIONS
+    pkg_resources_transform()
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_pkg_resources.py
+
+

@@ -1,0 +1,26 @@
+Help on package ensurepip:
+
+NAME
+    ensurepip
+
+PACKAGE CONTENTS
+    __main__
+    _uninstall
+
+FUNCTIONS
+    bootstrap(*, root=None, upgrade=False, user=False, altinstall=False, default_pip=False, verbosity=0)
+        Bootstrap pip into the current Python installation (or the given root
+        directory).
+        
+        Note that calling this function will alter both sys.path and os.environ.
+    
+    version()
+        Returns a string specifying the bundled version of pip.
+
+DATA
+    __all__ = ['version', 'bootstrap']
+
+FILE
+    c:\program files\python37\lib\ensurepip\__init__.py
+
+

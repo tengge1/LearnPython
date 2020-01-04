@@ -1,0 +1,94 @@
+Help on module warnings:
+
+NAME
+    warnings - Python part of the warnings subsystem.
+
+CLASSES
+    builtins.object
+        catch_warnings
+    
+    class catch_warnings(builtins.object)
+     |  catch_warnings(*, record=False, module=None)
+     |  
+     |  A context manager that copies and restores the warnings filter upon
+     |  exiting the context.
+     |  
+     |  The 'record' argument specifies whether warnings should be captured by a
+     |  custom implementation of warnings.showwarning() and be appended to a list
+     |  returned by the context manager. Otherwise None is returned by the context
+     |  manager. The objects appended to the list are arguments whose attributes
+     |  mirror the arguments to showwarning().
+     |  
+     |  The 'module' argument is to specify an alternative module to the module
+     |  named 'warnings' and imported under that name. This argument is only useful
+     |  when testing the warnings module itself.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *exc_info)
+     |  
+     |  __init__(self, *, record=False, module=None)
+     |      Specify whether to record warnings and if an alternative module
+     |      should be used other than sys.modules['warnings'].
+     |      
+     |      For compatibility with Python 3.0, please consider all arguments to be
+     |      keyword-only.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    filterwarnings(action, message='', category=<class 'Warning'>, module='', lineno=0, append=False)
+        Insert an entry into the list of warnings filters (at the front).
+        
+        'action' -- one of "error", "ignore", "always", "default", "module",
+                    or "once"
+        'message' -- a regex that the warning message must match
+        'category' -- a class that the warning must be a subclass of
+        'module' -- a regex that the module name must match
+        'lineno' -- an integer line number, 0 matches all warnings
+        'append' -- if true, append to the list of filters
+    
+    formatwarning(message, category, filename, lineno, line=None)
+        Function to format a warning the standard way.
+    
+    resetwarnings()
+        Clear the list of warning filters, so that no filters are active.
+    
+    showwarning(message, category, filename, lineno, file=None, line=None)
+        Hook to write a warning to a file; replace if you like.
+    
+    simplefilter(action, category=<class 'Warning'>, lineno=0, append=False)
+        Insert a simple entry into the list of warnings filters (at the front).
+        
+        A simple filter matches all modules and messages.
+        'action' -- one of "error", "ignore", "always", "default", "module",
+                    or "once"
+        'category' -- a class that the warning must be a subclass of
+        'lineno' -- an integer line number, 0 matches all warnings
+        'append' -- if true, append to the list of filters
+    
+    warn(message, category=None, stacklevel=1, source=None)
+        Issue a warning, or maybe ignore it or raise an exception.
+    
+    warn_explicit(...)
+        Low-level inferface to warnings functionality.
+
+DATA
+    __all__ = ['warn', 'warn_explicit', 'showwarning', 'formatwarning', 'f...
+
+FILE
+    c:\program files\python37\lib\warnings.py
+
+

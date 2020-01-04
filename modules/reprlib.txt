@@ -1,0 +1,61 @@
+Help on module reprlib:
+
+NAME
+    reprlib - Redo the builtin repr() (representation) but with limits on most sizes.
+
+CLASSES
+    builtins.object
+        Repr
+    
+    class Repr(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  repr(self, x)
+     |  
+     |  repr1(self, x, level)
+     |  
+     |  repr_array(self, x, level)
+     |  
+     |  repr_deque(self, x, level)
+     |  
+     |  repr_dict(self, x, level)
+     |  
+     |  repr_frozenset(self, x, level)
+     |  
+     |  repr_instance(self, x, level)
+     |  
+     |  repr_int(self, x, level)
+     |  
+     |  repr_list(self, x, level)
+     |  
+     |  repr_set(self, x, level)
+     |  
+     |  repr_str(self, x, level)
+     |  
+     |  repr_tuple(self, x, level)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    recursive_repr(fillvalue='...')
+        Decorator to make a repr function return fillvalue for a recursive call
+    
+    repr(x) method of Repr instance
+
+DATA
+    __all__ = ['Repr', 'repr', 'recursive_repr']
+
+FILE
+    c:\program files\python37\lib\reprlib.py
+
+

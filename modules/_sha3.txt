@@ -1,0 +1,226 @@
+Help on built-in module _sha3:
+
+NAME
+    _sha3
+
+CLASSES
+    builtins.object
+        sha3_224
+        sha3_256
+        sha3_384
+        sha3_512
+        shake_128
+        shake_256
+    
+    class sha3_224(builtins.object)
+     |  sha3_224([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 28 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_256(builtins.object)
+     |  sha3_256([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 32 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_384(builtins.object)
+     |  sha3_384([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 48 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_512(builtins.object)
+     |  sha3_512([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 64 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class shake_128(builtins.object)
+     |  shake_128([data]) -> SHAKE object
+     |  
+     |  Return a new SHAKE hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, length, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, length, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class shake_256(builtins.object)
+     |  shake_256([data]) -> SHAKE object
+     |  
+     |  Return a new SHAKE hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, length, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, length, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+
+DATA
+    implementation = 'generic 64-bit optimized implementation (lane comple...
+    keccakopt = 64
+
+FILE
+    (built-in)
+
+

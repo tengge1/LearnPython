@@ -1,0 +1,272 @@
+Help on package lazy_object_proxy:
+
+NAME
+    lazy_object_proxy
+
+PACKAGE CONTENTS
+    _version
+    cext
+    compat
+    simple
+    slots
+    utils
+
+CLASSES
+    builtins.object
+        builtins.Proxy
+    
+    class Proxy(object)
+     |  Methods defined here:
+     |  
+     |  __abs__(self, /)
+     |      abs(self)
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __and__(self, value, /)
+     |      Return self&value.
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __bytes__(...)
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __dir__(...)
+     |      Default dir() implementation.
+     |  
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |  
+     |  __enter__(...)
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __exit__(...)
+     |  
+     |  __float__(self, /)
+     |      float(self)
+     |  
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattr__(...)
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iadd__(self, value, /)
+     |      Return self+=value.
+     |  
+     |  __iand__(self, value, /)
+     |      Return self&=value.
+     |  
+     |  __ifloordiv__(self, value, /)
+     |      Return self//=value.
+     |  
+     |  __ilshift__(self, value, /)
+     |      Return self<<=value.
+     |  
+     |  __imod__(self, value, /)
+     |      Return self%=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Return self*=value.
+     |  
+     |  __index__(self, /)
+     |      Return self converted to an integer, if self is suitable for use as an index into a list.
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __int__(self, /)
+     |      int(self)
+     |  
+     |  __invert__(self, /)
+     |      ~self
+     |  
+     |  __ior__(self, value, /)
+     |      Return self|=value.
+     |  
+     |  __ipow__(self, value, /)
+     |      Return self**=value.
+     |  
+     |  __irshift__(self, value, /)
+     |      Return self>>=value.
+     |  
+     |  __isub__(self, value, /)
+     |      Return self-=value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __itruediv__(self, value, /)
+     |      Return self/=value.
+     |  
+     |  __ixor__(self, value, /)
+     |      Return self^=value.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lshift__(self, value, /)
+     |      Return self<<value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __neg__(self, /)
+     |      -self
+     |  
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |  
+     |  __pos__(self, /)
+     |      +self
+     |  
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |  
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |  
+     |  __rand__(self, value, /)
+     |      Return value&self.
+     |  
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __reduce_ex__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __reversed__(...)
+     |  
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |  
+     |  __rlshift__(self, value, /)
+     |      Return value<<self.
+     |  
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |  
+     |  __round__(...)
+     |  
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |  
+     |  __rrshift__(self, value, /)
+     |      Return value>>self.
+     |  
+     |  __rshift__(self, value, /)
+     |      Return self>>value.
+     |  
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |  
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |  
+     |  __rxor__(self, value, /)
+     |      Return value^self.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |  
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |  
+     |  __xor__(self, value, /)
+     |      Return self^value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __annotations__
+     |  
+     |  __factory__
+     |  
+     |  __wrapped__
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __class__ = <class 'type'>
+     |      type(object_or_name, bases, dict)
+     |      type(object) -> the object's type
+     |      type(name, bases, dict) -> a new type
+
+DATA
+    __all__ = ('Proxy',)
+
+VERSION
+    1.4.3
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\lazy_object_proxy\__init__.py
+
+

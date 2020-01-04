@@ -1,0 +1,1633 @@
+Help on module smtplib:
+
+NAME
+    smtplib - SMTP/ESMTP client class.
+
+DESCRIPTION
+    This should follow RFC 821 (SMTP), RFC 1869 (ESMTP), RFC 2554 (SMTP
+    Authentication) and RFC 2487 (Secure SMTP over TLS).
+    
+    Notes:
+    
+    Please remember, when doing ESMTP, that the names of the SMTP service
+    extensions are NOT the same thing as the option keywords for the RCPT
+    and MAIL commands!
+    
+    Example:
+    
+      >>> import smtplib
+      >>> s=smtplib.SMTP("localhost")
+      >>> print(s.help())
+      This is Sendmail version 8.8.4
+      Topics:
+          HELO    EHLO    MAIL    RCPT    DATA
+          RSET    NOOP    QUIT    HELP    VRFY
+          EXPN    VERB    ETRN    DSN
+      For more info use "HELP <topic>".
+      To report bugs in the implementation send email to
+          sendmail-bugs@sendmail.org.
+      For local information send email to Postmaster at your site.
+      End of HELP info
+      >>> s.putcmd("vrfy","someone@here")
+      >>> s.getreply()
+      (250, "Somebody OverHere <somebody@here.my.org>")
+      >>> s.quit()
+
+CLASSES
+    builtins.OSError(builtins.Exception)
+        SMTPException
+            SMTPRecipientsRefused
+            SMTPResponseException
+                SMTPAuthenticationError
+                SMTPConnectError
+                SMTPDataError
+                SMTPHeloError
+                SMTPSenderRefused
+            SMTPServerDisconnected
+    builtins.object
+        SMTP
+            SMTP_SSL
+    
+    class SMTP(builtins.object)
+     |  SMTP(host='', port=0, local_hostname=None, timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |  
+     |  This class manages a connection to an SMTP or ESMTP server.
+     |  SMTP Objects:
+     |      SMTP objects have the following attributes:
+     |          helo_resp
+     |              This is the message given by the server in response to the
+     |              most recent HELO command.
+     |  
+     |          ehlo_resp
+     |              This is the message given by the server in response to the
+     |              most recent EHLO command. This is usually multiline.
+     |  
+     |          does_esmtp
+     |              This is a True value _after you do an EHLO command_, if the
+     |              server supports ESMTP.
+     |  
+     |          esmtp_features
+     |              This is a dictionary, which, if the server supports ESMTP,
+     |              will _after you do an EHLO command_, contain the names of the
+     |              SMTP service extensions this server supports, and their
+     |              parameters (if any).
+     |  
+     |              Note, all extension names are mapped to lower case in the
+     |              dictionary.
+     |  
+     |      See each method's docstrings for details.  In general, there is a
+     |      method of the same name to perform each SMTP command.  There is also a
+     |      method called 'sendmail' that will do an entire mail transaction.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __init__(self, host='', port=0, local_hostname=None, timeout=<object object at 0x000001E148267E00>, source_address=None)
+     |      Initialize a new instance.
+     |      
+     |      If specified, `host' is the name of the remote host to which to
+     |      connect.  If specified, `port' specifies the port to which to connect.
+     |      By default, smtplib.SMTP_PORT is used.  If a host is specified the
+     |      connect method is called, and if it returns anything other than a
+     |      success code an SMTPConnectError is raised.  If specified,
+     |      `local_hostname` is used as the FQDN of the local host in the HELO/EHLO
+     |      command.  Otherwise, the local hostname is found using
+     |      socket.getfqdn(). The `source_address` parameter takes a 2-tuple (host,
+     |      port) for the socket to bind to as its source address before
+     |      connecting. If the host is '' and port is 0, the OS default behavior
+     |      will be used.
+     |  
+     |  auth(self, mechanism, authobject, *, initial_response_ok=True)
+     |      Authentication command - requires response processing.
+     |      
+     |      'mechanism' specifies which authentication mechanism is to
+     |      be used - the valid values are those listed in the 'auth'
+     |      element of 'esmtp_features'.
+     |      
+     |      'authobject' must be a callable object taking a single argument:
+     |      
+     |              data = authobject(challenge)
+     |      
+     |      It will be called to process the server's challenge response; the
+     |      challenge argument it is passed will be a bytes.  It should return
+     |      an ASCII string that will be base64 encoded and sent to the server.
+     |      
+     |      Keyword arguments:
+     |          - initial_response_ok: Allow sending the RFC 4954 initial-response
+     |            to the AUTH command, if the authentication methods supports it.
+     |  
+     |  auth_cram_md5(self, challenge=None)
+     |      Authobject to use with CRAM-MD5 authentication. Requires self.user
+     |      and self.password to be set.
+     |  
+     |  auth_login(self, challenge=None)
+     |      Authobject to use with LOGIN authentication. Requires self.user and
+     |      self.password to be set.
+     |  
+     |  auth_plain(self, challenge=None)
+     |      Authobject to use with PLAIN authentication. Requires self.user and
+     |      self.password to be set.
+     |  
+     |  close(self)
+     |      Close the connection to the SMTP server.
+     |  
+     |  connect(self, host='localhost', port=0, source_address=None)
+     |      Connect to a host on a given port.
+     |      
+     |      If the hostname ends with a colon (`:') followed by a number, and
+     |      there is no port specified, that suffix will be stripped off and the
+     |      number interpreted as the port number to use.
+     |      
+     |      Note: This method is automatically invoked by __init__, if a host is
+     |      specified during instantiation.
+     |  
+     |  data(self, msg)
+     |      SMTP 'DATA' command -- sends message data to server.
+     |      
+     |      Automatically quotes lines beginning with a period per rfc821.
+     |      Raises SMTPDataError if there is an unexpected reply to the
+     |      DATA command; the return value from this method is the final
+     |      response code received when the all data is sent.  If msg
+     |      is a string, lone '\r' and '\n' characters are converted to
+     |      '\r\n' characters.  If msg is bytes, it is transmitted as is.
+     |  
+     |  docmd(self, cmd, args='')
+     |      Send a command, and return its response code.
+     |  
+     |  ehlo(self, name='')
+     |      SMTP 'ehlo' command.
+     |      Hostname to send for this command defaults to the FQDN of the local
+     |      host.
+     |  
+     |  ehlo_or_helo_if_needed(self)
+     |      Call self.ehlo() and/or self.helo() if needed.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |  
+     |  expn(self, address)
+     |      SMTP 'expn' command -- expands a mailing list.
+     |  
+     |  getreply(self)
+     |      Get a reply from the server.
+     |      
+     |      Returns a tuple consisting of:
+     |      
+     |        - server response code (e.g. '250', or such, if all goes well)
+     |          Note: returns -1 if it can't read response code.
+     |      
+     |        - server response string corresponding to response code (multiline
+     |          responses are converted to a single, multiline string).
+     |      
+     |      Raises SMTPServerDisconnected if end-of-file is reached.
+     |  
+     |  has_extn(self, opt)
+     |      Does the server support a given SMTP service extension?
+     |  
+     |  helo(self, name='')
+     |      SMTP 'helo' command.
+     |      Hostname to send for this command defaults to the FQDN of the local
+     |      host.
+     |  
+     |  help(self, args='')
+     |      SMTP 'help' command.
+     |      Returns help text from server.
+     |  
+     |  login(self, user, password, *, initial_response_ok=True)
+     |      Log in on an SMTP server that requires authentication.
+     |      
+     |      The arguments are:
+     |          - user:         The user name to authenticate with.
+     |          - password:     The password for the authentication.
+     |      
+     |      Keyword arguments:
+     |          - initial_response_ok: Allow sending the RFC 4954 initial-response
+     |            to the AUTH command, if the authentication methods supports it.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      This method will return normally if the authentication was successful.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |       SMTPAuthenticationError  The server didn't accept the username/
+     |                                password combination.
+     |       SMTPNotSupportedError    The AUTH command is not supported by the
+     |                                server.
+     |       SMTPException            No suitable authentication method was
+     |                                found.
+     |  
+     |  mail(self, sender, options=())
+     |      SMTP 'mail' command -- begins mail xfer session.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPNotSupportedError  The options parameter includes 'SMTPUTF8'
+     |                              but the SMTPUTF8 extension is not supported by
+     |                              the server.
+     |  
+     |  noop(self)
+     |      SMTP 'noop' command -- doesn't do anything :>
+     |  
+     |  putcmd(self, cmd, args='')
+     |      Send a command to the server.
+     |  
+     |  quit(self)
+     |      Terminate the SMTP session.
+     |  
+     |  rcpt(self, recip, options=())
+     |      SMTP 'rcpt' command -- indicates 1 recipient for this mail.
+     |  
+     |  rset(self)
+     |      SMTP 'rset' command -- resets session.
+     |  
+     |  send(self, s)
+     |      Send `s' to the server.
+     |  
+     |  send_message(self, msg, from_addr=None, to_addrs=None, mail_options=(), rcpt_options=())
+     |      Converts message to a bytestring and passes it to sendmail.
+     |      
+     |      The arguments are as for sendmail, except that msg is an
+     |      email.message.Message object.  If from_addr is None or to_addrs is
+     |      None, these arguments are taken from the headers of the Message as
+     |      described in RFC 2822 (a ValueError is raised if there is more than
+     |      one set of 'Resent-' headers).  Regardless of the values of from_addr and
+     |      to_addr, any Bcc field (or Resent-Bcc field, when the Message is a
+     |      resent) of the Message object won't be transmitted.  The Message
+     |      object is then serialized using email.generator.BytesGenerator and
+     |      sendmail is called to transmit the message.  If the sender or any of
+     |      the recipient addresses contain non-ASCII and the server advertises the
+     |      SMTPUTF8 capability, the policy is cloned with utf8 set to True for the
+     |      serialization, and SMTPUTF8 and BODY=8BITMIME are asserted on the send.
+     |      If the server does not support SMTPUTF8, an SMTPNotSupported error is
+     |      raised.  Otherwise the generator is called without modifying the
+     |      policy.
+     |  
+     |  sendmail(self, from_addr, to_addrs, msg, mail_options=(), rcpt_options=())
+     |      This command performs an entire mail transaction.
+     |      
+     |      The arguments are:
+     |          - from_addr    : The address sending this mail.
+     |          - to_addrs     : A list of addresses to send this mail to.  A bare
+     |                           string will be treated as a list with 1 address.
+     |          - msg          : The message to send.
+     |          - mail_options : List of ESMTP options (such as 8bitmime) for the
+     |                           mail command.
+     |          - rcpt_options : List of ESMTP options (such as DSN commands) for
+     |                           all the rcpt commands.
+     |      
+     |      msg may be a string containing characters in the ASCII range, or a byte
+     |      string.  A string is encoded to bytes using the ascii codec, and lone
+     |      \r and \n characters are converted to \r\n characters.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.  If the server does ESMTP, message size
+     |      and each of the specified options will be passed to it.  If EHLO
+     |      fails, HELO will be tried and ESMTP options suppressed.
+     |      
+     |      This method will return normally if the mail is accepted for at least
+     |      one recipient.  It returns a dictionary, with one entry for each
+     |      recipient that was refused.  Each entry contains a tuple of the SMTP
+     |      error code and the accompanying error message sent by the server.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError          The server didn't reply properly to
+     |                              the helo greeting.
+     |       SMTPRecipientsRefused  The server rejected ALL recipients
+     |                              (no mail was sent).
+     |       SMTPSenderRefused      The server didn't accept the from_addr.
+     |       SMTPDataError          The server replied with an unexpected
+     |                              error code (other than a refusal of
+     |                              a recipient).
+     |       SMTPNotSupportedError  The mail_options parameter includes 'SMTPUTF8'
+     |                              but the SMTPUTF8 extension is not supported by
+     |                              the server.
+     |      
+     |      Note: the connection will be open even after an exception is raised.
+     |      
+     |      Example:
+     |      
+     |       >>> import smtplib
+     |       >>> s=smtplib.SMTP("localhost")
+     |       >>> tolist=["one@one.org","two@two.org","three@three.org","four@four.org"]
+     |       >>> msg = '''\
+     |       ... From: Me@my.org
+     |       ... Subject: testin'...
+     |       ...
+     |       ... This is a test '''
+     |       >>> s.sendmail("me@my.org",tolist,msg)
+     |       { "three@three.org" : ( 550 ,"User unknown" ) }
+     |       >>> s.quit()
+     |      
+     |      In the above example, the message was accepted for delivery to three
+     |      of the four addresses, and one was rejected, with the error code
+     |      550.  If all addresses are accepted, then the method will return an
+     |      empty dictionary.
+     |  
+     |  set_debuglevel(self, debuglevel)
+     |      Set the debug output level.
+     |      
+     |      A non-false value results in debug messages for connection and for all
+     |      messages sent to and received from the server.
+     |  
+     |  starttls(self, keyfile=None, certfile=None, context=None)
+     |      Puts the connection to the SMTP server into TLS mode.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      If the server supports TLS, this will encrypt the rest of the SMTP
+     |      session. If you provide the keyfile and certfile parameters,
+     |      the identity of the SMTP server and client can be checked. This,
+     |      however, depends on whether the socket module really checks the
+     |      certificates.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |  
+     |  verify(self, address)
+     |      SMTP 'verify' command -- checks for address validity.
+     |  
+     |  vrfy = verify(self, address)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  debuglevel = 0
+     |  
+     |  default_port = 25
+     |  
+     |  does_esmtp = 0
+     |  
+     |  ehlo_msg = 'ehlo'
+     |  
+     |  ehlo_resp = None
+     |  
+     |  file = None
+     |  
+     |  helo_resp = None
+    
+    class SMTPAuthenticationError(SMTPResponseException)
+     |  SMTPAuthenticationError(code, msg)
+     |  
+     |  Authentication error.
+     |  
+     |  Most probably the server didn't accept the username/password
+     |  combination provided.
+     |  
+     |  Method resolution order:
+     |      SMTPAuthenticationError
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods inherited from SMTPResponseException:
+     |  
+     |  __init__(self, code, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPConnectError(SMTPResponseException)
+     |  SMTPConnectError(code, msg)
+     |  
+     |  Error during connection establishment.
+     |  
+     |  Method resolution order:
+     |      SMTPConnectError
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods inherited from SMTPResponseException:
+     |  
+     |  __init__(self, code, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPDataError(SMTPResponseException)
+     |  SMTPDataError(code, msg)
+     |  
+     |  The SMTP server didn't accept the data.
+     |  
+     |  Method resolution order:
+     |      SMTPDataError
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods inherited from SMTPResponseException:
+     |  
+     |  __init__(self, code, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPException(builtins.OSError)
+     |  Base class for all exceptions raised by this module.
+     |  
+     |  Method resolution order:
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPHeloError(SMTPResponseException)
+     |  SMTPHeloError(code, msg)
+     |  
+     |  The server refused our HELO reply.
+     |  
+     |  Method resolution order:
+     |      SMTPHeloError
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods inherited from SMTPResponseException:
+     |  
+     |  __init__(self, code, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPRecipientsRefused(SMTPException)
+     |  SMTPRecipientsRefused(recipients)
+     |  
+     |  All recipient addresses refused.
+     |  
+     |  The errors for each recipient are accessible through the attribute
+     |  'recipients', which is a dictionary of exactly the same sort as
+     |  SMTP.sendmail() returns.
+     |  
+     |  Method resolution order:
+     |      SMTPRecipientsRefused
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, recipients)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPResponseException(SMTPException)
+     |  SMTPResponseException(code, msg)
+     |  
+     |  Base class for all exceptions that include an SMTP error code.
+     |  
+     |  These exceptions are generated in some instances when the SMTP
+     |  server returns an error code.  The error code is stored in the
+     |  `smtp_code' attribute of the error, and the `smtp_error' attribute
+     |  is set to the error message.
+     |  
+     |  Method resolution order:
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, code, msg)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPSenderRefused(SMTPResponseException)
+     |  SMTPSenderRefused(code, msg, sender)
+     |  
+     |  Sender address refused.
+     |  
+     |  In addition to the attributes set by on all SMTPResponseException
+     |  exceptions, this sets `sender' to the string that the SMTP refused.
+     |  
+     |  Method resolution order:
+     |      SMTPSenderRefused
+     |      SMTPResponseException
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, code, msg, sender)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTPServerDisconnected(SMTPException)
+     |  Not connected to any SMTP server.
+     |  
+     |  This exception is raised when the server unexpectedly disconnects,
+     |  or when an attempt is made to use the SMTP instance before
+     |  connecting it to a server.
+     |  
+     |  Method resolution order:
+     |      SMTPServerDisconnected
+     |      SMTPException
+     |      builtins.OSError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from SMTPException:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class SMTP_SSL(SMTP)
+     |  SMTP_SSL(host='', port=0, local_hostname=None, keyfile=None, certfile=None, timeout=<object object at 0x000001E148267E00>, source_address=None, context=None)
+     |  
+     |  This is a subclass derived from SMTP that connects over an SSL
+     |  encrypted socket (to use this class you need a socket module that was
+     |  compiled with SSL support). If host is not specified, '' (the local
+     |  host) is used. If port is omitted, the standard SMTP-over-SSL port
+     |  (465) is used.  local_hostname and source_address have the same meaning
+     |  as they do in the SMTP class.  keyfile and certfile are also optional -
+     |  they can contain a PEM formatted private key and certificate chain file
+     |  for the SSL connection. context also optional, can contain a
+     |  SSLContext, and is an alternative to keyfile and certfile; If it is
+     |  specified both keyfile and certfile must be None.
+     |  
+     |  Method resolution order:
+     |      SMTP_SSL
+     |      SMTP
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host='', port=0, local_hostname=None, keyfile=None, certfile=None, timeout=<object object at 0x000001E148267E00>, source_address=None, context=None)
+     |      Initialize a new instance.
+     |      
+     |      If specified, `host' is the name of the remote host to which to
+     |      connect.  If specified, `port' specifies the port to which to connect.
+     |      By default, smtplib.SMTP_PORT is used.  If a host is specified the
+     |      connect method is called, and if it returns anything other than a
+     |      success code an SMTPConnectError is raised.  If specified,
+     |      `local_hostname` is used as the FQDN of the local host in the HELO/EHLO
+     |      command.  Otherwise, the local hostname is found using
+     |      socket.getfqdn(). The `source_address` parameter takes a 2-tuple (host,
+     |      port) for the socket to bind to as its source address before
+     |      connecting. If the host is '' and port is 0, the OS default behavior
+     |      will be used.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  default_port = 465
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SMTP:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  auth(self, mechanism, authobject, *, initial_response_ok=True)
+     |      Authentication command - requires response processing.
+     |      
+     |      'mechanism' specifies which authentication mechanism is to
+     |      be used - the valid values are those listed in the 'auth'
+     |      element of 'esmtp_features'.
+     |      
+     |      'authobject' must be a callable object taking a single argument:
+     |      
+     |              data = authobject(challenge)
+     |      
+     |      It will be called to process the server's challenge response; the
+     |      challenge argument it is passed will be a bytes.  It should return
+     |      an ASCII string that will be base64 encoded and sent to the server.
+     |      
+     |      Keyword arguments:
+     |          - initial_response_ok: Allow sending the RFC 4954 initial-response
+     |            to the AUTH command, if the authentication methods supports it.
+     |  
+     |  auth_cram_md5(self, challenge=None)
+     |      Authobject to use with CRAM-MD5 authentication. Requires self.user
+     |      and self.password to be set.
+     |  
+     |  auth_login(self, challenge=None)
+     |      Authobject to use with LOGIN authentication. Requires self.user and
+     |      self.password to be set.
+     |  
+     |  auth_plain(self, challenge=None)
+     |      Authobject to use with PLAIN authentication. Requires self.user and
+     |      self.password to be set.
+     |  
+     |  close(self)
+     |      Close the connection to the SMTP server.
+     |  
+     |  connect(self, host='localhost', port=0, source_address=None)
+     |      Connect to a host on a given port.
+     |      
+     |      If the hostname ends with a colon (`:') followed by a number, and
+     |      there is no port specified, that suffix will be stripped off and the
+     |      number interpreted as the port number to use.
+     |      
+     |      Note: This method is automatically invoked by __init__, if a host is
+     |      specified during instantiation.
+     |  
+     |  data(self, msg)
+     |      SMTP 'DATA' command -- sends message data to server.
+     |      
+     |      Automatically quotes lines beginning with a period per rfc821.
+     |      Raises SMTPDataError if there is an unexpected reply to the
+     |      DATA command; the return value from this method is the final
+     |      response code received when the all data is sent.  If msg
+     |      is a string, lone '\r' and '\n' characters are converted to
+     |      '\r\n' characters.  If msg is bytes, it is transmitted as is.
+     |  
+     |  docmd(self, cmd, args='')
+     |      Send a command, and return its response code.
+     |  
+     |  ehlo(self, name='')
+     |      SMTP 'ehlo' command.
+     |      Hostname to send for this command defaults to the FQDN of the local
+     |      host.
+     |  
+     |  ehlo_or_helo_if_needed(self)
+     |      Call self.ehlo() and/or self.helo() if needed.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |  
+     |  expn(self, address)
+     |      SMTP 'expn' command -- expands a mailing list.
+     |  
+     |  getreply(self)
+     |      Get a reply from the server.
+     |      
+     |      Returns a tuple consisting of:
+     |      
+     |        - server response code (e.g. '250', or such, if all goes well)
+     |          Note: returns -1 if it can't read response code.
+     |      
+     |        - server response string corresponding to response code (multiline
+     |          responses are converted to a single, multiline string).
+     |      
+     |      Raises SMTPServerDisconnected if end-of-file is reached.
+     |  
+     |  has_extn(self, opt)
+     |      Does the server support a given SMTP service extension?
+     |  
+     |  helo(self, name='')
+     |      SMTP 'helo' command.
+     |      Hostname to send for this command defaults to the FQDN of the local
+     |      host.
+     |  
+     |  help(self, args='')
+     |      SMTP 'help' command.
+     |      Returns help text from server.
+     |  
+     |  login(self, user, password, *, initial_response_ok=True)
+     |      Log in on an SMTP server that requires authentication.
+     |      
+     |      The arguments are:
+     |          - user:         The user name to authenticate with.
+     |          - password:     The password for the authentication.
+     |      
+     |      Keyword arguments:
+     |          - initial_response_ok: Allow sending the RFC 4954 initial-response
+     |            to the AUTH command, if the authentication methods supports it.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      This method will return normally if the authentication was successful.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |       SMTPAuthenticationError  The server didn't accept the username/
+     |                                password combination.
+     |       SMTPNotSupportedError    The AUTH command is not supported by the
+     |                                server.
+     |       SMTPException            No suitable authentication method was
+     |                                found.
+     |  
+     |  mail(self, sender, options=())
+     |      SMTP 'mail' command -- begins mail xfer session.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPNotSupportedError  The options parameter includes 'SMTPUTF8'
+     |                              but the SMTPUTF8 extension is not supported by
+     |                              the server.
+     |  
+     |  noop(self)
+     |      SMTP 'noop' command -- doesn't do anything :>
+     |  
+     |  putcmd(self, cmd, args='')
+     |      Send a command to the server.
+     |  
+     |  quit(self)
+     |      Terminate the SMTP session.
+     |  
+     |  rcpt(self, recip, options=())
+     |      SMTP 'rcpt' command -- indicates 1 recipient for this mail.
+     |  
+     |  rset(self)
+     |      SMTP 'rset' command -- resets session.
+     |  
+     |  send(self, s)
+     |      Send `s' to the server.
+     |  
+     |  send_message(self, msg, from_addr=None, to_addrs=None, mail_options=(), rcpt_options=())
+     |      Converts message to a bytestring and passes it to sendmail.
+     |      
+     |      The arguments are as for sendmail, except that msg is an
+     |      email.message.Message object.  If from_addr is None or to_addrs is
+     |      None, these arguments are taken from the headers of the Message as
+     |      described in RFC 2822 (a ValueError is raised if there is more than
+     |      one set of 'Resent-' headers).  Regardless of the values of from_addr and
+     |      to_addr, any Bcc field (or Resent-Bcc field, when the Message is a
+     |      resent) of the Message object won't be transmitted.  The Message
+     |      object is then serialized using email.generator.BytesGenerator and
+     |      sendmail is called to transmit the message.  If the sender or any of
+     |      the recipient addresses contain non-ASCII and the server advertises the
+     |      SMTPUTF8 capability, the policy is cloned with utf8 set to True for the
+     |      serialization, and SMTPUTF8 and BODY=8BITMIME are asserted on the send.
+     |      If the server does not support SMTPUTF8, an SMTPNotSupported error is
+     |      raised.  Otherwise the generator is called without modifying the
+     |      policy.
+     |  
+     |  sendmail(self, from_addr, to_addrs, msg, mail_options=(), rcpt_options=())
+     |      This command performs an entire mail transaction.
+     |      
+     |      The arguments are:
+     |          - from_addr    : The address sending this mail.
+     |          - to_addrs     : A list of addresses to send this mail to.  A bare
+     |                           string will be treated as a list with 1 address.
+     |          - msg          : The message to send.
+     |          - mail_options : List of ESMTP options (such as 8bitmime) for the
+     |                           mail command.
+     |          - rcpt_options : List of ESMTP options (such as DSN commands) for
+     |                           all the rcpt commands.
+     |      
+     |      msg may be a string containing characters in the ASCII range, or a byte
+     |      string.  A string is encoded to bytes using the ascii codec, and lone
+     |      \r and \n characters are converted to \r\n characters.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.  If the server does ESMTP, message size
+     |      and each of the specified options will be passed to it.  If EHLO
+     |      fails, HELO will be tried and ESMTP options suppressed.
+     |      
+     |      This method will return normally if the mail is accepted for at least
+     |      one recipient.  It returns a dictionary, with one entry for each
+     |      recipient that was refused.  Each entry contains a tuple of the SMTP
+     |      error code and the accompanying error message sent by the server.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError          The server didn't reply properly to
+     |                              the helo greeting.
+     |       SMTPRecipientsRefused  The server rejected ALL recipients
+     |                              (no mail was sent).
+     |       SMTPSenderRefused      The server didn't accept the from_addr.
+     |       SMTPDataError          The server replied with an unexpected
+     |                              error code (other than a refusal of
+     |                              a recipient).
+     |       SMTPNotSupportedError  The mail_options parameter includes 'SMTPUTF8'
+     |                              but the SMTPUTF8 extension is not supported by
+     |                              the server.
+     |      
+     |      Note: the connection will be open even after an exception is raised.
+     |      
+     |      Example:
+     |      
+     |       >>> import smtplib
+     |       >>> s=smtplib.SMTP("localhost")
+     |       >>> tolist=["one@one.org","two@two.org","three@three.org","four@four.org"]
+     |       >>> msg = '''\
+     |       ... From: Me@my.org
+     |       ... Subject: testin'...
+     |       ...
+     |       ... This is a test '''
+     |       >>> s.sendmail("me@my.org",tolist,msg)
+     |       { "three@three.org" : ( 550 ,"User unknown" ) }
+     |       >>> s.quit()
+     |      
+     |      In the above example, the message was accepted for delivery to three
+     |      of the four addresses, and one was rejected, with the error code
+     |      550.  If all addresses are accepted, then the method will return an
+     |      empty dictionary.
+     |  
+     |  set_debuglevel(self, debuglevel)
+     |      Set the debug output level.
+     |      
+     |      A non-false value results in debug messages for connection and for all
+     |      messages sent to and received from the server.
+     |  
+     |  starttls(self, keyfile=None, certfile=None, context=None)
+     |      Puts the connection to the SMTP server into TLS mode.
+     |      
+     |      If there has been no previous EHLO or HELO command this session, this
+     |      method tries ESMTP EHLO first.
+     |      
+     |      If the server supports TLS, this will encrypt the rest of the SMTP
+     |      session. If you provide the keyfile and certfile parameters,
+     |      the identity of the SMTP server and client can be checked. This,
+     |      however, depends on whether the socket module really checks the
+     |      certificates.
+     |      
+     |      This method may raise the following exceptions:
+     |      
+     |       SMTPHeloError            The server didn't reply properly to
+     |                                the helo greeting.
+     |  
+     |  verify(self, address)
+     |      SMTP 'verify' command -- checks for address validity.
+     |  
+     |  vrfy = verify(self, address)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SMTP:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SMTP:
+     |  
+     |  debuglevel = 0
+     |  
+     |  does_esmtp = 0
+     |  
+     |  ehlo_msg = 'ehlo'
+     |  
+     |  ehlo_resp = None
+     |  
+     |  file = None
+     |  
+     |  helo_resp = None
+
+FUNCTIONS
+    quoteaddr(addrstring)
+        Quote a subset of the email addresses defined by RFC 821.
+        
+        Should be able to handle anything email.utils.parseaddr can handle.
+    
+    quotedata(data)
+        Quote data for email.
+        
+        Double leading '.', and change Unix newline '\n', or Mac '\r' into
+        Internet CRLF end-of-line.
+
+DATA
+    __all__ = ['SMTPException', 'SMTPServerDisconnected', 'SMTPResponseExc...
+
+FILE
+    c:\program files\python37\lib\smtplib.py
+
+

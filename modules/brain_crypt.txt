@@ -1,0 +1,16 @@
+Help on module brain_crypt:
+
+NAME
+    brain_crypt
+
+DESCRIPTION
+    # Licensed under the LGPL: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+    # For details: https://github.com/PyCQA/astroid/blob/master/COPYING.LESSER
+
+DATA
+    PY37 = True
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_crypt.py
+
+

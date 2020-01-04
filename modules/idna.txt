@@ -1,0 +1,25 @@
+Help on package idna:
+
+NAME
+    idna
+
+PACKAGE CONTENTS
+    codec
+    compat
+    core
+    idnadata
+    intranges
+    package_data
+    uts46data
+
+FUNCTIONS
+    unichr = chr(i, /)
+        Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.
+
+VERSION
+    2.8
+
+FILE
+    c:\program files\python37\lib\site-packages\idna\__init__.py
+
+

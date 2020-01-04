@@ -1,0 +1,9 @@
+Help on module easy_install:
+
+NAME
+    easy_install - Run the EasyInstall command
+
+FILE
+    c:\program files\python37\lib\site-packages\easy_install.py
+
+

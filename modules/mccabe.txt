@@ -1,0 +1,209 @@
+Help on module mccabe:
+
+NAME
+    mccabe
+
+DESCRIPTION
+    Meager code path measurement tool.
+    Ned Batchelder
+    http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html
+    MIT License.
+
+CLASSES
+    builtins.object
+        ASTVisitor
+            PathGraphingAstVisitor
+        McCabeChecker
+        PathGraph
+        PathNode
+    
+    class ASTVisitor(builtins.object)
+     |  Performs a depth-first walk of the AST.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  default(self, node, *args)
+     |  
+     |  dispatch(self, node, *args)
+     |  
+     |  preorder(self, tree, visitor, *args)
+     |      Do preorder walk of tree using visitor
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class McCabeChecker(builtins.object)
+     |  McCabeChecker(tree, filename)
+     |  
+     |  McCabe cyclomatic complexity checker.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, tree, filename)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  run(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  add_options(parser) from builtins.type
+     |  
+     |  parse_options(options) from builtins.type
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  max_complexity = -1
+     |  
+     |  name = 'mccabe'
+     |  
+     |  version = '0.6.1'
+    
+    class PathGraph(builtins.object)
+     |  PathGraph(name, entity, lineno, column=0)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name, entity, lineno, column=0)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  complexity(self)
+     |      Return the McCabe complexity for the graph.
+     |      V-E+2
+     |  
+     |  connect(self, n1, n2)
+     |  
+     |  to_dot(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class PathGraphingAstVisitor(ASTVisitor)
+     |  A visitor for a parsed Abstract Syntax Tree which finds executable
+     |  statements.
+     |  
+     |  Method resolution order:
+     |      PathGraphingAstVisitor
+     |      ASTVisitor
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  appendPathNode(self, name)
+     |  
+     |  default(self, node, *args)
+     |  
+     |  dispatch_list(self, node_list)
+     |  
+     |  reset(self)
+     |  
+     |  visitAsyncFor = visitLoop(self, node)
+     |  
+     |  visitAsyncFunctionDef = visitFunctionDef(self, node)
+     |  
+     |  visitAsyncWith = visitWith(self, node)
+     |  
+     |  visitClassDef(self, node)
+     |  
+     |  visitFor = visitLoop(self, node)
+     |  
+     |  visitFunctionDef(self, node)
+     |  
+     |  visitIf(self, node)
+     |  
+     |  visitLoop(self, node)
+     |  
+     |  visitSimpleStatement(self, node)
+     |  
+     |  visitTry = visitTryExcept(self, node)
+     |  
+     |  visitTryExcept(self, node)
+     |  
+     |  visitWhile = visitLoop(self, node)
+     |  
+     |  visitWith(self, node)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ASTVisitor:
+     |  
+     |  dispatch(self, node, *args)
+     |  
+     |  preorder(self, tree, visitor, *args)
+     |      Do preorder walk of tree using visitor
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ASTVisitor:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class PathNode(builtins.object)
+     |  PathNode(name, look='circle')
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name, look='circle')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  dot_id(self)
+     |  
+     |  to_dot(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    get_code_complexity(code, threshold=7, filename='stdin')
+    
+    get_module_complexity(module_path, threshold=7)
+        Returns the complexity of a module
+    
+    main(argv=None)
+
+DATA
+    with_statement = _Feature((2, 5, 0, 'alpha', 1), (2, 6, 0, 'alpha', 0)...
+
+VERSION
+    0.6.1
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\mccabe.py
+
+

@@ -1,0 +1,216 @@
+Help on module plistlib:
+
+NAME
+    plistlib - plistlib.py -- a tool to generate and parse MacOSX .plist files.
+
+DESCRIPTION
+    The property list (.plist) file format is a simple XML pickle supporting
+    basic object types, like dictionaries, lists, numbers and strings.
+    Usually the top level object is a dictionary.
+    
+    To write out a plist file, use the dump(value, file)
+    function. 'value' is the top level object, 'file' is
+    a (writable) file object.
+    
+    To parse a plist from a file, use the load(file) function,
+    with a (readable) file object as the only argument. It
+    returns the top level object (again, usually a dictionary).
+    
+    To work with plist data in bytes objects, you can use loads()
+    and dumps().
+    
+    Values can be strings, integers, floats, booleans, tuples, lists,
+    dictionaries (but only with string keys), Data, bytes, bytearray, or
+    datetime.datetime objects.
+    
+    Generate Plist example:
+    
+        pl = dict(
+            aString = "Doodah",
+            aList = ["A", "B", 12, 32.1, [1, 2, 3]],
+            aFloat = 0.1,
+            anInt = 728,
+            aDict = dict(
+                anotherString = "<hello & hi there!>",
+                aUnicodeValue = "M\xe4ssig, Ma\xdf",
+                aTrueValue = True,
+                aFalseValue = False,
+            ),
+            someData = b"<binary gunk>",
+            someMoreData = b"<lots of binary gunk>" * 10,
+            aDate = datetime.datetime.fromtimestamp(time.mktime(time.gmtime())),
+        )
+        with open(fileName, 'wb') as fp:
+            dump(pl, fp)
+    
+    Parse Plist example:
+    
+        with open(fileName, 'rb') as fp:
+            pl = load(fp)
+        print(pl["aKey"])
+
+CLASSES
+    builtins.ValueError(builtins.Exception)
+        InvalidFileException
+    builtins.object
+        Data
+    
+    class Data(builtins.object)
+     |  Data(data)
+     |  
+     |  Wrapper for binary data.
+     |  
+     |  This class is deprecated, use a bytes object instead.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __init__(self, data)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  asBase64(self, maxlinelength=76)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  fromBase64(data) from builtins.type
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    class InvalidFileException(builtins.ValueError)
+     |  InvalidFileException(message='Invalid file')
+     |  
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      InvalidFileException
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, message='Invalid file')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    dump(value, fp, *, fmt=<PlistFormat.FMT_XML: 1>, sort_keys=True, skipkeys=False)
+        Write 'value' to a .plist file. 'fp' should be a (writable)
+        file object.
+    
+    dumps(value, *, fmt=<PlistFormat.FMT_XML: 1>, skipkeys=False, sort_keys=True)
+        Return a bytes object with the contents for a .plist file.
+    
+    load(fp, *, fmt=None, use_builtin_types=True, dict_type=<class 'dict'>)
+        Read a .plist file. 'fp' should be (readable) file object.
+        Return the unpacked root object (which usually is a dictionary).
+    
+    loads(value, *, fmt=None, use_builtin_types=True, dict_type=<class 'dict'>)
+        Read a .plist file from a bytes object.
+        Return the unpacked root object (which usually is a dictionary).
+    
+    readPlist(pathOrFile)
+        Read a .plist from a path or file. pathOrFile should either
+        be a file name, or a readable binary file object.
+        
+        This function is deprecated, use load instead.
+    
+    readPlistFromBytes(data)
+        Read a plist data from a bytes object. Return the root object.
+        
+        This function is deprecated, use loads instead.
+    
+    writePlist(value, pathOrFile)
+        Write 'value' to a .plist file. 'pathOrFile' may either be a
+        file name or a (writable) file object.
+        
+        This function is deprecated, use dump instead.
+    
+    writePlistToBytes(value)
+        Return 'value' as a plist-formatted bytes object.
+        
+        This function is deprecated, use dumps instead.
+
+DATA
+    FMT_BINARY = <PlistFormat.FMT_BINARY: 2>
+    FMT_XML = <PlistFormat.FMT_XML: 1>
+    __all__ = ['readPlist', 'writePlist', 'readPlistFromBytes', 'writePlis...
+
+FILE
+    c:\program files\python37\lib\plistlib.py
+
+

@@ -1,0 +1,14 @@
+Help on module brain_threading:
+
+NAME
+    brain_threading
+
+DESCRIPTION
+    # -*- coding: utf-8 -*-
+    # Copyright (c) 2016 Claudiu Popa <pcmanticore@gmail.com>
+    # Copyright (c) 2017 \u0141ukasz Rogalski <rogalski.91@gmail.com>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_threading.py
+
+

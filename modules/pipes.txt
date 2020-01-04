@@ -1,0 +1,122 @@
+Help on module pipes:
+
+NAME
+    pipes - Conversion pipeline templates.
+
+DESCRIPTION
+    The problem:
+    ------------
+    
+    Suppose you have some data that you want to convert to another format,
+    such as from GIF image format to PPM image format.  Maybe the
+    conversion involves several steps (e.g. piping it through compress or
+    uuencode).  Some of the conversion steps may require that their input
+    is a disk file, others may be able to read standard input; similar for
+    their output.  The input to the entire conversion may also be read
+    from a disk file or from an open file, and similar for its output.
+    
+    The module lets you construct a pipeline template by sticking one or
+    more conversion steps together.  It will take care of creating and
+    removing temporary files if they are necessary to hold intermediate
+    data.  You can then use the template to do conversions from many
+    different sources to many different destinations.  The temporary
+    file names used are different each time the template is used.
+    
+    The templates are objects so you can create templates for many
+    different conversion steps and store them in a dictionary, for
+    instance.
+    
+    
+    Directions:
+    -----------
+    
+    To create a template:
+        t = Template()
+    
+    To add a conversion step to a template:
+       t.append(command, kind)
+    where kind is a string of two characters: the first is '-' if the
+    command reads its standard input or 'f' if it requires a file; the
+    second likewise for the output. The command must be valid /bin/sh
+    syntax.  If input or output files are required, they are passed as
+    $IN and $OUT; otherwise, it must be  possible to use the command in
+    a pipeline.
+    
+    To add a conversion step at the beginning:
+       t.prepend(command, kind)
+    
+    To convert a file to another file using a template:
+      sts = t.copy(infile, outfile)
+    If infile or outfile are the empty string, standard input is read or
+    standard output is written, respectively.  The return value is the
+    exit status of the conversion pipeline.
+    
+    To open a file for reading or writing through a conversion pipeline:
+       fp = t.open(file, mode)
+    where mode is 'r' to read the file, or 'w' to write it -- just like
+    for the built-in function open() or for os.popen().
+    
+    To create a new template object initialized to a given one:
+       t2 = t.clone()
+
+CLASSES
+    builtins.object
+        Template
+    
+    class Template(builtins.object)
+     |  Class representing a pipeline template.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Template() returns a fresh pipeline template.
+     |  
+     |  __repr__(self)
+     |      t.__repr__() implements repr(t).
+     |  
+     |  append(self, cmd, kind)
+     |      t.append(cmd, kind) adds a new step at the end.
+     |  
+     |  clone(self)
+     |      t.clone() returns a new pipeline template with identical
+     |      initial state as the current one.
+     |  
+     |  copy(self, infile, outfile)
+     |  
+     |  debug(self, flag)
+     |      t.debug(flag) turns debugging on or off.
+     |  
+     |  makepipeline(self, infile, outfile)
+     |  
+     |  open(self, file, rw)
+     |      t.open(file, rw) returns a pipe or file object open for
+     |      reading or writing; the file is the other end of the pipeline.
+     |  
+     |  open_r(self, file)
+     |      t.open_r(file) and t.open_w(file) implement
+     |      t.open(file, 'r') and t.open(file, 'w') respectively.
+     |  
+     |  open_w(self, file)
+     |  
+     |  prepend(self, cmd, kind)
+     |      t.prepend(cmd, kind) adds a new step at the front.
+     |  
+     |  reset(self)
+     |      t.reset() restores a pipeline template to its initial state.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+DATA
+    __all__ = ['Template']
+
+FILE
+    c:\program files\python37\lib\pipes.py
+
+

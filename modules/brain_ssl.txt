@@ -1,0 +1,15 @@
+Help on module brain_ssl:
+
+NAME
+    brain_ssl - Astroid hooks for the ssl library.
+
+FUNCTIONS
+    ssl_transform()
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_ssl.py
+
+

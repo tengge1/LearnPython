@@ -1,0 +1,12 @@
+Help on package concurrent:
+
+NAME
+    concurrent - # This directory is a Python package.
+
+PACKAGE CONTENTS
+    futures (package)
+
+FILE
+    c:\program files\python37\lib\concurrent\__init__.py
+
+

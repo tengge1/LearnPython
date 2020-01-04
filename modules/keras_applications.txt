@@ -1,0 +1,47 @@
+Help on package keras_applications:
+
+NAME
+    keras_applications - Enables dynamic setting of underlying Keras module.
+
+PACKAGE CONTENTS
+    densenet
+    imagenet_utils
+    inception_resnet_v2
+    inception_v3
+    mobilenet
+    mobilenet_v2
+    nasnet
+    resnet
+    resnet50
+    resnet_common
+    resnet_v2
+    resnext
+    vgg16
+    vgg19
+    xception
+
+FUNCTIONS
+    correct_pad(backend, inputs, kernel_size)
+        Returns a tuple for zero-padding for 2D convolution with downsampling.
+        
+        # Arguments
+            input_size: An integer or tuple/list of 2 integers.
+            kernel_size: An integer or tuple/list of 2 integers.
+        
+        # Returns
+            A tuple.
+    
+    get_submodules_from_kwargs(kwargs)
+
+DATA
+    absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
+    division = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192...
+    print_function = _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0)...
+
+VERSION
+    1.0.8
+
+FILE
+    c:\program files\python37\lib\site-packages\keras_applications\__init__.py
+
+

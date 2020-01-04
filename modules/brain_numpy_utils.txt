@@ -1,0 +1,20 @@
+Help on module brain_numpy_utils:
+
+NAME
+    brain_numpy_utils - Different utilities for the numpy brains
+
+FUNCTIONS
+    infer_numpy_member(src, node, context=None)
+    
+    looks_like_numpy_member(member_name: str, node: astroid.node_classes.NodeNG) -> bool
+        Returns True if the node is a member of numpy whose
+        name is member_name.
+        
+        :param member_name: name of the member
+        :param node: node to test
+        :return: True if the node is a member of numpy
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_utils.py
+
+

@@ -1,0 +1,404 @@
+Help on module operator:
+
+NAME
+    operator - Operator interface.
+
+DESCRIPTION
+    This module exports a set of functions implemented in C corresponding
+    to the intrinsic operators of Python.  For example, operator.add(x, y)
+    is equivalent to the expression x+y.  The function names are those
+    used for special methods; variants without leading and trailing
+    '__' are also provided for convenience.
+
+CLASSES
+    builtins.object
+        attrgetter
+        itemgetter
+        methodcaller
+    
+    class attrgetter(builtins.object)
+     |  attrgetter(attr, ...) --> attrgetter object
+     |  
+     |  Return a callable object that fetches the given attribute(s) from its operand.
+     |  After f = attrgetter('name'), the call f(r) returns r.name.
+     |  After g = attrgetter('name', 'date'), the call g(r) returns (r.name, r.date).
+     |  After h = attrgetter('name.first', 'name.last'), the call h(r) returns
+     |  (r.name.first, r.name.last).
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class itemgetter(builtins.object)
+     |  itemgetter(item, ...) --> itemgetter object
+     |  
+     |  Return a callable object that fetches the given item(s) from its operand.
+     |  After f = itemgetter(2), the call f(r) returns r[2].
+     |  After g = itemgetter(2, 5, 3), the call g(r) returns (r[2], r[5], r[3])
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class methodcaller(builtins.object)
+     |  methodcaller(name, ...) --> methodcaller object
+     |  
+     |  Return a callable object that calls the given method on its operand.
+     |  After f = methodcaller('name'), the call f(r) returns r.name().
+     |  After g = methodcaller('name', 'date', foo=1), the call g(r) returns
+     |  r.name('date', foo=1).
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+
+FUNCTIONS
+    __abs__ = abs(a, /)
+        Same as abs(a).
+    
+    __add__ = add(a, b, /)
+        Same as a + b.
+    
+    __and__ = and_(a, b, /)
+        Same as a & b.
+    
+    __concat__ = concat(a, b, /)
+        Same as a + b, for a and b sequences.
+    
+    __contains__ = contains(a, b, /)
+        Same as b in a (note reversed operands).
+    
+    __delitem__ = delitem(a, b, /)
+        Same as del a[b].
+    
+    __eq__ = eq(a, b, /)
+        Same as a == b.
+    
+    __floordiv__ = floordiv(a, b, /)
+        Same as a // b.
+    
+    __ge__ = ge(a, b, /)
+        Same as a >= b.
+    
+    __getitem__ = getitem(a, b, /)
+        Same as a[b].
+    
+    __gt__ = gt(a, b, /)
+        Same as a > b.
+    
+    __iadd__ = iadd(a, b, /)
+        Same as a += b.
+    
+    __iand__ = iand(a, b, /)
+        Same as a &= b.
+    
+    __iconcat__ = iconcat(a, b, /)
+        Same as a += b, for a and b sequences.
+    
+    __ifloordiv__ = ifloordiv(a, b, /)
+        Same as a //= b.
+    
+    __ilshift__ = ilshift(a, b, /)
+        Same as a <<= b.
+    
+    __imatmul__ = imatmul(a, b, /)
+        Same as a @= b.
+    
+    __imod__ = imod(a, b, /)
+        Same as a %= b.
+    
+    __imul__ = imul(a, b, /)
+        Same as a *= b.
+    
+    __index__ = index(a, /)
+        Same as a.__index__()
+    
+    __inv__ = inv(a, /)
+        Same as ~a.
+    
+    __invert__ = invert(a, /)
+        Same as ~a.
+    
+    __ior__ = ior(a, b, /)
+        Same as a |= b.
+    
+    __ipow__ = ipow(a, b, /)
+        Same as a **= b.
+    
+    __irshift__ = irshift(a, b, /)
+        Same as a >>= b.
+    
+    __isub__ = isub(a, b, /)
+        Same as a -= b.
+    
+    __itruediv__ = itruediv(a, b, /)
+        Same as a /= b.
+    
+    __ixor__ = ixor(a, b, /)
+        Same as a ^= b.
+    
+    __le__ = le(a, b, /)
+        Same as a <= b.
+    
+    __lshift__ = lshift(a, b, /)
+        Same as a << b.
+    
+    __lt__ = lt(a, b, /)
+        Same as a < b.
+    
+    __matmul__ = matmul(a, b, /)
+        Same as a @ b.
+    
+    __mod__ = mod(a, b, /)
+        Same as a % b.
+    
+    __mul__ = mul(a, b, /)
+        Same as a * b.
+    
+    __ne__ = ne(a, b, /)
+        Same as a != b.
+    
+    __neg__ = neg(a, /)
+        Same as -a.
+    
+    __not__ = not_(a, /)
+        Same as not a.
+    
+    __or__ = or_(a, b, /)
+        Same as a | b.
+    
+    __pos__ = pos(a, /)
+        Same as +a.
+    
+    __pow__ = pow(a, b, /)
+        Same as a ** b.
+    
+    __rshift__ = rshift(a, b, /)
+        Same as a >> b.
+    
+    __setitem__ = setitem(a, b, c, /)
+        Same as a[b] = c.
+    
+    __sub__ = sub(a, b, /)
+        Same as a - b.
+    
+    __truediv__ = truediv(a, b, /)
+        Same as a / b.
+    
+    __xor__ = xor(a, b, /)
+        Same as a ^ b.
+    
+    abs(a, /)
+        Same as abs(a).
+    
+    add(a, b, /)
+        Same as a + b.
+    
+    and_(a, b, /)
+        Same as a & b.
+    
+    concat(a, b, /)
+        Same as a + b, for a and b sequences.
+    
+    contains(a, b, /)
+        Same as b in a (note reversed operands).
+    
+    countOf(a, b, /)
+        Return the number of times b occurs in a.
+    
+    delitem(a, b, /)
+        Same as del a[b].
+    
+    eq(a, b, /)
+        Same as a == b.
+    
+    floordiv(a, b, /)
+        Same as a // b.
+    
+    ge(a, b, /)
+        Same as a >= b.
+    
+    getitem(a, b, /)
+        Same as a[b].
+    
+    gt(a, b, /)
+        Same as a > b.
+    
+    iadd(a, b, /)
+        Same as a += b.
+    
+    iand(a, b, /)
+        Same as a &= b.
+    
+    iconcat(a, b, /)
+        Same as a += b, for a and b sequences.
+    
+    ifloordiv(a, b, /)
+        Same as a //= b.
+    
+    ilshift(a, b, /)
+        Same as a <<= b.
+    
+    imatmul(a, b, /)
+        Same as a @= b.
+    
+    imod(a, b, /)
+        Same as a %= b.
+    
+    imul(a, b, /)
+        Same as a *= b.
+    
+    index(a, /)
+        Same as a.__index__()
+    
+    indexOf(a, b, /)
+        Return the first index of b in a.
+    
+    inv(a, /)
+        Same as ~a.
+    
+    invert(a, /)
+        Same as ~a.
+    
+    ior(a, b, /)
+        Same as a |= b.
+    
+    ipow(a, b, /)
+        Same as a **= b.
+    
+    irshift(a, b, /)
+        Same as a >>= b.
+    
+    is_(a, b, /)
+        Same as a is b.
+    
+    is_not(a, b, /)
+        Same as a is not b.
+    
+    isub(a, b, /)
+        Same as a -= b.
+    
+    itruediv(a, b, /)
+        Same as a /= b.
+    
+    ixor(a, b, /)
+        Same as a ^= b.
+    
+    le(a, b, /)
+        Same as a <= b.
+    
+    length_hint(obj, default=0, /)
+        Return an estimate of the number of items in obj.
+        
+        This is useful for presizing containers when building from an iterable.
+        
+        If the object supports len(), the result will be exact.
+        Otherwise, it may over- or under-estimate by an arbitrary amount.
+        The result will be an integer >= 0.
+    
+    lshift(a, b, /)
+        Same as a << b.
+    
+    lt(a, b, /)
+        Same as a < b.
+    
+    matmul(a, b, /)
+        Same as a @ b.
+    
+    mod(a, b, /)
+        Same as a % b.
+    
+    mul(a, b, /)
+        Same as a * b.
+    
+    ne(a, b, /)
+        Same as a != b.
+    
+    neg(a, /)
+        Same as -a.
+    
+    not_(a, /)
+        Same as not a.
+    
+    or_(a, b, /)
+        Same as a | b.
+    
+    pos(a, /)
+        Same as +a.
+    
+    pow(a, b, /)
+        Same as a ** b.
+    
+    rshift(a, b, /)
+        Same as a >> b.
+    
+    setitem(a, b, c, /)
+        Same as a[b] = c.
+    
+    sub(a, b, /)
+        Same as a - b.
+    
+    truediv(a, b, /)
+        Same as a / b.
+    
+    truth(a, /)
+        Return True if a is true, False otherwise.
+    
+    xor(a, b, /)
+        Same as a ^ b.
+
+DATA
+    __all__ = ['abs', 'add', 'and_', 'attrgetter', 'concat', 'contains', '...
+
+FILE
+    c:\program files\python37\lib\operator.py
+
+

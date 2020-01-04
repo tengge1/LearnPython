@@ -1,0 +1,107 @@
+Help on built-in module mmap:
+
+NAME
+    mmap
+
+CLASSES
+    builtins.object
+        mmap
+    
+    class mmap(builtins.object)
+     |  Windows: mmap(fileno, length[, tagname[, access[, offset]]])
+     |  
+     |  Maps length bytes from the file specified by the file handle fileno,
+     |  and returns a mmap object.  If length is larger than the current size
+     |  of the file, the file is extended to contain length bytes.  If length
+     |  is 0, the maximum length of the map is the current size of the file,
+     |  except that if the file is empty Windows raises an exception (you cannot
+     |  create an empty mapping on Windows).
+     |  
+     |  Unix: mmap(fileno, length[, flags[, prot[, access[, offset]]]])
+     |  
+     |  Maps length bytes from the file specified by the file descriptor fileno,
+     |  and returns a mmap object.  If length is 0, the maximum length of the map
+     |  will be the current size of the file when mmap is called.
+     |  flags specifies the nature of the mapping. MAP_PRIVATE creates a
+     |  private copy-on-write mapping, so changes to the contents of the mmap
+     |  object will be private to this process, and MAP_SHARED creates a mapping
+     |  that's shared with all other processes mapping the same areas of the file.
+     |  The default value is MAP_SHARED.
+     |  
+     |  To map anonymous memory, pass -1 as the fileno (both versions).
+     |  
+     |  Methods defined here:
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __enter__(...)
+     |  
+     |  __exit__(...)
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      Size of object in memory, in bytes.
+     |  
+     |  close(...)
+     |  
+     |  find(...)
+     |  
+     |  flush(...)
+     |  
+     |  move(...)
+     |  
+     |  read(...)
+     |  
+     |  read_byte(...)
+     |  
+     |  readline(...)
+     |  
+     |  resize(...)
+     |  
+     |  rfind(...)
+     |  
+     |  seek(...)
+     |  
+     |  size(...)
+     |  
+     |  tell(...)
+     |  
+     |  write(...)
+     |  
+     |  write_byte(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closed
+
+DATA
+    ACCESS_COPY = 3
+    ACCESS_DEFAULT = 0
+    ACCESS_READ = 1
+    ACCESS_WRITE = 2
+    ALLOCATIONGRANULARITY = 65536
+    PAGESIZE = 4096
+
+FILE
+    (built-in)
+
+

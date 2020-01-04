@@ -1,0 +1,16 @@
+Help on module brain_hashlib:
+
+NAME
+    brain_hashlib
+
+DESCRIPTION
+    # Copyright (c) 2016, 2018 Claudiu Popa <pcmanticore@gmail.com>
+    # Copyright (c) 2018 Ioana Tagirta <ioana.tagirta@gmail.com>
+
+DATA
+    PY36 = True
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_hashlib.py
+
+

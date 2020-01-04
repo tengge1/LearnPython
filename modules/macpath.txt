@@ -1,0 +1,101 @@
+Help on module macpath:
+
+NAME
+    macpath - Pathname and path-related operations for the Macintosh.
+
+FUNCTIONS
+    abspath(path)
+        Return an absolute path.
+    
+    basename(s)
+    
+    commonprefix(m)
+        Given a list of pathnames, returns the longest common leading component
+    
+    dirname(s)
+    
+    exists(path)
+        Test whether a path exists.  Returns False for broken symbolic links
+    
+    expanduser(path)
+        Dummy to retain interface-compatibility with other operating systems.
+    
+    expandvars(path)
+        Dummy to retain interface-compatibility with other operating systems.
+    
+    getatime(filename)
+        Return the last access time of a file, reported by os.stat().
+    
+    getctime(filename)
+        Return the metadata change time of a file, reported by os.stat().
+    
+    getmtime(filename)
+        Return the last modification time of a file, reported by os.stat().
+    
+    getsize(filename)
+        Return the size of a file, reported by os.stat().
+    
+    isabs(s)
+        Return true if a path is absolute.
+        On the Mac, relative paths begin with a colon,
+        but as a special case, paths with no colons at all are also relative.
+        Anything else is absolute (the string up to the first colon is the
+        volume name).
+    
+    isdir(s)
+        Return true if the pathname refers to an existing directory.
+    
+    isfile(path)
+        Test whether a path is a regular file
+    
+    islink(s)
+        Return true if the pathname refers to a symbolic link.
+    
+    join(s, *p)
+    
+    lexists(path)
+        Test whether a path exists.  Returns True for broken symbolic links
+    
+    normcase(path)
+    
+    normpath(s)
+        Normalize a pathname.  Will return the same result for
+        equivalent paths.
+    
+    realpath(path)
+        # realpath is a no-op on systems without islink support
+    
+    split(s)
+        Split a pathname into two parts: the directory leading up to the final
+        bit, and the basename (the filename, without colons, in that directory).
+        The result (s, t) is such that join(s, t) yields the original argument.
+    
+    splitdrive(p)
+        Split a pathname into a drive specification and the rest of the
+        path.  Useful on DOS/Windows/NT; on the Mac, the drive is always
+        empty (don't use the volume name -- it doesn't have the same
+        syntactic and semantic oddities as DOS drive letters, such as there
+        being a separate current directory per drive).
+    
+    splitext(p)
+        Split the extension from a pathname.
+        
+        Extension is everything from the last dot to the end, ignoring
+        leading dots.  Returns "(root, ext)"; ext may be empty.
+
+DATA
+    __all__ = ['normcase', 'isabs', 'join', 'splitdrive', 'split', 'splite...
+    altsep = None
+    curdir = ':'
+    defpath = ':'
+    devnull = 'Dev:Null'
+    extsep = '.'
+    pardir = '::'
+    pathsep = '\n'
+    sep = ':'
+    supports_unicode_filenames = True
+
+FILE
+    c:\program files\python37\lib\macpath.py
+
+

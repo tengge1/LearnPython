@@ -1,0 +1,21 @@
+Help on package wrapt:
+
+NAME
+    wrapt
+
+PACKAGE CONTENTS
+    _wrappers
+    decorators
+    importer
+    wrappers
+
+DATA
+    __version_info__ = ('1', '11', '1')
+
+VERSION
+    1.11.1
+
+FILE
+    c:\program files\python37\lib\site-packages\wrapt\__init__.py
+
+

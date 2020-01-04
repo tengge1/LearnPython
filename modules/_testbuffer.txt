@@ -1,0 +1,54 @@
+Help on module _testbuffer:
+
+NAME
+    _testbuffer
+
+FUNCTIONS
+    cmp_contig(...)
+    
+    get_contiguous(...)
+    
+    get_pointer(...)
+    
+    get_sizeof_void_p(...)
+    
+    is_contiguous(...)
+    
+    py_buffer_to_contiguous(...)
+    
+    slice_indices(...)
+
+DATA
+    ND_FORTRAN = 4
+    ND_GETBUF_FAIL = 64
+    ND_GETBUF_UNDEFINED = 128
+    ND_MAX_NDIM = 128
+    ND_PIL = 16
+    ND_REDIRECT = 32
+    ND_SCALAR = 8
+    ND_VAREXPORT = 1
+    ND_WRITABLE = 2
+    PyBUF_ANY_CONTIGUOUS = 152
+    PyBUF_CONTIG = 9
+    PyBUF_CONTIG_RO = 8
+    PyBUF_C_CONTIGUOUS = 56
+    PyBUF_FORMAT = 4
+    PyBUF_FULL = 285
+    PyBUF_FULL_RO = 284
+    PyBUF_F_CONTIGUOUS = 88
+    PyBUF_INDIRECT = 280
+    PyBUF_ND = 8
+    PyBUF_READ = 256
+    PyBUF_RECORDS = 29
+    PyBUF_RECORDS_RO = 28
+    PyBUF_SIMPLE = 0
+    PyBUF_STRIDED = 25
+    PyBUF_STRIDED_RO = 24
+    PyBUF_STRIDES = 24
+    PyBUF_WRITABLE = 1
+    PyBUF_WRITE = 512
+
+FILE
+    c:\program files\python37\dlls\_testbuffer.pyd
+
+

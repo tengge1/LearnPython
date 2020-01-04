@@ -1,0 +1,23 @@
+Help on package pasta:
+
+NAME
+    pasta - Pasta enables AST-based transformations on python source code.
+
+PACKAGE CONTENTS
+    augment (package)
+    base (package)
+
+SUBMODULES
+    annotate
+    ast_utils
+    codegen
+
+FUNCTIONS
+    dump(tree)
+    
+    parse(src)
+
+FILE
+    c:\program files\python37\lib\site-packages\pasta\__init__.py
+
+

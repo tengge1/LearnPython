@@ -1,0 +1,337 @@
+Help on module bz2:
+
+NAME
+    bz2 - Interface to the libbzip2 compression library.
+
+DESCRIPTION
+    This module provides a file interface, classes for incremental
+    (de)compression, and functions for one-shot (de)compression.
+
+CLASSES
+    _compression.BaseStream(io.BufferedIOBase)
+        BZ2File
+    builtins.object
+        _bz2.BZ2Compressor
+        _bz2.BZ2Decompressor
+    
+    class BZ2Compressor(builtins.object)
+     |  BZ2Compressor(compresslevel=9, /)
+     |  
+     |  Create a compressor object for compressing data incrementally.
+     |  
+     |    compresslevel
+     |      Compression level, as a number between 1 and 9.
+     |  
+     |  For one-shot compression, use the compress() function instead.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getstate__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  compress(self, data, /)
+     |      Provide data to the compressor object.
+     |      
+     |      Returns a chunk of compressed data if possible, or b'' otherwise.
+     |      
+     |      When you have finished providing data to the compressor, call the
+     |      flush() method to finish the compression process.
+     |  
+     |  flush(self, /)
+     |      Finish the compression process.
+     |      
+     |      Returns the compressed data left in internal buffers.
+     |      
+     |      The compressor object may not be used after this method is called.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class BZ2Decompressor(builtins.object)
+     |  Create a decompressor object for decompressing data incrementally.
+     |  
+     |  For one-shot decompression, use the decompress() function instead.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getstate__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  decompress(self, /, data, max_length=-1)
+     |      Decompress *data*, returning uncompressed data as bytes.
+     |      
+     |      If *max_length* is nonnegative, returns at most *max_length* bytes of
+     |      decompressed data. If this limit is reached and further output can be
+     |      produced, *self.needs_input* will be set to ``False``. In this case, the next
+     |      call to *decompress()* may provide *data* as b'' to obtain more of the output.
+     |      
+     |      If all of the input data was decompressed and returned (either because this
+     |      was less than *max_length* bytes, or because *max_length* was negative),
+     |      *self.needs_input* will be set to True.
+     |      
+     |      Attempting to decompress data after the end of stream is reached raises an
+     |      EOFError.  Any data found after the end of the stream is ignored and saved in
+     |      the unused_data attribute.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  eof
+     |      True if the end-of-stream marker has been reached.
+     |  
+     |  needs_input
+     |      True if more input is needed before more decompressed data can be produced.
+     |  
+     |  unused_data
+     |      Data found after the end of the compressed stream.
+    
+    class BZ2File(_compression.BaseStream)
+     |  BZ2File(filename, mode='r', buffering=None, compresslevel=9)
+     |  
+     |  A file object providing transparent bzip2 (de)compression.
+     |  
+     |  A BZ2File can act as a wrapper for an existing file object, or refer
+     |  directly to a named file on disk.
+     |  
+     |  Note that BZ2File provides a *binary* file interface - data read is
+     |  returned as bytes, and data to be written should be given as bytes.
+     |  
+     |  Method resolution order:
+     |      BZ2File
+     |      _compression.BaseStream
+     |      io.BufferedIOBase
+     |      _io._BufferedIOBase
+     |      io.IOBase
+     |      _io._IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, filename, mode='r', buffering=None, compresslevel=9)
+     |      Open a bzip2-compressed file.
+     |      
+     |      If filename is a str, bytes, or PathLike object, it gives the
+     |      name of the file to be opened. Otherwise, it should be a file
+     |      object, which will be used to read or write the compressed data.
+     |      
+     |      mode can be 'r' for reading (default), 'w' for (over)writing,
+     |      'x' for creating exclusively, or 'a' for appending. These can
+     |      equivalently be given as 'rb', 'wb', 'xb', and 'ab'.
+     |      
+     |      buffering is ignored. Its use is deprecated.
+     |      
+     |      If mode is 'w', 'x' or 'a', compresslevel can be a number between 1
+     |      and 9 specifying the level of compression: 1 produces the least
+     |      compression, and 9 (default) produces the most compression.
+     |      
+     |      If mode is 'r', the input file may be the concatenation of
+     |      multiple compressed streams.
+     |  
+     |  close(self)
+     |      Flush and close the file.
+     |      
+     |      May be called more than once without error. Once the file is
+     |      closed, any other operation on it will raise a ValueError.
+     |  
+     |  fileno(self)
+     |      Return the file descriptor for the underlying file.
+     |  
+     |  peek(self, n=0)
+     |      Return buffered data without advancing the file position.
+     |      
+     |      Always returns at least one byte of data, unless at EOF.
+     |      The exact number of bytes returned is unspecified.
+     |  
+     |  read(self, size=-1)
+     |      Read up to size uncompressed bytes from the file.
+     |      
+     |      If size is negative or omitted, read until EOF is reached.
+     |      Returns b'' if the file is already at EOF.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size uncompressed bytes, while trying to avoid
+     |      making multiple reads from the underlying stream. Reads up to a
+     |      buffer's worth of data if size is negative.
+     |      
+     |      Returns b'' if the file is at EOF.
+     |  
+     |  readable(self)
+     |      Return whether the file was opened for reading.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into b.
+     |      
+     |      Returns the number of bytes read (0 for EOF).
+     |  
+     |  readline(self, size=-1)
+     |      Read a line of uncompressed bytes from the file.
+     |      
+     |      The terminating newline (if present) is retained. If size is
+     |      non-negative, no more than size bytes will be read (in which
+     |      case the line may be incomplete). Returns b'' if already at EOF.
+     |  
+     |  readlines(self, size=-1)
+     |      Read a list of lines of uncompressed bytes from the file.
+     |      
+     |      size can be specified to control the number of lines read: no
+     |      further lines will be read once the total size of the lines read
+     |      so far equals or exceeds size.
+     |  
+     |  seek(self, offset, whence=0)
+     |      Change the file position.
+     |      
+     |      The new position is specified by offset, relative to the
+     |      position indicated by whence. Values for whence are:
+     |      
+     |          0: start of stream (default); offset must not be negative
+     |          1: current stream position
+     |          2: end of stream; offset must not be positive
+     |      
+     |      Returns the new file position.
+     |      
+     |      Note that seeking is emulated, so depending on the parameters,
+     |      this operation may be extremely slow.
+     |  
+     |  seekable(self)
+     |      Return whether the file supports seeking.
+     |  
+     |  tell(self)
+     |      Return the current file position.
+     |  
+     |  writable(self)
+     |      Return whether the file was opened for writing.
+     |  
+     |  write(self, data)
+     |      Write a byte string to the file.
+     |      
+     |      Returns the number of uncompressed bytes written, which is
+     |      always len(data). Note that due to buffering, the file on disk
+     |      may not reflect the data written until close() is called.
+     |  
+     |  writelines(self, seq)
+     |      Write a sequence of byte strings to the file.
+     |      
+     |      Returns the number of uncompressed bytes written.
+     |      seq can be any iterable yielding byte strings.
+     |      
+     |      Line separators are not added between the written byte strings.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closed
+     |      True if this file is closed.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _io._BufferedIOBase:
+     |  
+     |  detach(self, /)
+     |      Disconnect this buffer from its underlying raw stream and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  readinto1(self, buffer, /)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _io._IOBase:
+     |  
+     |  __del__(...)
+     |  
+     |  __enter__(...)
+     |  
+     |  __exit__(...)
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __next__(self, /)
+     |      Implement next(self).
+     |  
+     |  flush(self, /)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self, /)
+     |      Return whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  truncate(...)
+     |      Truncate file to size bytes.
+     |      
+     |      File pointer is left unchanged.  Size defaults to the current IO
+     |      position as reported by tell().  Returns the new size.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from _io._IOBase:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _io._IOBase:
+     |  
+     |  __dict__
+
+FUNCTIONS
+    compress(data, compresslevel=9)
+        Compress a block of data.
+        
+        compresslevel, if given, must be a number between 1 and 9.
+        
+        For incremental compression, use a BZ2Compressor object instead.
+    
+    decompress(data)
+        Decompress a block of data.
+        
+        For incremental decompression, use a BZ2Decompressor object instead.
+    
+    open(filename, mode='rb', compresslevel=9, encoding=None, errors=None, newline=None)
+        Open a bzip2-compressed file in binary or text mode.
+        
+        The filename argument can be an actual filename (a str, bytes, or
+        PathLike object), or an existing file object to read from or write
+        to.
+        
+        The mode argument can be "r", "rb", "w", "wb", "x", "xb", "a" or
+        "ab" for binary mode, or "rt", "wt", "xt" or "at" for text mode.
+        The default mode is "rb", and the default compresslevel is 9.
+        
+        For binary mode, this function is equivalent to the BZ2File
+        constructor: BZ2File(filename, mode, compresslevel). In this case,
+        the encoding, errors and newline arguments must not be provided.
+        
+        For text mode, a BZ2File object is created, and wrapped in an
+        io.TextIOWrapper instance with the specified encoding, error
+        handling behavior, and line ending(s).
+
+DATA
+    __all__ = ['BZ2File', 'BZ2Compressor', 'BZ2Decompressor', 'open', 'com...
+
+AUTHOR
+    Nadeem Vawda <nadeem.vawda@gmail.com>
+
+FILE
+    c:\program files\python37\lib\bz2.py
+
+

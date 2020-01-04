@@ -1,0 +1,43 @@
+Help on built-in module _tracemalloc:
+
+NAME
+    _tracemalloc - Debug module to trace memory blocks allocated by Python.
+
+FUNCTIONS
+    clear_traces()
+        Clear traces of memory blocks allocated by Python.
+    
+    get_traceback_limit()
+        Get the maximum number of frames stored in the traceback of a trace.
+        
+        By default, a trace of an allocated memory block only stores
+        the most recent frame: the limit is 1.
+    
+    get_traced_memory()
+        Get the current size and peak size of memory blocks traced by tracemalloc.
+        
+        Returns a tuple: (current: int, peak: int).
+    
+    get_tracemalloc_memory()
+        Get the memory usage in bytes of the tracemalloc module.
+        
+        This memory is used internally to trace memory allocations.
+    
+    is_tracing()
+        Return True if the tracemalloc module is tracing Python memory allocations.
+    
+    start(nframe=1, /)
+        Start tracing Python memory allocations.
+        
+        Also set the maximum number of frames stored in the traceback of a
+        trace to nframe.
+    
+    stop()
+        Stop tracing Python memory allocations.
+        
+        Also clear traces of memory blocks allocated by Python.
+
+FILE
+    (built-in)
+
+

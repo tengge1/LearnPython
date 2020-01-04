@@ -1,0 +1,31 @@
+Help on built-in module faulthandler:
+
+NAME
+    faulthandler - faulthandler module.
+
+FUNCTIONS
+    cancel_dump_traceback_later(...)
+        cancel_dump_traceback_later():
+        cancel the previous call to dump_traceback_later().
+    
+    disable(...)
+        disable(): disable the fault handler
+    
+    dump_traceback(...)
+        dump_traceback(file=sys.stderr, all_threads=True): dump the traceback of the current thread, or of all threads if all_threads is True, into file
+    
+    dump_traceback_later(...)
+        dump_traceback_later(timeout, repeat=False, file=sys.stderrn, exit=False):
+        dump the traceback of all threads in timeout seconds,
+        or each timeout seconds if repeat is True. If exit is True, call _exit(1) which is not safe.
+    
+    enable(...)
+        enable(file=sys.stderr, all_threads=True): enable the fault handler
+    
+    is_enabled(...)
+        is_enabled()->bool: check if the handler is enabled
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,12 @@
+Help on module brain_numpy_core_numerictypes:
+
+NAME
+    brain_numpy_core_numerictypes - Astroid hooks for numpy.core.numerictypes module.
+
+FUNCTIONS
+    numpy_core_numerictypes_transform()
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_numerictypes.py
+
+

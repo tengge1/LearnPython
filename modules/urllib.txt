@@ -1,0 +1,16 @@
+Help on package urllib:
+
+NAME
+    urllib
+
+PACKAGE CONTENTS
+    error
+    parse
+    request
+    response
+    robotparser
+
+FILE
+    c:\program files\python37\lib\urllib\__init__.py
+
+

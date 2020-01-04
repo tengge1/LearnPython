@@ -1,0 +1,31 @@
+Help on module quopri:
+
+NAME
+    quopri - Conversions to/from quoted-printable transport encoding as per RFC 1521.
+
+FUNCTIONS
+    decode(input, output, header=False)
+        Read 'input', apply quoted-printable decoding, and write to 'output'.
+        'input' and 'output' are binary file objects.
+        If 'header' is true, decode underscore as space (per RFC 1522).
+    
+    decodestring(s, header=False)
+    
+    encode(input, output, quotetabs, header=False)
+        Read 'input', apply quoted-printable encoding, and write to 'output'.
+        
+        'input' and 'output' are binary file objects. The 'quotetabs' flag
+        indicates whether embedded tabs and spaces should be quoted. Note that
+        line-ending tabs and spaces are always encoded, as per RFC 1521.
+        The 'header' flag indicates whether we are encoding spaces as _ as per RFC
+        1522.
+    
+    encodestring(s, quotetabs=False, header=False)
+
+DATA
+    __all__ = ['encode', 'decode', 'encodestring', 'decodestring']
+
+FILE
+    c:\program files\python37\lib\quopri.py
+
+

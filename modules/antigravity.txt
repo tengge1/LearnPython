@@ -1,0 +1,16 @@
+Help on module antigravity:
+
+NAME
+    antigravity
+
+FUNCTIONS
+    geohash(latitude, longitude, datedow)
+        Compute geohash() using the Munroe algorithm.
+        
+        >>> geohash(37.421542, -122.085589, b'2005-05-26-10458.68')
+        37.857713 -122.544543
+
+FILE
+    c:\program files\python37\lib\antigravity.py
+
+

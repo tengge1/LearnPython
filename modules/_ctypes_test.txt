@@ -1,0 +1,14 @@
+Help on module _ctypes_test:
+
+NAME
+    _ctypes_test
+
+FUNCTIONS
+    func(...)
+    
+    func_si(...)
+
+FILE
+    c:\program files\python37\dlls\_ctypes_test.pyd
+
+

@@ -1,0 +1,112 @@
+Help on built-in module _json:
+
+NAME
+    _json - json speedups
+
+CLASSES
+    builtins.object
+        Encoder
+        Scanner
+    
+    make_encoder = class Encoder(builtins.object)
+     |  _iterencode(obj, _current_indent_level) -> iterable
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  default
+     |      default
+     |  
+     |  encoder
+     |      encoder
+     |  
+     |  indent
+     |      indent
+     |  
+     |  item_separator
+     |      item_separator
+     |  
+     |  key_separator
+     |      key_separator
+     |  
+     |  markers
+     |      markers
+     |  
+     |  skipkeys
+     |      skipkeys
+     |  
+     |  sort_keys
+     |      sort_keys
+    
+    make_scanner = class Scanner(builtins.object)
+     |  JSON scanner object
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  object_hook
+     |      object_hook
+     |  
+     |  object_pairs_hook
+     |  
+     |  parse_constant
+     |      parse_constant
+     |  
+     |  parse_float
+     |      parse_float
+     |  
+     |  parse_int
+     |      parse_int
+     |  
+     |  strict
+     |      strict
+
+FUNCTIONS
+    encode_basestring(...)
+        encode_basestring(string) -> string
+        
+        Return a JSON representation of a Python string
+    
+    encode_basestring_ascii(...)
+        encode_basestring_ascii(string) -> string
+        
+        Return an ASCII-only JSON representation of a Python string
+    
+    scanstring(...)
+        scanstring(string, end, strict=True) -> (string, end)
+        
+        Scan the string s for a JSON string. End is the index of the
+        character in s after the quote that started the JSON string.
+        Unescapes all valid JSON string escape sequences and raises ValueError
+        on attempt to decode an invalid string. If strict is False then literal
+        control characters are allowed in the string.
+        
+        Returns a tuple of the decoded string and the index of the character in s
+        after the end quote.
+
+FILE
+    (built-in)
+
+

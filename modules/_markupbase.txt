@@ -1,0 +1,61 @@
+Help on module _markupbase:
+
+NAME
+    _markupbase - Shared support for scanning document type declarations in HTML and XHTML.
+
+DESCRIPTION
+    This module is used as a foundation for the html.parser module.  It has no
+    documented public API and should not be used directly.
+
+CLASSES
+    builtins.object
+        ParserBase
+    
+    class ParserBase(builtins.object)
+     |  Parser base class which provides some common support methods used
+     |  by the SGML/HTML and XHTML parsers.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  error(self, message)
+     |  
+     |  getpos(self)
+     |      Return current line number and offset.
+     |  
+     |  parse_comment(self, i, report=1)
+     |      # Internal -- parse comment, return length or -1 if not terminated
+     |  
+     |  parse_declaration(self, i)
+     |      # Internal -- parse declaration (for use by subclasses).
+     |  
+     |  parse_marked_section(self, i, report=1)
+     |      # Internal -- parse a marked section
+     |      # Override this to handle MS-word extension syntax <![if word]>content<![endif]>
+     |  
+     |  reset(self)
+     |  
+     |  unknown_decl(self, data)
+     |      # To be overridden -- handlers for unknown objects
+     |  
+     |  updatepos(self, i, j)
+     |      # Internal -- update line number and offset.  This should be
+     |      # called for each piece of data exactly once, in order -- in other
+     |      # words the concatenation of all the input strings to this
+     |      # function should be exactly the entire input.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FILE
+    c:\program files\python37\lib\_markupbase.py
+
+

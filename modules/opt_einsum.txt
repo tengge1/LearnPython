@@ -1,0 +1,27 @@
+Help on package opt_einsum:
+
+NAME
+    opt_einsum - Main init function for opt_einsum.
+
+PACKAGE CONTENTS
+    _version
+    backends (package)
+    blas
+    contract
+    helpers
+    parser
+    path_random
+    paths
+    sharing
+    tests (package)
+
+DATA
+    __git_revision__ = '3cca90d1bb57358b78d8debbeeac3851cc654699'
+
+VERSION
+    v3.1.0
+
+FILE
+    c:\program files\python37\lib\site-packages\opt_einsum\__init__.py
+
+

@@ -1,0 +1,12 @@
+Help on module _elementtree:
+
+NAME
+    _elementtree
+
+FUNCTIONS
+    SubElement(...)
+
+FILE
+    c:\program files\python37\dlls\_elementtree.pyd
+
+

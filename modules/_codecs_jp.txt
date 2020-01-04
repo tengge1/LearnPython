@@ -1,0 +1,12 @@
+Help on built-in module _codecs_jp:
+
+NAME
+    _codecs_jp
+
+FUNCTIONS
+    getcodec(...)
+
+FILE
+    (built-in)
+
+

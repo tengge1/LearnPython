@@ -1,0 +1,2595 @@
+Help on module _pyio:
+
+NAME
+    _pyio - Python implementation of the io module.
+
+CLASSES
+    _BufferedIOMixin(BufferedIOBase)
+        BufferedReader
+        BufferedWriter
+            BufferedRandom(BufferedWriter, BufferedReader)
+    builtins.OSError(builtins.Exception)
+        builtins.BlockingIOError
+        io.UnsupportedOperation(builtins.OSError, builtins.ValueError)
+    builtins.ValueError(builtins.Exception)
+        io.UnsupportedOperation(builtins.OSError, builtins.ValueError)
+    builtins.object
+        IOBase
+            BufferedIOBase
+                BufferedRWPair
+                BytesIO
+            RawIOBase
+                FileIO
+            TextIOBase
+                TextIOWrapper
+                    StringIO
+    
+    class BlockingIOError(OSError)
+     |  I/O operation would block.
+     |  
+     |  Method resolution order:
+     |      BlockingIOError
+     |      OSError
+     |      Exception
+     |      BaseException
+     |      object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OSError:
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class BufferedIOBase(IOBase)
+     |  Base class for buffered IO objects.
+     |  
+     |  The main difference with RawIOBase is that the read() method
+     |  supports omitting the size argument, and does not have a default
+     |  implementation that defers to readinto().
+     |  
+     |  In addition, read(), readinto() and write() may raise
+     |  BlockingIOError if the underlying raw stream is in non-blocking
+     |  mode and not ready; unlike their raw counterparts, they will never
+     |  return None.
+     |  
+     |  A typical implementation should not inherit from a RawIOBase
+     |  implementation, but wrap one.
+     |  
+     |  Method resolution order:
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  read(self, size=-1)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      If the argument is omitted, None, or negative, reads and
+     |      returns all data until EOF.
+     |      
+     |      If the argument is positive, and the underlying raw stream is
+     |      not 'interactive', multiple raw reads may be issued to satisfy
+     |      the byte count (unless EOF is reached first).  But for
+     |      interactive raw streams (XXX and for pipes?), at most one raw
+     |      read will be issued, and a short result does not imply that
+     |      EOF is imminent.
+     |      
+     |      Returns an empty bytes array on EOF.
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size bytes with at most one read() system call,
+     |      where size is an int.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+    
+    class BufferedRWPair(BufferedIOBase)
+     |  BufferedRWPair(reader, writer, buffer_size=8192)
+     |  
+     |  A buffered reader and writer object together.
+     |  
+     |  A buffered reader object and buffered writer object put together to
+     |  form a sequential IO object that can read and write. This is typically
+     |  used with a socket or two-way pipe.
+     |  
+     |  reader and writer are RawIOBase objects that are readable and
+     |  writeable respectively. If the buffer_size is omitted it defaults to
+     |  DEFAULT_BUFFER_SIZE.
+     |  
+     |  Method resolution order:
+     |      BufferedRWPair
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, reader, writer, buffer_size=8192)
+     |      Constructor.
+     |      
+     |      The arguments are two RawIO instances.
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  peek(self, size=0)
+     |  
+     |  read(self, size=-1)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      If the argument is omitted, None, or negative, reads and
+     |      returns all data until EOF.
+     |      
+     |      If the argument is positive, and the underlying raw stream is
+     |      not 'interactive', multiple raw reads may be issued to satisfy
+     |      the byte count (unless EOF is reached first).  But for
+     |      interactive raw streams (XXX and for pipes?), at most one raw
+     |      read will be issued, and a short result does not imply that
+     |      EOF is imminent.
+     |      
+     |      Returns an empty bytes array on EOF.
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size bytes with at most one read() system call,
+     |      where size is an int.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedIOBase:
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BufferedRandom(BufferedWriter, BufferedReader)
+     |  BufferedRandom(raw, buffer_size=8192)
+     |  
+     |  A buffered interface to random access streams.
+     |  
+     |  The constructor creates a reader and writer for a seekable stream,
+     |  raw, given in the first argument. If the buffer_size is omitted it
+     |  defaults to DEFAULT_BUFFER_SIZE.
+     |  
+     |  Method resolution order:
+     |      BufferedRandom
+     |      BufferedWriter
+     |      BufferedReader
+     |      _BufferedIOMixin
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, raw, buffer_size=8192)
+     |      Create a new buffered reader using the given readable raw IO object.
+     |  
+     |  peek(self, size=0)
+     |      Returns buffered bytes without advancing the position.
+     |      
+     |      The argument indicates a desired minimal number of bytes; we
+     |      do at most one raw read to satisfy it.  We never return more
+     |      than self.buffer_size.
+     |  
+     |  read(self, size=None)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      If the argument is omitted, None, or negative, reads and
+     |      returns all data until EOF.
+     |      
+     |      If the argument is positive, and the underlying raw stream is
+     |      not 'interactive', multiple raw reads may be issued to satisfy
+     |      the byte count (unless EOF is reached first).  But for
+     |      interactive raw streams (XXX and for pipes?), at most one raw
+     |      read will be issued, and a short result does not imply that
+     |      EOF is imminent.
+     |      
+     |      Returns an empty bytes array on EOF.
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size bytes with at most one read() system call,
+     |      where size is an int.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedWriter:
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedReader:
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _BufferedIOMixin:
+     |  
+     |  __getstate__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _BufferedIOMixin:
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  mode
+     |  
+     |  name
+     |  
+     |  raw
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BufferedReader(_BufferedIOMixin)
+     |  BufferedReader(raw, buffer_size=8192)
+     |  
+     |  BufferedReader(raw[, buffer_size])
+     |  
+     |  A buffer for a readable, sequential BaseRawIO object.
+     |  
+     |  The constructor creates a BufferedReader for the given readable raw
+     |  stream and buffer_size. If buffer_size is omitted, DEFAULT_BUFFER_SIZE
+     |  is used.
+     |  
+     |  Method resolution order:
+     |      BufferedReader
+     |      _BufferedIOMixin
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, raw, buffer_size=8192)
+     |      Create a new buffered reader using the given readable raw IO object.
+     |  
+     |  peek(self, size=0)
+     |      Returns buffered bytes without advancing the position.
+     |      
+     |      The argument indicates a desired minimal number of bytes; we
+     |      do at most one raw read to satisfy it.  We never return more
+     |      than self.buffer_size.
+     |  
+     |  read(self, size=None)
+     |      Read size bytes.
+     |      
+     |      Returns exactly size bytes of data unless the underlying raw IO
+     |      stream reaches EOF or if the call would block in non-blocking
+     |      mode. If size is negative, read until EOF or until read() would
+     |      block.
+     |  
+     |  read1(self, size=-1)
+     |      Reads up to size bytes, with at most one read() system call.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _BufferedIOMixin:
+     |  
+     |  __getstate__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _BufferedIOMixin:
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  mode
+     |  
+     |  name
+     |  
+     |  raw
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedIOBase:
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BufferedWriter(_BufferedIOMixin)
+     |  BufferedWriter(raw, buffer_size=8192)
+     |  
+     |  A buffer for a writeable sequential RawIO object.
+     |  
+     |  The constructor creates a BufferedWriter for the given writeable raw
+     |  stream. If the buffer_size is not given, it defaults to
+     |  DEFAULT_BUFFER_SIZE.
+     |  
+     |  Method resolution order:
+     |      BufferedWriter
+     |      _BufferedIOMixin
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, raw, buffer_size=8192)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _BufferedIOMixin:
+     |  
+     |  __getstate__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _BufferedIOMixin:
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  mode
+     |  
+     |  name
+     |  
+     |  raw
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedIOBase:
+     |  
+     |  read(self, size=-1)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      If the argument is omitted, None, or negative, reads and
+     |      returns all data until EOF.
+     |      
+     |      If the argument is positive, and the underlying raw stream is
+     |      not 'interactive', multiple raw reads may be issued to satisfy
+     |      the byte count (unless EOF is reached first).  But for
+     |      interactive raw streams (XXX and for pipes?), at most one raw
+     |      read will be issued, and a short result does not imply that
+     |      EOF is imminent.
+     |      
+     |      Returns an empty bytes array on EOF.
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  read1(self, size=-1)
+     |      Read up to size bytes with at most one read() system call,
+     |      where size is an int.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BytesIO(BufferedIOBase)
+     |  BytesIO(initial_bytes=None)
+     |  
+     |  Buffered I/O implementation using an in-memory bytes buffer.
+     |  
+     |  Method resolution order:
+     |      BytesIO
+     |      BufferedIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __getstate__(self)
+     |  
+     |  __init__(self, initial_bytes=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  getbuffer(self)
+     |      Return a readable and writable view of the buffer.
+     |  
+     |  getvalue(self)
+     |      Return the bytes value (contents) of the buffer
+     |  
+     |  read(self, size=-1)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      If the argument is omitted, None, or negative, reads and
+     |      returns all data until EOF.
+     |      
+     |      If the argument is positive, and the underlying raw stream is
+     |      not 'interactive', multiple raw reads may be issued to satisfy
+     |      the byte count (unless EOF is reached first).  But for
+     |      interactive raw streams (XXX and for pipes?), at most one raw
+     |      read will be issued, and a short result does not imply that
+     |      EOF is imminent.
+     |      
+     |      Returns an empty bytes array on EOF.
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  read1(self, size=-1)
+     |      This is the same as read.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  write(self, b)
+     |      Write the given bytes buffer to the IO stream.
+     |      
+     |      Return the number of bytes written, which is always the length of b
+     |      in bytes.
+     |      
+     |      Raises BlockingIOError if the buffer is full and the
+     |      underlying raw stream cannot accept more data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BufferedIOBase:
+     |  
+     |  detach(self)
+     |      Separate the underlying raw stream from the buffer and return it.
+     |      
+     |      After the raw stream has been detached, the buffer is in an unusable
+     |      state.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Like read(), this may issue multiple reads to the underlying raw
+     |      stream, unless the latter is 'interactive'.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  readinto1(self, b)
+     |      Read bytes into buffer *b*, using at most one system call
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF).
+     |      
+     |      Raises BlockingIOError if the underlying raw stream has no
+     |      data at the moment.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+    
+    class FileIO(RawIOBase)
+     |  FileIO(file, mode='r', closefd=True, opener=None)
+     |  
+     |  Base class for raw binary I/O.
+     |  
+     |  Method resolution order:
+     |      FileIO
+     |      RawIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __getstate__(self)
+     |  
+     |  __init__(self, file, mode='r', closefd=True, opener=None)
+     |      Open a file.  The mode can be 'r' (default), 'w', 'x' or 'a' for reading,
+     |      writing, exclusive creation or appending.  The file will be created if it
+     |      doesn't exist when opened for writing or appending; it will be truncated
+     |      when opened for writing.  A FileExistsError will be raised if it already
+     |      exists when opened for creating. Opening a file for creating implies
+     |      writing so this mode behaves in a similar way to 'w'. Add a '+' to the mode
+     |      to allow simultaneous reading and writing. A custom opener can be used by
+     |      passing a callable as *opener*. The underlying file descriptor for the file
+     |      object is then obtained by calling opener with (*name*, *flags*).
+     |      *opener* must return an open file descriptor (passing os.open as *opener*
+     |      results in functionality similar to passing None).
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  close(self)
+     |      Close the file.
+     |      
+     |      A closed file cannot be used for further I/O operations.  close() may be
+     |      called more than once without error.
+     |  
+     |  fileno(self)
+     |      Return the underlying file descriptor (an integer).
+     |  
+     |  isatty(self)
+     |      True if the file is connected to a TTY device.
+     |  
+     |  read(self, size=None)
+     |      Read at most size bytes, returned as bytes.
+     |      
+     |      Only makes one system call, so less data may be returned than requested
+     |      In non-blocking mode, returns None if no data is available.
+     |      Return an empty bytes object at EOF.
+     |  
+     |  readable(self)
+     |      True if file was opened in a read mode.
+     |  
+     |  readall(self)
+     |      Read all data from the file, returned as bytes.
+     |      
+     |      In non-blocking mode, returns as much as is immediately available,
+     |      or None if no data is available.  Return an empty bytes object at EOF.
+     |  
+     |  readinto(self, b)
+     |      Same as RawIOBase.readinto().
+     |  
+     |  seek(self, pos, whence=0)
+     |      Move to new file position.
+     |      
+     |      Argument offset is a byte count.  Optional argument whence defaults to
+     |      SEEK_SET or 0 (offset from start of file, offset should be >= 0); other values
+     |      are SEEK_CUR or 1 (move relative to current position, positive or negative),
+     |      and SEEK_END or 2 (move relative to end of file, usually negative, although
+     |      many platforms allow seeking beyond the end of a file).
+     |      
+     |      Note that not all file objects are seekable.
+     |  
+     |  seekable(self)
+     |      True if file supports random-access.
+     |  
+     |  tell(self)
+     |      tell() -> int.  Current file position.
+     |      
+     |      Can raise OSError for non seekable files.
+     |  
+     |  truncate(self, size=None)
+     |      Truncate the file to at most size bytes.
+     |      
+     |      Size defaults to the current file position, as returned by tell().
+     |      The current file position is changed to the value of size.
+     |  
+     |  writable(self)
+     |      True if file was opened in a write mode.
+     |  
+     |  write(self, b)
+     |      Write bytes b to file, return number written.
+     |      
+     |      Only makes one system call, so not all of the data may be written.
+     |      The number of bytes actually written is returned.  In non-blocking mode,
+     |      returns None if the write would block.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closefd
+     |      True if the file descriptor will be closed by close().
+     |  
+     |  mode
+     |      String giving the file mode
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+    
+    class IOBase(builtins.object)
+     |  The abstract base class for all I/O classes, acting on streams of
+     |  bytes. There is no public constructor.
+     |  
+     |  This class provides dummy implementations for many methods that
+     |  derived classes can override selectively; the default implementations
+     |  represent a file that cannot be read, written or seeked.
+     |  
+     |  Even though IOBase does not declare read or write because
+     |  their signatures will vary, implementations and clients should
+     |  consider those methods part of the interface. Also, implementations
+     |  may raise UnsupportedOperation when operations they do not support are
+     |  called.
+     |  
+     |  The basic type used for binary data read from or written to a file is
+     |  bytes. Other bytes-like objects are accepted as method arguments too.
+     |  Text I/O classes work with str data.
+     |  
+     |  Note that calling any method (even inquiries) on a closed stream is
+     |  undefined. Implementations may raise OSError in this case.
+     |  
+     |  IOBase (and its subclasses) support the iterator protocol, meaning
+     |  that an IOBase object can be iterated over yielding the lines in a
+     |  stream.
+     |  
+     |  IOBase also supports the :keyword:`with` statement. In this example,
+     |  fp is closed after the suite of the with statement is complete:
+     |  
+     |  with open('spam.txt', 'r') as fp:
+     |      fp.write('Spam and eggs!')
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class RawIOBase(IOBase)
+     |  Base class for raw binary I/O.
+     |  
+     |  Method resolution order:
+     |      RawIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  read(self, size=-1)
+     |      Read and return up to size bytes, where size is an int.
+     |      
+     |      Returns an empty bytes object on EOF, or None if the object is
+     |      set not to block and has no data to read.
+     |  
+     |  readall(self)
+     |      Read until EOF, using multiple read() call.
+     |  
+     |  readinto(self, b)
+     |      Read bytes into a pre-allocated bytes-like object b.
+     |      
+     |      Returns an int representing the number of bytes read (0 for EOF), or
+     |      None if the object is set not to block and has no data to read.
+     |  
+     |  write(self, b)
+     |      Write the given buffer to the IO stream.
+     |      
+     |      Returns the number of bytes written, which may be less than the
+     |      length of b in bytes.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=-1)
+     |      Read and return a line of bytes from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      Size should be an int.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate file to size bytes.
+     |      
+     |      Size defaults to the current IO position as reported by tell().  Return
+     |      the new size.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+    
+    class StringIO(TextIOWrapper)
+     |  StringIO(initial_value='', newline='\n')
+     |  
+     |  Text I/O implementation using an in-memory buffer.
+     |  
+     |  The initial_value argument sets the value of object.  The newline
+     |  argument is like the one of TextIOWrapper's constructor.
+     |  
+     |  Method resolution order:
+     |      StringIO
+     |      TextIOWrapper
+     |      TextIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, initial_value='', newline='\n')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  detach(self)
+     |      Separate the underlying buffer from the TextIOBase and return it.
+     |      
+     |      After the underlying buffer has been detached, the TextIO is in an
+     |      unusable state.
+     |  
+     |  getvalue(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  encoding
+     |      Subclasses should override.
+     |  
+     |  errors
+     |      Error setting of the decoder or encoder.
+     |      
+     |      Subclasses should override.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from TextIOWrapper:
+     |  
+     |  __next__(self)
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  read(self, size=None)
+     |      Read at most size characters from stream, where size is an int.
+     |      
+     |      Read from underlying buffer until we have size characters or we hit EOF.
+     |      If size is negative or omitted, read until EOF.
+     |      
+     |      Returns a string.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=None)
+     |      Read until newline or EOF.
+     |      
+     |      Returns an empty string if EOF is hit immediately.
+     |  
+     |  reconfigure(self, *, encoding=None, errors=None, newline=Ellipsis, line_buffering=None, write_through=None)
+     |      Reconfigure the text stream with new parameters.
+     |      
+     |      This also flushes the stream.
+     |  
+     |  seek(self, cookie, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate size to pos, where pos is an int.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  write(self, s)
+     |      Write data, where s is a str
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from TextIOWrapper:
+     |  
+     |  buffer
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  line_buffering
+     |  
+     |  name
+     |  
+     |  newlines
+     |      Line endings translated so far.
+     |      
+     |      Only line endings translated during reading are considered.
+     |      
+     |      Subclasses should override.
+     |  
+     |  write_through
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class TextIOBase(IOBase)
+     |  Base class for text I/O.
+     |  
+     |  This class provides a character and line based interface to stream
+     |  I/O. There is no public constructor.
+     |  
+     |  Method resolution order:
+     |      TextIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  detach(self)
+     |      Separate the underlying buffer from the TextIOBase and return it.
+     |      
+     |      After the underlying buffer has been detached, the TextIO is in an
+     |      unusable state.
+     |  
+     |  read(self, size=-1)
+     |      Read at most size characters from stream, where size is an int.
+     |      
+     |      Read from underlying buffer until we have size characters or we hit EOF.
+     |      If size is negative or omitted, read until EOF.
+     |      
+     |      Returns a string.
+     |  
+     |  readline(self)
+     |      Read until newline or EOF.
+     |      
+     |      Returns an empty string if EOF is hit immediately.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate size to pos, where pos is an int.
+     |  
+     |  write(self, s)
+     |      Write string s to stream and returning an int.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  encoding
+     |      Subclasses should override.
+     |  
+     |  errors
+     |      Error setting of the decoder or encoder.
+     |      
+     |      Subclasses should override.
+     |  
+     |  newlines
+     |      Line endings translated so far.
+     |      
+     |      Only line endings translated during reading are considered.
+     |      
+     |      Subclasses should override.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(self, pos, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+    
+    class TextIOWrapper(TextIOBase)
+     |  TextIOWrapper(buffer, encoding=None, errors=None, newline=None, line_buffering=False, write_through=False)
+     |  
+     |  Character and line based layer over a BufferedIOBase object, buffer.
+     |  
+     |  encoding gives the name of the encoding that the stream will be
+     |  decoded or encoded with. It defaults to locale.getpreferredencoding(False).
+     |  
+     |  errors determines the strictness of encoding and decoding (see the
+     |  codecs.register) and defaults to "strict".
+     |  
+     |  newline can be None, '', '\n', '\r', or '\r\n'.  It controls the
+     |  handling of line endings. If it is None, universal newlines is
+     |  enabled.  With this enabled, on input, the lines endings '\n', '\r',
+     |  or '\r\n' are translated to '\n' before being returned to the
+     |  caller. Conversely, on output, '\n' is translated to the system
+     |  default line separator, os.linesep. If newline is any other of its
+     |  legal values, that newline becomes the newline when the file is read
+     |  and it is returned untranslated. On output, '\n' is converted to the
+     |  newline.
+     |  
+     |  If line_buffering is True, a call to flush is implied when a call to
+     |  write contains a newline character.
+     |  
+     |  Method resolution order:
+     |      TextIOWrapper
+     |      TextIOBase
+     |      IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, buffer, encoding=None, errors=None, newline=None, line_buffering=False, write_through=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __next__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  detach(self)
+     |      Separate the underlying buffer from the TextIOBase and return it.
+     |      
+     |      After the underlying buffer has been detached, the TextIO is in an
+     |      unusable state.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor (an int) if one exists.
+     |      
+     |      An OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  isatty(self)
+     |      Return a bool indicating whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  read(self, size=None)
+     |      Read at most size characters from stream, where size is an int.
+     |      
+     |      Read from underlying buffer until we have size characters or we hit EOF.
+     |      If size is negative or omitted, read until EOF.
+     |      
+     |      Returns a string.
+     |  
+     |  readable(self)
+     |      Return a bool indicating whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readline(self, size=None)
+     |      Read until newline or EOF.
+     |      
+     |      Returns an empty string if EOF is hit immediately.
+     |  
+     |  reconfigure(self, *, encoding=None, errors=None, newline=Ellipsis, line_buffering=None, write_through=None)
+     |      Reconfigure the text stream with new parameters.
+     |      
+     |      This also flushes the stream.
+     |  
+     |  seek(self, cookie, whence=0)
+     |      Change stream position.
+     |      
+     |      Change the stream position to byte offset pos. Argument pos is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are ints:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      Some operating systems / file systems could provide additional values.
+     |      
+     |      Return an int indicating the new absolute position.
+     |  
+     |  seekable(self)
+     |      Return a bool indicating whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  tell(self)
+     |      Return an int indicating the current stream position.
+     |  
+     |  truncate(self, pos=None)
+     |      Truncate size to pos, where pos is an int.
+     |  
+     |  writable(self)
+     |      Return a bool indicating whether object was opened for writing.
+     |      
+     |      If False, write() and truncate() will raise OSError.
+     |  
+     |  write(self, s)
+     |      Write data, where s is a str
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  buffer
+     |  
+     |  closed
+     |      closed: bool.  True iff the file has been closed.
+     |      
+     |      For backwards compatibility, this is a property, not a predicate.
+     |  
+     |  encoding
+     |      Subclasses should override.
+     |  
+     |  errors
+     |      Error setting of the decoder or encoder.
+     |      
+     |      Subclasses should override.
+     |  
+     |  line_buffering
+     |  
+     |  name
+     |  
+     |  newlines
+     |      Line endings translated so far.
+     |      
+     |      Only line endings translated during reading are considered.
+     |      
+     |      Subclasses should override.
+     |  
+     |  write_through
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from IOBase:
+     |  
+     |  __del__(self)
+     |      Destructor.  Calls close().
+     |  
+     |  __enter__(self)
+     |      Context management protocol.  Returns self (an instance of IOBase).
+     |  
+     |  __exit__(self, *args)
+     |      Context management protocol.  Calls close()
+     |  
+     |  __iter__(self)
+     |  
+     |  readlines(self, hint=None)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  writelines(self, lines)
+     |      Write a list of lines to the stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the lines
+     |      provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from IOBase:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class UnsupportedOperation(builtins.OSError, builtins.ValueError)
+     |  Base class for I/O related errors.
+     |  
+     |  Method resolution order:
+     |      UnsupportedOperation
+     |      builtins.OSError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.OSError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.OSError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.OSError:
+     |  
+     |  characters_written
+     |  
+     |  errno
+     |      POSIX exception code
+     |  
+     |  filename
+     |      exception filename
+     |  
+     |  filename2
+     |      second exception filename
+     |  
+     |  strerror
+     |      exception strerror
+     |  
+     |  winerror
+     |      Win32 exception code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+        Open file and return a stream.  Raise OSError upon failure.
+        
+        file is either a text or byte string giving the name (and the path
+        if the file isn't in the current working directory) of the file to
+        be opened or an integer file descriptor of the file to be
+        wrapped. (If a file descriptor is given, it is closed when the
+        returned I/O object is closed, unless closefd is set to False.)
+        
+        mode is an optional string that specifies the mode in which the file is
+        opened. It defaults to 'r' which means open for reading in text mode. Other
+        common values are 'w' for writing (truncating the file if it already
+        exists), 'x' for exclusive creation of a new file, and 'a' for appending
+        (which on some Unix systems, means that all writes append to the end of the
+        file regardless of the current seek position). In text mode, if encoding is
+        not specified the encoding used is platform dependent. (For reading and
+        writing raw bytes use binary mode and leave encoding unspecified.) The
+        available modes are:
+        
+        ========= ===============================================================
+        Character Meaning
+        --------- ---------------------------------------------------------------
+        'r'       open for reading (default)
+        'w'       open for writing, truncating the file first
+        'x'       create a new file and open it for writing
+        'a'       open for writing, appending to the end of the file if it exists
+        'b'       binary mode
+        't'       text mode (default)
+        '+'       open a disk file for updating (reading and writing)
+        'U'       universal newline mode (deprecated)
+        ========= ===============================================================
+        
+        The default mode is 'rt' (open for reading text). For binary random
+        access, the mode 'w+b' opens and truncates the file to 0 bytes, while
+        'r+b' opens the file without truncation. The 'x' mode implies 'w' and
+        raises an `FileExistsError` if the file already exists.
+        
+        Python distinguishes between files opened in binary and text modes,
+        even when the underlying operating system doesn't. Files opened in
+        binary mode (appending 'b' to the mode argument) return contents as
+        bytes objects without any decoding. In text mode (the default, or when
+        't' is appended to the mode argument), the contents of the file are
+        returned as strings, the bytes having been first decoded using a
+        platform-dependent encoding or using the specified encoding if given.
+        
+        'U' mode is deprecated and will raise an exception in future versions
+        of Python.  It has no effect in Python 3.  Use newline to control
+        universal newlines mode.
+        
+        buffering is an optional integer used to set the buffering policy.
+        Pass 0 to switch buffering off (only allowed in binary mode), 1 to select
+        line buffering (only usable in text mode), and an integer > 1 to indicate
+        the size of a fixed-size chunk buffer.  When no buffering argument is
+        given, the default buffering policy works as follows:
+        
+        * Binary files are buffered in fixed-size chunks; the size of the buffer
+          is chosen using a heuristic trying to determine the underlying device's
+          "block size" and falling back on `io.DEFAULT_BUFFER_SIZE`.
+          On many systems, the buffer will typically be 4096 or 8192 bytes long.
+        
+        * "Interactive" text files (files for which isatty() returns True)
+          use line buffering.  Other text files use the policy described above
+          for binary files.
+        
+        encoding is the str name of the encoding used to decode or encode the
+        file. This should only be used in text mode. The default encoding is
+        platform dependent, but any encoding supported by Python can be
+        passed.  See the codecs module for the list of supported encodings.
+        
+        errors is an optional string that specifies how encoding errors are to
+        be handled---this argument should not be used in binary mode. Pass
+        'strict' to raise a ValueError exception if there is an encoding error
+        (the default of None has the same effect), or pass 'ignore' to ignore
+        errors. (Note that ignoring encoding errors can lead to data loss.)
+        See the documentation for codecs.register for a list of the permitted
+        encoding error strings.
+        
+        newline is a string controlling how universal newlines works (it only
+        applies to text mode). It can be None, '', '\n', '\r', and '\r\n'.  It works
+        as follows:
+        
+        * On input, if newline is None, universal newlines mode is
+          enabled. Lines in the input can end in '\n', '\r', or '\r\n', and
+          these are translated into '\n' before being returned to the
+          caller. If it is '', universal newline mode is enabled, but line
+          endings are returned to the caller untranslated. If it has any of
+          the other legal values, input lines are only terminated by the given
+          string, and the line ending is returned to the caller untranslated.
+        
+        * On output, if newline is None, any '\n' characters written are
+          translated to the system default line separator, os.linesep. If
+          newline is '', no translation takes place. If newline is any of the
+          other legal values, any '\n' characters written are translated to
+          the given string.
+        
+        closedfd is a bool. If closefd is False, the underlying file descriptor will
+        be kept open when the file is closed. This does not work when a file name is
+        given and must be True in that case.
+        
+        The newly created file is non-inheritable.
+        
+        A custom opener can be used by passing a callable as *opener*. The
+        underlying file descriptor for the file object is then obtained by calling
+        *opener* with (*file*, *flags*). *opener* must return an open file
+        descriptor (passing os.open as *opener* results in functionality similar to
+        passing None).
+        
+        open() returns a file object whose type depends on the mode, and
+        through which the standard file operations such as reading and writing
+        are performed. When open() is used to open a file in a text mode ('w',
+        'r', 'wt', 'rt', etc.), it returns a TextIOWrapper. When used to open
+        a file in a binary mode, the returned class varies: in read binary
+        mode, it returns a BufferedReader; in write binary and append binary
+        modes, it returns a BufferedWriter, and in read/write mode, it returns
+        a BufferedRandom.
+        
+        It is also possible to use a string or bytearray as a file for both
+        reading and writing. For strings StringIO can be used like a file
+        opened in a text mode, and for bytes a BytesIO can be used like a file
+        opened in a binary mode.
+
+DATA
+    SEEK_CUR = 1
+    SEEK_END = 2
+    SEEK_SET = 0
+    __all__ = ['BlockingIOError', 'open', 'IOBase', 'RawIOBase', 'FileIO',...
+
+FILE
+    c:\program files\python37\lib\_pyio.py
+
+

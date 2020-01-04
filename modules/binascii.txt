@@ -1,0 +1,219 @@
+Help on built-in module binascii:
+
+NAME
+    binascii - Conversion between binary data and ASCII
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        Incomplete
+    builtins.ValueError(builtins.Exception)
+        Error
+    
+    class Error(builtins.ValueError)
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      Error
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ValueError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Incomplete(builtins.Exception)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      Incomplete
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    a2b_base64(data, /)
+        Decode a line of base64 data.
+    
+    a2b_hex(hexstr, /)
+        Binary data of hexadecimal representation.
+        
+        hexstr must contain an even number of hex digits (upper or lower case).
+        This function is also available as "unhexlify()".
+    
+    a2b_hqx(data, /)
+        Decode .hqx coding.
+    
+    a2b_qp(data, header=False)
+        Decode a string of qp-encoded data.
+    
+    a2b_uu(data, /)
+        Decode a line of uuencoded data.
+    
+    b2a_base64(data, /, *, newline=True)
+        Base64-code line of data.
+    
+    b2a_hex(data, /)
+        Hexadecimal representation of binary data.
+        
+        The return value is a bytes object.  This function is also
+        available as "hexlify()".
+    
+    b2a_hqx(data, /)
+        Encode .hqx data.
+    
+    b2a_qp(data, quotetabs=False, istext=True, header=False)
+        Encode a string using quoted-printable encoding.
+        
+        On encoding, when istext is set, newlines are not encoded, and white
+        space at end of lines is.  When istext is not set, \r and \n (CR/LF)
+        are both encoded.  When quotetabs is set, space and tabs are encoded.
+    
+    b2a_uu(data, /, *, backtick=False)
+        Uuencode line of data.
+    
+    crc32(data, crc=0, /)
+        Compute CRC-32 incrementally.
+    
+    crc_hqx(data, crc, /)
+        Compute CRC-CCITT incrementally.
+    
+    hexlify(data, /)
+        Hexadecimal representation of binary data.
+        
+        The return value is a bytes object.
+    
+    rlecode_hqx(data, /)
+        Binhex RLE-code binary data.
+    
+    rledecode_hqx(data, /)
+        Decode hexbin RLE-coded string.
+    
+    unhexlify(hexstr, /)
+        Binary data of hexadecimal representation.
+        
+        hexstr must contain an even number of hex digits (upper or lower case).
+
+FILE
+    (built-in)
+
+

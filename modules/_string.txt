@@ -1,0 +1,16 @@
+Help on built-in module _string:
+
+NAME
+    _string - string helper module
+
+FUNCTIONS
+    formatter_field_name_split(...)
+        split the argument as a field name
+    
+    formatter_parser(...)
+        parse the argument as a format string
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,9 @@
+Help on module brain_multiprocessing:
+
+NAME
+    brain_multiprocessing - # Copyright (c) 2016 Claudiu Popa <pcmanticore@gmail.com>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_multiprocessing.py
+
+

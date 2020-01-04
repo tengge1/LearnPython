@@ -1,0 +1,13 @@
+Help on built-in module _opcode:
+
+NAME
+    _opcode - Opcode support module.
+
+FUNCTIONS
+    stack_effect(opcode, oparg=None, /)
+        Compute the stack effect of the opcode.
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,885 @@
+Help on module codecs:
+
+NAME
+    codecs - codecs -- Python Codec Registry, API and helpers.
+
+DESCRIPTION
+    
+    Written by Marc-Andre Lemburg (mal@lemburg.com).
+    
+    (c) Copyright CNRI, All Rights Reserved. NO WARRANTY.
+
+CLASSES
+    builtins.object
+        Codec
+            StreamReader
+            StreamWriter
+        IncrementalDecoder
+        IncrementalEncoder
+        StreamReaderWriter
+        StreamRecoder
+    builtins.tuple(builtins.object)
+        CodecInfo
+    
+    class Codec(builtins.object)
+     |  Defines the interface for stateless encoders/decoders.
+     |  
+     |  The .encode()/.decode() methods may use different error
+     |  handling schemes by providing the errors argument. These
+     |  string values are predefined:
+     |  
+     |   'strict' - raise a ValueError error (or a subclass)
+     |   'ignore' - ignore the character and continue with the next
+     |   'replace' - replace with a suitable replacement character;
+     |              Python will use the official U+FFFD REPLACEMENT
+     |              CHARACTER for the builtin Unicode codecs on
+     |              decoding and '?' on encoding.
+     |   'surrogateescape' - replace with private code points U+DCnn.
+     |   'xmlcharrefreplace' - Replace with the appropriate XML
+     |                         character reference (only for encoding).
+     |   'backslashreplace'  - Replace with backslashed escape sequences.
+     |   'namereplace'       - Replace with \N{...} escape sequences
+     |                         (only for encoding).
+     |  
+     |  The set of allowed values can be extended via register_error.
+     |  
+     |  Methods defined here:
+     |  
+     |  decode(self, input, errors='strict')
+     |      Decodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      input must be an object which provides the bf_getreadbuf
+     |      buffer slot. Python strings, buffer objects and memory
+     |      mapped files are examples of objects providing this slot.
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamReader for codecs which have to keep state in order to
+     |      make decoding efficient.
+     |      
+     |      The decoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  encode(self, input, errors='strict')
+     |      Encodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamWriter for codecs which have to keep state in order to
+     |      make encoding efficient.
+     |      
+     |      The encoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class CodecInfo(builtins.tuple)
+     |  CodecInfo(encode, decode, streamreader=None, streamwriter=None, incrementalencoder=None, incrementaldecoder=None, name=None, *, _is_text_encoding=None)
+     |  
+     |  Codec details when looking up the codec registry
+     |  
+     |  Method resolution order:
+     |      CodecInfo
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(cls, encode, decode, streamreader=None, streamwriter=None, incrementalencoder=None, incrementaldecoder=None, name=None, *, _is_text_encoding=None)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __getnewargs__(self, /)
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+    
+    class IncrementalDecoder(builtins.object)
+     |  IncrementalDecoder(errors='strict')
+     |  
+     |  An IncrementalDecoder decodes an input in multiple steps. The input can
+     |  be passed piece by piece to the decode() method. The IncrementalDecoder
+     |  remembers the state of the decoding process between calls to decode().
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, errors='strict')
+     |      Create an IncrementalDecoder instance.
+     |      
+     |      The IncrementalDecoder may use different error handling schemes by
+     |      providing the errors keyword argument. See the module docstring
+     |      for a list of possible values.
+     |  
+     |  decode(self, input, final=False)
+     |      Decode input and returns the resulting object.
+     |  
+     |  getstate(self)
+     |      Return the current state of the decoder.
+     |      
+     |      This must be a (buffered_input, additional_state_info) tuple.
+     |      buffered_input must be a bytes object containing bytes that
+     |      were passed to decode() that have not yet been converted.
+     |      additional_state_info must be a non-negative integer
+     |      representing the state of the decoder WITHOUT yet having
+     |      processed the contents of buffered_input.  In the initial state
+     |      and after reset(), getstate() must return (b"", 0).
+     |  
+     |  reset(self)
+     |      Reset the decoder to the initial state.
+     |  
+     |  setstate(self, state)
+     |      Set the current state of the decoder.
+     |      
+     |      state must have been returned by getstate().  The effect of
+     |      setstate((b"", 0)) must be equivalent to reset().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class IncrementalEncoder(builtins.object)
+     |  IncrementalEncoder(errors='strict')
+     |  
+     |  An IncrementalEncoder encodes an input in multiple steps. The input can
+     |  be passed piece by piece to the encode() method. The IncrementalEncoder
+     |  remembers the state of the encoding process between calls to encode().
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, errors='strict')
+     |      Creates an IncrementalEncoder instance.
+     |      
+     |      The IncrementalEncoder may use different error handling schemes by
+     |      providing the errors keyword argument. See the module docstring
+     |      for a list of possible values.
+     |  
+     |  encode(self, input, final=False)
+     |      Encodes input and returns the resulting object.
+     |  
+     |  getstate(self)
+     |      Return the current state of the encoder.
+     |  
+     |  reset(self)
+     |      Resets the encoder to the initial state.
+     |  
+     |  setstate(self, state)
+     |      Set the current state of the encoder. state must have been
+     |      returned by getstate().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class StreamReader(Codec)
+     |  StreamReader(stream, errors='strict')
+     |  
+     |  Defines the interface for stateless encoders/decoders.
+     |  
+     |  The .encode()/.decode() methods may use different error
+     |  handling schemes by providing the errors argument. These
+     |  string values are predefined:
+     |  
+     |   'strict' - raise a ValueError error (or a subclass)
+     |   'ignore' - ignore the character and continue with the next
+     |   'replace' - replace with a suitable replacement character;
+     |              Python will use the official U+FFFD REPLACEMENT
+     |              CHARACTER for the builtin Unicode codecs on
+     |              decoding and '?' on encoding.
+     |   'surrogateescape' - replace with private code points U+DCnn.
+     |   'xmlcharrefreplace' - Replace with the appropriate XML
+     |                         character reference (only for encoding).
+     |   'backslashreplace'  - Replace with backslashed escape sequences.
+     |   'namereplace'       - Replace with \N{...} escape sequences
+     |                         (only for encoding).
+     |  
+     |  The set of allowed values can be extended via register_error.
+     |  
+     |  Method resolution order:
+     |      StreamReader
+     |      Codec
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, tb)
+     |  
+     |  __getattr__(self, name, getattr=<built-in function getattr>)
+     |      Inherit all other methods from the underlying stream.
+     |  
+     |  __init__(self, stream, errors='strict')
+     |      Creates a StreamReader instance.
+     |      
+     |      stream must be a file-like object open for reading.
+     |      
+     |      The StreamReader may use different error handling
+     |      schemes by providing the errors keyword argument. These
+     |      parameters are predefined:
+     |      
+     |       'strict' - raise a ValueError (or a subclass)
+     |       'ignore' - ignore the character and continue with the next
+     |       'replace'- replace with a suitable replacement character
+     |       'backslashreplace' - Replace with backslashed escape sequences;
+     |      
+     |      The set of allowed parameter values can be extended via
+     |      register_error.
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |      Return the next decoded line from the input stream.
+     |  
+     |  decode(self, input, errors='strict')
+     |      Decodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      input must be an object which provides the bf_getreadbuf
+     |      buffer slot. Python strings, buffer objects and memory
+     |      mapped files are examples of objects providing this slot.
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamReader for codecs which have to keep state in order to
+     |      make decoding efficient.
+     |      
+     |      The decoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  read(self, size=-1, chars=-1, firstline=False)
+     |      Decodes data from the stream self.stream and returns the
+     |      resulting object.
+     |      
+     |      chars indicates the number of decoded code points or bytes to
+     |      return. read() will never return more data than requested,
+     |      but it might return less, if there is not enough available.
+     |      
+     |      size indicates the approximate maximum number of decoded
+     |      bytes or code points to read for decoding. The decoder
+     |      can modify this setting as appropriate. The default value
+     |      -1 indicates to read and decode as much as possible.  size
+     |      is intended to prevent having to decode huge files in one
+     |      step.
+     |      
+     |      If firstline is true, and a UnicodeDecodeError happens
+     |      after the first line terminator in the input only the first line
+     |      will be returned, the rest of the input will be kept until the
+     |      next call to read().
+     |      
+     |      The method should use a greedy read strategy, meaning that
+     |      it should read as much data as is allowed within the
+     |      definition of the encoding and the given size, e.g.  if
+     |      optional encoding endings or state markers are available
+     |      on the stream, these should be read too.
+     |  
+     |  readline(self, size=None, keepends=True)
+     |      Read one line from the input stream and return the
+     |      decoded data.
+     |      
+     |      size, if given, is passed as size argument to the
+     |      read() method.
+     |  
+     |  readlines(self, sizehint=None, keepends=True)
+     |      Read all lines available on the input stream
+     |      and return them as a list.
+     |      
+     |      Line breaks are implemented using the codec's decoder
+     |      method and are included in the list entries.
+     |      
+     |      sizehint, if given, is ignored since there is no efficient
+     |      way to finding the true end-of-line.
+     |  
+     |  reset(self)
+     |      Resets the codec buffers used for keeping state.
+     |      
+     |      Note that no stream repositioning should take place.
+     |      This method is primarily intended to be able to recover
+     |      from decoding errors.
+     |  
+     |  seek(self, offset, whence=0)
+     |      Set the input stream's current position.
+     |      
+     |      Resets the codec buffers used for keeping state.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  charbuffertype = <class 'str'>
+     |      str(object='') -> str
+     |      str(bytes_or_buffer[, encoding[, errors]]) -> str
+     |      
+     |      Create a new string object from the given object. If encoding or
+     |      errors is specified, then the object must expose a data buffer
+     |      that will be decoded using the given encoding and error handler.
+     |      Otherwise, returns the result of object.__str__() (if defined)
+     |      or repr(object).
+     |      encoding defaults to sys.getdefaultencoding().
+     |      errors defaults to 'strict'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Codec:
+     |  
+     |  encode(self, input, errors='strict')
+     |      Encodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamWriter for codecs which have to keep state in order to
+     |      make encoding efficient.
+     |      
+     |      The encoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Codec:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class StreamReaderWriter(builtins.object)
+     |  StreamReaderWriter(stream, Reader, Writer, errors='strict')
+     |  
+     |  StreamReaderWriter instances allow wrapping streams which
+     |  work in both read and write modes.
+     |  
+     |  The design is such that one can use the factory functions
+     |  returned by the codec.lookup() function to construct the
+     |  instance.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, tb)
+     |  
+     |  __getattr__(self, name, getattr=<built-in function getattr>)
+     |      Inherit all other methods from the underlying stream.
+     |  
+     |  __init__(self, stream, Reader, Writer, errors='strict')
+     |      Creates a StreamReaderWriter instance.
+     |      
+     |      stream must be a Stream-like object.
+     |      
+     |      Reader, Writer must be factory functions or classes
+     |      providing the StreamReader, StreamWriter interface resp.
+     |      
+     |      Error handling is done in the same way as defined for the
+     |      StreamWriter/Readers.
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |      Return the next decoded line from the input stream.
+     |  
+     |  read(self, size=-1)
+     |  
+     |  readline(self, size=None)
+     |  
+     |  readlines(self, sizehint=None)
+     |  
+     |  reset(self)
+     |  
+     |  seek(self, offset, whence=0)
+     |  
+     |  write(self, data)
+     |  
+     |  writelines(self, list)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  encoding = 'unknown'
+    
+    class StreamRecoder(builtins.object)
+     |  StreamRecoder(stream, encode, decode, Reader, Writer, errors='strict')
+     |  
+     |  StreamRecoder instances translate data from one encoding to another.
+     |  
+     |  They use the complete set of APIs returned by the
+     |  codecs.lookup() function to implement their task.
+     |  
+     |  Data written to the StreamRecoder is first decoded into an
+     |  intermediate format (depending on the "decode" codec) and then
+     |  written to the underlying stream using an instance of the provided
+     |  Writer class.
+     |  
+     |  In the other direction, data is read from the underlying stream using
+     |  a Reader instance and then encoded and returned to the caller.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, tb)
+     |  
+     |  __getattr__(self, name, getattr=<built-in function getattr>)
+     |      Inherit all other methods from the underlying stream.
+     |  
+     |  __init__(self, stream, encode, decode, Reader, Writer, errors='strict')
+     |      Creates a StreamRecoder instance which implements a two-way
+     |      conversion: encode and decode work on the frontend (the
+     |      data visible to .read() and .write()) while Reader and Writer
+     |      work on the backend (the data in stream).
+     |      
+     |      You can use these objects to do transparent
+     |      transcodings from e.g. latin-1 to utf-8 and back.
+     |      
+     |      stream must be a file-like object.
+     |      
+     |      encode and decode must adhere to the Codec interface; Reader and
+     |      Writer must be factory functions or classes providing the
+     |      StreamReader and StreamWriter interfaces resp.
+     |      
+     |      Error handling is done in the same way as defined for the
+     |      StreamWriter/Readers.
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |      Return the next decoded line from the input stream.
+     |  
+     |  read(self, size=-1)
+     |  
+     |  readline(self, size=None)
+     |  
+     |  readlines(self, sizehint=None)
+     |  
+     |  reset(self)
+     |  
+     |  seek(self, offset, whence=0)
+     |  
+     |  write(self, data)
+     |  
+     |  writelines(self, list)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  data_encoding = 'unknown'
+     |  
+     |  file_encoding = 'unknown'
+    
+    class StreamWriter(Codec)
+     |  StreamWriter(stream, errors='strict')
+     |  
+     |  Defines the interface for stateless encoders/decoders.
+     |  
+     |  The .encode()/.decode() methods may use different error
+     |  handling schemes by providing the errors argument. These
+     |  string values are predefined:
+     |  
+     |   'strict' - raise a ValueError error (or a subclass)
+     |   'ignore' - ignore the character and continue with the next
+     |   'replace' - replace with a suitable replacement character;
+     |              Python will use the official U+FFFD REPLACEMENT
+     |              CHARACTER for the builtin Unicode codecs on
+     |              decoding and '?' on encoding.
+     |   'surrogateescape' - replace with private code points U+DCnn.
+     |   'xmlcharrefreplace' - Replace with the appropriate XML
+     |                         character reference (only for encoding).
+     |   'backslashreplace'  - Replace with backslashed escape sequences.
+     |   'namereplace'       - Replace with \N{...} escape sequences
+     |                         (only for encoding).
+     |  
+     |  The set of allowed values can be extended via register_error.
+     |  
+     |  Method resolution order:
+     |      StreamWriter
+     |      Codec
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, tb)
+     |  
+     |  __getattr__(self, name, getattr=<built-in function getattr>)
+     |      Inherit all other methods from the underlying stream.
+     |  
+     |  __init__(self, stream, errors='strict')
+     |      Creates a StreamWriter instance.
+     |      
+     |      stream must be a file-like object open for writing.
+     |      
+     |      The StreamWriter may use different error handling
+     |      schemes by providing the errors keyword argument. These
+     |      parameters are predefined:
+     |      
+     |       'strict' - raise a ValueError (or a subclass)
+     |       'ignore' - ignore the character and continue with the next
+     |       'replace'- replace with a suitable replacement character
+     |       'xmlcharrefreplace' - Replace with the appropriate XML
+     |                             character reference.
+     |       'backslashreplace'  - Replace with backslashed escape
+     |                             sequences.
+     |       'namereplace'       - Replace with \N{...} escape sequences.
+     |      
+     |      The set of allowed parameter values can be extended via
+     |      register_error.
+     |  
+     |  reset(self)
+     |      Flushes and resets the codec buffers used for keeping state.
+     |      
+     |      Calling this method should ensure that the data on the
+     |      output is put into a clean state, that allows appending
+     |      of new fresh data without having to rescan the whole
+     |      stream to recover state.
+     |  
+     |  seek(self, offset, whence=0)
+     |  
+     |  write(self, object)
+     |      Writes the object's contents encoded to self.stream.
+     |  
+     |  writelines(self, list)
+     |      Writes the concatenated list of strings to the stream
+     |      using .write().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Codec:
+     |  
+     |  decode(self, input, errors='strict')
+     |      Decodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      input must be an object which provides the bf_getreadbuf
+     |      buffer slot. Python strings, buffer objects and memory
+     |      mapped files are examples of objects providing this slot.
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamReader for codecs which have to keep state in order to
+     |      make decoding efficient.
+     |      
+     |      The decoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  encode(self, input, errors='strict')
+     |      Encodes the object input and returns a tuple (output
+     |      object, length consumed).
+     |      
+     |      errors defines the error handling to apply. It defaults to
+     |      'strict' handling.
+     |      
+     |      The method may not store state in the Codec instance. Use
+     |      StreamWriter for codecs which have to keep state in order to
+     |      make encoding efficient.
+     |      
+     |      The encoder must be able to handle zero length input and
+     |      return an empty object of the output object type in this
+     |      situation.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Codec:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    EncodedFile(file, data_encoding, file_encoding=None, errors='strict')
+        Return a wrapped version of file which provides transparent
+        encoding translation.
+        
+        Data written to the wrapped file is decoded according
+        to the given data_encoding and then encoded to the underlying
+        file using file_encoding. The intermediate data type
+        will usually be Unicode but depends on the specified codecs.
+        
+        Bytes read from the file are decoded using file_encoding and then
+        passed back to the caller encoded using data_encoding.
+        
+        If file_encoding is not given, it defaults to data_encoding.
+        
+        errors may be given to define the error handling. It defaults
+        to 'strict' which causes ValueErrors to be raised in case an
+        encoding error occurs.
+        
+        The returned wrapped file object provides two extra attributes
+        .data_encoding and .file_encoding which reflect the given
+        parameters of the same name. The attributes can be used for
+        introspection by Python programs.
+    
+    backslashreplace_errors(...)
+        Implements the 'backslashreplace' error handling, which replaces malformed data with a backslashed escape sequence.
+    
+    decode(obj, encoding='utf-8', errors='strict')
+        Decodes obj using the codec registered for encoding.
+        
+        Default encoding is 'utf-8'.  errors may be given to set a
+        different error handling scheme.  Default is 'strict' meaning that encoding
+        errors raise a ValueError.  Other possible values are 'ignore', 'replace'
+        and 'backslashreplace' as well as any other name registered with
+        codecs.register_error that can handle ValueErrors.
+    
+    encode(obj, encoding='utf-8', errors='strict')
+        Encodes obj using the codec registered for encoding.
+        
+        The default encoding is 'utf-8'.  errors may be given to set a
+        different error handling scheme.  Default is 'strict' meaning that encoding
+        errors raise a ValueError.  Other possible values are 'ignore', 'replace'
+        and 'backslashreplace' as well as any other name registered with
+        codecs.register_error that can handle ValueErrors.
+    
+    getdecoder(encoding)
+        Lookup up the codec for the given encoding and return
+        its decoder function.
+        
+        Raises a LookupError in case the encoding cannot be found.
+    
+    getencoder(encoding)
+        Lookup up the codec for the given encoding and return
+        its encoder function.
+        
+        Raises a LookupError in case the encoding cannot be found.
+    
+    getincrementaldecoder(encoding)
+        Lookup up the codec for the given encoding and return
+        its IncrementalDecoder class or factory function.
+        
+        Raises a LookupError in case the encoding cannot be found
+        or the codecs doesn't provide an incremental decoder.
+    
+    getincrementalencoder(encoding)
+        Lookup up the codec for the given encoding and return
+        its IncrementalEncoder class or factory function.
+        
+        Raises a LookupError in case the encoding cannot be found
+        or the codecs doesn't provide an incremental encoder.
+    
+    getreader(encoding)
+        Lookup up the codec for the given encoding and return
+        its StreamReader class or factory function.
+        
+        Raises a LookupError in case the encoding cannot be found.
+    
+    getwriter(encoding)
+        Lookup up the codec for the given encoding and return
+        its StreamWriter class or factory function.
+        
+        Raises a LookupError in case the encoding cannot be found.
+    
+    ignore_errors(...)
+        Implements the 'ignore' error handling, which ignores malformed data and continues.
+    
+    iterdecode(iterator, encoding, errors='strict', **kwargs)
+        Decoding iterator.
+        
+        Decodes the input strings from the iterator using an IncrementalDecoder.
+        
+        errors and kwargs are passed through to the IncrementalDecoder
+        constructor.
+    
+    iterencode(iterator, encoding, errors='strict', **kwargs)
+        Encoding iterator.
+        
+        Encodes the input strings from the iterator using an IncrementalEncoder.
+        
+        errors and kwargs are passed through to the IncrementalEncoder
+        constructor.
+    
+    lookup(encoding, /)
+        Looks up a codec tuple in the Python codec registry and returns a CodecInfo object.
+    
+    lookup_error(name, /)
+        lookup_error(errors) -> handler
+        
+        Return the error handler for the specified error handling name or raise a
+        LookupError, if no handler exists under this name.
+    
+    namereplace_errors(...)
+        Implements the 'namereplace' error handling, which replaces an unencodable character with a \N{...} escape sequence.
+    
+    open(filename, mode='r', encoding=None, errors='strict', buffering=1)
+        Open an encoded file using the given mode and return
+        a wrapped version providing transparent encoding/decoding.
+        
+        Note: The wrapped version will only accept the object format
+        defined by the codecs, i.e. Unicode objects for most builtin
+        codecs. Output is also codec dependent and will usually be
+        Unicode as well.
+        
+        Underlying encoded files are always opened in binary mode.
+        The default file mode is 'r', meaning to open the file in read mode.
+        
+        encoding specifies the encoding which is to be used for the
+        file.
+        
+        errors may be given to define the error handling. It defaults
+        to 'strict' which causes ValueErrors to be raised in case an
+        encoding error occurs.
+        
+        buffering has the same meaning as for the builtin open() API.
+        It defaults to line buffered.
+        
+        The returned wrapped file object provides an extra attribute
+        .encoding which allows querying the used encoding. This
+        attribute is only available if an encoding was specified as
+        parameter.
+    
+    register(search_function, /)
+        Register a codec search function.
+        
+        Search functions are expected to take one argument, the encoding name in
+        all lower case letters, and either return None, or a tuple of functions
+        (encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object).
+    
+    register_error(errors, handler, /)
+        Register the specified error handler under the name errors.
+        
+        handler must be a callable object, that will be called with an exception
+        instance containing information about the location of the encoding/decoding
+        error and must return a (replacement, new position) tuple.
+    
+    replace_errors(...)
+        Implements the 'replace' error handling, which replaces malformed data with a replacement marker.
+    
+    strict_errors(...)
+        Implements the 'strict' error handling, which raises a UnicodeError on coding errors.
+    
+    xmlcharrefreplace_errors(...)
+        Implements the 'xmlcharrefreplace' error handling, which replaces an unencodable character with the appropriate XML character reference.
+
+DATA
+    BOM = b'\xff\xfe'
+    BOM32_BE = b'\xfe\xff'
+    BOM32_LE = b'\xff\xfe'
+    BOM64_BE = b'\x00\x00\xfe\xff'
+    BOM64_LE = b'\xff\xfe\x00\x00'
+    BOM_BE = b'\xfe\xff'
+    BOM_LE = b'\xff\xfe'
+    BOM_UTF16 = b'\xff\xfe'
+    BOM_UTF16_BE = b'\xfe\xff'
+    BOM_UTF16_LE = b'\xff\xfe'
+    BOM_UTF32 = b'\xff\xfe\x00\x00'
+    BOM_UTF32_BE = b'\x00\x00\xfe\xff'
+    BOM_UTF32_LE = b'\xff\xfe\x00\x00'
+    BOM_UTF8 = b'\xef\xbb\xbf'
+    __all__ = ['register', 'lookup', 'open', 'EncodedFile', 'BOM', 'BOM_BE...
+
+FILE
+    c:\program files\python37\lib\codecs.py
+
+

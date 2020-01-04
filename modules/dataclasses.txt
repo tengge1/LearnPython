@@ -1,0 +1,264 @@
+Help on module dataclasses:
+
+NAME
+    dataclasses
+
+CLASSES
+    builtins.AttributeError(builtins.Exception)
+        FrozenInstanceError
+    builtins.object
+        Field
+        InitVar
+    
+    class Field(builtins.object)
+     |  Field(default, default_factory, init, repr, hash, compare, metadata)
+     |  
+     |  # Instances of Field are only ever created from within this module,
+     |  # and only from the field() function, although Field instances are
+     |  # exposed externally as (conceptually) read-only objects.
+     |  #
+     |  # name and type are filled in after the fact, not in __init__.
+     |  # They're not known at the time this class is instantiated, but it's
+     |  # convenient if they're available later.
+     |  #
+     |  # When cls._FIELDS is filled in with a list of Field objects, the name
+     |  # and type fields will have been populated.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, default, default_factory, init, repr, hash, compare, metadata)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __set_name__(self, owner, name)
+     |      # This is used to support the PEP 487 __set_name__ protocol in the
+     |      # case where we're using a field that contains a descriptor as a
+     |      # default value.  For details on __set_name__, see
+     |      # https://www.python.org/dev/peps/pep-0487/#implementation-details.
+     |      #
+     |      # Note that in _process_class, this Field object is overwritten
+     |      # with the default value, so the end result is a descriptor that
+     |      # had __set_name__ called on it at the right time.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  compare
+     |  
+     |  default
+     |  
+     |  default_factory
+     |  
+     |  hash
+     |  
+     |  init
+     |  
+     |  metadata
+     |  
+     |  name
+     |  
+     |  repr
+     |  
+     |  type
+    
+    class FrozenInstanceError(builtins.AttributeError)
+     |  Attribute not found.
+     |  
+     |  Method resolution order:
+     |      FrozenInstanceError
+     |      builtins.AttributeError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.AttributeError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.AttributeError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class InitVar(builtins.object)
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    asdict(obj, *, dict_factory=<class 'dict'>)
+        Return the fields of a dataclass instance as a new dictionary mapping
+        field names to field values.
+        
+        Example usage:
+        
+          @dataclass
+          class C:
+              x: int
+              y: int
+        
+          c = C(1, 2)
+          assert asdict(c) == {'x': 1, 'y': 2}
+        
+        If given, 'dict_factory' will be used instead of built-in dict.
+        The function applies recursively to field values that are
+        dataclass instances. This will also look into built-in containers:
+        tuples, lists, and dicts.
+    
+    astuple(obj, *, tuple_factory=<class 'tuple'>)
+        Return the fields of a dataclass instance as a new tuple of field values.
+        
+        Example usage::
+        
+          @dataclass
+          class C:
+              x: int
+              y: int
+        
+        c = C(1, 2)
+        assert astuple(c) == (1, 2)
+        
+        If given, 'tuple_factory' will be used instead of built-in tuple.
+        The function applies recursively to field values that are
+        dataclass instances. This will also look into built-in containers:
+        tuples, lists, and dicts.
+    
+    dataclass(_cls=None, *, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False)
+        Returns the same class as was passed in, with dunder methods
+        added based on the fields defined in the class.
+        
+        Examines PEP 526 __annotations__ to determine fields.
+        
+        If init is true, an __init__() method is added to the class. If
+        repr is true, a __repr__() method is added. If order is true, rich
+        comparison dunder methods are added. If unsafe_hash is true, a
+        __hash__() method function is added. If frozen is true, fields may
+        not be assigned to after instance creation.
+    
+    field(*, default=<dataclasses._MISSING_TYPE object at 0x000001E15F40F0C8>, default_factory=<dataclasses._MISSING_TYPE object at 0x000001E15F40F0C8>, init=True, repr=True, hash=None, compare=True, metadata=None)
+        Return an object to identify dataclass fields.
+        
+        default is the default value of the field.  default_factory is a
+        0-argument function called to initialize a field's value.  If init
+        is True, the field will be a parameter to the class's __init__()
+        function.  If repr is True, the field will be included in the
+        object's repr().  If hash is True, the field will be included in
+        the object's hash().  If compare is True, the field will be used
+        in comparison functions.  metadata, if specified, must be a
+        mapping which is stored but not otherwise examined by dataclass.
+        
+        It is an error to specify both default and default_factory.
+    
+    fields(class_or_instance)
+        Return a tuple describing the fields of this dataclass.
+        
+        Accepts a dataclass or an instance of one. Tuple elements are of
+        type Field.
+    
+    is_dataclass(obj)
+        Returns True if obj is a dataclass or an instance of a
+        dataclass.
+    
+    make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False)
+        Return a new dynamically created dataclass.
+        
+        The dataclass name will be 'cls_name'.  'fields' is an iterable
+        of either (name), (name, type) or (name, type, Field) objects. If type is
+        omitted, use the string 'typing.Any'.  Field objects are created by
+        the equivalent of calling 'field(name, type [, Field-info])'.
+        
+          C = make_dataclass('C', ['x', ('y', int), ('z', int, field(init=False))], bases=(Base,))
+        
+        is equivalent to:
+        
+          @dataclass
+          class C(Base):
+              x: 'typing.Any'
+              y: int
+              z: int = field(init=False)
+        
+        For the bases and namespace parameters, see the builtin type() function.
+        
+        The parameters init, repr, eq, order, unsafe_hash, and frozen are passed to
+        dataclass().
+    
+    replace(obj, **changes)
+        Return a new object replacing specified fields with new values.
+        
+        This is especially useful for frozen classes.  Example usage:
+        
+          @dataclass(frozen=True)
+          class C:
+              x: int
+              y: int
+        
+          c = C(1, 2)
+          c1 = replace(c, x=3)
+          assert c1.x == 3 and c1.y == 2
+
+DATA
+    MISSING = <dataclasses._MISSING_TYPE object>
+    __all__ = ['dataclass', 'field', 'Field', 'FrozenInstanceError', 'Init...
+
+FILE
+    c:\program files\python37\lib\dataclasses.py
+
+

@@ -1,0 +1,254 @@
+Help on package encodings:
+
+NAME
+    encodings - Standard "encodings" Package
+
+DESCRIPTION
+        Standard Python encoding modules are stored in this package
+        directory.
+    
+        Codec modules must have names corresponding to normalized encoding
+        names as defined in the normalize_encoding() function below, e.g.
+        'utf-8' must be implemented by the module 'utf_8.py'.
+    
+        Each codec module must export the following interface:
+    
+        * getregentry() -> codecs.CodecInfo object
+        The getregentry() API must return a CodecInfo object with encoder, decoder,
+        incrementalencoder, incrementaldecoder, streamwriter and streamreader
+        atttributes which adhere to the Python Codec Interface Standard.
+    
+        In addition, a module may optionally also define the following
+        APIs which are then used by the package's codec search function:
+    
+        * getaliases() -> sequence of encoding name strings to use as aliases
+    
+        Alias names returned by getaliases() must be normalized encoding
+        names as defined by normalize_encoding().
+    
+    Written by Marc-Andre Lemburg (mal@lemburg.com).
+    
+    (c) Copyright CNRI, All Rights Reserved. NO WARRANTY.
+
+PACKAGE CONTENTS
+    aliases
+    ascii
+    base64_codec
+    big5
+    big5hkscs
+    bz2_codec
+    charmap
+    cp037
+    cp1006
+    cp1026
+    cp1125
+    cp1140
+    cp1250
+    cp1251
+    cp1252
+    cp1253
+    cp1254
+    cp1255
+    cp1256
+    cp1257
+    cp1258
+    cp273
+    cp424
+    cp437
+    cp500
+    cp65001
+    cp720
+    cp737
+    cp775
+    cp850
+    cp852
+    cp855
+    cp856
+    cp857
+    cp858
+    cp860
+    cp861
+    cp862
+    cp863
+    cp864
+    cp865
+    cp866
+    cp869
+    cp874
+    cp875
+    cp932
+    cp949
+    cp950
+    euc_jis_2004
+    euc_jisx0213
+    euc_jp
+    euc_kr
+    gb18030
+    gb2312
+    gbk
+    hex_codec
+    hp_roman8
+    hz
+    idna
+    iso2022_jp
+    iso2022_jp_1
+    iso2022_jp_2
+    iso2022_jp_2004
+    iso2022_jp_3
+    iso2022_jp_ext
+    iso2022_kr
+    iso8859_1
+    iso8859_10
+    iso8859_11
+    iso8859_13
+    iso8859_14
+    iso8859_15
+    iso8859_16
+    iso8859_2
+    iso8859_3
+    iso8859_4
+    iso8859_5
+    iso8859_6
+    iso8859_7
+    iso8859_8
+    iso8859_9
+    johab
+    koi8_r
+    koi8_t
+    koi8_u
+    kz1048
+    latin_1
+    mac_arabic
+    mac_centeuro
+    mac_croatian
+    mac_cyrillic
+    mac_farsi
+    mac_greek
+    mac_iceland
+    mac_latin2
+    mac_roman
+    mac_romanian
+    mac_turkish
+    mbcs
+    oem
+    palmos
+    ptcp154
+    punycode
+    quopri_codec
+    raw_unicode_escape
+    rot_13
+    shift_jis
+    shift_jis_2004
+    shift_jisx0213
+    tis_620
+    undefined
+    unicode_escape
+    unicode_internal
+    utf_16
+    utf_16_be
+    utf_16_le
+    utf_32
+    utf_32_be
+    utf_32_le
+    utf_7
+    utf_8
+    utf_8_sig
+    uu_codec
+    zlib_codec
+
+CLASSES
+    builtins.LookupError(builtins.Exception)
+        CodecRegistryError(builtins.LookupError, builtins.SystemError)
+    builtins.SystemError(builtins.Exception)
+        CodecRegistryError(builtins.LookupError, builtins.SystemError)
+    
+    class CodecRegistryError(builtins.LookupError, builtins.SystemError)
+     |  Base class for lookup errors.
+     |  
+     |  Method resolution order:
+     |      CodecRegistryError
+     |      builtins.LookupError
+     |      builtins.SystemError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.LookupError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.LookupError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    normalize_encoding(encoding)
+        Normalize an encoding name.
+        
+        Normalization works as follows: all non-alphanumeric
+        characters except the dot used for Python package names are
+        collapsed and replaced with a single underscore, e.g. '  -;#'
+        becomes '_'. Leading and trailing underscores are removed.
+        
+        Note that encoding names should be ASCII only; if they do use
+        non-ASCII characters, these must be Latin-1 compatible.
+    
+    search_function(encoding)
+
+FILE
+    c:\program files\python37\lib\encodings\__init__.py
+
+

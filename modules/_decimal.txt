@@ -1,0 +1,44 @@
+Help on module decimal:
+
+NAME
+    decimal - C decimal arithmetic module
+
+FUNCTIONS
+    getcontext()
+        Get the current default context.
+    
+    localcontext(ctx=None)
+        Return a context manager that will set the default context to a copy of ctx
+        on entry to the with-statement and restore the previous default context when
+        exiting the with-statement. If no context is specified, a copy of the current
+        default context is used.
+    
+    setcontext(context, /)
+        Set a new default context.
+
+DATA
+    BasicContext = Context(prec=9, rounding=ROUND_HALF_UP, Emin=-99...dOpe...
+    DefaultContext = Context(prec=28, rounding=ROUND_HALF_EVEN, Emin=...ap...
+    ExtendedContext = Context(prec=9, rounding=ROUND_HALF_EVEN, Emin=-...=...
+    HAVE_THREADS = True
+    MAX_EMAX = 999999999999999999
+    MAX_PREC = 999999999999999999
+    MIN_EMIN = -999999999999999999
+    MIN_ETINY = -1999999999999999997
+    ROUND_05UP = 'ROUND_05UP'
+    ROUND_CEILING = 'ROUND_CEILING'
+    ROUND_DOWN = 'ROUND_DOWN'
+    ROUND_FLOOR = 'ROUND_FLOOR'
+    ROUND_HALF_DOWN = 'ROUND_HALF_DOWN'
+    ROUND_HALF_EVEN = 'ROUND_HALF_EVEN'
+    ROUND_HALF_UP = 'ROUND_HALF_UP'
+    ROUND_UP = 'ROUND_UP'
+    __libmpdec_version__ = '2.4.2'
+
+VERSION
+    1.70
+
+FILE
+    c:\program files\python37\dlls\_decimal.pyd
+
+

@@ -1,0 +1,12 @@
+Help on built-in module _codecs_iso2022:
+
+NAME
+    _codecs_iso2022
+
+FUNCTIONS
+    getcodec(...)
+
+FILE
+    (built-in)
+
+

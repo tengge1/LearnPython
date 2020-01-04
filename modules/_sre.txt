@@ -1,0 +1,29 @@
+Help on built-in module _sre:
+
+NAME
+    _sre
+
+FUNCTIONS
+    ascii_iscased(character, /)
+    
+    ascii_tolower(character, /)
+    
+    compile(pattern, flags, code, groups, groupindex, indexgroup)
+    
+    getcodesize()
+    
+    unicode_iscased(character, /)
+    
+    unicode_tolower(character, /)
+
+DATA
+    CODESIZE = 4
+    MAGIC = 20171005
+    MAXGROUPS = 2147483647
+    MAXREPEAT = 4294967295
+    copyright = ' SRE 2.2.2 Copyright (c) 1997-2002 by Secret Labs AB '
+
+FILE
+    (built-in)
+
+

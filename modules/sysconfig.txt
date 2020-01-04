@@ -1,0 +1,81 @@
+Help on module sysconfig:
+
+NAME
+    sysconfig - Access to Python's configuration information.
+
+FUNCTIONS
+    get_config_h_filename()
+        Return the path of pyconfig.h.
+    
+    get_config_var(name)
+        Return the value of a single variable using the dictionary returned by
+        'get_config_vars()'.
+        
+        Equivalent to get_config_vars().get(name)
+    
+    get_config_vars(*args)
+        With no arguments, return a dictionary of all configuration
+        variables relevant for the current platform.
+        
+        On Unix, this means every variable defined in Python's installed Makefile;
+        On Windows it's a much smaller set.
+        
+        With arguments, return a list of values that result from looking up
+        each argument in the configuration variable dictionary.
+    
+    get_makefile_filename()
+        Return the path of the Makefile.
+    
+    get_path(name, scheme='nt', vars=None, expand=True)
+        Return a path corresponding to the scheme.
+        
+        ``scheme`` is the install scheme name.
+    
+    get_path_names()
+        Return a tuple containing the paths names.
+    
+    get_paths(scheme='nt', vars=None, expand=True)
+        Return a mapping containing an install scheme.
+        
+        ``scheme`` is the install scheme name. If not provided, it will
+        return the default scheme for the current platform.
+    
+    get_platform()
+        Return a string that identifies the current platform.
+        
+        This is used mainly to distinguish platform-specific build directories and
+        platform-specific built distributions.  Typically includes the OS name and
+        version and the architecture (as supplied by 'os.uname()'), although the
+        exact information included depends on the OS; on Linux, the kernel version
+        isn't particularly important.
+        
+        Examples of returned values:
+           linux-i586
+           linux-alpha (?)
+           solaris-2.6-sun4u
+        
+        Windows will return one of:
+           win-amd64 (64bit Windows on AMD64 (aka x86_64, Intel64, EM64T, etc)
+           win32 (all others - specifically, sys.platform is returned)
+        
+        For other non-POSIX platforms, currently just returns 'sys.platform'.
+    
+    get_python_version()
+    
+    get_scheme_names()
+        Return a tuple containing the schemes names.
+    
+    parse_config_h(fp, vars=None)
+        Parse a config.h-style file.
+        
+        A dictionary containing name/value pairs is returned.  If an
+        optional dictionary is passed in as the second argument, it is
+        used instead of a new dictionary.
+
+DATA
+    __all__ = ['get_config_h_filename', 'get_config_var', 'get_config_vars...
+
+FILE
+    c:\program files\python37\lib\sysconfig.py
+
+

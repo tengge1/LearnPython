@@ -1,0 +1,14 @@
+Help on module fibo:
+
+NAME
+    fibo
+
+FUNCTIONS
+    fib(n)
+    
+    fib2(n)
+
+FILE
+    e:\github\learnpython\python\fibo.py
+
+

@@ -1,0 +1,182 @@
+Help on module _overlapped:
+
+NAME
+    _overlapped
+
+CLASSES
+    builtins.object
+        Overlapped
+    
+    class Overlapped(builtins.object)
+     |  OVERLAPPED structure wrapper
+     |  
+     |  Methods defined here:
+     |  
+     |  AcceptEx(...)
+     |      AcceptEx(listen_handle, accept_handle) -> Overlapped[address_as_bytes]
+     |      
+     |      Start overlapped wait for client to connect
+     |  
+     |  ConnectEx(...)
+     |      ConnectEx(client_handle, address_as_bytes) -> Overlapped[None]
+     |      
+     |      Start overlapped connect.  client_handle should be unbound.
+     |  
+     |  ConnectNamedPipe(...)
+     |      ConnectNamedPipe(handle) -> Overlapped[None]
+     |      
+     |      Start overlapped wait for a client to connect.
+     |  
+     |  DisconnectEx(...)
+     |      DisconnectEx(handle, flags) -> Overlapped[None]
+     |      
+     |      Start overlapped connect.  client_handle should be unbound.
+     |  
+     |  ReadFile(...)
+     |      ReadFile(handle, size) -> Overlapped[message]
+     |      
+     |      Start overlapped read
+     |  
+     |  ReadFileInto(...)
+     |      ReadFileInto(handle, buf) -> Overlapped[bytes_transferred]
+     |      
+     |      Start overlapped receive
+     |  
+     |  TransmitFile(...)
+     |      TransmitFile(socket, file, offset, offset_high, count_to_write, count_per_send, flags) -> Overlapped[None]
+     |      
+     |      Transmit file data over a connected socket.
+     |  
+     |  WSARecv(...)
+     |      RecvFile(handle, size, flags) -> Overlapped[message]
+     |      
+     |      Start overlapped receive
+     |  
+     |  WSARecvInto(...)
+     |      WSARecvInto(handle, buf, flags) -> Overlapped[bytes_transferred]
+     |      
+     |      Start overlapped receive
+     |  
+     |  WSASend(...)
+     |      WSASend(handle, buf, flags) -> Overlapped[bytes_transferred]
+     |      
+     |      Start overlapped send
+     |  
+     |  WriteFile(...)
+     |      WriteFile(handle, buf) -> Overlapped[bytes_transferred]
+     |      
+     |      Start overlapped write
+     |  
+     |  cancel(...)
+     |      cancel() -> None
+     |      
+     |      Cancel overlapped operation
+     |  
+     |  getresult(...)
+     |      getresult(wait=False) -> result
+     |      
+     |      Retrieve result of operation.  If wait is true then it blocks
+     |      until the operation is finished.  If wait is false and the
+     |      operation is still pending then an error is raised.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  address
+     |      Address of overlapped structure
+     |  
+     |  error
+     |      Error from last operation
+     |  
+     |  event
+     |      Overlapped event handle
+     |  
+     |  pending
+     |      Whether the operation is pending
+
+FUNCTIONS
+    BindLocal(...)
+        BindLocal(handle, family) -> None
+        
+        Bind a socket handle to an arbitrary local port.
+        family should AF_INET or AF_INET6.
+    
+    ConnectPipe(...)
+        ConnectPipe(addr) -> pipe_handle
+        
+        Connect to the pipe for asynchronous I/O (overlapped).
+    
+    CreateEvent(...)
+        CreateEvent(EventAttributes, ManualReset, InitialState, Name) -> Handle
+        
+        Create an event.  EventAttributes must be None.
+    
+    CreateIoCompletionPort(...)
+        CreateIoCompletionPort(handle, port, key, concurrency) -> port
+        
+        Create a completion port or register a handle with a port.
+    
+    FormatMessage(...)
+        FormatMessage(error_code) -> error_message
+        
+        Return error message for an error code.
+    
+    GetQueuedCompletionStatus(...)
+        GetQueuedCompletionStatus(port, msecs) -> (err, bytes, key, address)
+        
+        Get a message from completion port.  Wait for up to msecs milliseconds.
+    
+    PostQueuedCompletionStatus(...)
+        PostQueuedCompletionStatus(port, bytes, key, address) -> None
+        
+        Post a message to completion port.
+    
+    RegisterWaitWithQueue(...)
+        RegisterWaitWithQueue(Object, CompletionPort, Overlapped, Timeout)
+            -> WaitHandle
+        
+        Register wait for Object; when complete CompletionPort is notified.
+    
+    ResetEvent(...)
+        ResetEvent(Handle) -> None
+        
+        Reset event.
+    
+    SetEvent(...)
+        SetEvent(Handle) -> None
+        
+        Set event.
+    
+    UnregisterWait(...)
+        UnregisterWait(WaitHandle) -> None
+        
+        Unregister wait handle.
+    
+    UnregisterWaitEx(...)
+        UnregisterWaitEx(WaitHandle, Event) -> None
+        
+        Unregister wait handle.
+
+DATA
+    ERROR_IO_PENDING = 997
+    ERROR_NETNAME_DELETED = 64
+    ERROR_OPERATION_ABORTED = 995
+    ERROR_PIPE_BUSY = 231
+    ERROR_SEM_TIMEOUT = 121
+    INFINITE = 4294967295
+    INVALID_HANDLE_VALUE = 18446744073709551615
+    NULL = 0
+    SO_UPDATE_ACCEPT_CONTEXT = 28683
+    SO_UPDATE_CONNECT_CONTEXT = 28688
+    TF_REUSE_SOCKET = 2
+
+FILE
+    c:\program files\python37\dlls\_overlapped.pyd
+
+

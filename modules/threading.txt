@@ -1,0 +1,853 @@
+Help on module threading:
+
+NAME
+    threading - Thread module emulating a subset of Java's threading model.
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        builtins.RuntimeError
+            BrokenBarrierError
+    builtins.object
+        _thread._local
+        Barrier
+        Condition
+        Event
+        Semaphore
+            BoundedSemaphore
+        Thread
+            Timer
+    
+    class Barrier(builtins.object)
+     |  Barrier(parties, action=None, timeout=None)
+     |  
+     |  Implements a Barrier.
+     |  
+     |  Useful for synchronizing a fixed number of threads at known synchronization
+     |  points.  Threads block on 'wait()' and are simultaneously awoken once they
+     |  have all made that call.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, parties, action=None, timeout=None)
+     |      Create a barrier, initialised to 'parties' threads.
+     |      
+     |      'action' is a callable which, when supplied, will be called by one of
+     |      the threads after they have all entered the barrier and just prior to
+     |      releasing them all. If a 'timeout' is provided, it is used as the
+     |      default for all subsequent 'wait()' calls.
+     |  
+     |  abort(self)
+     |      Place the barrier into a 'broken' state.
+     |      
+     |      Useful in case of error.  Any currently waiting threads and threads
+     |      attempting to 'wait()' will have BrokenBarrierError raised.
+     |  
+     |  reset(self)
+     |      Reset the barrier to the initial state.
+     |      
+     |      Any threads currently waiting will get the BrokenBarrier exception
+     |      raised.
+     |  
+     |  wait(self, timeout=None)
+     |      Wait for the barrier.
+     |      
+     |      When the specified number of threads have started waiting, they are all
+     |      simultaneously awoken. If an 'action' was provided for the barrier, one
+     |      of the threads will have executed that callback prior to returning.
+     |      Returns an individual index number from 0 to 'parties-1'.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  broken
+     |      Return True if the barrier is in a broken state.
+     |  
+     |  n_waiting
+     |      Return the number of threads currently waiting at the barrier.
+     |  
+     |  parties
+     |      Return the number of threads required to trip the barrier.
+    
+    class BoundedSemaphore(Semaphore)
+     |  BoundedSemaphore(value=1)
+     |  
+     |  Implements a bounded semaphore.
+     |  
+     |  A bounded semaphore checks to make sure its current value doesn't exceed its
+     |  initial value. If it does, ValueError is raised. In most situations
+     |  semaphores are used to guard resources with limited capacity.
+     |  
+     |  If the semaphore is released too many times it's a sign of a bug. If not
+     |  given, value defaults to 1.
+     |  
+     |  Like regular semaphores, bounded semaphores manage a counter representing
+     |  the number of release() calls minus the number of acquire() calls, plus an
+     |  initial value. The acquire() method blocks if necessary until it can return
+     |  without making the counter negative. If not given, value defaults to 1.
+     |  
+     |  Method resolution order:
+     |      BoundedSemaphore
+     |      Semaphore
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, value=1)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  release(self)
+     |      Release a semaphore, incrementing the internal counter by one.
+     |      
+     |      When the counter is zero on entry and another thread is waiting for it
+     |      to become larger than zero again, wake up that thread.
+     |      
+     |      If the number of releases exceeds the number of acquires,
+     |      raise a ValueError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Semaphore:
+     |  
+     |  __enter__ = acquire(self, blocking=True, timeout=None)
+     |  
+     |  __exit__(self, t, v, tb)
+     |  
+     |  acquire(self, blocking=True, timeout=None)
+     |      Acquire a semaphore, decrementing the internal counter by one.
+     |      
+     |      When invoked without arguments: if the internal counter is larger than
+     |      zero on entry, decrement it by one and return immediately. If it is zero
+     |      on entry, block, waiting until some other thread has called release() to
+     |      make it larger than zero. This is done with proper interlocking so that
+     |      if multiple acquire() calls are blocked, release() will wake exactly one
+     |      of them up. The implementation may pick one at random, so the order in
+     |      which blocked threads are awakened should not be relied on. There is no
+     |      return value in this case.
+     |      
+     |      When invoked with blocking set to true, do the same thing as when called
+     |      without arguments, and return true.
+     |      
+     |      When invoked with blocking set to false, do not block. If a call without
+     |      an argument would block, return false immediately; otherwise, do the
+     |      same thing as when called without arguments, and return true.
+     |      
+     |      When invoked with a timeout other than None, it will block for at
+     |      most timeout seconds.  If acquire does not complete successfully in
+     |      that interval, return false.  Return true otherwise.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Semaphore:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BrokenBarrierError(builtins.RuntimeError)
+     |  Unspecified run-time error.
+     |  
+     |  Method resolution order:
+     |      BrokenBarrierError
+     |      builtins.RuntimeError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.RuntimeError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.RuntimeError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Condition(builtins.object)
+     |  Condition(lock=None)
+     |  
+     |  Class that implements a condition variable.
+     |  
+     |  A condition variable allows one or more threads to wait until they are
+     |  notified by another thread.
+     |  
+     |  If the lock argument is given and not None, it must be a Lock or RLock
+     |  object, and it is used as the underlying lock. Otherwise, a new RLock object
+     |  is created and used as the underlying lock.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __init__(self, lock=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  notify(self, n=1)
+     |      Wake up one or more threads waiting on this condition, if any.
+     |      
+     |      If the calling thread has not acquired the lock when this method is
+     |      called, a RuntimeError is raised.
+     |      
+     |      This method wakes up at most n of the threads waiting for the condition
+     |      variable; it is a no-op if no threads are waiting.
+     |  
+     |  notifyAll = notify_all(self)
+     |  
+     |  notify_all(self)
+     |      Wake up all threads waiting on this condition.
+     |      
+     |      If the calling thread has not acquired the lock when this method
+     |      is called, a RuntimeError is raised.
+     |  
+     |  wait(self, timeout=None)
+     |      Wait until notified or until a timeout occurs.
+     |      
+     |      If the calling thread has not acquired the lock when this method is
+     |      called, a RuntimeError is raised.
+     |      
+     |      This method releases the underlying lock, and then blocks until it is
+     |      awakened by a notify() or notify_all() call for the same condition
+     |      variable in another thread, or until the optional timeout occurs. Once
+     |      awakened or timed out, it re-acquires the lock and returns.
+     |      
+     |      When the timeout argument is present and not None, it should be a
+     |      floating point number specifying a timeout for the operation in seconds
+     |      (or fractions thereof).
+     |      
+     |      When the underlying lock is an RLock, it is not released using its
+     |      release() method, since this may not actually unlock the lock when it
+     |      was acquired multiple times recursively. Instead, an internal interface
+     |      of the RLock class is used, which really unlocks it even when it has
+     |      been recursively acquired several times. Another internal interface is
+     |      then used to restore the recursion level when the lock is reacquired.
+     |  
+     |  wait_for(self, predicate, timeout=None)
+     |      Wait until a condition evaluates to True.
+     |      
+     |      predicate should be a callable which result will be interpreted as a
+     |      boolean value.  A timeout may be provided giving the maximum time to
+     |      wait.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Event(builtins.object)
+     |  Class implementing event objects.
+     |  
+     |  Events manage a flag that can be set to true with the set() method and reset
+     |  to false with the clear() method. The wait() method blocks until the flag is
+     |  true.  The flag is initially false.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  clear(self)
+     |      Reset the internal flag to false.
+     |      
+     |      Subsequently, threads calling wait() will block until set() is called to
+     |      set the internal flag to true again.
+     |  
+     |  isSet = is_set(self)
+     |  
+     |  is_set(self)
+     |      Return true if and only if the internal flag is true.
+     |  
+     |  set(self)
+     |      Set the internal flag to true.
+     |      
+     |      All threads waiting for it to become true are awakened. Threads
+     |      that call wait() once the flag is true will not block at all.
+     |  
+     |  wait(self, timeout=None)
+     |      Block until the internal flag is true.
+     |      
+     |      If the internal flag is true on entry, return immediately. Otherwise,
+     |      block until another thread calls set() to set the flag to true, or until
+     |      the optional timeout occurs.
+     |      
+     |      When the timeout argument is present and not None, it should be a
+     |      floating point number specifying a timeout for the operation in seconds
+     |      (or fractions thereof).
+     |      
+     |      This method returns the internal flag on exit, so it will always return
+     |      True except if a timeout is given and the operation times out.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Semaphore(builtins.object)
+     |  Semaphore(value=1)
+     |  
+     |  This class implements semaphore objects.
+     |  
+     |  Semaphores manage a counter representing the number of release() calls minus
+     |  the number of acquire() calls, plus an initial value. The acquire() method
+     |  blocks if necessary until it can return without making the counter
+     |  negative. If not given, value defaults to 1.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__ = acquire(self, blocking=True, timeout=None)
+     |  
+     |  __exit__(self, t, v, tb)
+     |  
+     |  __init__(self, value=1)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  acquire(self, blocking=True, timeout=None)
+     |      Acquire a semaphore, decrementing the internal counter by one.
+     |      
+     |      When invoked without arguments: if the internal counter is larger than
+     |      zero on entry, decrement it by one and return immediately. If it is zero
+     |      on entry, block, waiting until some other thread has called release() to
+     |      make it larger than zero. This is done with proper interlocking so that
+     |      if multiple acquire() calls are blocked, release() will wake exactly one
+     |      of them up. The implementation may pick one at random, so the order in
+     |      which blocked threads are awakened should not be relied on. There is no
+     |      return value in this case.
+     |      
+     |      When invoked with blocking set to true, do the same thing as when called
+     |      without arguments, and return true.
+     |      
+     |      When invoked with blocking set to false, do not block. If a call without
+     |      an argument would block, return false immediately; otherwise, do the
+     |      same thing as when called without arguments, and return true.
+     |      
+     |      When invoked with a timeout other than None, it will block for at
+     |      most timeout seconds.  If acquire does not complete successfully in
+     |      that interval, return false.  Return true otherwise.
+     |  
+     |  release(self)
+     |      Release a semaphore, incrementing the internal counter by one.
+     |      
+     |      When the counter is zero on entry and another thread is waiting for it
+     |      to become larger than zero again, wake up that thread.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Thread(builtins.object)
+     |  Thread(group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None)
+     |  
+     |  A class that represents a thread of control.
+     |  
+     |  This class can be safely subclassed in a limited fashion. There are two ways
+     |  to specify the activity: by passing a callable object to the constructor, or
+     |  by overriding the run() method in a subclass.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None)
+     |      This constructor should always be called with keyword arguments. Arguments are:
+     |      
+     |      *group* should be None; reserved for future extension when a ThreadGroup
+     |      class is implemented.
+     |      
+     |      *target* is the callable object to be invoked by the run()
+     |      method. Defaults to None, meaning nothing is called.
+     |      
+     |      *name* is the thread name. By default, a unique name is constructed of
+     |      the form "Thread-N" where N is a small decimal number.
+     |      
+     |      *args* is the argument tuple for the target invocation. Defaults to ().
+     |      
+     |      *kwargs* is a dictionary of keyword arguments for the target
+     |      invocation. Defaults to {}.
+     |      
+     |      If a subclass overrides the constructor, it must make sure to invoke
+     |      the base class constructor (Thread.__init__()) before doing anything
+     |      else to the thread.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  getName(self)
+     |  
+     |  isAlive(self)
+     |      Return whether the thread is alive.
+     |      
+     |      This method is deprecated, use is_alive() instead.
+     |  
+     |  isDaemon(self)
+     |  
+     |  is_alive(self)
+     |      Return whether the thread is alive.
+     |      
+     |      This method returns True just before the run() method starts until just
+     |      after the run() method terminates. The module function enumerate()
+     |      returns a list of all alive threads.
+     |  
+     |  join(self, timeout=None)
+     |      Wait until the thread terminates.
+     |      
+     |      This blocks the calling thread until the thread whose join() method is
+     |      called terminates -- either normally or through an unhandled exception
+     |      or until the optional timeout occurs.
+     |      
+     |      When the timeout argument is present and not None, it should be a
+     |      floating point number specifying a timeout for the operation in seconds
+     |      (or fractions thereof). As join() always returns None, you must call
+     |      is_alive() after join() to decide whether a timeout happened -- if the
+     |      thread is still alive, the join() call timed out.
+     |      
+     |      When the timeout argument is not present or None, the operation will
+     |      block until the thread terminates.
+     |      
+     |      A thread can be join()ed many times.
+     |      
+     |      join() raises a RuntimeError if an attempt is made to join the current
+     |      thread as that would cause a deadlock. It is also an error to join() a
+     |      thread before it has been started and attempts to do so raises the same
+     |      exception.
+     |  
+     |  run(self)
+     |      Method representing the thread's activity.
+     |      
+     |      You may override this method in a subclass. The standard run() method
+     |      invokes the callable object passed to the object's constructor as the
+     |      target argument, if any, with sequential and keyword arguments taken
+     |      from the args and kwargs arguments, respectively.
+     |  
+     |  setDaemon(self, daemonic)
+     |  
+     |  setName(self, name)
+     |  
+     |  start(self)
+     |      Start the thread's activity.
+     |      
+     |      It must be called at most once per thread object. It arranges for the
+     |      object's run() method to be invoked in a separate thread of control.
+     |      
+     |      This method will raise a RuntimeError if called more than once on the
+     |      same thread object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  daemon
+     |      A boolean value indicating whether this thread is a daemon thread.
+     |      
+     |      This must be set before start() is called, otherwise RuntimeError is
+     |      raised. Its initial value is inherited from the creating thread; the
+     |      main thread is not a daemon thread and therefore all threads created in
+     |      the main thread default to daemon = False.
+     |      
+     |      The entire Python program exits when no alive non-daemon threads are
+     |      left.
+     |  
+     |  ident
+     |      Thread identifier of this thread or None if it has not been started.
+     |      
+     |      This is a nonzero integer. See the get_ident() function. Thread
+     |      identifiers may be recycled when a thread exits and another thread is
+     |      created. The identifier is available even after the thread has exited.
+     |  
+     |  name
+     |      A string used for identification purposes only.
+     |      
+     |      It has no semantics. Multiple threads may be given the same name. The
+     |      initial name is set by the constructor.
+    
+    ThreadError = class RuntimeError(Exception)
+     |  Unspecified run-time error.
+     |  
+     |  Method resolution order:
+     |      RuntimeError
+     |      Exception
+     |      BaseException
+     |      object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Timer(Thread)
+     |  Timer(interval, function, args=None, kwargs=None)
+     |  
+     |  Call a function after a specified number of seconds:
+     |  
+     |  t = Timer(30.0, f, args=None, kwargs=None)
+     |  t.start()
+     |  t.cancel()     # stop the timer's action if it's still waiting
+     |  
+     |  Method resolution order:
+     |      Timer
+     |      Thread
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, interval, function, args=None, kwargs=None)
+     |      This constructor should always be called with keyword arguments. Arguments are:
+     |      
+     |      *group* should be None; reserved for future extension when a ThreadGroup
+     |      class is implemented.
+     |      
+     |      *target* is the callable object to be invoked by the run()
+     |      method. Defaults to None, meaning nothing is called.
+     |      
+     |      *name* is the thread name. By default, a unique name is constructed of
+     |      the form "Thread-N" where N is a small decimal number.
+     |      
+     |      *args* is the argument tuple for the target invocation. Defaults to ().
+     |      
+     |      *kwargs* is a dictionary of keyword arguments for the target
+     |      invocation. Defaults to {}.
+     |      
+     |      If a subclass overrides the constructor, it must make sure to invoke
+     |      the base class constructor (Thread.__init__()) before doing anything
+     |      else to the thread.
+     |  
+     |  cancel(self)
+     |      Stop the timer if it hasn't finished yet.
+     |  
+     |  run(self)
+     |      Method representing the thread's activity.
+     |      
+     |      You may override this method in a subclass. The standard run() method
+     |      invokes the callable object passed to the object's constructor as the
+     |      target argument, if any, with sequential and keyword arguments taken
+     |      from the args and kwargs arguments, respectively.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Thread:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  getName(self)
+     |  
+     |  isAlive(self)
+     |      Return whether the thread is alive.
+     |      
+     |      This method is deprecated, use is_alive() instead.
+     |  
+     |  isDaemon(self)
+     |  
+     |  is_alive(self)
+     |      Return whether the thread is alive.
+     |      
+     |      This method returns True just before the run() method starts until just
+     |      after the run() method terminates. The module function enumerate()
+     |      returns a list of all alive threads.
+     |  
+     |  join(self, timeout=None)
+     |      Wait until the thread terminates.
+     |      
+     |      This blocks the calling thread until the thread whose join() method is
+     |      called terminates -- either normally or through an unhandled exception
+     |      or until the optional timeout occurs.
+     |      
+     |      When the timeout argument is present and not None, it should be a
+     |      floating point number specifying a timeout for the operation in seconds
+     |      (or fractions thereof). As join() always returns None, you must call
+     |      is_alive() after join() to decide whether a timeout happened -- if the
+     |      thread is still alive, the join() call timed out.
+     |      
+     |      When the timeout argument is not present or None, the operation will
+     |      block until the thread terminates.
+     |      
+     |      A thread can be join()ed many times.
+     |      
+     |      join() raises a RuntimeError if an attempt is made to join the current
+     |      thread as that would cause a deadlock. It is also an error to join() a
+     |      thread before it has been started and attempts to do so raises the same
+     |      exception.
+     |  
+     |  setDaemon(self, daemonic)
+     |  
+     |  setName(self, name)
+     |  
+     |  start(self)
+     |      Start the thread's activity.
+     |      
+     |      It must be called at most once per thread object. It arranges for the
+     |      object's run() method to be invoked in a separate thread of control.
+     |      
+     |      This method will raise a RuntimeError if called more than once on the
+     |      same thread object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Thread:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  daemon
+     |      A boolean value indicating whether this thread is a daemon thread.
+     |      
+     |      This must be set before start() is called, otherwise RuntimeError is
+     |      raised. Its initial value is inherited from the creating thread; the
+     |      main thread is not a daemon thread and therefore all threads created in
+     |      the main thread default to daemon = False.
+     |      
+     |      The entire Python program exits when no alive non-daemon threads are
+     |      left.
+     |  
+     |  ident
+     |      Thread identifier of this thread or None if it has not been started.
+     |      
+     |      This is a nonzero integer. See the get_ident() function. Thread
+     |      identifiers may be recycled when a thread exits and another thread is
+     |      created. The identifier is available even after the thread has exited.
+     |  
+     |  name
+     |      A string used for identification purposes only.
+     |      
+     |      It has no semantics. Multiple threads may be given the same name. The
+     |      initial name is set by the constructor.
+    
+    local = class _local(builtins.object)
+     |  Thread-local data
+     |  
+     |  Methods defined here:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+
+FUNCTIONS
+    Lock = allocate_lock(...)
+        allocate_lock() -> lock object
+        (allocate() is an obsolete synonym)
+        
+        Create a new lock object. See help(type(threading.Lock())) for
+        information about locks.
+    
+    RLock(*args, **kwargs)
+        Factory function that returns a new reentrant lock.
+        
+        A reentrant lock must be released by the thread that acquired it. Once a
+        thread has acquired a reentrant lock, the same thread may acquire it again
+        without blocking; the thread must release it once for each time it has
+        acquired it.
+    
+    active_count()
+        Return the number of Thread objects currently alive.
+        
+        The returned count is equal to the length of the list returned by
+        enumerate().
+    
+    current_thread()
+        Return the current Thread object, corresponding to the caller's thread of control.
+        
+        If the caller's thread of control was not created through the threading
+        module, a dummy thread object with limited functionality is returned.
+    
+    enumerate()
+        Return a list of all Thread objects currently alive.
+        
+        The list includes daemonic threads, dummy thread objects created by
+        current_thread(), and the main thread. It excludes terminated threads and
+        threads that have not yet been started.
+    
+    get_ident(...)
+        get_ident() -> integer
+        
+        Return a non-zero integer that uniquely identifies the current thread
+        amongst other threads that exist simultaneously.
+        This may be used to identify per-thread resources.
+        Even though on some platforms threads identities may appear to be
+        allocated consecutive numbers starting at 1, this behavior should not
+        be relied upon, and the number should be seen purely as a magic cookie.
+        A thread's identity may be reused for another thread after it exits.
+    
+    main_thread()
+        Return the main thread object.
+        
+        In normal conditions, the main thread is the thread from which the
+        Python interpreter was started.
+    
+    setprofile(func)
+        Set a profile function for all threads started from the threading module.
+        
+        The func will be passed to sys.setprofile() for each thread, before its
+        run() method is called.
+    
+    settrace(func)
+        Set a trace function for all threads started from the threading module.
+        
+        The func will be passed to sys.settrace() for each thread, before its run()
+        method is called.
+    
+    stack_size(...)
+        stack_size([size]) -> size
+        
+        Return the thread stack size used when creating new threads.  The
+        optional size argument specifies the stack size (in bytes) to be used
+        for subsequently created threads, and must be 0 (use platform or
+        configured default) or a positive integer value of at least 32,768 (32k).
+        If changing the thread stack size is unsupported, a ThreadError
+        exception is raised.  If the specified size is invalid, a ValueError
+        exception is raised, and the stack size is unmodified.  32k bytes
+         currently the minimum supported stack size value to guarantee
+        sufficient stack space for the interpreter itself.
+        
+        Note that some platforms may have particular restrictions on values for
+        the stack size, such as requiring a minimum stack size larger than 32 KiB or
+        requiring allocation in multiples of the system memory page size
+        - platform documentation should be referred to for more information
+        (4 KiB pages are common; using multiples of 4096 for the stack size is
+        the suggested approach in the absence of more specific information).
+
+DATA
+    TIMEOUT_MAX = 4294967.0
+    __all__ = ['get_ident', 'active_count', 'Condition', 'current_thread',...
+
+FILE
+    c:\program files\python37\lib\threading.py
+
+

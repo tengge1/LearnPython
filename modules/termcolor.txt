@@ -1,0 +1,40 @@
+Help on module termcolor:
+
+NAME
+    termcolor - ANSII Color formatting for output in terminal.
+
+FUNCTIONS
+    colored(text, color=None, on_color=None, attrs=None)
+        Colorize text.
+        
+        Available text colors:
+            red, green, yellow, blue, magenta, cyan, white.
+        
+        Available text highlights:
+            on_red, on_green, on_yellow, on_blue, on_magenta, on_cyan, on_white.
+        
+        Available attributes:
+            bold, dark, underline, blink, reverse, concealed.
+        
+        Example:
+            colored('Hello, World!', 'red', 'on_grey', ['blue', 'blink'])
+            colored('Hello, World!', 'green')
+    
+    cprint(text, color=None, on_color=None, attrs=None, **kwargs)
+        Print colorize text.
+        
+        It accepts arguments of print function.
+
+DATA
+    ATTRIBUTES = {'blink': 5, 'bold': 1, 'concealed': 8, 'dark': 2, 'rever...
+    COLORS = {'blue': 34, 'cyan': 36, 'green': 32, 'grey': 30, 'magenta': ...
+    HIGHLIGHTS = {'on_blue': 44, 'on_cyan': 46, 'on_green': 42, 'on_grey':...
+    RESET = '\x1b[0m'
+    VERSION = (1, 1, 0)
+    __ALL__ = ['colored', 'cprint']
+    print_function = _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0)...
+
+FILE
+    c:\program files\python37\lib\site-packages\termcolor.py
+
+

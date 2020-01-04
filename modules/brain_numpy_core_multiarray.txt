@@ -1,0 +1,18 @@
+Help on module brain_numpy_core_multiarray:
+
+NAME
+    brain_numpy_core_multiarray - Astroid hooks for numpy.core.multiarray module.
+
+FUNCTIONS
+    numpy_core_multiarray_transform()
+
+DATA
+    METHODS_TO_BE_INFERRED = {'array': "def array(object, dtype=None, copy...
+    function_src = "def zeros(shape, dtype=float, order='C'):\n           ...
+    inference_function = functools.partial(<function infer_numpy_member a....
+    method_name = 'zeros'
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_multiarray.py
+
+

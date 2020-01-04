@@ -1,0 +1,815 @@
+Help on module calendar:
+
+NAME
+    calendar - Calendar printing functions
+
+DESCRIPTION
+    Note when comparing these calendars to the ones printed by cal(1): By
+    default, these calendars have Monday as the first day of the week, and
+    Sunday as the last (the European convention). Use setfirstweekday() to
+    set the first day of the week (0=Monday, 6=Sunday).
+
+CLASSES
+    builtins.ValueError(builtins.Exception)
+        IllegalMonthError
+        IllegalWeekdayError
+    builtins.object
+        Calendar
+            HTMLCalendar
+                LocaleHTMLCalendar
+            TextCalendar
+                LocaleTextCalendar
+    
+    class Calendar(builtins.object)
+     |  Calendar(firstweekday=0)
+     |  
+     |  Base calendar class. This class doesn't do any formatting. It simply
+     |  provides data to subclasses.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, firstweekday=0)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  getfirstweekday(self)
+     |  
+     |  itermonthdates(self, year, month)
+     |      Return an iterator for one month. The iterator will yield datetime.date
+     |      values and will always iterate through complete weeks, so it will yield
+     |      dates outside the specified month.
+     |  
+     |  itermonthdays(self, year, month)
+     |      Like itermonthdates(), but will yield day numbers. For days outside
+     |      the specified month the day number is 0.
+     |  
+     |  itermonthdays2(self, year, month)
+     |      Like itermonthdates(), but will yield (day number, weekday number)
+     |      tuples. For days outside the specified month the day number is 0.
+     |  
+     |  itermonthdays3(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day) tuples.  Can be
+     |      used for dates outside of datetime.date range.
+     |  
+     |  itermonthdays4(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day, day_of_week) tuples.
+     |      Can be used for dates outside of datetime.date range.
+     |  
+     |  iterweekdays(self)
+     |      Return an iterator for one week of weekday numbers starting with the
+     |      configured first one.
+     |  
+     |  monthdatescalendar(self, year, month)
+     |      Return a matrix (list of lists) representing a month's calendar.
+     |      Each row represents a week; week entries are datetime.date values.
+     |  
+     |  monthdays2calendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; week entries are
+     |      (day number, weekday number) tuples. Day numbers outside this month
+     |      are zero.
+     |  
+     |  monthdayscalendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; days outside this month are zero.
+     |  
+     |  setfirstweekday(self, firstweekday)
+     |  
+     |  yeardatescalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting. The return
+     |      value is a list of month rows. Each month row contains up to width months.
+     |      Each month contains between 4 and 6 weeks and each week contains 1-7
+     |      days. Days are datetime.date objects.
+     |  
+     |  yeardays2calendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are
+     |      (day number, weekday number) tuples. Day numbers outside this month are
+     |      zero.
+     |  
+     |  yeardayscalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are day numbers.
+     |      Day numbers outside this month are zero.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  firstweekday
+    
+    class HTMLCalendar(Calendar)
+     |  HTMLCalendar(firstweekday=0)
+     |  
+     |  This calendar returns complete HTML pages.
+     |  
+     |  Method resolution order:
+     |      HTMLCalendar
+     |      Calendar
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  formatday(self, day, weekday)
+     |      Return a day as a table cell.
+     |  
+     |  formatmonth(self, theyear, themonth, withyear=True)
+     |      Return a formatted month as a table.
+     |  
+     |  formatmonthname(self, theyear, themonth, withyear=True)
+     |      Return a month name as a table row.
+     |  
+     |  formatweek(self, theweek)
+     |      Return a complete week as a table row.
+     |  
+     |  formatweekday(self, day)
+     |      Return a weekday name as a table header.
+     |  
+     |  formatweekheader(self)
+     |      Return a header for a week as a table row.
+     |  
+     |  formatyear(self, theyear, width=3)
+     |      Return a formatted year as a table of tables.
+     |  
+     |  formatyearpage(self, theyear, width=3, css='calendar.css', encoding=None)
+     |      Return a formatted year as a complete HTML page.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  cssclass_month = 'month'
+     |  
+     |  cssclass_month_head = 'month'
+     |  
+     |  cssclass_noday = 'noday'
+     |  
+     |  cssclass_year = 'year'
+     |  
+     |  cssclass_year_head = 'year'
+     |  
+     |  cssclasses = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+     |  
+     |  cssclasses_weekday_head = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', '...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Calendar:
+     |  
+     |  __init__(self, firstweekday=0)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  getfirstweekday(self)
+     |  
+     |  itermonthdates(self, year, month)
+     |      Return an iterator for one month. The iterator will yield datetime.date
+     |      values and will always iterate through complete weeks, so it will yield
+     |      dates outside the specified month.
+     |  
+     |  itermonthdays(self, year, month)
+     |      Like itermonthdates(), but will yield day numbers. For days outside
+     |      the specified month the day number is 0.
+     |  
+     |  itermonthdays2(self, year, month)
+     |      Like itermonthdates(), but will yield (day number, weekday number)
+     |      tuples. For days outside the specified month the day number is 0.
+     |  
+     |  itermonthdays3(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day) tuples.  Can be
+     |      used for dates outside of datetime.date range.
+     |  
+     |  itermonthdays4(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day, day_of_week) tuples.
+     |      Can be used for dates outside of datetime.date range.
+     |  
+     |  iterweekdays(self)
+     |      Return an iterator for one week of weekday numbers starting with the
+     |      configured first one.
+     |  
+     |  monthdatescalendar(self, year, month)
+     |      Return a matrix (list of lists) representing a month's calendar.
+     |      Each row represents a week; week entries are datetime.date values.
+     |  
+     |  monthdays2calendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; week entries are
+     |      (day number, weekday number) tuples. Day numbers outside this month
+     |      are zero.
+     |  
+     |  monthdayscalendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; days outside this month are zero.
+     |  
+     |  setfirstweekday(self, firstweekday)
+     |  
+     |  yeardatescalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting. The return
+     |      value is a list of month rows. Each month row contains up to width months.
+     |      Each month contains between 4 and 6 weeks and each week contains 1-7
+     |      days. Days are datetime.date objects.
+     |  
+     |  yeardays2calendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are
+     |      (day number, weekday number) tuples. Day numbers outside this month are
+     |      zero.
+     |  
+     |  yeardayscalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are day numbers.
+     |      Day numbers outside this month are zero.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Calendar:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  firstweekday
+    
+    class IllegalMonthError(builtins.ValueError)
+     |  IllegalMonthError(month)
+     |  
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      IllegalMonthError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, month)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class IllegalWeekdayError(builtins.ValueError)
+     |  IllegalWeekdayError(weekday)
+     |  
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      IllegalWeekdayError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, weekday)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class LocaleHTMLCalendar(HTMLCalendar)
+     |  LocaleHTMLCalendar(firstweekday=0, locale=None)
+     |  
+     |  This class can be passed a locale name in the constructor and will return
+     |  month and weekday names in the specified locale. If this locale includes
+     |  an encoding all strings containing month and weekday names will be returned
+     |  as unicode.
+     |  
+     |  Method resolution order:
+     |      LocaleHTMLCalendar
+     |      HTMLCalendar
+     |      Calendar
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, firstweekday=0, locale=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  formatmonthname(self, theyear, themonth, withyear=True)
+     |      Return a month name as a table row.
+     |  
+     |  formatweekday(self, day)
+     |      Return a weekday name as a table header.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from HTMLCalendar:
+     |  
+     |  formatday(self, day, weekday)
+     |      Return a day as a table cell.
+     |  
+     |  formatmonth(self, theyear, themonth, withyear=True)
+     |      Return a formatted month as a table.
+     |  
+     |  formatweek(self, theweek)
+     |      Return a complete week as a table row.
+     |  
+     |  formatweekheader(self)
+     |      Return a header for a week as a table row.
+     |  
+     |  formatyear(self, theyear, width=3)
+     |      Return a formatted year as a table of tables.
+     |  
+     |  formatyearpage(self, theyear, width=3, css='calendar.css', encoding=None)
+     |      Return a formatted year as a complete HTML page.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from HTMLCalendar:
+     |  
+     |  cssclass_month = 'month'
+     |  
+     |  cssclass_month_head = 'month'
+     |  
+     |  cssclass_noday = 'noday'
+     |  
+     |  cssclass_year = 'year'
+     |  
+     |  cssclass_year_head = 'year'
+     |  
+     |  cssclasses = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+     |  
+     |  cssclasses_weekday_head = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', '...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Calendar:
+     |  
+     |  getfirstweekday(self)
+     |  
+     |  itermonthdates(self, year, month)
+     |      Return an iterator for one month. The iterator will yield datetime.date
+     |      values and will always iterate through complete weeks, so it will yield
+     |      dates outside the specified month.
+     |  
+     |  itermonthdays(self, year, month)
+     |      Like itermonthdates(), but will yield day numbers. For days outside
+     |      the specified month the day number is 0.
+     |  
+     |  itermonthdays2(self, year, month)
+     |      Like itermonthdates(), but will yield (day number, weekday number)
+     |      tuples. For days outside the specified month the day number is 0.
+     |  
+     |  itermonthdays3(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day) tuples.  Can be
+     |      used for dates outside of datetime.date range.
+     |  
+     |  itermonthdays4(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day, day_of_week) tuples.
+     |      Can be used for dates outside of datetime.date range.
+     |  
+     |  iterweekdays(self)
+     |      Return an iterator for one week of weekday numbers starting with the
+     |      configured first one.
+     |  
+     |  monthdatescalendar(self, year, month)
+     |      Return a matrix (list of lists) representing a month's calendar.
+     |      Each row represents a week; week entries are datetime.date values.
+     |  
+     |  monthdays2calendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; week entries are
+     |      (day number, weekday number) tuples. Day numbers outside this month
+     |      are zero.
+     |  
+     |  monthdayscalendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; days outside this month are zero.
+     |  
+     |  setfirstweekday(self, firstweekday)
+     |  
+     |  yeardatescalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting. The return
+     |      value is a list of month rows. Each month row contains up to width months.
+     |      Each month contains between 4 and 6 weeks and each week contains 1-7
+     |      days. Days are datetime.date objects.
+     |  
+     |  yeardays2calendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are
+     |      (day number, weekday number) tuples. Day numbers outside this month are
+     |      zero.
+     |  
+     |  yeardayscalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are day numbers.
+     |      Day numbers outside this month are zero.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Calendar:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  firstweekday
+    
+    class LocaleTextCalendar(TextCalendar)
+     |  LocaleTextCalendar(firstweekday=0, locale=None)
+     |  
+     |  This class can be passed a locale name in the constructor and will return
+     |  month and weekday names in the specified locale. If this locale includes
+     |  an encoding all strings containing month and weekday names will be returned
+     |  as unicode.
+     |  
+     |  Method resolution order:
+     |      LocaleTextCalendar
+     |      TextCalendar
+     |      Calendar
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, firstweekday=0, locale=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  formatmonthname(self, theyear, themonth, width, withyear=True)
+     |      Return a formatted month name.
+     |  
+     |  formatweekday(self, day, width)
+     |      Returns a formatted week day name.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from TextCalendar:
+     |  
+     |  formatday(self, day, weekday, width)
+     |      Returns a formatted day.
+     |  
+     |  formatmonth(self, theyear, themonth, w=0, l=0)
+     |      Return a month's calendar string (multi-line).
+     |  
+     |  formatweek(self, theweek, width)
+     |      Returns a single week in a string (no newline).
+     |  
+     |  formatweekheader(self, width)
+     |      Return a header for a week.
+     |  
+     |  formatyear(self, theyear, w=2, l=1, c=6, m=3)
+     |      Returns a year's calendar as a multi-line string.
+     |  
+     |  prmonth(self, theyear, themonth, w=0, l=0)
+     |      Print a month's calendar.
+     |  
+     |  prweek(self, theweek, width)
+     |      Print a single week (no newline).
+     |  
+     |  pryear(self, theyear, w=0, l=0, c=6, m=3)
+     |      Print a year's calendar.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Calendar:
+     |  
+     |  getfirstweekday(self)
+     |  
+     |  itermonthdates(self, year, month)
+     |      Return an iterator for one month. The iterator will yield datetime.date
+     |      values and will always iterate through complete weeks, so it will yield
+     |      dates outside the specified month.
+     |  
+     |  itermonthdays(self, year, month)
+     |      Like itermonthdates(), but will yield day numbers. For days outside
+     |      the specified month the day number is 0.
+     |  
+     |  itermonthdays2(self, year, month)
+     |      Like itermonthdates(), but will yield (day number, weekday number)
+     |      tuples. For days outside the specified month the day number is 0.
+     |  
+     |  itermonthdays3(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day) tuples.  Can be
+     |      used for dates outside of datetime.date range.
+     |  
+     |  itermonthdays4(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day, day_of_week) tuples.
+     |      Can be used for dates outside of datetime.date range.
+     |  
+     |  iterweekdays(self)
+     |      Return an iterator for one week of weekday numbers starting with the
+     |      configured first one.
+     |  
+     |  monthdatescalendar(self, year, month)
+     |      Return a matrix (list of lists) representing a month's calendar.
+     |      Each row represents a week; week entries are datetime.date values.
+     |  
+     |  monthdays2calendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; week entries are
+     |      (day number, weekday number) tuples. Day numbers outside this month
+     |      are zero.
+     |  
+     |  monthdayscalendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; days outside this month are zero.
+     |  
+     |  setfirstweekday(self, firstweekday)
+     |  
+     |  yeardatescalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting. The return
+     |      value is a list of month rows. Each month row contains up to width months.
+     |      Each month contains between 4 and 6 weeks and each week contains 1-7
+     |      days. Days are datetime.date objects.
+     |  
+     |  yeardays2calendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are
+     |      (day number, weekday number) tuples. Day numbers outside this month are
+     |      zero.
+     |  
+     |  yeardayscalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are day numbers.
+     |      Day numbers outside this month are zero.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Calendar:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  firstweekday
+    
+    class TextCalendar(Calendar)
+     |  TextCalendar(firstweekday=0)
+     |  
+     |  Subclass of Calendar that outputs a calendar as a simple plain text
+     |  similar to the UNIX program cal.
+     |  
+     |  Method resolution order:
+     |      TextCalendar
+     |      Calendar
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  formatday(self, day, weekday, width)
+     |      Returns a formatted day.
+     |  
+     |  formatmonth(self, theyear, themonth, w=0, l=0)
+     |      Return a month's calendar string (multi-line).
+     |  
+     |  formatmonthname(self, theyear, themonth, width, withyear=True)
+     |      Return a formatted month name.
+     |  
+     |  formatweek(self, theweek, width)
+     |      Returns a single week in a string (no newline).
+     |  
+     |  formatweekday(self, day, width)
+     |      Returns a formatted week day name.
+     |  
+     |  formatweekheader(self, width)
+     |      Return a header for a week.
+     |  
+     |  formatyear(self, theyear, w=2, l=1, c=6, m=3)
+     |      Returns a year's calendar as a multi-line string.
+     |  
+     |  prmonth(self, theyear, themonth, w=0, l=0)
+     |      Print a month's calendar.
+     |  
+     |  prweek(self, theweek, width)
+     |      Print a single week (no newline).
+     |  
+     |  pryear(self, theyear, w=0, l=0, c=6, m=3)
+     |      Print a year's calendar.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Calendar:
+     |  
+     |  __init__(self, firstweekday=0)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  getfirstweekday(self)
+     |  
+     |  itermonthdates(self, year, month)
+     |      Return an iterator for one month. The iterator will yield datetime.date
+     |      values and will always iterate through complete weeks, so it will yield
+     |      dates outside the specified month.
+     |  
+     |  itermonthdays(self, year, month)
+     |      Like itermonthdates(), but will yield day numbers. For days outside
+     |      the specified month the day number is 0.
+     |  
+     |  itermonthdays2(self, year, month)
+     |      Like itermonthdates(), but will yield (day number, weekday number)
+     |      tuples. For days outside the specified month the day number is 0.
+     |  
+     |  itermonthdays3(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day) tuples.  Can be
+     |      used for dates outside of datetime.date range.
+     |  
+     |  itermonthdays4(self, year, month)
+     |      Like itermonthdates(), but will yield (year, month, day, day_of_week) tuples.
+     |      Can be used for dates outside of datetime.date range.
+     |  
+     |  iterweekdays(self)
+     |      Return an iterator for one week of weekday numbers starting with the
+     |      configured first one.
+     |  
+     |  monthdatescalendar(self, year, month)
+     |      Return a matrix (list of lists) representing a month's calendar.
+     |      Each row represents a week; week entries are datetime.date values.
+     |  
+     |  monthdays2calendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; week entries are
+     |      (day number, weekday number) tuples. Day numbers outside this month
+     |      are zero.
+     |  
+     |  monthdayscalendar(self, year, month)
+     |      Return a matrix representing a month's calendar.
+     |      Each row represents a week; days outside this month are zero.
+     |  
+     |  setfirstweekday(self, firstweekday)
+     |  
+     |  yeardatescalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting. The return
+     |      value is a list of month rows. Each month row contains up to width months.
+     |      Each month contains between 4 and 6 weeks and each week contains 1-7
+     |      days. Days are datetime.date objects.
+     |  
+     |  yeardays2calendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are
+     |      (day number, weekday number) tuples. Day numbers outside this month are
+     |      zero.
+     |  
+     |  yeardayscalendar(self, year, width=3)
+     |      Return the data for the specified year ready for formatting (similar to
+     |      yeardatescalendar()). Entries in the week lists are day numbers.
+     |      Day numbers outside this month are zero.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Calendar:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  firstweekday
+
+FUNCTIONS
+    calendar = formatyear(theyear, w=2, l=1, c=6, m=3) method of TextCalendar instance
+        Returns a year's calendar as a multi-line string.
+    
+    firstweekday = getfirstweekday() method of TextCalendar instance
+    
+    isleap(year)
+        Return True for leap years, False for non-leap years.
+    
+    leapdays(y1, y2)
+        Return number of leap years in range [y1, y2).
+        Assume y1 <= y2.
+    
+    month = formatmonth(theyear, themonth, w=0, l=0) method of TextCalendar instance
+        Return a month's calendar string (multi-line).
+    
+    monthcalendar = monthdayscalendar(year, month) method of TextCalendar instance
+        Return a matrix representing a month's calendar.
+        Each row represents a week; days outside this month are zero.
+    
+    monthrange(year, month)
+        Return weekday (0-6 ~ Mon-Sun) and number of days (28-31) for
+        year, month.
+    
+    prcal = pryear(theyear, w=0, l=0, c=6, m=3) method of TextCalendar instance
+        Print a year's calendar.
+    
+    prmonth(theyear, themonth, w=0, l=0) method of TextCalendar instance
+        Print a month's calendar.
+    
+    setfirstweekday(firstweekday)
+    
+    timegm(tuple)
+        Unrelated but handy function to calculate Unix timestamp from GMT.
+    
+    weekday(year, month, day)
+        Return weekday (0-6 ~ Mon-Sun) for year, month (1-12), day (1-31).
+    
+    weekheader = formatweekheader(width) method of TextCalendar instance
+        Return a header for a week.
+
+DATA
+    __all__ = ['IllegalMonthError', 'IllegalWeekdayError', 'setfirstweekda...
+    day_abbr = <calendar._localized_day object>
+    day_name = <calendar._localized_day object>
+    month_abbr = <calendar._localized_month object>
+    month_name = <calendar._localized_month object>
+
+FILE
+    c:\program files\python37\lib\calendar.py
+
+

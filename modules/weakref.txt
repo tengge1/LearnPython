@@ -1,0 +1,1002 @@
+Help on module weakref:
+
+NAME
+    weakref - Weak reference support for Python.
+
+DESCRIPTION
+    This module is an implementation of PEP 205:
+    
+    http://www.python.org/dev/peps/pep-0205/
+
+CLASSES
+    builtins.object
+        _weakrefset.WeakSet
+        builtins.weakcallableproxy
+        builtins.weakproxy
+        builtins.weakref
+            WeakMethod
+        finalize
+    collections.abc.MutableMapping(collections.abc.Mapping)
+        WeakKeyDictionary
+        WeakValueDictionary
+    
+    CallableProxyType = class weakcallableproxy(object)
+     |  Methods defined here:
+     |  
+     |  __abs__(self, /)
+     |      abs(self)
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __and__(self, value, /)
+     |      Return self&value.
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __float__(self, /)
+     |      float(self)
+     |  
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, value, /)
+     |      Return self+=value.
+     |  
+     |  __iand__(self, value, /)
+     |      Return self&=value.
+     |  
+     |  __ifloordiv__(self, value, /)
+     |      Return self//=value.
+     |  
+     |  __ilshift__(self, value, /)
+     |      Return self<<=value.
+     |  
+     |  __imod__(self, value, /)
+     |      Return self%=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Return self*=value.
+     |  
+     |  __index__(self, /)
+     |      Return self converted to an integer, if self is suitable for use as an index into a list.
+     |  
+     |  __int__(self, /)
+     |      int(self)
+     |  
+     |  __invert__(self, /)
+     |      ~self
+     |  
+     |  __ior__(self, value, /)
+     |      Return self|=value.
+     |  
+     |  __ipow__(self, value, /)
+     |      Return self**=value.
+     |  
+     |  __irshift__(self, value, /)
+     |      Return self>>=value.
+     |  
+     |  __isub__(self, value, /)
+     |      Return self-=value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __itruediv__(self, value, /)
+     |      Return self/=value.
+     |  
+     |  __ixor__(self, value, /)
+     |      Return self^=value.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lshift__(self, value, /)
+     |      Return self<<value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __neg__(self, /)
+     |      -self
+     |  
+     |  __next__(self, /)
+     |      Implement next(self).
+     |  
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |  
+     |  __pos__(self, /)
+     |      +self
+     |  
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |  
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |  
+     |  __rand__(self, value, /)
+     |      Return value&self.
+     |  
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |  
+     |  __rlshift__(self, value, /)
+     |      Return value<<self.
+     |  
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |  
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |  
+     |  __rrshift__(self, value, /)
+     |      Return value>>self.
+     |  
+     |  __rshift__(self, value, /)
+     |      Return self>>value.
+     |  
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |  
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |  
+     |  __rxor__(self, value, /)
+     |      Return value^self.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |  
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |  
+     |  __xor__(self, value, /)
+     |      Return self^value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    ProxyType = class weakproxy(object)
+     |  Methods defined here:
+     |  
+     |  __abs__(self, /)
+     |      abs(self)
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __and__(self, value, /)
+     |      Return self&value.
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __bytes__(...)
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __float__(self, /)
+     |      float(self)
+     |  
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, value, /)
+     |      Return self+=value.
+     |  
+     |  __iand__(self, value, /)
+     |      Return self&=value.
+     |  
+     |  __ifloordiv__(self, value, /)
+     |      Return self//=value.
+     |  
+     |  __ilshift__(self, value, /)
+     |      Return self<<=value.
+     |  
+     |  __imod__(self, value, /)
+     |      Return self%=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Return self*=value.
+     |  
+     |  __index__(self, /)
+     |      Return self converted to an integer, if self is suitable for use as an index into a list.
+     |  
+     |  __int__(self, /)
+     |      int(self)
+     |  
+     |  __invert__(self, /)
+     |      ~self
+     |  
+     |  __ior__(self, value, /)
+     |      Return self|=value.
+     |  
+     |  __ipow__(self, value, /)
+     |      Return self**=value.
+     |  
+     |  __irshift__(self, value, /)
+     |      Return self>>=value.
+     |  
+     |  __isub__(self, value, /)
+     |      Return self-=value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __itruediv__(self, value, /)
+     |      Return self/=value.
+     |  
+     |  __ixor__(self, value, /)
+     |      Return self^=value.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lshift__(self, value, /)
+     |      Return self<<value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __neg__(self, /)
+     |      -self
+     |  
+     |  __next__(self, /)
+     |      Implement next(self).
+     |  
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |  
+     |  __pos__(self, /)
+     |      +self
+     |  
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |  
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |  
+     |  __rand__(self, value, /)
+     |      Return value&self.
+     |  
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |  
+     |  __rlshift__(self, value, /)
+     |      Return value<<self.
+     |  
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |  
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |  
+     |  __rrshift__(self, value, /)
+     |      Return value>>self.
+     |  
+     |  __rshift__(self, value, /)
+     |      Return self>>value.
+     |  
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |  
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |  
+     |  __rxor__(self, value, /)
+     |      Return value^self.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |  
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |  
+     |  __xor__(self, value, /)
+     |      Return self^value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    ReferenceType = class weakref(object)
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __callback__
+    
+    class WeakKeyDictionary(collections.abc.MutableMapping)
+     |  WeakKeyDictionary(dict=None)
+     |  
+     |  Mapping class that references keys weakly.
+     |  
+     |  Entries in the dictionary will be discarded when there is no
+     |  longer a strong reference to the key. This can be used to
+     |  associate additional data with an object owned by other parts of
+     |  an application without adding attributes to those objects. This
+     |  can be especially useful with objects that override attribute
+     |  accesses.
+     |  
+     |  Method resolution order:
+     |      WeakKeyDictionary
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __copy__ = copy(self)
+     |  
+     |  __deepcopy__(self, memo)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __init__(self, dict=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__ = keys(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  copy(self)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keyrefs(self)
+     |      Return a list of weak references to the keys.
+     |      
+     |      The references are not guaranteed to be 'live' at the time
+     |      they are used, so the result of calling the references needs
+     |      to be checked before being used.  This can be used to avoid
+     |      creating references that will cause the garbage collector to
+     |      keep the keys around longer than needed.
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  pop(self, key, *args)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(self, dict=None, **kwargs)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class WeakMethod(builtins.weakref)
+     |  WeakMethod(meth, callback=None)
+     |  
+     |  A custom `weakref.ref` subclass which simulates a weak reference to
+     |  a bound method, working around the lifetime problem of bound methods.
+     |  
+     |  Method resolution order:
+     |      WeakMethod
+     |      builtins.weakref
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      Call self as a function.
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __ne__(self, other)
+     |      Return self!=value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(cls, meth, callback=None)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.weakref:
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.weakref:
+     |  
+     |  __callback__
+    
+    class WeakSet(builtins.object)
+     |  WeakSet(data=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __and__ = intersection(self, other)
+     |  
+     |  __contains__(self, item)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__ = issuperset(self, other)
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __iand__(self, other)
+     |  
+     |  __init__(self, data=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __ior__(self, other)
+     |  
+     |  __isub__(self, other)
+     |  
+     |  __iter__(self)
+     |  
+     |  __ixor__(self, other)
+     |  
+     |  __le__ = issubset(self, other)
+     |  
+     |  __len__(self)
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__ = union(self, other)
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  __sub__ = difference(self, other)
+     |  
+     |  __xor__ = symmetric_difference(self, other)
+     |  
+     |  add(self, item)
+     |  
+     |  clear(self)
+     |  
+     |  copy(self)
+     |  
+     |  difference(self, other)
+     |  
+     |  difference_update(self, other)
+     |  
+     |  discard(self, item)
+     |  
+     |  intersection(self, other)
+     |  
+     |  intersection_update(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |  
+     |  issubset(self, other)
+     |  
+     |  issuperset(self, other)
+     |  
+     |  pop(self)
+     |  
+     |  remove(self, item)
+     |  
+     |  symmetric_difference(self, other)
+     |  
+     |  symmetric_difference_update(self, other)
+     |  
+     |  union(self, other)
+     |  
+     |  update(self, other)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    class WeakValueDictionary(collections.abc.MutableMapping)
+     |  WeakValueDictionary(*args, **kw)
+     |  
+     |  Mapping class that references values weakly.
+     |  
+     |  Entries in the dictionary will be discarded when no strong
+     |  reference to the value exists anymore
+     |  
+     |  Method resolution order:
+     |      WeakValueDictionary
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __copy__ = copy(self)
+     |  
+     |  __deepcopy__(self, memo)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __init__(*args, **kw)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__ = keys(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  copy(self)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  itervaluerefs(self)
+     |      Return an iterator that yields the weak references to the values.
+     |      
+     |      The references are not guaranteed to be 'live' at the time
+     |      they are used, so the result of calling the references needs
+     |      to be checked before being used.  This can be used to avoid
+     |      creating references that will cause the garbage collector to
+     |      keep the values around longer than needed.
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  pop(self, key, *args)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwargs)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  valuerefs(self)
+     |      Return a list of weak references to the values.
+     |      
+     |      The references are not guaranteed to be 'live' at the time
+     |      they are used, so the result of calling the references needs
+     |      to be checked before being used.  This can be used to avoid
+     |      creating references that will cause the garbage collector to
+     |      keep the values around longer than needed.
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class finalize(builtins.object)
+     |  finalize(*args, **kwargs)
+     |  
+     |  Class for finalization of weakrefable objects
+     |  
+     |  finalize(obj, func, *args, **kwargs) returns a callable finalizer
+     |  object which will be called when obj is garbage collected. The
+     |  first time the finalizer is called it evaluates func(*arg, **kwargs)
+     |  and returns the result. After this the finalizer is dead, and
+     |  calling it just returns None.
+     |  
+     |  When the program exits any remaining finalizers for which the
+     |  atexit attribute is true will be run in reverse order of creation.
+     |  By default atexit is true.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, _=None)
+     |      If alive then mark as dead and return func(*args, **kwargs);
+     |      otherwise return None
+     |  
+     |  __init__(*args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  detach(self)
+     |      If alive then mark as dead and return (obj, func, args, kwargs);
+     |      otherwise return None
+     |  
+     |  peek(self)
+     |      If alive then return (obj, func, args, kwargs);
+     |      otherwise return None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  alive
+     |      Whether finalizer is alive
+     |  
+     |  atexit
+     |      Whether finalizer should be called at exit
+    
+    ref = class weakref(object)
+     |  Methods defined here:
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __callback__
+
+FUNCTIONS
+    getweakrefcount(object, /)
+        Return the number of weak references to 'object'.
+    
+    getweakrefs(...)
+        getweakrefs(object) -- return a list of all weak reference objects
+        that point to 'object'.
+    
+    proxy(...)
+        proxy(object[, callback]) -- create a proxy object that weakly
+        references 'object'.  'callback', if given, is called with a
+        reference to the proxy when 'object' is about to be finalized.
+
+DATA
+    ProxyTypes = (<class 'weakproxy'>, <class 'weakcallableproxy'>)
+    __all__ = ['ref', 'proxy', 'getweakrefcount', 'getweakrefs', 'WeakKeyD...
+
+FILE
+    c:\program files\python37\lib\weakref.py
+
+

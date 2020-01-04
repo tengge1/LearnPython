@@ -1,0 +1,12 @@
+Help on package pydoc_data:
+
+NAME
+    pydoc_data
+
+PACKAGE CONTENTS
+    topics
+
+FILE
+    c:\program files\python37\lib\pydoc_data\__init__.py
+
+

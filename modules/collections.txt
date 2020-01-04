@@ -1,0 +1,1377 @@
+Help on package collections:
+
+NAME
+    collections
+
+DESCRIPTION
+    This module implements specialized container datatypes providing
+    alternatives to Python's general purpose built-in containers, dict,
+    list, set, and tuple.
+    
+    * namedtuple   factory function for creating tuple subclasses with named fields
+    * deque        list-like container with fast appends and pops on either end
+    * ChainMap     dict-like class for creating a single view of multiple mappings
+    * Counter      dict subclass for counting hashable objects
+    * OrderedDict  dict subclass that remembers the order entries were added
+    * defaultdict  dict subclass that calls a factory function to supply missing values
+    * UserDict     wrapper around dictionary objects for easier dict subclassing
+    * UserList     wrapper around list objects for easier list subclassing
+    * UserString   wrapper around string objects for easier string subclassing
+
+PACKAGE CONTENTS
+    abc
+
+SUBMODULES
+    _collections_abc
+
+CLASSES
+    builtins.dict(builtins.object)
+        Counter
+        OrderedDict
+        defaultdict
+    builtins.object
+        deque
+    collections.abc.MutableMapping(collections.abc.Mapping)
+        ChainMap
+        UserDict
+    collections.abc.MutableSequence(collections.abc.Sequence)
+        UserList
+    collections.abc.Sequence(collections.abc.Reversible, collections.abc.Collection)
+        UserString
+    
+    class ChainMap(collections.abc.MutableMapping)
+     |  ChainMap(*maps)
+     |  
+     |  A ChainMap groups multiple dicts (or other mappings) together
+     |  to create a single, updateable view.
+     |  
+     |  The underlying mappings are stored in a list.  That list is public and can
+     |  be accessed or updated using the *maps* attribute.  There is no other
+     |  state.
+     |  
+     |  Lookups search the underlying mappings successively until a key is found.
+     |  In contrast, writes, updates, and deletions only operate on the first
+     |  mapping.
+     |  
+     |  Method resolution order:
+     |      ChainMap
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __bool__(self)
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __copy__ = copy(self)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __init__(self, *maps)
+     |      Initialize a ChainMap by setting *maps* to the given mappings.
+     |      If no mappings are provided, a single empty dictionary is used.
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __missing__(self, key)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  clear(self)
+     |      Clear maps[0], leaving maps[1:] intact.
+     |  
+     |  copy(self)
+     |      New ChainMap or subclass with a new copy of maps[0] and refs to maps[1:]
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  new_child(self, m=None)
+     |      New ChainMap with a new map followed by all previous maps.
+     |      If no map is provided, an empty dict is used.
+     |  
+     |  pop(self, key, *args)
+     |      Remove *key* from maps[0] and return its value. Raise KeyError if *key* not in maps[0].
+     |  
+     |  popitem(self)
+     |      Remove and return an item pair from maps[0]. Raise KeyError is maps[0] is empty.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  fromkeys(iterable, *args) from abc.ABCMeta
+     |      Create a ChainMap with a single dict created from the iterable.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  parents
+     |      New ChainMap from maps[1:].
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class Counter(builtins.dict)
+     |  Counter(*args, **kwds)
+     |  
+     |  Dict subclass for counting hashable items.  Sometimes called a bag
+     |  or multiset.  Elements are stored as dictionary keys and their counts
+     |  are stored as dictionary values.
+     |  
+     |  >>> c = Counter('abcdeabcdabcaba')  # count elements from a string
+     |  
+     |  >>> c.most_common(3)                # three most common elements
+     |  [('a', 5), ('b', 4), ('c', 3)]
+     |  >>> sorted(c)                       # list all unique elements
+     |  ['a', 'b', 'c', 'd', 'e']
+     |  >>> ''.join(sorted(c.elements()))   # list elements with repetitions
+     |  'aaaaabbbbcccdde'
+     |  >>> sum(c.values())                 # total of all counts
+     |  15
+     |  
+     |  >>> c['a']                          # count of letter 'a'
+     |  5
+     |  >>> for elem in 'shazam':           # update counts from an iterable
+     |  ...     c[elem] += 1                # by adding 1 to each element's count
+     |  >>> c['a']                          # now there are seven 'a'
+     |  7
+     |  >>> del c['b']                      # remove all 'b'
+     |  >>> c['b']                          # now there are zero 'b'
+     |  0
+     |  
+     |  >>> d = Counter('simsalabim')       # make another counter
+     |  >>> c.update(d)                     # add in the second counter
+     |  >>> c['a']                          # now there are nine 'a'
+     |  9
+     |  
+     |  >>> c.clear()                       # empty the counter
+     |  >>> c
+     |  Counter()
+     |  
+     |  Note:  If a count is set to zero or reduced to zero, it will remain
+     |  in the counter until the entry is deleted or the counter is cleared:
+     |  
+     |  >>> c = Counter('aaabbc')
+     |  >>> c['b'] -= 2                     # reduce the count of 'b' by two
+     |  >>> c.most_common()                 # 'b' is still in, but its count is zero
+     |  [('a', 3), ('c', 1), ('b', 0)]
+     |  
+     |  Method resolution order:
+     |      Counter
+     |      builtins.dict
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __add__(self, other)
+     |      Add counts from two counters.
+     |      
+     |      >>> Counter('abbb') + Counter('bcc')
+     |      Counter({'b': 4, 'c': 2, 'a': 1})
+     |  
+     |  __and__(self, other)
+     |      Intersection is the minimum of corresponding counts.
+     |      
+     |      >>> Counter('abbb') & Counter('bcc')
+     |      Counter({'b': 1})
+     |  
+     |  __delitem__(self, elem)
+     |      Like dict.__delitem__() but does not raise KeyError for missing values.
+     |  
+     |  __iadd__(self, other)
+     |      Inplace add from another counter, keeping only positive counts.
+     |      
+     |      >>> c = Counter('abbb')
+     |      >>> c += Counter('bcc')
+     |      >>> c
+     |      Counter({'b': 4, 'c': 2, 'a': 1})
+     |  
+     |  __iand__(self, other)
+     |      Inplace intersection is the minimum of corresponding counts.
+     |      
+     |      >>> c = Counter('abbb')
+     |      >>> c &= Counter('bcc')
+     |      >>> c
+     |      Counter({'b': 1})
+     |  
+     |  __init__(*args, **kwds)
+     |      Create a new, empty Counter object.  And if given, count elements
+     |      from an input iterable.  Or, initialize the count from another mapping
+     |      of elements to their counts.
+     |      
+     |      >>> c = Counter()                           # a new, empty counter
+     |      >>> c = Counter('gallahad')                 # a new counter from an iterable
+     |      >>> c = Counter({'a': 4, 'b': 2})           # a new counter from a mapping
+     |      >>> c = Counter(a=4, b=2)                   # a new counter from keyword args
+     |  
+     |  __ior__(self, other)
+     |      Inplace union is the maximum of value from either counter.
+     |      
+     |      >>> c = Counter('abbb')
+     |      >>> c |= Counter('bcc')
+     |      >>> c
+     |      Counter({'b': 3, 'c': 2, 'a': 1})
+     |  
+     |  __isub__(self, other)
+     |      Inplace subtract counter, but keep only results with positive counts.
+     |      
+     |      >>> c = Counter('abbbc')
+     |      >>> c -= Counter('bccd')
+     |      >>> c
+     |      Counter({'b': 2, 'a': 1})
+     |  
+     |  __missing__(self, key)
+     |      The count of elements not in the Counter is zero.
+     |  
+     |  __neg__(self)
+     |      Subtracts from an empty counter.  Strips positive and zero counts,
+     |      and flips the sign on negative counts.
+     |  
+     |  __or__(self, other)
+     |      Union is the maximum of value in either of the input counters.
+     |      
+     |      >>> Counter('abbb') | Counter('bcc')
+     |      Counter({'b': 3, 'c': 2, 'a': 1})
+     |  
+     |  __pos__(self)
+     |      Adds an empty counter, effectively stripping negative and zero counts
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __sub__(self, other)
+     |      Subtract count, but keep only results with positive counts.
+     |      
+     |      >>> Counter('abbbc') - Counter('bccd')
+     |      Counter({'b': 2, 'a': 1})
+     |  
+     |  copy(self)
+     |      Return a shallow copy.
+     |  
+     |  elements(self)
+     |      Iterator over elements repeating each as many times as its count.
+     |      
+     |      >>> c = Counter('ABCABC')
+     |      >>> sorted(c.elements())
+     |      ['A', 'A', 'B', 'B', 'C', 'C']
+     |      
+     |      # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
+     |      >>> prime_factors = Counter({2: 2, 3: 3, 17: 1})
+     |      >>> product = 1
+     |      >>> for factor in prime_factors.elements():     # loop over factors
+     |      ...     product *= factor                       # and multiply them
+     |      >>> product
+     |      1836
+     |      
+     |      Note, if an element's count has been set to zero or is a negative
+     |      number, elements() will ignore it.
+     |  
+     |  most_common(self, n=None)
+     |      List the n most common elements and their counts from the most
+     |      common to the least.  If n is None, then list all element counts.
+     |      
+     |      >>> Counter('abcdeabcdabcaba').most_common(3)
+     |      [('a', 5), ('b', 4), ('c', 3)]
+     |  
+     |  subtract(*args, **kwds)
+     |      Like dict.update() but subtracts counts instead of replacing them.
+     |      Counts can be reduced below zero.  Both the inputs and outputs are
+     |      allowed to contain zero and negative counts.
+     |      
+     |      Source can be an iterable, a dictionary, or another Counter instance.
+     |      
+     |      >>> c = Counter('which')
+     |      >>> c.subtract('witch')             # subtract elements from another iterable
+     |      >>> c.subtract(Counter('watch'))    # subtract elements from another counter
+     |      >>> c['h']                          # 2 in which, minus 1 in witch, minus 1 in watch
+     |      0
+     |      >>> c['w']                          # 1 in which, minus 1 in witch, minus 1 in watch
+     |      -1
+     |  
+     |  update(*args, **kwds)
+     |      Like dict.update() but add counts instead of replacing them.
+     |      
+     |      Source can be an iterable, a dictionary, or another Counter instance.
+     |      
+     |      >>> c = Counter('which')
+     |      >>> c.update('witch')           # add elements from another iterable
+     |      >>> d = Counter('watch')
+     |      >>> c.update(d)                 # add elements from another counter
+     |      >>> c['h']                      # four 'h' in which, witch, and watch
+     |      4
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  fromkeys(iterable, v=None) from builtins.type
+     |      Create a new dictionary with keys from iterable and values set to value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.dict:
+     |  
+     |  __contains__(self, key, /)
+     |      True if the dictionary has the specified key, else False.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      D.__sizeof__() -> size of D in memory, in bytes
+     |  
+     |  clear(...)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  get(self, key, default=None, /)
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  items(...)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(...)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  pop(...)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised
+     |  
+     |  popitem(...)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair as a
+     |      2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None, /)
+     |      Insert key with a value of default if key is not in the dictionary.
+     |      
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  values(...)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.dict:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.dict:
+     |  
+     |  __hash__ = None
+    
+    class OrderedDict(builtins.dict)
+     |  Dictionary that remembers insertion order
+     |  
+     |  Method resolution order:
+     |      OrderedDict
+     |      builtins.dict
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __reversed__(...)
+     |      od.__reversed__() <==> reversed(od)
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      D.__sizeof__() -> size of D in memory, in bytes
+     |  
+     |  clear(...)
+     |      od.clear() -> None.  Remove all items from od.
+     |  
+     |  copy(...)
+     |      od.copy() -> a shallow copy of od
+     |  
+     |  items(...)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(...)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  move_to_end(self, /, key, last=True)
+     |      Move an existing element to the end (or beginning if last is false).
+     |      
+     |      Raise KeyError if the element does not exist.
+     |  
+     |  pop(...)
+     |      od.pop(k[,d]) -> v, remove specified key and return the corresponding
+     |      value.  If key is not found, d is returned if given, otherwise KeyError
+     |      is raised.
+     |  
+     |  popitem(self, /, last=True)
+     |      Remove and return a (key, value) pair from the dictionary.
+     |      
+     |      Pairs are returned in LIFO order if last is true or FIFO order if false.
+     |  
+     |  setdefault(self, /, key, default=None)
+     |      Insert key with a value of default if key is not in the dictionary.
+     |      
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  update(...)
+     |      D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
+     |      If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]
+     |      If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+     |      In either case, this is followed by: for k in F:  D[k] = F[k]
+     |  
+     |  values(...)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  fromkeys(iterable, value=None) from builtins.type
+     |      Create a new ordered dictionary with keys from iterable and values set to value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.dict:
+     |  
+     |  __contains__(self, key, /)
+     |      True if the dictionary has the specified key, else False.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  get(self, key, default=None, /)
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.dict:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class UserDict(collections.abc.MutableMapping)
+     |  UserDict(*args, **kwargs)
+     |  
+     |  Method resolution order:
+     |      UserDict
+     |      collections.abc.MutableMapping
+     |      collections.abc.Mapping
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |      # Modify __contains__ to work correctly when __missing__ is present
+     |  
+     |  __copy__(self)
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  __init__(*args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __setitem__(self, key, item)
+     |  
+     |  copy(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  fromkeys(iterable, value=None) from abc.ABCMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.MutableMapping:
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  pop(self, key, default=<object object at 0x000001E148267140>)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Mapping:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from collections.abc.Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class UserList(collections.abc.MutableSequence)
+     |  UserList(initlist=None)
+     |  
+     |  A more or less complete user-defined wrapper around list objects.
+     |  
+     |  Method resolution order:
+     |      UserList
+     |      collections.abc.MutableSequence
+     |      collections.abc.Sequence
+     |      collections.abc.Reversible
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __add__(self, other)
+     |  
+     |  __contains__(self, item)
+     |  
+     |  __copy__(self)
+     |  
+     |  __delitem__(self, i)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __getitem__(self, i)
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, other)
+     |  
+     |  __imul__(self, n)
+     |  
+     |  __init__(self, initlist=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __len__(self)
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __mul__(self, n)
+     |  
+     |  __radd__(self, other)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __rmul__ = __mul__(self, n)
+     |  
+     |  __setitem__(self, i, item)
+     |  
+     |  append(self, item)
+     |      S.append(value) -- append value to the end of the sequence
+     |  
+     |  clear(self)
+     |      S.clear() -> None -- remove all items from S
+     |  
+     |  copy(self)
+     |  
+     |  count(self, item)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  extend(self, other)
+     |      S.extend(iterable) -- extend sequence by appending elements from the iterable
+     |  
+     |  index(self, item, *args)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  insert(self, i, item)
+     |      S.insert(index, value) -- insert value before index
+     |  
+     |  pop(self, i=-1)
+     |      S.pop([index]) -> item -- remove and return item at index (default last).
+     |      Raise IndexError if list is empty or index is out of range.
+     |  
+     |  remove(self, item)
+     |      S.remove(value) -- remove first occurrence of value.
+     |      Raise ValueError if the value is not present.
+     |  
+     |  reverse(self)
+     |      S.reverse() -- reverse *IN PLACE*
+     |  
+     |  sort(self, *args, **kwds)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Sequence:
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class UserString(collections.abc.Sequence)
+     |  UserString(seq)
+     |  
+     |  All the operations on a read-only sequence.
+     |  
+     |  Concrete subclasses must override __new__ or __init__,
+     |  __getitem__, and __len__.
+     |  
+     |  Method resolution order:
+     |      UserString
+     |      collections.abc.Sequence
+     |      collections.abc.Reversible
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __add__(self, other)
+     |  
+     |  __complex__(self)
+     |  
+     |  __contains__(self, char)
+     |  
+     |  __eq__(self, string)
+     |      Return self==value.
+     |  
+     |  __float__(self)
+     |  
+     |  __ge__(self, string)
+     |      Return self>=value.
+     |  
+     |  __getitem__(self, index)
+     |  
+     |  __getnewargs__(self)
+     |  
+     |  __gt__(self, string)
+     |      Return self>value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, seq)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __int__(self)
+     |  
+     |  __le__(self, string)
+     |      Return self<=value.
+     |  
+     |  __len__(self)
+     |  
+     |  __lt__(self, string)
+     |      Return self<value.
+     |  
+     |  __mod__(self, args)
+     |  
+     |  __mul__(self, n)
+     |  
+     |  __radd__(self, other)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __rmod__(self, format)
+     |  
+     |  __rmul__ = __mul__(self, n)
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  capitalize(self)
+     |      # the following methods are defined in alphabetical order:
+     |  
+     |  casefold(self)
+     |  
+     |  center(self, width, *args)
+     |  
+     |  count(self, sub, start=0, end=9223372036854775807)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  encode(self, encoding=None, errors=None)
+     |  
+     |  endswith(self, suffix, start=0, end=9223372036854775807)
+     |  
+     |  expandtabs(self, tabsize=8)
+     |  
+     |  find(self, sub, start=0, end=9223372036854775807)
+     |  
+     |  format(self, *args, **kwds)
+     |  
+     |  format_map(self, mapping)
+     |  
+     |  index(self, sub, start=0, end=9223372036854775807)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  isalnum(self)
+     |  
+     |  isalpha(self)
+     |  
+     |  isascii(self)
+     |  
+     |  isdecimal(self)
+     |  
+     |  isdigit(self)
+     |  
+     |  isidentifier(self)
+     |  
+     |  islower(self)
+     |  
+     |  isnumeric(self)
+     |  
+     |  isprintable(self)
+     |  
+     |  isspace(self)
+     |  
+     |  istitle(self)
+     |  
+     |  isupper(self)
+     |  
+     |  join(self, seq)
+     |  
+     |  ljust(self, width, *args)
+     |  
+     |  lower(self)
+     |  
+     |  lstrip(self, chars=None)
+     |  
+     |  partition(self, sep)
+     |  
+     |  replace(self, old, new, maxsplit=-1)
+     |  
+     |  rfind(self, sub, start=0, end=9223372036854775807)
+     |  
+     |  rindex(self, sub, start=0, end=9223372036854775807)
+     |  
+     |  rjust(self, width, *args)
+     |  
+     |  rpartition(self, sep)
+     |  
+     |  rsplit(self, sep=None, maxsplit=-1)
+     |  
+     |  rstrip(self, chars=None)
+     |  
+     |  split(self, sep=None, maxsplit=-1)
+     |  
+     |  splitlines(self, keepends=False)
+     |  
+     |  startswith(self, prefix, start=0, end=9223372036854775807)
+     |  
+     |  strip(self, chars=None)
+     |  
+     |  swapcase(self)
+     |  
+     |  title(self)
+     |  
+     |  translate(self, *args)
+     |  
+     |  upper(self)
+     |  
+     |  zfill(self, width)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  maketrans(x, y=None, z=None, /)
+     |      Return a translation table usable for str.translate().
+     |      
+     |      If there is only one argument, it must be a dictionary mapping Unicode
+     |      ordinals (integers) or characters to Unicode ordinals, strings or None.
+     |      Character keys will be then converted to ordinals.
+     |      If there are two arguments, they must be strings of equal length, and
+     |      in the resulting dictionary, each character in x will be mapped to the
+     |      character at the same position in y. If there is a third argument, it
+     |      must be a string, whose characters will be mapped to None in the result.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Sequence:
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class defaultdict(builtins.dict)
+     |  defaultdict(default_factory[, ...]) --> dict with default factory
+     |  
+     |  The default factory is called without arguments to produce
+     |  a new value when a key is not present, in __getitem__ only.
+     |  A defaultdict compares equal to a dict with the same items.
+     |  All remaining arguments are treated the same as if they were
+     |  passed to the dict constructor, including keyword arguments.
+     |  
+     |  Method resolution order:
+     |      defaultdict
+     |      builtins.dict
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __copy__(...)
+     |      D.copy() -> a shallow copy of D.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __missing__(...)
+     |      __missing__(key) # Called by __getitem__ for missing key; pseudo-code:
+     |      if self.default_factory is None: raise KeyError((key,))
+     |      self[key] = value = self.default_factory()
+     |      return value
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  copy(...)
+     |      D.copy() -> a shallow copy of D.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  default_factory
+     |      Factory for default value called by __missing__().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.dict:
+     |  
+     |  __contains__(self, key, /)
+     |      True if the dictionary has the specified key, else False.
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      D.__sizeof__() -> size of D in memory, in bytes
+     |  
+     |  clear(...)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  get(self, key, default=None, /)
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  items(...)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(...)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  pop(...)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised
+     |  
+     |  popitem(...)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair as a
+     |      2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None, /)
+     |      Insert key with a value of default if key is not in the dictionary.
+     |      
+     |      Return the value for key if key is in the dictionary, else default.
+     |  
+     |  update(...)
+     |      D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
+     |      If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]
+     |      If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+     |      In either case, this is followed by: for k in F:  D[k] = F[k]
+     |  
+     |  values(...)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.dict:
+     |  
+     |  fromkeys(iterable, value=None, /) from builtins.type
+     |      Create a new dictionary with keys from iterable and values set to value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.dict:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.dict:
+     |  
+     |  __hash__ = None
+    
+    class deque(builtins.object)
+     |  deque([iterable[, maxlen]]) --> deque object
+     |  
+     |  A list-like sequence optimized for data accesses near its endpoints.
+     |  
+     |  Methods defined here:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __copy__(...)
+     |      Return a shallow copy of a deque.
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, value, /)
+     |      Implement self+=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Implement self*=value.
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __reduce__(...)
+     |      Return state information for pickling.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __reversed__(...)
+     |      D.__reversed__() -- return a reverse iterator over the deque
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(...)
+     |      D.__sizeof__() -- size of D in memory, in bytes
+     |  
+     |  append(...)
+     |      Add an element to the right side of the deque.
+     |  
+     |  appendleft(...)
+     |      Add an element to the left side of the deque.
+     |  
+     |  clear(...)
+     |      Remove all elements from the deque.
+     |  
+     |  copy(...)
+     |      Return a shallow copy of a deque.
+     |  
+     |  count(...)
+     |      D.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  extend(...)
+     |      Extend the right side of the deque with elements from the iterable
+     |  
+     |  extendleft(...)
+     |      Extend the left side of the deque with elements from the iterable
+     |  
+     |  index(...)
+     |      D.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |  
+     |  insert(...)
+     |      D.insert(index, object) -- insert object before index
+     |  
+     |  pop(...)
+     |      Remove and return the rightmost element.
+     |  
+     |  popleft(...)
+     |      Remove and return the leftmost element.
+     |  
+     |  remove(...)
+     |      D.remove(value) -- remove first occurrence of value.
+     |  
+     |  reverse(...)
+     |      D.reverse() -- reverse *IN PLACE*
+     |  
+     |  rotate(...)
+     |      Rotate the deque n steps to the right (default n=1).  If n is negative, rotates left.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  maxlen
+     |      maximum size of a deque or None if unbounded
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+
+FUNCTIONS
+    __getattr__(name)
+    
+    namedtuple(typename, field_names, *, rename=False, defaults=None, module=None)
+        Returns a new subclass of tuple with named fields.
+        
+        >>> Point = namedtuple('Point', ['x', 'y'])
+        >>> Point.__doc__                   # docstring for the new class
+        'Point(x, y)'
+        >>> p = Point(11, y=22)             # instantiate with positional args or keywords
+        >>> p[0] + p[1]                     # indexable like a plain tuple
+        33
+        >>> x, y = p                        # unpack like a regular tuple
+        >>> x, y
+        (11, 22)
+        >>> p.x + p.y                       # fields also accessible by name
+        33
+        >>> d = p._asdict()                 # convert to a dictionary
+        >>> d['x']
+        11
+        >>> Point(**d)                      # convert from a dictionary
+        Point(x=11, y=22)
+        >>> p._replace(x=100)               # _replace() is like str.replace() but targets named fields
+        Point(x=100, y=22)
+
+DATA
+    __all__ = ['deque', 'defaultdict', 'namedtuple', 'UserDict', 'UserList...
+
+FILE
+    c:\program files\python37\lib\collections\__init__.py
+
+

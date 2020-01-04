@@ -1,0 +1,9 @@
+Help on module _testimportmultiple:
+
+NAME
+    _testimportmultiple - _testimportmultiple doc
+
+FILE
+    c:\program files\python37\dlls\_testimportmultiple.pyd
+
+

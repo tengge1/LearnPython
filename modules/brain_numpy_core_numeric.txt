@@ -1,0 +1,18 @@
+Help on module brain_numpy_core_numeric:
+
+NAME
+    brain_numpy_core_numeric - Astroid hooks for numpy.core.numeric module.
+
+FUNCTIONS
+    numpy_core_numeric_transform()
+
+DATA
+    METHODS_TO_BE_INFERRED = {'ones': "def ones(shape, dtype=None, order='...
+    function_src = "def ones(shape, dtype=None, order='C'):\n            r...
+    inference_function = functools.partial(<function infer_numpy_member a....
+    method_name = 'ones'
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_numeric.py
+
+

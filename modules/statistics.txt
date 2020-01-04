@@ -1,0 +1,367 @@
+Help on module statistics:
+
+NAME
+    statistics - Basic statistics module.
+
+DESCRIPTION
+    This module provides functions for calculating statistics of data, including
+    averages, variance, and standard deviation.
+    
+    Calculating averages
+    --------------------
+    
+    ==================  =============================================
+    Function            Description
+    ==================  =============================================
+    mean                Arithmetic mean (average) of data.
+    harmonic_mean       Harmonic mean of data.
+    median              Median (middle value) of data.
+    median_low          Low median of data.
+    median_high         High median of data.
+    median_grouped      Median, or 50th percentile, of grouped data.
+    mode                Mode (most common value) of data.
+    ==================  =============================================
+    
+    Calculate the arithmetic mean ("the average") of data:
+    
+    >>> mean([-1.0, 2.5, 3.25, 5.75])
+    2.625
+    
+    
+    Calculate the standard median of discrete data:
+    
+    >>> median([2, 3, 4, 5])
+    3.5
+    
+    
+    Calculate the median, or 50th percentile, of data grouped into class intervals
+    centred on the data values provided. E.g. if your data points are rounded to
+    the nearest whole number:
+    
+    >>> median_grouped([2, 2, 3, 3, 3, 4])  #doctest: +ELLIPSIS
+    2.8333333333...
+    
+    This should be interpreted in this way: you have two data points in the class
+    interval 1.5-2.5, three data points in the class interval 2.5-3.5, and one in
+    the class interval 3.5-4.5. The median of these data points is 2.8333...
+    
+    
+    Calculating variability or spread
+    ---------------------------------
+    
+    ==================  =============================================
+    Function            Description
+    ==================  =============================================
+    pvariance           Population variance of data.
+    variance            Sample variance of data.
+    pstdev              Population standard deviation of data.
+    stdev               Sample standard deviation of data.
+    ==================  =============================================
+    
+    Calculate the standard deviation of sample data:
+    
+    >>> stdev([2.5, 3.25, 5.5, 11.25, 11.75])  #doctest: +ELLIPSIS
+    4.38961843444...
+    
+    If you have previously calculated the mean, you can pass it as the optional
+    second argument to the four "spread" functions to avoid recalculating it:
+    
+    >>> data = [1, 2, 2, 4, 4, 4, 5, 6]
+    >>> mu = mean(data)
+    >>> pvariance(data, mu)
+    2.5
+    
+    
+    Exceptions
+    ----------
+    
+    A single exception is defined: StatisticsError is a subclass of ValueError.
+
+CLASSES
+    builtins.ValueError(builtins.Exception)
+        StatisticsError
+    
+    class StatisticsError(builtins.ValueError)
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      StatisticsError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ValueError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    harmonic_mean(data)
+        Return the harmonic mean of data.
+        
+        The harmonic mean, sometimes called the subcontrary mean, is the
+        reciprocal of the arithmetic mean of the reciprocals of the data,
+        and is often appropriate when averaging quantities which are rates
+        or ratios, for example speeds. Example:
+        
+        Suppose an investor purchases an equal value of shares in each of
+        three companies, with P/E (price/earning) ratios of 2.5, 3 and 10.
+        What is the average P/E ratio for the investor's portfolio?
+        
+        >>> harmonic_mean([2.5, 3, 10])  # For an equal investment portfolio.
+        3.6
+        
+        Using the arithmetic mean would give an average of about 5.167, which
+        is too high.
+        
+        If ``data`` is empty, or any element is less than zero,
+        ``harmonic_mean`` will raise ``StatisticsError``.
+    
+    mean(data)
+        Return the sample arithmetic mean of data.
+        
+        >>> mean([1, 2, 3, 4, 4])
+        2.8
+        
+        >>> from fractions import Fraction as F
+        >>> mean([F(3, 7), F(1, 21), F(5, 3), F(1, 3)])
+        Fraction(13, 21)
+        
+        >>> from decimal import Decimal as D
+        >>> mean([D("0.5"), D("0.75"), D("0.625"), D("0.375")])
+        Decimal('0.5625')
+        
+        If ``data`` is empty, StatisticsError will be raised.
+    
+    median(data)
+        Return the median (middle value) of numeric data.
+        
+        When the number of data points is odd, return the middle data point.
+        When the number of data points is even, the median is interpolated by
+        taking the average of the two middle values:
+        
+        >>> median([1, 3, 5])
+        3
+        >>> median([1, 3, 5, 7])
+        4.0
+    
+    median_grouped(data, interval=1)
+        Return the 50th percentile (median) of grouped continuous data.
+        
+        >>> median_grouped([1, 2, 2, 3, 4, 4, 4, 4, 4, 5])
+        3.7
+        >>> median_grouped([52, 52, 53, 54])
+        52.5
+        
+        This calculates the median as the 50th percentile, and should be
+        used when your data is continuous and grouped. In the above example,
+        the values 1, 2, 3, etc. actually represent the midpoint of classes
+        0.5-1.5, 1.5-2.5, 2.5-3.5, etc. The middle value falls somewhere in
+        class 3.5-4.5, and interpolation is used to estimate it.
+        
+        Optional argument ``interval`` represents the class interval, and
+        defaults to 1. Changing the class interval naturally will change the
+        interpolated 50th percentile value:
+        
+        >>> median_grouped([1, 3, 3, 5, 7], interval=1)
+        3.25
+        >>> median_grouped([1, 3, 3, 5, 7], interval=2)
+        3.5
+        
+        This function does not check whether the data points are at least
+        ``interval`` apart.
+    
+    median_high(data)
+        Return the high median of data.
+        
+        When the number of data points is odd, the middle value is returned.
+        When it is even, the larger of the two middle values is returned.
+        
+        >>> median_high([1, 3, 5])
+        3
+        >>> median_high([1, 3, 5, 7])
+        5
+    
+    median_low(data)
+        Return the low median of numeric data.
+        
+        When the number of data points is odd, the middle value is returned.
+        When it is even, the smaller of the two middle values is returned.
+        
+        >>> median_low([1, 3, 5])
+        3
+        >>> median_low([1, 3, 5, 7])
+        3
+    
+    mode(data)
+        Return the most common data point from discrete or nominal data.
+        
+        ``mode`` assumes discrete data, and returns a single value. This is the
+        standard treatment of the mode as commonly taught in schools:
+        
+        >>> mode([1, 1, 2, 3, 3, 3, 3, 4])
+        3
+        
+        This also works with nominal (non-numeric) data:
+        
+        >>> mode(["red", "blue", "blue", "red", "green", "red", "red"])
+        'red'
+        
+        If there is not exactly one most common value, ``mode`` will raise
+        StatisticsError.
+    
+    pstdev(data, mu=None)
+        Return the square root of the population variance.
+        
+        See ``pvariance`` for arguments and other details.
+        
+        >>> pstdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
+        0.986893273527251
+    
+    pvariance(data, mu=None)
+        Return the population variance of ``data``.
+        
+        data should be an iterable of Real-valued numbers, with at least one
+        value. The optional argument mu, if given, should be the mean of
+        the data. If it is missing or None, the mean is automatically calculated.
+        
+        Use this function to calculate the variance from the entire population.
+        To estimate the variance from a sample, the ``variance`` function is
+        usually a better choice.
+        
+        Examples:
+        
+        >>> data = [0.0, 0.25, 0.25, 1.25, 1.5, 1.75, 2.75, 3.25]
+        >>> pvariance(data)
+        1.25
+        
+        If you have already calculated the mean of the data, you can pass it as
+        the optional second argument to avoid recalculating it:
+        
+        >>> mu = mean(data)
+        >>> pvariance(data, mu)
+        1.25
+        
+        This function does not check that ``mu`` is actually the mean of ``data``.
+        Giving arbitrary values for ``mu`` may lead to invalid or impossible
+        results.
+        
+        Decimals and Fractions are supported:
+        
+        >>> from decimal import Decimal as D
+        >>> pvariance([D("27.5"), D("30.25"), D("30.25"), D("34.5"), D("41.75")])
+        Decimal('24.815')
+        
+        >>> from fractions import Fraction as F
+        >>> pvariance([F(1, 4), F(5, 4), F(1, 2)])
+        Fraction(13, 72)
+    
+    stdev(data, xbar=None)
+        Return the square root of the sample variance.
+        
+        See ``variance`` for arguments and other details.
+        
+        >>> stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75])
+        1.0810874155219827
+    
+    variance(data, xbar=None)
+        Return the sample variance of data.
+        
+        data should be an iterable of Real-valued numbers, with at least two
+        values. The optional argument xbar, if given, should be the mean of
+        the data. If it is missing or None, the mean is automatically calculated.
+        
+        Use this function when your data is a sample from a population. To
+        calculate the variance from the entire population, see ``pvariance``.
+        
+        Examples:
+        
+        >>> data = [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5]
+        >>> variance(data)
+        1.3720238095238095
+        
+        If you have already calculated the mean of your data, you can pass it as
+        the optional second argument ``xbar`` to avoid recalculating it:
+        
+        >>> m = mean(data)
+        >>> variance(data, m)
+        1.3720238095238095
+        
+        This function does not check that ``xbar`` is actually the mean of
+        ``data``. Giving arbitrary values for ``xbar`` may lead to invalid or
+        impossible results.
+        
+        Decimals and Fractions are supported:
+        
+        >>> from decimal import Decimal as D
+        >>> variance([D("27.5"), D("30.25"), D("30.25"), D("34.5"), D("41.75")])
+        Decimal('31.01875')
+        
+        >>> from fractions import Fraction as F
+        >>> variance([F(1, 6), F(1, 2), F(5, 3)])
+        Fraction(67, 108)
+
+DATA
+    __all__ = ['StatisticsError', 'pstdev', 'pvariance', 'stdev', 'varianc...
+
+FILE
+    c:\program files\python37\lib\statistics.py
+
+

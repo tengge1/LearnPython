@@ -1,0 +1,396 @@
+Help on module hashlib:
+
+NAME
+    hashlib - hashlib module - A common interface to many hash functions.
+
+DESCRIPTION
+    new(name, data=b'', **kwargs) - returns a new hash object implementing the
+                                    given hash function; initializing the hash
+                                    using the given binary data.
+    
+    Named constructor functions are also available, these are faster
+    than using new(name):
+    
+    md5(), sha1(), sha224(), sha256(), sha384(), sha512(), blake2b(), blake2s(),
+    sha3_224, sha3_256, sha3_384, sha3_512, shake_128, and shake_256.
+    
+    More algorithms may be available on your platform but the above are guaranteed
+    to exist.  See the algorithms_guaranteed and algorithms_available attributes
+    to find out what algorithm names can be passed to new().
+    
+    NOTE: If you want the adler32 or crc32 hash functions they are available in
+    the zlib module.
+    
+    Choose your hash function wisely.  Some have known collision weaknesses.
+    sha384 and sha512 will be slow on 32 bit platforms.
+    
+    Hash objects have these methods:
+     - update(data): Update the hash object with the bytes in data. Repeated calls
+                     are equivalent to a single call with the concatenation of all
+                     the arguments.
+     - digest():     Return the digest of the bytes passed to the update() method
+                     so far as a bytes object.
+     - hexdigest():  Like digest() except the digest is returned as a string
+                     of double length, containing only hexadecimal digits.
+     - copy():       Return a copy (clone) of the hash object. This can be used to
+                     efficiently compute the digests of datas that share a common
+                     initial substring.
+    
+    For example, to obtain the digest of the byte string 'Nobody inspects the
+    spammish repetition':
+    
+        >>> import hashlib
+        >>> m = hashlib.md5()
+        >>> m.update(b"Nobody inspects")
+        >>> m.update(b" the spammish repetition")
+        >>> m.digest()
+        b'\xbbd\x9c\x83\xdd\x1e\xa5\xc9\xd9\xde\xc9\xa1\x8d\xf0\xff\xe9'
+    
+    More condensed:
+    
+        >>> hashlib.sha224(b"Nobody inspects the spammish repetition").hexdigest()
+        'a4337bc45a8fc544c03f52dc550cd6e1e87021bc896588bd79e901e2'
+
+CLASSES
+    builtins.object
+        _blake2.blake2b
+        _blake2.blake2s
+        _sha3.sha3_224
+        _sha3.sha3_256
+        _sha3.sha3_384
+        _sha3.sha3_512
+        _sha3.shake_128
+        _sha3.shake_256
+    
+    class blake2b(builtins.object)
+     |  blake2b(data=b'', /, *, digest_size=64, key=b'', salt=b'', person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0, node_depth=0, inner_size=0, last_node=False)
+     |  
+     |  Return a new BLAKE2b hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  MAX_DIGEST_SIZE = 64
+     |  
+     |  MAX_KEY_SIZE = 64
+     |  
+     |  PERSON_SIZE = 16
+     |  
+     |  SALT_SIZE = 16
+    
+    class blake2s(builtins.object)
+     |  blake2s(data=b'', /, *, digest_size=32, key=b'', salt=b'', person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0, node_depth=0, inner_size=0, last_node=False)
+     |  
+     |  Return a new BLAKE2s hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  MAX_DIGEST_SIZE = 32
+     |  
+     |  MAX_KEY_SIZE = 32
+     |  
+     |  PERSON_SIZE = 8
+     |  
+     |  SALT_SIZE = 8
+    
+    class sha3_224(builtins.object)
+     |  sha3_224([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 28 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_256(builtins.object)
+     |  sha3_256([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 32 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_384(builtins.object)
+     |  sha3_384([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 48 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class sha3_512(builtins.object)
+     |  sha3_512([data]) -> SHA3 object
+     |  
+     |  Return a new SHA3 hash object with a hashbit length of 64 bytes.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class shake_128(builtins.object)
+     |  shake_128([data]) -> SHAKE object
+     |  
+     |  Return a new SHAKE hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, length, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, length, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+    
+    class shake_256(builtins.object)
+     |  shake_256([data]) -> SHAKE object
+     |  
+     |  Return a new SHAKE hash object.
+     |  
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, length, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, length, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, data, /)
+     |      Update this hash object's state with the provided bytes-like object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+
+FUNCTIONS
+    md5 = openssl_md5(...)
+        Returns a md5 hash object; optionally initialized with a string
+    
+    new = __hash_new(name, data=b'', **kwargs)
+        new(name, data=b'') - Return a new hashing object using the named algorithm;
+        optionally initialized with data (which must be a bytes-like object).
+    
+    pbkdf2_hmac(...)
+        pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None) -> key
+        
+        Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as
+        pseudorandom function.
+    
+    sha1 = openssl_sha1(...)
+        Returns a sha1 hash object; optionally initialized with a string
+    
+    sha224 = openssl_sha224(...)
+        Returns a sha224 hash object; optionally initialized with a string
+    
+    sha256 = openssl_sha256(...)
+        Returns a sha256 hash object; optionally initialized with a string
+    
+    sha384 = openssl_sha384(...)
+        Returns a sha384 hash object; optionally initialized with a string
+    
+    sha512 = openssl_sha512(...)
+        Returns a sha512 hash object; optionally initialized with a string
+
+DATA
+    __all__ = ('md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'bla...
+    algorithms_available = {'blake2b', 'blake2b512', 'blake2s', 'blake2s25...
+    algorithms_guaranteed = {'blake2b', 'blake2s', 'md5', 'sha1', 'sha224'...
+
+FILE
+    c:\program files\python37\lib\hashlib.py
+
+

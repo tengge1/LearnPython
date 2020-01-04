@@ -1,0 +1,4668 @@
+Help on package asyncio:
+
+NAME
+    asyncio - The asyncio package, tracking PEP 3156.
+
+PACKAGE CONTENTS
+    base_events
+    base_futures
+    base_subprocess
+    base_tasks
+    constants
+    coroutines
+    events
+    format_helpers
+    futures
+    locks
+    log
+    proactor_events
+    protocols
+    queues
+    runners
+    selector_events
+    sslproto
+    streams
+    subprocess
+    tasks
+    transports
+    unix_events
+    windows_events
+    windows_utils
+
+CLASSES
+    asyncio.events.BaseDefaultEventLoopPolicy(asyncio.events.AbstractEventLoopPolicy)
+        asyncio.windows_events.WindowsProactorEventLoopPolicy
+        asyncio.windows_events.WindowsSelectorEventLoopPolicy
+    asyncio.locks._ContextManagerMixin(builtins.object)
+        asyncio.locks.Condition
+        asyncio.locks.Lock
+        asyncio.locks.Semaphore
+            asyncio.locks.BoundedSemaphore
+    asyncio.proactor_events.BaseProactorEventLoop(asyncio.base_events.BaseEventLoop)
+        asyncio.windows_events.ProactorEventLoop
+    asyncio.selector_events.BaseSelectorEventLoop(asyncio.base_events.BaseEventLoop)
+        asyncio.windows_events._WindowsSelectorEventLoop
+    asyncio.streams.FlowControlMixin(asyncio.protocols.Protocol)
+        asyncio.streams.StreamReaderProtocol(asyncio.streams.FlowControlMixin, asyncio.protocols.Protocol)
+    builtins.EOFError(builtins.Exception)
+        asyncio.streams.IncompleteReadError
+    builtins.Exception(builtins.BaseException)
+        asyncio.queues.QueueEmpty
+        asyncio.queues.QueueFull
+        asyncio.streams.LimitOverrunError
+    builtins.RuntimeError(builtins.Exception)
+        asyncio.events.SendfileNotAvailableError
+    builtins.object
+        _asyncio.Future
+            _asyncio.Task
+        asyncio.events.AbstractEventLoop
+            asyncio.base_events.BaseEventLoop
+        asyncio.events.AbstractEventLoopPolicy
+        asyncio.events.AbstractServer
+        asyncio.events.Handle
+            asyncio.events.TimerHandle
+        asyncio.locks.Event
+        asyncio.protocols.BaseProtocol
+            asyncio.protocols.BufferedProtocol
+            asyncio.protocols.DatagramProtocol
+            asyncio.protocols.Protocol
+                asyncio.streams.StreamReaderProtocol(asyncio.streams.FlowControlMixin, asyncio.protocols.Protocol)
+            asyncio.protocols.SubprocessProtocol
+        asyncio.queues.Queue
+            asyncio.queues.LifoQueue
+            asyncio.queues.PriorityQueue
+        asyncio.streams.StreamReader
+        asyncio.streams.StreamWriter
+        asyncio.transports.BaseTransport
+            asyncio.transports.DatagramTransport
+            asyncio.transports.ReadTransport
+                asyncio.transports.Transport(asyncio.transports.ReadTransport, asyncio.transports.WriteTransport)
+            asyncio.transports.SubprocessTransport
+            asyncio.transports.WriteTransport
+        asyncio.windows_events.IocpProactor
+    concurrent.futures._base.Error(builtins.Exception)
+        asyncio.base_futures.InvalidStateError
+        concurrent.futures._base.CancelledError
+        concurrent.futures._base.TimeoutError
+    
+    class AbstractEventLoop(builtins.object)
+     |  Abstract event loop.
+     |  
+     |  Methods defined here:
+     |  
+     |  add_reader(self, fd, callback, *args)
+     |  
+     |  add_signal_handler(self, sig, callback, *args)
+     |  
+     |  add_writer(self, fd, callback, *args)
+     |  
+     |  call_at(self, when, callback, *args)
+     |  
+     |  call_exception_handler(self, context)
+     |  
+     |  call_later(self, delay, callback, *args)
+     |  
+     |  call_soon(self, callback, *args)
+     |  
+     |  call_soon_threadsafe(self, callback, *args)
+     |  
+     |  close(self)
+     |      Close the loop.
+     |      
+     |      The loop should not be running.
+     |      
+     |      This is idempotent and irreversible.
+     |      
+     |      No other methods should be called after this one.
+     |  
+     |  connect_read_pipe(self, protocol_factory, pipe)
+     |      Register read pipe in event loop. Set the pipe to non-blocking mode.
+     |      
+     |      protocol_factory should instantiate object with Protocol interface.
+     |      pipe is a file-like object.
+     |      Return pair (transport, protocol), where transport supports the
+     |      ReadTransport interface.
+     |  
+     |  connect_write_pipe(self, protocol_factory, pipe)
+     |      Register write pipe in event loop.
+     |      
+     |      protocol_factory should instantiate object with BaseProtocol interface.
+     |      Pipe is file-like object already switched to nonblocking.
+     |      Return pair (transport, protocol), where transport support
+     |      WriteTransport interface.
+     |  
+     |  create_connection(self, protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None)
+     |  
+     |  create_datagram_endpoint(self, protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_address=None, reuse_port=None, allow_broadcast=None, sock=None)
+     |      A coroutine which creates a datagram endpoint.
+     |      
+     |      This method will try to establish the endpoint in the background.
+     |      When successful, the coroutine returns a (transport, protocol) pair.
+     |      
+     |      protocol_factory must be a callable returning a protocol instance.
+     |      
+     |      socket family AF_INET, socket.AF_INET6 or socket.AF_UNIX depending on
+     |      host (or family if specified), socket type SOCK_DGRAM.
+     |      
+     |      reuse_address tells the kernel to reuse a local socket in
+     |      TIME_WAIT state, without waiting for its natural timeout to
+     |      expire. If not specified it will automatically be set to True on
+     |      UNIX.
+     |      
+     |      reuse_port tells the kernel to allow this endpoint to be bound to
+     |      the same port as other existing endpoints are bound to, so long as
+     |      they all set this flag when being created. This option is not
+     |      supported on Windows and some UNIX's. If the
+     |      :py:data:`~socket.SO_REUSEPORT` constant is not defined then this
+     |      capability is unsupported.
+     |      
+     |      allow_broadcast tells the kernel to allow this endpoint to send
+     |      messages to the broadcast address.
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |  
+     |  create_future(self)
+     |  
+     |  create_server(self, protocol_factory, host=None, port=None, *, family=<AddressFamily.AF_UNSPEC: 0>, flags=<AddressInfo.AI_PASSIVE: 1>, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, start_serving=True)
+     |      A coroutine which creates a TCP server bound to host and port.
+     |      
+     |      The return value is a Server object which can be used to stop
+     |      the service.
+     |      
+     |      If host is an empty string or None all interfaces are assumed
+     |      and a list of multiple sockets will be returned (most likely
+     |      one for IPv4 and another one for IPv6). The host parameter can also be
+     |      a sequence (e.g. list) of hosts to bind to.
+     |      
+     |      family can be set to either AF_INET or AF_INET6 to force the
+     |      socket to use IPv4 or IPv6. If not set it will be determined
+     |      from host (defaults to AF_UNSPEC).
+     |      
+     |      flags is a bitmask for getaddrinfo().
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |      
+     |      backlog is the maximum number of queued connections passed to
+     |      listen() (defaults to 100).
+     |      
+     |      ssl can be set to an SSLContext to enable SSL over the
+     |      accepted connections.
+     |      
+     |      reuse_address tells the kernel to reuse a local socket in
+     |      TIME_WAIT state, without waiting for its natural timeout to
+     |      expire. If not specified will automatically be set to True on
+     |      UNIX.
+     |      
+     |      reuse_port tells the kernel to allow this endpoint to be bound to
+     |      the same port as other existing endpoints are bound to, so long as
+     |      they all set this flag when being created. This option is not
+     |      supported on Windows.
+     |      
+     |      ssl_handshake_timeout is the time in seconds that an SSL server
+     |      will wait for completion of the SSL handshake before aborting the
+     |      connection. Default is 60s.
+     |      
+     |      start_serving set to True (default) causes the created server
+     |      to start accepting connections immediately.  When set to False,
+     |      the user should await Server.start_serving() or Server.serve_forever()
+     |      to make the server to start accepting connections.
+     |  
+     |  create_task(self, coro)
+     |  
+     |  create_unix_connection(self, protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None)
+     |  
+     |  create_unix_server(self, protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, start_serving=True)
+     |      A coroutine which creates a UNIX Domain Socket server.
+     |      
+     |      The return value is a Server object, which can be used to stop
+     |      the service.
+     |      
+     |      path is a str, representing a file systsem path to bind the
+     |      server socket to.
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |      
+     |      backlog is the maximum number of queued connections passed to
+     |      listen() (defaults to 100).
+     |      
+     |      ssl can be set to an SSLContext to enable SSL over the
+     |      accepted connections.
+     |      
+     |      ssl_handshake_timeout is the time in seconds that an SSL server
+     |      will wait for the SSL handshake to complete (defaults to 60s).
+     |      
+     |      start_serving set to True (default) causes the created server
+     |      to start accepting connections immediately.  When set to False,
+     |      the user should await Server.start_serving() or Server.serve_forever()
+     |      to make the server to start accepting connections.
+     |  
+     |  default_exception_handler(self, context)
+     |  
+     |  get_debug(self)
+     |  
+     |  get_exception_handler(self)
+     |  
+     |  get_task_factory(self)
+     |  
+     |  getaddrinfo(self, host, port, *, family=0, type=0, proto=0, flags=0)
+     |  
+     |  getnameinfo(self, sockaddr, flags=0)
+     |  
+     |  is_closed(self)
+     |      Returns True if the event loop was closed.
+     |  
+     |  is_running(self)
+     |      Return whether the event loop is currently running.
+     |  
+     |  remove_reader(self, fd)
+     |  
+     |  remove_signal_handler(self, sig)
+     |  
+     |  remove_writer(self, fd)
+     |  
+     |  run_forever(self)
+     |      Run the event loop until stop() is called.
+     |  
+     |  run_in_executor(self, executor, func, *args)
+     |  
+     |  run_until_complete(self, future)
+     |      Run the event loop until a Future is done.
+     |      
+     |      Return the Future's result, or raise its exception.
+     |  
+     |  sendfile(self, transport, file, offset=0, count=None, *, fallback=True)
+     |      Send a file through a transport.
+     |      
+     |      Return an amount of sent bytes.
+     |  
+     |  set_debug(self, enabled)
+     |  
+     |  set_default_executor(self, executor)
+     |  
+     |  set_exception_handler(self, handler)
+     |  
+     |  set_task_factory(self, factory)
+     |  
+     |  shutdown_asyncgens(self)
+     |      Shutdown all active asynchronous generators.
+     |  
+     |  sock_accept(self, sock)
+     |  
+     |  sock_connect(self, sock, address)
+     |  
+     |  sock_recv(self, sock, nbytes)
+     |  
+     |  sock_recv_into(self, sock, buf)
+     |  
+     |  sock_sendall(self, sock, data)
+     |  
+     |  sock_sendfile(self, sock, file, offset=0, count=None, *, fallback=None)
+     |  
+     |  start_tls(self, transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None)
+     |      Upgrade a transport to TLS.
+     |      
+     |      Return a new transport that *protocol* should start using
+     |      immediately.
+     |  
+     |  stop(self)
+     |      Stop the event loop as soon as reasonable.
+     |      
+     |      Exactly how soon that is may depend on the implementation, but
+     |      no more I/O callbacks should be scheduled.
+     |  
+     |  subprocess_exec(self, protocol_factory, *args, stdin=-1, stdout=-1, stderr=-1, **kwargs)
+     |  
+     |  subprocess_shell(self, protocol_factory, cmd, *, stdin=-1, stdout=-1, stderr=-1, **kwargs)
+     |  
+     |  time(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class AbstractEventLoopPolicy(builtins.object)
+     |  Abstract policy for accessing the event loop.
+     |  
+     |  Methods defined here:
+     |  
+     |  get_child_watcher(self)
+     |      Get the watcher for child processes.
+     |  
+     |  get_event_loop(self)
+     |      Get the event loop for the current context.
+     |      
+     |      Returns an event loop object implementing the BaseEventLoop interface,
+     |      or raises an exception in case no event loop has been set for the
+     |      current context and the current policy does not specify to create one.
+     |      
+     |      It should never return None.
+     |  
+     |  new_event_loop(self)
+     |      Create and return a new event loop object according to this
+     |      policy's rules. If there's need to set this loop as the event loop for
+     |      the current context, set_event_loop must be called explicitly.
+     |  
+     |  set_child_watcher(self, watcher)
+     |      Set the watcher for child processes.
+     |  
+     |  set_event_loop(self, loop)
+     |      Set the event loop for the current context to loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class AbstractServer(builtins.object)
+     |  Abstract server returned by create_server().
+     |  
+     |  Methods defined here:
+     |  
+     |  __aenter__(self)
+     |  
+     |  __aexit__(self, *exc)
+     |  
+     |  close(self)
+     |      Stop serving.  This leaves existing connections open.
+     |  
+     |  get_loop(self)
+     |      Get the event loop the Server object is attached to.
+     |  
+     |  is_serving(self)
+     |      Return True if the server is accepting connections.
+     |  
+     |  serve_forever(self)
+     |      Start accepting connections until the coroutine is cancelled.
+     |      
+     |      The server is closed when the coroutine is cancelled.
+     |  
+     |  start_serving(self)
+     |      Start accepting connections.
+     |      
+     |      This method is idempotent, so it can be called when
+     |      the server is already being serving.
+     |  
+     |  wait_closed(self)
+     |      Coroutine to wait until service is closed.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BaseEventLoop(asyncio.events.AbstractEventLoop)
+     |  Abstract event loop.
+     |  
+     |  Method resolution order:
+     |      BaseEventLoop
+     |      asyncio.events.AbstractEventLoop
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  call_at(self, when, callback, *args, context=None)
+     |      Like call_later(), but uses an absolute time.
+     |      
+     |      Absolute time corresponds to the event loop's time() method.
+     |  
+     |  call_exception_handler(self, context)
+     |      Call the current event loop's exception handler.
+     |      
+     |      The context argument is a dict containing the following keys:
+     |      
+     |      - 'message': Error message;
+     |      - 'exception' (optional): Exception object;
+     |      - 'future' (optional): Future instance;
+     |      - 'task' (optional): Task instance;
+     |      - 'handle' (optional): Handle instance;
+     |      - 'protocol' (optional): Protocol instance;
+     |      - 'transport' (optional): Transport instance;
+     |      - 'socket' (optional): Socket instance;
+     |      - 'asyncgen' (optional): Asynchronous generator that caused
+     |                               the exception.
+     |      
+     |      New keys maybe introduced in the future.
+     |      
+     |      Note: do not overload this method in an event loop subclass.
+     |      For custom exception handling, use the
+     |      `set_exception_handler()` method.
+     |  
+     |  call_later(self, delay, callback, *args, context=None)
+     |      Arrange for a callback to be called at a given time.
+     |      
+     |      Return a Handle: an opaque object with a cancel() method that
+     |      can be used to cancel the call.
+     |      
+     |      The delay can be an int or float, expressed in seconds.  It is
+     |      always relative to the current time.
+     |      
+     |      Each callback will be called exactly once.  If two callbacks
+     |      are scheduled for exactly the same time, it undefined which
+     |      will be called first.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon(self, callback, *args, context=None)
+     |      Arrange for a callback to be called as soon as possible.
+     |      
+     |      This operates as a FIFO queue: callbacks are called in the
+     |      order in which they are registered.  Each callback will be
+     |      called exactly once.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon_threadsafe(self, callback, *args, context=None)
+     |      Like call_soon(), but thread-safe.
+     |  
+     |  close(self)
+     |      Close the event loop.
+     |      
+     |      This clears the queues and shuts down the executor,
+     |      but does not wait for the executor to finish.
+     |      
+     |      The event loop must not be running.
+     |  
+     |  connect_accepted_socket(self, protocol_factory, sock, *, ssl=None, ssl_handshake_timeout=None)
+     |      Handle an accepted connection.
+     |      
+     |      This is used by servers that accept connections outside of
+     |      asyncio but that use asyncio to handle connections.
+     |      
+     |      This method is a coroutine.  When completed, the coroutine
+     |      returns a (transport, protocol) pair.
+     |  
+     |  connect_read_pipe(self, protocol_factory, pipe)
+     |      Register read pipe in event loop. Set the pipe to non-blocking mode.
+     |      
+     |      protocol_factory should instantiate object with Protocol interface.
+     |      pipe is a file-like object.
+     |      Return pair (transport, protocol), where transport supports the
+     |      ReadTransport interface.
+     |  
+     |  connect_write_pipe(self, protocol_factory, pipe)
+     |      Register write pipe in event loop.
+     |      
+     |      protocol_factory should instantiate object with BaseProtocol interface.
+     |      Pipe is file-like object already switched to nonblocking.
+     |      Return pair (transport, protocol), where transport support
+     |      WriteTransport interface.
+     |  
+     |  create_connection(self, protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None)
+     |      Connect to a TCP server.
+     |      
+     |      Create a streaming transport connection to a given Internet host and
+     |      port: socket family AF_INET or socket.AF_INET6 depending on host (or
+     |      family if specified), socket type SOCK_STREAM. protocol_factory must be
+     |      a callable returning a protocol instance.
+     |      
+     |      This method is a coroutine which will try to establish the connection
+     |      in the background.  When successful, the coroutine returns a
+     |      (transport, protocol) pair.
+     |  
+     |  create_datagram_endpoint(self, protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_address=None, reuse_port=None, allow_broadcast=None, sock=None)
+     |      Create datagram connection.
+     |  
+     |  create_future(self)
+     |      Create a Future object attached to the loop.
+     |  
+     |  create_server(self, protocol_factory, host=None, port=None, *, family=<AddressFamily.AF_UNSPEC: 0>, flags=<AddressInfo.AI_PASSIVE: 1>, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, start_serving=True)
+     |      Create a TCP server.
+     |      
+     |      The host parameter can be a string, in that case the TCP server is
+     |      bound to host and port.
+     |      
+     |      The host parameter can also be a sequence of strings and in that case
+     |      the TCP server is bound to all hosts of the sequence. If a host
+     |      appears multiple times (possibly indirectly e.g. when hostnames
+     |      resolve to the same IP address), the server is only bound once to that
+     |      host.
+     |      
+     |      Return a Server object which can be used to stop the service.
+     |      
+     |      This method is a coroutine.
+     |  
+     |  create_task(self, coro)
+     |      Schedule a coroutine object.
+     |      
+     |      Return a task object.
+     |  
+     |  default_exception_handler(self, context)
+     |      Default exception handler.
+     |      
+     |      This is called when an exception occurs and no exception
+     |      handler is set, and can be called by a custom exception
+     |      handler that wants to defer to the default behavior.
+     |      
+     |      This default handler logs the error message and other
+     |      context-dependent information.  In debug mode, a truncated
+     |      stack trace is also appended showing where the given object
+     |      (e.g. a handle or future or task) was created, if any.
+     |      
+     |      The context parameter has the same meaning as in
+     |      `call_exception_handler()`.
+     |  
+     |  get_debug(self)
+     |  
+     |  get_exception_handler(self)
+     |      Return an exception handler, or None if the default one is in use.
+     |  
+     |  get_task_factory(self)
+     |      Return a task factory, or None if the default one is in use.
+     |  
+     |  getaddrinfo(self, host, port, *, family=0, type=0, proto=0, flags=0)
+     |  
+     |  getnameinfo(self, sockaddr, flags=0)
+     |  
+     |  is_closed(self)
+     |      Returns True if the event loop was closed.
+     |  
+     |  is_running(self)
+     |      Returns True if the event loop is running.
+     |  
+     |  run_forever(self)
+     |      Run until stop() is called.
+     |  
+     |  run_in_executor(self, executor, func, *args)
+     |  
+     |  run_until_complete(self, future)
+     |      Run until the Future is done.
+     |      
+     |      If the argument is a coroutine, it is wrapped in a Task.
+     |      
+     |      WARNING: It would be disastrous to call run_until_complete()
+     |      with the same coroutine twice -- it would wrap it in two
+     |      different Tasks and that can't be good.
+     |      
+     |      Return the Future's result, or raise its exception.
+     |  
+     |  sendfile(self, transport, file, offset=0, count=None, *, fallback=True)
+     |      Send a file to transport.
+     |      
+     |      Return the total number of bytes which were sent.
+     |      
+     |      The method uses high-performance os.sendfile if available.
+     |      
+     |      file must be a regular file object opened in binary mode.
+     |      
+     |      offset tells from where to start reading the file. If specified,
+     |      count is the total number of bytes to transmit as opposed to
+     |      sending the file until EOF is reached. File position is updated on
+     |      return or also in case of error in which case file.tell()
+     |      can be used to figure out the number of bytes
+     |      which were sent.
+     |      
+     |      fallback set to True makes asyncio to manually read and send
+     |      the file when the platform does not support the sendfile syscall
+     |      (e.g. Windows or SSL socket on Unix).
+     |      
+     |      Raise SendfileNotAvailableError if the system does not support
+     |      sendfile syscall and fallback is False.
+     |  
+     |  set_debug(self, enabled)
+     |  
+     |  set_default_executor(self, executor)
+     |  
+     |  set_exception_handler(self, handler)
+     |      Set handler as the new event loop exception handler.
+     |      
+     |      If handler is None, the default exception handler will
+     |      be set.
+     |      
+     |      If handler is a callable object, it should have a
+     |      signature matching '(loop, context)', where 'loop'
+     |      will be a reference to the active event loop, 'context'
+     |      will be a dict object (see `call_exception_handler()`
+     |      documentation for details about context).
+     |  
+     |  set_task_factory(self, factory)
+     |      Set a task factory that will be used by loop.create_task().
+     |      
+     |      If factory is None the default task factory will be set.
+     |      
+     |      If factory is a callable, it should have a signature matching
+     |      '(loop, coro)', where 'loop' will be a reference to the active
+     |      event loop, 'coro' will be a coroutine object.  The callable
+     |      must return a Future.
+     |  
+     |  shutdown_asyncgens(self)
+     |      Shutdown all active asynchronous generators.
+     |  
+     |  sock_sendfile(self, sock, file, offset=0, count=None, *, fallback=True)
+     |  
+     |  start_tls(self, transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None)
+     |      Upgrade transport to TLS.
+     |      
+     |      Return a new transport that *protocol* should start using
+     |      immediately.
+     |  
+     |  stop(self)
+     |      Stop running the event loop.
+     |      
+     |      Every callback already scheduled will still run.  This simply informs
+     |      run_forever to stop looping after a complete iteration.
+     |  
+     |  subprocess_exec(self, protocol_factory, program, *args, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=False, bufsize=0, **kwargs)
+     |  
+     |  subprocess_shell(self, protocol_factory, cmd, *, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=True, bufsize=0, **kwargs)
+     |  
+     |  time(self)
+     |      Return the time according to the event loop's clock.
+     |      
+     |      This is a float expressed in seconds since an epoch, but the
+     |      epoch, precision, accuracy and drift are unspecified and may
+     |      differ per event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  add_reader(self, fd, callback, *args)
+     |  
+     |  add_signal_handler(self, sig, callback, *args)
+     |  
+     |  add_writer(self, fd, callback, *args)
+     |  
+     |  create_unix_connection(self, protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None)
+     |  
+     |  create_unix_server(self, protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, start_serving=True)
+     |      A coroutine which creates a UNIX Domain Socket server.
+     |      
+     |      The return value is a Server object, which can be used to stop
+     |      the service.
+     |      
+     |      path is a str, representing a file systsem path to bind the
+     |      server socket to.
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |      
+     |      backlog is the maximum number of queued connections passed to
+     |      listen() (defaults to 100).
+     |      
+     |      ssl can be set to an SSLContext to enable SSL over the
+     |      accepted connections.
+     |      
+     |      ssl_handshake_timeout is the time in seconds that an SSL server
+     |      will wait for the SSL handshake to complete (defaults to 60s).
+     |      
+     |      start_serving set to True (default) causes the created server
+     |      to start accepting connections immediately.  When set to False,
+     |      the user should await Server.start_serving() or Server.serve_forever()
+     |      to make the server to start accepting connections.
+     |  
+     |  remove_reader(self, fd)
+     |  
+     |  remove_signal_handler(self, sig)
+     |  
+     |  remove_writer(self, fd)
+     |  
+     |  sock_accept(self, sock)
+     |  
+     |  sock_connect(self, sock, address)
+     |  
+     |  sock_recv(self, sock, nbytes)
+     |  
+     |  sock_recv_into(self, sock, buf)
+     |  
+     |  sock_sendall(self, sock, data)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BaseProtocol(builtins.object)
+     |  Common base class for protocol interfaces.
+     |  
+     |  Usually user implements protocols that derived from BaseProtocol
+     |  like Protocol or ProcessProtocol.
+     |  
+     |  The only case when BaseProtocol should be implemented directly is
+     |  write-only transport like write pipe
+     |  
+     |  Methods defined here:
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BaseTransport(builtins.object)
+     |  BaseTransport(extra=None)
+     |  
+     |  Base class for transports.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BoundedSemaphore(Semaphore)
+     |  BoundedSemaphore(value=1, *, loop=None)
+     |  
+     |  A bounded semaphore implementation.
+     |  
+     |  This raises ValueError in release() if it would increase the value
+     |  above the initial value.
+     |  
+     |  Method resolution order:
+     |      BoundedSemaphore
+     |      Semaphore
+     |      _ContextManagerMixin
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, value=1, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  release(self)
+     |      Release a semaphore, incrementing the internal counter by one.
+     |      When it was zero on entry and another coroutine is waiting for it to
+     |      become larger than zero again, wake up that coroutine.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Semaphore:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  acquire(self)
+     |      Acquire a semaphore.
+     |      
+     |      If the internal counter is larger than zero on entry,
+     |      decrement it by one and return True immediately.  If it is
+     |      zero on entry, block, waiting until some other coroutine has
+     |      called release() to make it larger than 0, and then return
+     |      True.
+     |  
+     |  locked(self)
+     |      Returns True if semaphore can not be acquired immediately.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ContextManagerMixin:
+     |  
+     |  __aenter__(self)
+     |  
+     |  __aexit__(self, exc_type, exc, tb)
+     |  
+     |  __await__(self)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _ContextManagerMixin:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BufferedProtocol(BaseProtocol)
+     |  Interface for stream protocol with manual buffer control.
+     |  
+     |  Important: this has been added to asyncio in Python 3.7
+     |  *on a provisional basis*!  Consider it as an experimental API that
+     |  might be changed or removed in Python 3.8.
+     |  
+     |  Event methods, such as `create_server` and `create_connection`,
+     |  accept factories that return protocols that implement this interface.
+     |  
+     |  The idea of BufferedProtocol is that it allows to manually allocate
+     |  and control the receive buffer.  Event loops can then use the buffer
+     |  provided by the protocol to avoid unnecessary data copies.  This
+     |  can result in noticeable performance improvement for protocols that
+     |  receive big amounts of data.  Sophisticated protocols can allocate
+     |  the buffer only once at creation time.
+     |  
+     |  State machine of calls:
+     |  
+     |    start -> CM [-> GB [-> BU?]]* [-> ER?] -> CL -> end
+     |  
+     |  * CM: connection_made()
+     |  * GB: get_buffer()
+     |  * BU: buffer_updated()
+     |  * ER: eof_received()
+     |  * CL: connection_lost()
+     |  
+     |  Method resolution order:
+     |      BufferedProtocol
+     |      BaseProtocol
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  buffer_updated(self, nbytes)
+     |      Called when the buffer was updated with the received data.
+     |      
+     |      *nbytes* is the total number of bytes that were written to
+     |      the buffer.
+     |  
+     |  eof_received(self)
+     |      Called when the other end calls write_eof() or equivalent.
+     |      
+     |      If this returns a false value (including None), the transport
+     |      will close itself.  If it returns a true value, closing the
+     |      transport is up to the protocol.
+     |  
+     |  get_buffer(self, sizehint)
+     |      Called to allocate a new receive buffer.
+     |      
+     |      *sizehint* is a recommended minimal size for the returned
+     |      buffer.  When set to -1, the buffer size can be arbitrary.
+     |      
+     |      Must return an object that implements the
+     |      :ref:`buffer protocol <bufferobjects>`.
+     |      It is an error to return a zero-sized buffer.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseProtocol:
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseProtocol:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class CancelledError(Error)
+     |  The Future was cancelled.
+     |  
+     |  Method resolution order:
+     |      CancelledError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Condition(_ContextManagerMixin)
+     |  Condition(lock=None, *, loop=None)
+     |  
+     |  Asynchronous equivalent to threading.Condition.
+     |  
+     |  This class implements condition variable objects. A condition variable
+     |  allows one or more coroutines to wait until they are notified by another
+     |  coroutine.
+     |  
+     |  A new Lock object is created and used as the underlying lock.
+     |  
+     |  Method resolution order:
+     |      Condition
+     |      _ContextManagerMixin
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, lock=None, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  notify(self, n=1)
+     |      By default, wake up one coroutine waiting on this condition, if any.
+     |      If the calling coroutine has not acquired the lock when this method
+     |      is called, a RuntimeError is raised.
+     |      
+     |      This method wakes up at most n of the coroutines waiting for the
+     |      condition variable; it is a no-op if no coroutines are waiting.
+     |      
+     |      Note: an awakened coroutine does not actually return from its
+     |      wait() call until it can reacquire the lock. Since notify() does
+     |      not release the lock, its caller should.
+     |  
+     |  notify_all(self)
+     |      Wake up all threads waiting on this condition. This method acts
+     |      like notify(), but wakes up all waiting threads instead of one. If the
+     |      calling thread has not acquired the lock when this method is called,
+     |      a RuntimeError is raised.
+     |  
+     |  wait(self)
+     |      Wait until notified.
+     |      
+     |      If the calling coroutine has not acquired the lock when this
+     |      method is called, a RuntimeError is raised.
+     |      
+     |      This method releases the underlying lock, and then blocks
+     |      until it is awakened by a notify() or notify_all() call for
+     |      the same condition variable in another coroutine.  Once
+     |      awakened, it re-acquires the lock and returns True.
+     |  
+     |  wait_for(self, predicate)
+     |      Wait until a predicate becomes true.
+     |      
+     |      The predicate should be a callable which result will be
+     |      interpreted as a boolean value.  The final predicate value is
+     |      the return value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ContextManagerMixin:
+     |  
+     |  __aenter__(self)
+     |  
+     |  __aexit__(self, exc_type, exc, tb)
+     |  
+     |  __await__(self)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _ContextManagerMixin:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class DatagramProtocol(BaseProtocol)
+     |  Interface for datagram protocol.
+     |  
+     |  Method resolution order:
+     |      DatagramProtocol
+     |      BaseProtocol
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  datagram_received(self, data, addr)
+     |      Called when some datagram is received.
+     |  
+     |  error_received(self, exc)
+     |      Called when a send or receive operation raises an OSError.
+     |      
+     |      (Other than BlockingIOError or InterruptedError.)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseProtocol:
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseProtocol:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class DatagramTransport(BaseTransport)
+     |  DatagramTransport(extra=None)
+     |  
+     |  Interface for datagram (UDP) transports.
+     |  
+     |  Method resolution order:
+     |      DatagramTransport
+     |      BaseTransport
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  abort(self)
+     |      Close the transport immediately.
+     |      
+     |      Buffered data will be lost.  No more data will be received.
+     |      The protocol's connection_lost() method will (eventually) be
+     |      called with None as its argument.
+     |  
+     |  sendto(self, data, addr=None)
+     |      Send data to the transport.
+     |      
+     |      This does not block; it buffers the data and arranges for it
+     |      to be sent out asynchronously.
+     |      addr is target socket address.
+     |      If addr is None use target address pointed on transport creation.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseTransport:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseTransport:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    DefaultEventLoopPolicy = class WindowsSelectorEventLoopPolicy(asyncio.events.BaseDefaultEventLoopPolicy)
+     |  Default policy implementation for accessing the event loop.
+     |  
+     |  In this policy, each thread has its own event loop.  However, we
+     |  only automatically create an event loop by default for the main
+     |  thread; other threads by default have no event loop.
+     |  
+     |  Other policies may have different rules (e.g. a single global
+     |  event loop, or automatically creating an event loop per thread, or
+     |  using some other notion of context to which an event loop is
+     |  associated).
+     |  
+     |  Method resolution order:
+     |      WindowsSelectorEventLoopPolicy
+     |      asyncio.events.BaseDefaultEventLoopPolicy
+     |      asyncio.events.AbstractEventLoopPolicy
+     |      builtins.object
+     |  
+     |  Methods inherited from asyncio.events.BaseDefaultEventLoopPolicy:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  get_event_loop(self)
+     |      Get the event loop.
+     |      
+     |      This may be None or an instance of EventLoop.
+     |  
+     |  new_event_loop(self)
+     |      Create a new event loop.
+     |      
+     |      You must call set_event_loop() to make this the current event
+     |      loop.
+     |  
+     |  set_event_loop(self, loop)
+     |      Set the event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  get_child_watcher(self)
+     |      Get the watcher for child processes.
+     |  
+     |  set_child_watcher(self, watcher)
+     |      Set the watcher for child processes.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Event(builtins.object)
+     |  Event(*, loop=None)
+     |  
+     |  Asynchronous equivalent to threading.Event.
+     |  
+     |  Class implementing event objects. An event manages a flag that can be set
+     |  to true with the set() method and reset to false with the clear() method.
+     |  The wait() method blocks until the flag is true. The flag is initially
+     |  false.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  clear(self)
+     |      Reset the internal flag to false. Subsequently, coroutines calling
+     |      wait() will block until set() is called to set the internal flag
+     |      to true again.
+     |  
+     |  is_set(self)
+     |      Return True if and only if the internal flag is true.
+     |  
+     |  set(self)
+     |      Set the internal flag to true. All coroutines waiting for it to
+     |      become true are awakened. Coroutine that call wait() once the flag is
+     |      true will not block at all.
+     |  
+     |  wait(self)
+     |      Block until the internal flag is true.
+     |      
+     |      If the internal flag is true on entry, return True
+     |      immediately.  Otherwise, block until another coroutine calls
+     |      set() to set the flag to true, then return True.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Future(builtins.object)
+     |  Future(*, loop=None)
+     |  
+     |  This class is *almost* compatible with concurrent.futures.Future.
+     |  
+     |  Differences:
+     |  
+     |  - result() and exception() do not take a timeout argument and
+     |    raise an exception when the future isn't done yet.
+     |  
+     |  - Callbacks registered with add_done_callback() are always called
+     |    via the event loop's call_soon_threadsafe().
+     |  
+     |  - This class is not compatible with the wait() and as_completed()
+     |    methods in the concurrent.futures package.
+     |  
+     |  Methods defined here:
+     |  
+     |  __await__(self, /)
+     |      Return an iterator to be used in await expression.
+     |  
+     |  __del__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  add_done_callback(self, fn, /, *, context=None)
+     |      Add a callback to be run when the future becomes done.
+     |      
+     |      The callback is called with a single argument - the future object. If
+     |      the future is already done when this is called, the callback is
+     |      scheduled with call_soon.
+     |  
+     |  cancel(self, /)
+     |      Cancel the future and schedule callbacks.
+     |      
+     |      If the future is already done or cancelled, return False.  Otherwise,
+     |      change the future's state to cancelled, schedule the callbacks and
+     |      return True.
+     |  
+     |  cancelled(self, /)
+     |      Return True if the future was cancelled.
+     |  
+     |  done(self, /)
+     |      Return True if the future is done.
+     |      
+     |      Done means either that a result / exception are available, or that the
+     |      future was cancelled.
+     |  
+     |  exception(self, /)
+     |      Return the exception that was set on this future.
+     |      
+     |      The exception (or None if no exception was set) is returned only if
+     |      the future is done.  If the future has been cancelled, raises
+     |      CancelledError.  If the future isn't done yet, raises
+     |      InvalidStateError.
+     |  
+     |  get_loop(self, /)
+     |      Return the event loop the Future is bound to.
+     |  
+     |  remove_done_callback(self, fn, /)
+     |      Remove all instances of a callback from the "call when done" list.
+     |      
+     |      Returns the number of callbacks removed.
+     |  
+     |  result(self, /)
+     |      Return the result this future represents.
+     |      
+     |      If the future has been cancelled, raises CancelledError.  If the
+     |      future's result isn't yet available, raises InvalidStateError.  If
+     |      the future is done and has an exception set, this exception is raised.
+     |  
+     |  set_exception(self, exception, /)
+     |      Mark the future done and set an exception.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  set_result(self, result, /)
+     |      Mark the future done and set its result.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class Handle(builtins.object)
+     |  Handle(callback, args, loop, context=None)
+     |  
+     |  Object returned by callback registration methods.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, callback, args, loop, context=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  cancel(self)
+     |  
+     |  cancelled(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class IncompleteReadError(builtins.EOFError)
+     |  IncompleteReadError(partial, expected)
+     |  
+     |  Incomplete read error. Attributes:
+     |  
+     |  - partial: read bytes string before the end of stream was reached
+     |  - expected: total number of expected bytes (or None if unknown)
+     |  
+     |  Method resolution order:
+     |      IncompleteReadError
+     |      builtins.EOFError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, partial, expected)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.EOFError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class InvalidStateError(concurrent.futures._base.Error)
+     |  The operation is not allowed in this state.
+     |  
+     |  Method resolution order:
+     |      InvalidStateError
+     |      concurrent.futures._base.Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from concurrent.futures._base.Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class IocpProactor(builtins.object)
+     |  IocpProactor(concurrency=4294967295)
+     |  
+     |  Proactor implementation using IOCP.
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |  
+     |  __init__(self, concurrency=4294967295)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  accept(self, listener)
+     |  
+     |  accept_pipe(self, pipe)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, conn, address)
+     |  
+     |  connect_pipe(self, address)
+     |  
+     |  recv(self, conn, nbytes, flags=0)
+     |  
+     |  recv_into(self, conn, buf, flags=0)
+     |  
+     |  select(self, timeout=None)
+     |  
+     |  send(self, conn, buf, flags=0)
+     |  
+     |  sendfile(self, sock, file, offset, count)
+     |  
+     |  set_loop(self, loop)
+     |  
+     |  wait_for_handle(self, handle, timeout=None)
+     |      Wait for a handle.
+     |      
+     |      Return a Future object. The result of the future is True if the wait
+     |      completed, or False if the wait did not complete (on timeout).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class LifoQueue(Queue)
+     |  LifoQueue(maxsize=0, *, loop=None)
+     |  
+     |  A subclass of Queue that retrieves most recently added entries first.
+     |  
+     |  Method resolution order:
+     |      LifoQueue
+     |      Queue
+     |      builtins.object
+     |  
+     |  Methods inherited from Queue:
+     |  
+     |  __init__(self, maxsize=0, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  empty(self)
+     |      Return True if the queue is empty, False otherwise.
+     |  
+     |  full(self)
+     |      Return True if there are maxsize items in the queue.
+     |      
+     |      Note: if the Queue was initialized with maxsize=0 (the default),
+     |      then full() is never True.
+     |  
+     |  get(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      If queue is empty, wait until an item is available.
+     |  
+     |  get_nowait(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      Return an item if one is immediately available, else raise QueueEmpty.
+     |  
+     |  join(self)
+     |      Block until all items in the queue have been gotten and processed.
+     |      
+     |      The count of unfinished tasks goes up whenever an item is added to the
+     |      queue. The count goes down whenever a consumer calls task_done() to
+     |      indicate that the item was retrieved and all work on it is complete.
+     |      When the count of unfinished tasks drops to zero, join() unblocks.
+     |  
+     |  put(self, item)
+     |      Put an item into the queue.
+     |      
+     |      Put an item into the queue. If the queue is full, wait until a free
+     |      slot is available before adding item.
+     |  
+     |  put_nowait(self, item)
+     |      Put an item into the queue without blocking.
+     |      
+     |      If no free slot is immediately available, raise QueueFull.
+     |  
+     |  qsize(self)
+     |      Number of items in the queue.
+     |  
+     |  task_done(self)
+     |      Indicate that a formerly enqueued task is complete.
+     |      
+     |      Used by queue consumers. For each get() used to fetch a task,
+     |      a subsequent call to task_done() tells the queue that the processing
+     |      on the task is complete.
+     |      
+     |      If a join() is currently blocking, it will resume when all items have
+     |      been processed (meaning that a task_done() call was received for every
+     |      item that had been put() into the queue).
+     |      
+     |      Raises ValueError if called more times than there were items placed in
+     |      the queue.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Queue:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  maxsize
+     |      Number of items allowed in the queue.
+    
+    class LimitOverrunError(builtins.Exception)
+     |  LimitOverrunError(message, consumed)
+     |  
+     |  Reached the buffer limit while looking for a separator.
+     |  
+     |  Attributes:
+     |  - consumed: total number of to be consumed bytes.
+     |  
+     |  Method resolution order:
+     |      LimitOverrunError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, message, consumed)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Lock(_ContextManagerMixin)
+     |  Lock(*, loop=None)
+     |  
+     |  Primitive lock objects.
+     |  
+     |  A primitive lock is a synchronization primitive that is not owned
+     |  by a particular coroutine when locked.  A primitive lock is in one
+     |  of two states, 'locked' or 'unlocked'.
+     |  
+     |  It is created in the unlocked state.  It has two basic methods,
+     |  acquire() and release().  When the state is unlocked, acquire()
+     |  changes the state to locked and returns immediately.  When the
+     |  state is locked, acquire() blocks until a call to release() in
+     |  another coroutine changes it to unlocked, then the acquire() call
+     |  resets it to locked and returns.  The release() method should only
+     |  be called in the locked state; it changes the state to unlocked
+     |  and returns immediately.  If an attempt is made to release an
+     |  unlocked lock, a RuntimeError will be raised.
+     |  
+     |  When more than one coroutine is blocked in acquire() waiting for
+     |  the state to turn to unlocked, only one coroutine proceeds when a
+     |  release() call resets the state to unlocked; first coroutine which
+     |  is blocked in acquire() is being processed.
+     |  
+     |  acquire() is a coroutine and should be called with 'await'.
+     |  
+     |  Locks also support the asynchronous context management protocol.
+     |  'async with lock' statement should be used.
+     |  
+     |  Usage:
+     |  
+     |      lock = Lock()
+     |      ...
+     |      await lock.acquire()
+     |      try:
+     |          ...
+     |      finally:
+     |          lock.release()
+     |  
+     |  Context manager usage:
+     |  
+     |      lock = Lock()
+     |      ...
+     |      async with lock:
+     |           ...
+     |  
+     |  Lock objects can be tested for locking state:
+     |  
+     |      if not lock.locked():
+     |         await lock.acquire()
+     |      else:
+     |         # lock is acquired
+     |         ...
+     |  
+     |  Method resolution order:
+     |      Lock
+     |      _ContextManagerMixin
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  acquire(self)
+     |      Acquire a lock.
+     |      
+     |      This method blocks until the lock is unlocked, then sets it to
+     |      locked and returns True.
+     |  
+     |  locked(self)
+     |      Return True if lock is acquired.
+     |  
+     |  release(self)
+     |      Release a lock.
+     |      
+     |      When the lock is locked, reset it to unlocked, and return.
+     |      If any other coroutines are blocked waiting for the lock to become
+     |      unlocked, allow exactly one of them to proceed.
+     |      
+     |      When invoked on an unlocked lock, a RuntimeError is raised.
+     |      
+     |      There is no return value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ContextManagerMixin:
+     |  
+     |  __aenter__(self)
+     |  
+     |  __aexit__(self, exc_type, exc, tb)
+     |  
+     |  __await__(self)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _ContextManagerMixin:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class PriorityQueue(Queue)
+     |  PriorityQueue(maxsize=0, *, loop=None)
+     |  
+     |  A subclass of Queue; retrieves entries in priority order (lowest first).
+     |  
+     |  Entries are typically tuples of the form: (priority number, data).
+     |  
+     |  Method resolution order:
+     |      PriorityQueue
+     |      Queue
+     |      builtins.object
+     |  
+     |  Methods inherited from Queue:
+     |  
+     |  __init__(self, maxsize=0, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  empty(self)
+     |      Return True if the queue is empty, False otherwise.
+     |  
+     |  full(self)
+     |      Return True if there are maxsize items in the queue.
+     |      
+     |      Note: if the Queue was initialized with maxsize=0 (the default),
+     |      then full() is never True.
+     |  
+     |  get(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      If queue is empty, wait until an item is available.
+     |  
+     |  get_nowait(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      Return an item if one is immediately available, else raise QueueEmpty.
+     |  
+     |  join(self)
+     |      Block until all items in the queue have been gotten and processed.
+     |      
+     |      The count of unfinished tasks goes up whenever an item is added to the
+     |      queue. The count goes down whenever a consumer calls task_done() to
+     |      indicate that the item was retrieved and all work on it is complete.
+     |      When the count of unfinished tasks drops to zero, join() unblocks.
+     |  
+     |  put(self, item)
+     |      Put an item into the queue.
+     |      
+     |      Put an item into the queue. If the queue is full, wait until a free
+     |      slot is available before adding item.
+     |  
+     |  put_nowait(self, item)
+     |      Put an item into the queue without blocking.
+     |      
+     |      If no free slot is immediately available, raise QueueFull.
+     |  
+     |  qsize(self)
+     |      Number of items in the queue.
+     |  
+     |  task_done(self)
+     |      Indicate that a formerly enqueued task is complete.
+     |      
+     |      Used by queue consumers. For each get() used to fetch a task,
+     |      a subsequent call to task_done() tells the queue that the processing
+     |      on the task is complete.
+     |      
+     |      If a join() is currently blocking, it will resume when all items have
+     |      been processed (meaning that a task_done() call was received for every
+     |      item that had been put() into the queue).
+     |      
+     |      Raises ValueError if called more times than there were items placed in
+     |      the queue.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Queue:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  maxsize
+     |      Number of items allowed in the queue.
+    
+    class ProactorEventLoop(asyncio.proactor_events.BaseProactorEventLoop)
+     |  ProactorEventLoop(proactor=None)
+     |  
+     |  Windows version of proactor event loop using IOCP.
+     |  
+     |  Method resolution order:
+     |      ProactorEventLoop
+     |      asyncio.proactor_events.BaseProactorEventLoop
+     |      asyncio.base_events.BaseEventLoop
+     |      asyncio.events.AbstractEventLoop
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, proactor=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  create_pipe_connection(self, protocol_factory, address)
+     |  
+     |  start_serving_pipe(self, protocol_factory, address)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.proactor_events.BaseProactorEventLoop:
+     |  
+     |  close(self)
+     |      Close the event loop.
+     |      
+     |      This clears the queues and shuts down the executor,
+     |      but does not wait for the executor to finish.
+     |      
+     |      The event loop must not be running.
+     |  
+     |  sock_accept(self, sock)
+     |  
+     |  sock_connect(self, sock, address)
+     |  
+     |  sock_recv(self, sock, n)
+     |  
+     |  sock_recv_into(self, sock, buf)
+     |  
+     |  sock_sendall(self, sock, data)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.base_events.BaseEventLoop:
+     |  
+     |  __del__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  call_at(self, when, callback, *args, context=None)
+     |      Like call_later(), but uses an absolute time.
+     |      
+     |      Absolute time corresponds to the event loop's time() method.
+     |  
+     |  call_exception_handler(self, context)
+     |      Call the current event loop's exception handler.
+     |      
+     |      The context argument is a dict containing the following keys:
+     |      
+     |      - 'message': Error message;
+     |      - 'exception' (optional): Exception object;
+     |      - 'future' (optional): Future instance;
+     |      - 'task' (optional): Task instance;
+     |      - 'handle' (optional): Handle instance;
+     |      - 'protocol' (optional): Protocol instance;
+     |      - 'transport' (optional): Transport instance;
+     |      - 'socket' (optional): Socket instance;
+     |      - 'asyncgen' (optional): Asynchronous generator that caused
+     |                               the exception.
+     |      
+     |      New keys maybe introduced in the future.
+     |      
+     |      Note: do not overload this method in an event loop subclass.
+     |      For custom exception handling, use the
+     |      `set_exception_handler()` method.
+     |  
+     |  call_later(self, delay, callback, *args, context=None)
+     |      Arrange for a callback to be called at a given time.
+     |      
+     |      Return a Handle: an opaque object with a cancel() method that
+     |      can be used to cancel the call.
+     |      
+     |      The delay can be an int or float, expressed in seconds.  It is
+     |      always relative to the current time.
+     |      
+     |      Each callback will be called exactly once.  If two callbacks
+     |      are scheduled for exactly the same time, it undefined which
+     |      will be called first.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon(self, callback, *args, context=None)
+     |      Arrange for a callback to be called as soon as possible.
+     |      
+     |      This operates as a FIFO queue: callbacks are called in the
+     |      order in which they are registered.  Each callback will be
+     |      called exactly once.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon_threadsafe(self, callback, *args, context=None)
+     |      Like call_soon(), but thread-safe.
+     |  
+     |  connect_accepted_socket(self, protocol_factory, sock, *, ssl=None, ssl_handshake_timeout=None)
+     |      Handle an accepted connection.
+     |      
+     |      This is used by servers that accept connections outside of
+     |      asyncio but that use asyncio to handle connections.
+     |      
+     |      This method is a coroutine.  When completed, the coroutine
+     |      returns a (transport, protocol) pair.
+     |  
+     |  connect_read_pipe(self, protocol_factory, pipe)
+     |      Register read pipe in event loop. Set the pipe to non-blocking mode.
+     |      
+     |      protocol_factory should instantiate object with Protocol interface.
+     |      pipe is a file-like object.
+     |      Return pair (transport, protocol), where transport supports the
+     |      ReadTransport interface.
+     |  
+     |  connect_write_pipe(self, protocol_factory, pipe)
+     |      Register write pipe in event loop.
+     |      
+     |      protocol_factory should instantiate object with BaseProtocol interface.
+     |      Pipe is file-like object already switched to nonblocking.
+     |      Return pair (transport, protocol), where transport support
+     |      WriteTransport interface.
+     |  
+     |  create_connection(self, protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None)
+     |      Connect to a TCP server.
+     |      
+     |      Create a streaming transport connection to a given Internet host and
+     |      port: socket family AF_INET or socket.AF_INET6 depending on host (or
+     |      family if specified), socket type SOCK_STREAM. protocol_factory must be
+     |      a callable returning a protocol instance.
+     |      
+     |      This method is a coroutine which will try to establish the connection
+     |      in the background.  When successful, the coroutine returns a
+     |      (transport, protocol) pair.
+     |  
+     |  create_datagram_endpoint(self, protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_address=None, reuse_port=None, allow_broadcast=None, sock=None)
+     |      Create datagram connection.
+     |  
+     |  create_future(self)
+     |      Create a Future object attached to the loop.
+     |  
+     |  create_server(self, protocol_factory, host=None, port=None, *, family=<AddressFamily.AF_UNSPEC: 0>, flags=<AddressInfo.AI_PASSIVE: 1>, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, start_serving=True)
+     |      Create a TCP server.
+     |      
+     |      The host parameter can be a string, in that case the TCP server is
+     |      bound to host and port.
+     |      
+     |      The host parameter can also be a sequence of strings and in that case
+     |      the TCP server is bound to all hosts of the sequence. If a host
+     |      appears multiple times (possibly indirectly e.g. when hostnames
+     |      resolve to the same IP address), the server is only bound once to that
+     |      host.
+     |      
+     |      Return a Server object which can be used to stop the service.
+     |      
+     |      This method is a coroutine.
+     |  
+     |  create_task(self, coro)
+     |      Schedule a coroutine object.
+     |      
+     |      Return a task object.
+     |  
+     |  default_exception_handler(self, context)
+     |      Default exception handler.
+     |      
+     |      This is called when an exception occurs and no exception
+     |      handler is set, and can be called by a custom exception
+     |      handler that wants to defer to the default behavior.
+     |      
+     |      This default handler logs the error message and other
+     |      context-dependent information.  In debug mode, a truncated
+     |      stack trace is also appended showing where the given object
+     |      (e.g. a handle or future or task) was created, if any.
+     |      
+     |      The context parameter has the same meaning as in
+     |      `call_exception_handler()`.
+     |  
+     |  get_debug(self)
+     |  
+     |  get_exception_handler(self)
+     |      Return an exception handler, or None if the default one is in use.
+     |  
+     |  get_task_factory(self)
+     |      Return a task factory, or None if the default one is in use.
+     |  
+     |  getaddrinfo(self, host, port, *, family=0, type=0, proto=0, flags=0)
+     |  
+     |  getnameinfo(self, sockaddr, flags=0)
+     |  
+     |  is_closed(self)
+     |      Returns True if the event loop was closed.
+     |  
+     |  is_running(self)
+     |      Returns True if the event loop is running.
+     |  
+     |  run_forever(self)
+     |      Run until stop() is called.
+     |  
+     |  run_in_executor(self, executor, func, *args)
+     |  
+     |  run_until_complete(self, future)
+     |      Run until the Future is done.
+     |      
+     |      If the argument is a coroutine, it is wrapped in a Task.
+     |      
+     |      WARNING: It would be disastrous to call run_until_complete()
+     |      with the same coroutine twice -- it would wrap it in two
+     |      different Tasks and that can't be good.
+     |      
+     |      Return the Future's result, or raise its exception.
+     |  
+     |  sendfile(self, transport, file, offset=0, count=None, *, fallback=True)
+     |      Send a file to transport.
+     |      
+     |      Return the total number of bytes which were sent.
+     |      
+     |      The method uses high-performance os.sendfile if available.
+     |      
+     |      file must be a regular file object opened in binary mode.
+     |      
+     |      offset tells from where to start reading the file. If specified,
+     |      count is the total number of bytes to transmit as opposed to
+     |      sending the file until EOF is reached. File position is updated on
+     |      return or also in case of error in which case file.tell()
+     |      can be used to figure out the number of bytes
+     |      which were sent.
+     |      
+     |      fallback set to True makes asyncio to manually read and send
+     |      the file when the platform does not support the sendfile syscall
+     |      (e.g. Windows or SSL socket on Unix).
+     |      
+     |      Raise SendfileNotAvailableError if the system does not support
+     |      sendfile syscall and fallback is False.
+     |  
+     |  set_debug(self, enabled)
+     |  
+     |  set_default_executor(self, executor)
+     |  
+     |  set_exception_handler(self, handler)
+     |      Set handler as the new event loop exception handler.
+     |      
+     |      If handler is None, the default exception handler will
+     |      be set.
+     |      
+     |      If handler is a callable object, it should have a
+     |      signature matching '(loop, context)', where 'loop'
+     |      will be a reference to the active event loop, 'context'
+     |      will be a dict object (see `call_exception_handler()`
+     |      documentation for details about context).
+     |  
+     |  set_task_factory(self, factory)
+     |      Set a task factory that will be used by loop.create_task().
+     |      
+     |      If factory is None the default task factory will be set.
+     |      
+     |      If factory is a callable, it should have a signature matching
+     |      '(loop, coro)', where 'loop' will be a reference to the active
+     |      event loop, 'coro' will be a coroutine object.  The callable
+     |      must return a Future.
+     |  
+     |  shutdown_asyncgens(self)
+     |      Shutdown all active asynchronous generators.
+     |  
+     |  sock_sendfile(self, sock, file, offset=0, count=None, *, fallback=True)
+     |  
+     |  start_tls(self, transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None)
+     |      Upgrade transport to TLS.
+     |      
+     |      Return a new transport that *protocol* should start using
+     |      immediately.
+     |  
+     |  stop(self)
+     |      Stop running the event loop.
+     |      
+     |      Every callback already scheduled will still run.  This simply informs
+     |      run_forever to stop looping after a complete iteration.
+     |  
+     |  subprocess_exec(self, protocol_factory, program, *args, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=False, bufsize=0, **kwargs)
+     |  
+     |  subprocess_shell(self, protocol_factory, cmd, *, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=True, bufsize=0, **kwargs)
+     |  
+     |  time(self)
+     |      Return the time according to the event loop's clock.
+     |      
+     |      This is a float expressed in seconds since an epoch, but the
+     |      epoch, precision, accuracy and drift are unspecified and may
+     |      differ per event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  add_reader(self, fd, callback, *args)
+     |  
+     |  add_signal_handler(self, sig, callback, *args)
+     |  
+     |  add_writer(self, fd, callback, *args)
+     |  
+     |  create_unix_connection(self, protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None)
+     |  
+     |  create_unix_server(self, protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, start_serving=True)
+     |      A coroutine which creates a UNIX Domain Socket server.
+     |      
+     |      The return value is a Server object, which can be used to stop
+     |      the service.
+     |      
+     |      path is a str, representing a file systsem path to bind the
+     |      server socket to.
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |      
+     |      backlog is the maximum number of queued connections passed to
+     |      listen() (defaults to 100).
+     |      
+     |      ssl can be set to an SSLContext to enable SSL over the
+     |      accepted connections.
+     |      
+     |      ssl_handshake_timeout is the time in seconds that an SSL server
+     |      will wait for the SSL handshake to complete (defaults to 60s).
+     |      
+     |      start_serving set to True (default) causes the created server
+     |      to start accepting connections immediately.  When set to False,
+     |      the user should await Server.start_serving() or Server.serve_forever()
+     |      to make the server to start accepting connections.
+     |  
+     |  remove_reader(self, fd)
+     |  
+     |  remove_signal_handler(self, sig)
+     |  
+     |  remove_writer(self, fd)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Protocol(BaseProtocol)
+     |  Interface for stream protocol.
+     |  
+     |  The user should implement this interface.  They can inherit from
+     |  this class but don't need to.  The implementations here do
+     |  nothing (they don't raise exceptions).
+     |  
+     |  When the user wants to requests a transport, they pass a protocol
+     |  factory to a utility function (e.g., EventLoop.create_connection()).
+     |  
+     |  When the connection is made successfully, connection_made() is
+     |  called with a suitable transport object.  Then data_received()
+     |  will be called 0 or more times with data (bytes) received from the
+     |  transport; finally, connection_lost() will be called exactly once
+     |  with either an exception object or None as an argument.
+     |  
+     |  State machine of calls:
+     |  
+     |    start -> CM [-> DR*] [-> ER?] -> CL -> end
+     |  
+     |  * CM: connection_made()
+     |  * DR: data_received()
+     |  * ER: eof_received()
+     |  * CL: connection_lost()
+     |  
+     |  Method resolution order:
+     |      Protocol
+     |      BaseProtocol
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  data_received(self, data)
+     |      Called when some data is received.
+     |      
+     |      The argument is a bytes object.
+     |  
+     |  eof_received(self)
+     |      Called when the other end calls write_eof() or equivalent.
+     |      
+     |      If this returns a false value (including None), the transport
+     |      will close itself.  If it returns a true value, closing the
+     |      transport is up to the protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseProtocol:
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseProtocol:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Queue(builtins.object)
+     |  Queue(maxsize=0, *, loop=None)
+     |  
+     |  A queue, useful for coordinating producer and consumer coroutines.
+     |  
+     |  If maxsize is less than or equal to zero, the queue size is infinite. If it
+     |  is an integer greater than 0, then "await put()" will block when the
+     |  queue reaches maxsize, until an item is removed by get().
+     |  
+     |  Unlike the standard library Queue, you can reliably know this Queue's size
+     |  with qsize(), since your single-threaded asyncio application won't be
+     |  interrupted between calling qsize() and doing an operation on the Queue.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, maxsize=0, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  empty(self)
+     |      Return True if the queue is empty, False otherwise.
+     |  
+     |  full(self)
+     |      Return True if there are maxsize items in the queue.
+     |      
+     |      Note: if the Queue was initialized with maxsize=0 (the default),
+     |      then full() is never True.
+     |  
+     |  get(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      If queue is empty, wait until an item is available.
+     |  
+     |  get_nowait(self)
+     |      Remove and return an item from the queue.
+     |      
+     |      Return an item if one is immediately available, else raise QueueEmpty.
+     |  
+     |  join(self)
+     |      Block until all items in the queue have been gotten and processed.
+     |      
+     |      The count of unfinished tasks goes up whenever an item is added to the
+     |      queue. The count goes down whenever a consumer calls task_done() to
+     |      indicate that the item was retrieved and all work on it is complete.
+     |      When the count of unfinished tasks drops to zero, join() unblocks.
+     |  
+     |  put(self, item)
+     |      Put an item into the queue.
+     |      
+     |      Put an item into the queue. If the queue is full, wait until a free
+     |      slot is available before adding item.
+     |  
+     |  put_nowait(self, item)
+     |      Put an item into the queue without blocking.
+     |      
+     |      If no free slot is immediately available, raise QueueFull.
+     |  
+     |  qsize(self)
+     |      Number of items in the queue.
+     |  
+     |  task_done(self)
+     |      Indicate that a formerly enqueued task is complete.
+     |      
+     |      Used by queue consumers. For each get() used to fetch a task,
+     |      a subsequent call to task_done() tells the queue that the processing
+     |      on the task is complete.
+     |      
+     |      If a join() is currently blocking, it will resume when all items have
+     |      been processed (meaning that a task_done() call was received for every
+     |      item that had been put() into the queue).
+     |      
+     |      Raises ValueError if called more times than there were items placed in
+     |      the queue.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  maxsize
+     |      Number of items allowed in the queue.
+    
+    class QueueEmpty(builtins.Exception)
+     |  Raised when Queue.get_nowait() is called on an empty Queue.
+     |  
+     |  Method resolution order:
+     |      QueueEmpty
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class QueueFull(builtins.Exception)
+     |  Raised when the Queue.put_nowait() method is called on a full Queue.
+     |  
+     |  Method resolution order:
+     |      QueueFull
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class ReadTransport(BaseTransport)
+     |  ReadTransport(extra=None)
+     |  
+     |  Interface for read-only transports.
+     |  
+     |  Method resolution order:
+     |      ReadTransport
+     |      BaseTransport
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  is_reading(self)
+     |      Return True if the transport is receiving.
+     |  
+     |  pause_reading(self)
+     |      Pause the receiving end.
+     |      
+     |      No data will be passed to the protocol's data_received()
+     |      method until resume_reading() is called.
+     |  
+     |  resume_reading(self)
+     |      Resume the receiving end.
+     |      
+     |      Data received will once again be passed to the protocol's
+     |      data_received() method.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseTransport:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseTransport:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    SelectorEventLoop = class _WindowsSelectorEventLoop(asyncio.selector_events.BaseSelectorEventLoop)
+     |  SelectorEventLoop(selector=None)
+     |  
+     |  Windows version of selector event loop.
+     |  
+     |  Method resolution order:
+     |      _WindowsSelectorEventLoop
+     |      asyncio.selector_events.BaseSelectorEventLoop
+     |      asyncio.base_events.BaseEventLoop
+     |      asyncio.events.AbstractEventLoop
+     |      builtins.object
+     |  
+     |  Methods inherited from asyncio.selector_events.BaseSelectorEventLoop:
+     |  
+     |  __init__(self, selector=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_reader(self, fd, callback, *args)
+     |      Add a reader callback.
+     |  
+     |  add_writer(self, fd, callback, *args)
+     |      Add a writer callback..
+     |  
+     |  close(self)
+     |      Close the event loop.
+     |      
+     |      This clears the queues and shuts down the executor,
+     |      but does not wait for the executor to finish.
+     |      
+     |      The event loop must not be running.
+     |  
+     |  remove_reader(self, fd)
+     |      Remove a reader callback.
+     |  
+     |  remove_writer(self, fd)
+     |      Remove a writer callback.
+     |  
+     |  sock_accept(self, sock)
+     |      Accept a connection.
+     |      
+     |      The socket must be bound to an address and listening for connections.
+     |      The return value is a pair (conn, address) where conn is a new socket
+     |      object usable to send and receive data on the connection, and address
+     |      is the address bound to the socket on the other end of the connection.
+     |  
+     |  sock_connect(self, sock, address)
+     |      Connect to a remote socket at address.
+     |      
+     |      This method is a coroutine.
+     |  
+     |  sock_recv(self, sock, n)
+     |      Receive data from the socket.
+     |      
+     |      The return value is a bytes object representing the data received.
+     |      The maximum amount of data to be received at once is specified by
+     |      nbytes.
+     |  
+     |  sock_recv_into(self, sock, buf)
+     |      Receive data from the socket.
+     |      
+     |      The received data is written into *buf* (a writable buffer).
+     |      The return value is the number of bytes written.
+     |  
+     |  sock_sendall(self, sock, data)
+     |      Send data to the socket.
+     |      
+     |      The socket must be connected to a remote socket. This method continues
+     |      to send data from data until either all data has been sent or an
+     |      error occurs. None is returned on success. On error, an exception is
+     |      raised, and there is no way to determine how much data, if any, was
+     |      successfully processed by the receiving end of the connection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.base_events.BaseEventLoop:
+     |  
+     |  __del__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  call_at(self, when, callback, *args, context=None)
+     |      Like call_later(), but uses an absolute time.
+     |      
+     |      Absolute time corresponds to the event loop's time() method.
+     |  
+     |  call_exception_handler(self, context)
+     |      Call the current event loop's exception handler.
+     |      
+     |      The context argument is a dict containing the following keys:
+     |      
+     |      - 'message': Error message;
+     |      - 'exception' (optional): Exception object;
+     |      - 'future' (optional): Future instance;
+     |      - 'task' (optional): Task instance;
+     |      - 'handle' (optional): Handle instance;
+     |      - 'protocol' (optional): Protocol instance;
+     |      - 'transport' (optional): Transport instance;
+     |      - 'socket' (optional): Socket instance;
+     |      - 'asyncgen' (optional): Asynchronous generator that caused
+     |                               the exception.
+     |      
+     |      New keys maybe introduced in the future.
+     |      
+     |      Note: do not overload this method in an event loop subclass.
+     |      For custom exception handling, use the
+     |      `set_exception_handler()` method.
+     |  
+     |  call_later(self, delay, callback, *args, context=None)
+     |      Arrange for a callback to be called at a given time.
+     |      
+     |      Return a Handle: an opaque object with a cancel() method that
+     |      can be used to cancel the call.
+     |      
+     |      The delay can be an int or float, expressed in seconds.  It is
+     |      always relative to the current time.
+     |      
+     |      Each callback will be called exactly once.  If two callbacks
+     |      are scheduled for exactly the same time, it undefined which
+     |      will be called first.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon(self, callback, *args, context=None)
+     |      Arrange for a callback to be called as soon as possible.
+     |      
+     |      This operates as a FIFO queue: callbacks are called in the
+     |      order in which they are registered.  Each callback will be
+     |      called exactly once.
+     |      
+     |      Any positional arguments after the callback will be passed to
+     |      the callback when it is called.
+     |  
+     |  call_soon_threadsafe(self, callback, *args, context=None)
+     |      Like call_soon(), but thread-safe.
+     |  
+     |  connect_accepted_socket(self, protocol_factory, sock, *, ssl=None, ssl_handshake_timeout=None)
+     |      Handle an accepted connection.
+     |      
+     |      This is used by servers that accept connections outside of
+     |      asyncio but that use asyncio to handle connections.
+     |      
+     |      This method is a coroutine.  When completed, the coroutine
+     |      returns a (transport, protocol) pair.
+     |  
+     |  connect_read_pipe(self, protocol_factory, pipe)
+     |      Register read pipe in event loop. Set the pipe to non-blocking mode.
+     |      
+     |      protocol_factory should instantiate object with Protocol interface.
+     |      pipe is a file-like object.
+     |      Return pair (transport, protocol), where transport supports the
+     |      ReadTransport interface.
+     |  
+     |  connect_write_pipe(self, protocol_factory, pipe)
+     |      Register write pipe in event loop.
+     |      
+     |      protocol_factory should instantiate object with BaseProtocol interface.
+     |      Pipe is file-like object already switched to nonblocking.
+     |      Return pair (transport, protocol), where transport support
+     |      WriteTransport interface.
+     |  
+     |  create_connection(self, protocol_factory, host=None, port=None, *, ssl=None, family=0, proto=0, flags=0, sock=None, local_addr=None, server_hostname=None, ssl_handshake_timeout=None)
+     |      Connect to a TCP server.
+     |      
+     |      Create a streaming transport connection to a given Internet host and
+     |      port: socket family AF_INET or socket.AF_INET6 depending on host (or
+     |      family if specified), socket type SOCK_STREAM. protocol_factory must be
+     |      a callable returning a protocol instance.
+     |      
+     |      This method is a coroutine which will try to establish the connection
+     |      in the background.  When successful, the coroutine returns a
+     |      (transport, protocol) pair.
+     |  
+     |  create_datagram_endpoint(self, protocol_factory, local_addr=None, remote_addr=None, *, family=0, proto=0, flags=0, reuse_address=None, reuse_port=None, allow_broadcast=None, sock=None)
+     |      Create datagram connection.
+     |  
+     |  create_future(self)
+     |      Create a Future object attached to the loop.
+     |  
+     |  create_server(self, protocol_factory, host=None, port=None, *, family=<AddressFamily.AF_UNSPEC: 0>, flags=<AddressInfo.AI_PASSIVE: 1>, sock=None, backlog=100, ssl=None, reuse_address=None, reuse_port=None, ssl_handshake_timeout=None, start_serving=True)
+     |      Create a TCP server.
+     |      
+     |      The host parameter can be a string, in that case the TCP server is
+     |      bound to host and port.
+     |      
+     |      The host parameter can also be a sequence of strings and in that case
+     |      the TCP server is bound to all hosts of the sequence. If a host
+     |      appears multiple times (possibly indirectly e.g. when hostnames
+     |      resolve to the same IP address), the server is only bound once to that
+     |      host.
+     |      
+     |      Return a Server object which can be used to stop the service.
+     |      
+     |      This method is a coroutine.
+     |  
+     |  create_task(self, coro)
+     |      Schedule a coroutine object.
+     |      
+     |      Return a task object.
+     |  
+     |  default_exception_handler(self, context)
+     |      Default exception handler.
+     |      
+     |      This is called when an exception occurs and no exception
+     |      handler is set, and can be called by a custom exception
+     |      handler that wants to defer to the default behavior.
+     |      
+     |      This default handler logs the error message and other
+     |      context-dependent information.  In debug mode, a truncated
+     |      stack trace is also appended showing where the given object
+     |      (e.g. a handle or future or task) was created, if any.
+     |      
+     |      The context parameter has the same meaning as in
+     |      `call_exception_handler()`.
+     |  
+     |  get_debug(self)
+     |  
+     |  get_exception_handler(self)
+     |      Return an exception handler, or None if the default one is in use.
+     |  
+     |  get_task_factory(self)
+     |      Return a task factory, or None if the default one is in use.
+     |  
+     |  getaddrinfo(self, host, port, *, family=0, type=0, proto=0, flags=0)
+     |  
+     |  getnameinfo(self, sockaddr, flags=0)
+     |  
+     |  is_closed(self)
+     |      Returns True if the event loop was closed.
+     |  
+     |  is_running(self)
+     |      Returns True if the event loop is running.
+     |  
+     |  run_forever(self)
+     |      Run until stop() is called.
+     |  
+     |  run_in_executor(self, executor, func, *args)
+     |  
+     |  run_until_complete(self, future)
+     |      Run until the Future is done.
+     |      
+     |      If the argument is a coroutine, it is wrapped in a Task.
+     |      
+     |      WARNING: It would be disastrous to call run_until_complete()
+     |      with the same coroutine twice -- it would wrap it in two
+     |      different Tasks and that can't be good.
+     |      
+     |      Return the Future's result, or raise its exception.
+     |  
+     |  sendfile(self, transport, file, offset=0, count=None, *, fallback=True)
+     |      Send a file to transport.
+     |      
+     |      Return the total number of bytes which were sent.
+     |      
+     |      The method uses high-performance os.sendfile if available.
+     |      
+     |      file must be a regular file object opened in binary mode.
+     |      
+     |      offset tells from where to start reading the file. If specified,
+     |      count is the total number of bytes to transmit as opposed to
+     |      sending the file until EOF is reached. File position is updated on
+     |      return or also in case of error in which case file.tell()
+     |      can be used to figure out the number of bytes
+     |      which were sent.
+     |      
+     |      fallback set to True makes asyncio to manually read and send
+     |      the file when the platform does not support the sendfile syscall
+     |      (e.g. Windows or SSL socket on Unix).
+     |      
+     |      Raise SendfileNotAvailableError if the system does not support
+     |      sendfile syscall and fallback is False.
+     |  
+     |  set_debug(self, enabled)
+     |  
+     |  set_default_executor(self, executor)
+     |  
+     |  set_exception_handler(self, handler)
+     |      Set handler as the new event loop exception handler.
+     |      
+     |      If handler is None, the default exception handler will
+     |      be set.
+     |      
+     |      If handler is a callable object, it should have a
+     |      signature matching '(loop, context)', where 'loop'
+     |      will be a reference to the active event loop, 'context'
+     |      will be a dict object (see `call_exception_handler()`
+     |      documentation for details about context).
+     |  
+     |  set_task_factory(self, factory)
+     |      Set a task factory that will be used by loop.create_task().
+     |      
+     |      If factory is None the default task factory will be set.
+     |      
+     |      If factory is a callable, it should have a signature matching
+     |      '(loop, coro)', where 'loop' will be a reference to the active
+     |      event loop, 'coro' will be a coroutine object.  The callable
+     |      must return a Future.
+     |  
+     |  shutdown_asyncgens(self)
+     |      Shutdown all active asynchronous generators.
+     |  
+     |  sock_sendfile(self, sock, file, offset=0, count=None, *, fallback=True)
+     |  
+     |  start_tls(self, transport, protocol, sslcontext, *, server_side=False, server_hostname=None, ssl_handshake_timeout=None)
+     |      Upgrade transport to TLS.
+     |      
+     |      Return a new transport that *protocol* should start using
+     |      immediately.
+     |  
+     |  stop(self)
+     |      Stop running the event loop.
+     |      
+     |      Every callback already scheduled will still run.  This simply informs
+     |      run_forever to stop looping after a complete iteration.
+     |  
+     |  subprocess_exec(self, protocol_factory, program, *args, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=False, bufsize=0, **kwargs)
+     |  
+     |  subprocess_shell(self, protocol_factory, cmd, *, stdin=-1, stdout=-1, stderr=-1, universal_newlines=False, shell=True, bufsize=0, **kwargs)
+     |  
+     |  time(self)
+     |      Return the time according to the event loop's clock.
+     |      
+     |      This is a float expressed in seconds since an epoch, but the
+     |      epoch, precision, accuracy and drift are unspecified and may
+     |      differ per event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  add_signal_handler(self, sig, callback, *args)
+     |  
+     |  create_unix_connection(self, protocol_factory, path=None, *, ssl=None, sock=None, server_hostname=None, ssl_handshake_timeout=None)
+     |  
+     |  create_unix_server(self, protocol_factory, path=None, *, sock=None, backlog=100, ssl=None, ssl_handshake_timeout=None, start_serving=True)
+     |      A coroutine which creates a UNIX Domain Socket server.
+     |      
+     |      The return value is a Server object, which can be used to stop
+     |      the service.
+     |      
+     |      path is a str, representing a file systsem path to bind the
+     |      server socket to.
+     |      
+     |      sock can optionally be specified in order to use a preexisting
+     |      socket object.
+     |      
+     |      backlog is the maximum number of queued connections passed to
+     |      listen() (defaults to 100).
+     |      
+     |      ssl can be set to an SSLContext to enable SSL over the
+     |      accepted connections.
+     |      
+     |      ssl_handshake_timeout is the time in seconds that an SSL server
+     |      will wait for the SSL handshake to complete (defaults to 60s).
+     |      
+     |      start_serving set to True (default) causes the created server
+     |      to start accepting connections immediately.  When set to False,
+     |      the user should await Server.start_serving() or Server.serve_forever()
+     |      to make the server to start accepting connections.
+     |  
+     |  remove_signal_handler(self, sig)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoop:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Semaphore(_ContextManagerMixin)
+     |  Semaphore(value=1, *, loop=None)
+     |  
+     |  A Semaphore implementation.
+     |  
+     |  A semaphore manages an internal counter which is decremented by each
+     |  acquire() call and incremented by each release() call. The counter
+     |  can never go below zero; when acquire() finds that it is zero, it blocks,
+     |  waiting until some other thread calls release().
+     |  
+     |  Semaphores also support the context management protocol.
+     |  
+     |  The optional argument gives the initial value for the internal
+     |  counter; it defaults to 1. If the value given is less than 0,
+     |  ValueError is raised.
+     |  
+     |  Method resolution order:
+     |      Semaphore
+     |      _ContextManagerMixin
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, value=1, *, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  acquire(self)
+     |      Acquire a semaphore.
+     |      
+     |      If the internal counter is larger than zero on entry,
+     |      decrement it by one and return True immediately.  If it is
+     |      zero on entry, block, waiting until some other coroutine has
+     |      called release() to make it larger than 0, and then return
+     |      True.
+     |  
+     |  locked(self)
+     |      Returns True if semaphore can not be acquired immediately.
+     |  
+     |  release(self)
+     |      Release a semaphore, incrementing the internal counter by one.
+     |      When it was zero on entry and another coroutine is waiting for it to
+     |      become larger than zero again, wake up that coroutine.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ContextManagerMixin:
+     |  
+     |  __aenter__(self)
+     |  
+     |  __aexit__(self, exc_type, exc, tb)
+     |  
+     |  __await__(self)
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, *args)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _ContextManagerMixin:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class SendfileNotAvailableError(builtins.RuntimeError)
+     |  Sendfile syscall is not available.
+     |  
+     |  Raised if OS does not support sendfile syscall for given socket or
+     |  file type.
+     |  
+     |  Method resolution order:
+     |      SendfileNotAvailableError
+     |      builtins.RuntimeError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.RuntimeError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.RuntimeError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class StreamReader(builtins.object)
+     |  StreamReader(limit=65536, loop=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __aiter__(self)
+     |  
+     |  __anext__(self)
+     |  
+     |  __init__(self, limit=65536, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  at_eof(self)
+     |      Return True if the buffer is empty and 'feed_eof' was called.
+     |  
+     |  exception(self)
+     |  
+     |  feed_data(self, data)
+     |  
+     |  feed_eof(self)
+     |  
+     |  read(self, n=-1)
+     |      Read up to `n` bytes from the stream.
+     |      
+     |      If n is not provided, or set to -1, read until EOF and return all read
+     |      bytes. If the EOF was received and the internal buffer is empty, return
+     |      an empty bytes object.
+     |      
+     |      If n is zero, return empty bytes object immediately.
+     |      
+     |      If n is positive, this function try to read `n` bytes, and may return
+     |      less or equal bytes than requested, but at least one byte. If EOF was
+     |      received before any byte is read, this function returns empty byte
+     |      object.
+     |      
+     |      Returned value is not limited with limit, configured at stream
+     |      creation.
+     |      
+     |      If stream was paused, this function will automatically resume it if
+     |      needed.
+     |  
+     |  readexactly(self, n)
+     |      Read exactly `n` bytes.
+     |      
+     |      Raise an IncompleteReadError if EOF is reached before `n` bytes can be
+     |      read. The IncompleteReadError.partial attribute of the exception will
+     |      contain the partial read bytes.
+     |      
+     |      if n is zero, return empty bytes object.
+     |      
+     |      Returned value is not limited with limit, configured at stream
+     |      creation.
+     |      
+     |      If stream was paused, this function will automatically resume it if
+     |      needed.
+     |  
+     |  readline(self)
+     |      Read chunk of data from the stream until newline (b'
+     |      ') is found.
+     |      
+     |              On success, return chunk that ends with newline. If only partial
+     |              line can be read due to EOF, return incomplete line without
+     |              terminating newline. When EOF was reached while no bytes read, empty
+     |              bytes object is returned.
+     |      
+     |              If limit is reached, ValueError will be raised. In that case, if
+     |              newline was found, complete line including newline will be removed
+     |              from internal buffer. Else, internal buffer will be cleared. Limit is
+     |              compared against part of the line without newline.
+     |      
+     |              If stream was paused, this function will automatically resume it if
+     |              needed.
+     |  
+     |  readuntil(self, separator=b'\n')
+     |      Read data from the stream until ``separator`` is found.
+     |      
+     |      On success, the data and separator will be removed from the
+     |      internal buffer (consumed). Returned data will include the
+     |      separator at the end.
+     |      
+     |      Configured stream limit is used to check result. Limit sets the
+     |      maximal length of data that can be returned, not counting the
+     |      separator.
+     |      
+     |      If an EOF occurs and the complete separator is still not found,
+     |      an IncompleteReadError exception will be raised, and the internal
+     |      buffer will be reset.  The IncompleteReadError.partial attribute
+     |      may contain the separator partially.
+     |      
+     |      If the data cannot be read because of over limit, a
+     |      LimitOverrunError exception  will be raised, and the data
+     |      will be left in the internal buffer, so it can be read again.
+     |  
+     |  set_exception(self, exc)
+     |  
+     |  set_transport(self, transport)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class StreamReaderProtocol(FlowControlMixin, asyncio.protocols.Protocol)
+     |  StreamReaderProtocol(stream_reader, client_connected_cb=None, loop=None)
+     |  
+     |  Helper class to adapt between Protocol and StreamReader.
+     |  
+     |  (This is a helper class instead of making StreamReader itself a
+     |  Protocol subclass, because the StreamReader has other potential
+     |  uses, and to prevent the user of the StreamReader to accidentally
+     |  call inappropriate methods of the protocol.)
+     |  
+     |  Method resolution order:
+     |      StreamReaderProtocol
+     |      FlowControlMixin
+     |      asyncio.protocols.Protocol
+     |      asyncio.protocols.BaseProtocol
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |  
+     |  __init__(self, stream_reader, client_connected_cb=None, loop=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  data_received(self, data)
+     |      Called when some data is received.
+     |      
+     |      The argument is a bytes object.
+     |  
+     |  eof_received(self)
+     |      Called when the other end calls write_eof() or equivalent.
+     |      
+     |      If this returns a false value (including None), the transport
+     |      will close itself.  If it returns a true value, closing the
+     |      transport is up to the protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from FlowControlMixin:
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.protocols.BaseProtocol:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class StreamWriter(builtins.object)
+     |  StreamWriter(transport, protocol, reader, loop)
+     |  
+     |  Wraps a Transport.
+     |  
+     |  This exposes write(), writelines(), [can_]write_eof(),
+     |  get_extra_info() and close().  It adds drain() which returns an
+     |  optional Future on which you can wait for flow control.  It also
+     |  adds a transport property which references the Transport
+     |  directly.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, transport, protocol, reader, loop)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  can_write_eof(self)
+     |  
+     |  close(self)
+     |  
+     |  drain(self)
+     |      Flush the write buffer.
+     |      
+     |      The intended use is to write
+     |      
+     |        w.write(data)
+     |        await w.drain()
+     |  
+     |  get_extra_info(self, name, default=None)
+     |  
+     |  is_closing(self)
+     |  
+     |  wait_closed(self)
+     |  
+     |  write(self, data)
+     |  
+     |  write_eof(self)
+     |  
+     |  writelines(self, data)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  transport
+    
+    class SubprocessProtocol(BaseProtocol)
+     |  Interface for protocol for subprocess calls.
+     |  
+     |  Method resolution order:
+     |      SubprocessProtocol
+     |      BaseProtocol
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  pipe_connection_lost(self, fd, exc)
+     |      Called when a file descriptor associated with the child process is
+     |      closed.
+     |      
+     |      fd is the int file descriptor that was closed.
+     |  
+     |  pipe_data_received(self, fd, data)
+     |      Called when the subprocess writes data into stdout/stderr pipe.
+     |      
+     |      fd is int file descriptor.
+     |      data is bytes object.
+     |  
+     |  process_exited(self)
+     |      Called when subprocess has exited.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseProtocol:
+     |  
+     |  connection_lost(self, exc)
+     |      Called when the connection is lost or closed.
+     |      
+     |      The argument is an exception object or None (the latter
+     |      meaning a regular EOF is received or the connection was
+     |      aborted or closed).
+     |  
+     |  connection_made(self, transport)
+     |      Called when a connection is made.
+     |      
+     |      The argument is the transport representing the pipe connection.
+     |      To receive data, wait for data_received() calls.
+     |      When the connection is closed, connection_lost() is called.
+     |  
+     |  pause_writing(self)
+     |      Called when the transport's buffer goes over the high-water mark.
+     |      
+     |      Pause and resume calls are paired -- pause_writing() is called
+     |      once when the buffer goes strictly over the high-water mark
+     |      (even if subsequent writes increases the buffer size even
+     |      more), and eventually resume_writing() is called once when the
+     |      buffer size reaches the low-water mark.
+     |      
+     |      Note that if the buffer size equals the high-water mark,
+     |      pause_writing() is not called -- it must go strictly over.
+     |      Conversely, resume_writing() is called when the buffer size is
+     |      equal or lower than the low-water mark.  These end conditions
+     |      are important to ensure that things go as expected when either
+     |      mark is zero.
+     |      
+     |      NOTE: This is the only Protocol callback that is not called
+     |      through EventLoop.call_soon() -- if it were, it would have no
+     |      effect when it's most needed (when the app keeps writing
+     |      without yielding until pause_writing() is called).
+     |  
+     |  resume_writing(self)
+     |      Called when the transport's buffer drains below the low-water mark.
+     |      
+     |      See pause_writing() for details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseProtocol:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class SubprocessTransport(BaseTransport)
+     |  SubprocessTransport(extra=None)
+     |  
+     |  Base class for transports.
+     |  
+     |  Method resolution order:
+     |      SubprocessTransport
+     |      BaseTransport
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  get_pid(self)
+     |      Get subprocess id.
+     |  
+     |  get_pipe_transport(self, fd)
+     |      Get transport for pipe with number fd.
+     |  
+     |  get_returncode(self)
+     |      Get subprocess returncode.
+     |      
+     |      See also
+     |      http://docs.python.org/3/library/subprocess#subprocess.Popen.returncode
+     |  
+     |  kill(self)
+     |      Kill the subprocess.
+     |      
+     |      On Posix OSs the function sends SIGKILL to the subprocess.
+     |      On Windows kill() is an alias for terminate().
+     |      
+     |      See also:
+     |      http://docs.python.org/3/library/subprocess#subprocess.Popen.kill
+     |  
+     |  send_signal(self, signal)
+     |      Send signal to subprocess.
+     |      
+     |      See also:
+     |      docs.python.org/3/library/subprocess#subprocess.Popen.send_signal
+     |  
+     |  terminate(self)
+     |      Stop the subprocess.
+     |      
+     |      Alias for close() method.
+     |      
+     |      On Posix OSs the method sends SIGTERM to the subprocess.
+     |      On Windows the Win32 API function TerminateProcess()
+     |       is called to stop the subprocess.
+     |      
+     |      See also:
+     |      http://docs.python.org/3/library/subprocess#subprocess.Popen.terminate
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseTransport:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseTransport:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Task(Future)
+     |  Task(coro, *, loop=None)
+     |  
+     |  A coroutine wrapped in a Future.
+     |  
+     |  Method resolution order:
+     |      Task
+     |      Future
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __await__(self, /)
+     |      Return an iterator to be used in await expression.
+     |  
+     |  __del__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  add_done_callback(self, fn, /, *, context=None)
+     |      Add a callback to be run when the future becomes done.
+     |      
+     |      The callback is called with a single argument - the future object. If
+     |      the future is already done when this is called, the callback is
+     |      scheduled with call_soon.
+     |  
+     |  cancel(self, /)
+     |      Request that this task cancel itself.
+     |      
+     |      This arranges for a CancelledError to be thrown into the
+     |      wrapped coroutine on the next cycle through the event loop.
+     |      The coroutine then has a chance to clean up or even deny
+     |      the request using try/except/finally.
+     |      
+     |      Unlike Future.cancel, this does not guarantee that the
+     |      task will be cancelled: the exception might be caught and
+     |      acted upon, delaying cancellation of the task or preventing
+     |      cancellation completely.  The task may also return a value or
+     |      raise a different exception.
+     |      
+     |      Immediately after this method is called, Task.cancelled() will
+     |      not return True (unless the task was already cancelled).  A
+     |      task will be marked as cancelled when the wrapped coroutine
+     |      terminates with a CancelledError exception (even if cancel()
+     |      was not called).
+     |  
+     |  cancelled(self, /)
+     |      Return True if the future was cancelled.
+     |  
+     |  done(self, /)
+     |      Return True if the future is done.
+     |      
+     |      Done means either that a result / exception are available, or that the
+     |      future was cancelled.
+     |  
+     |  exception(self, /)
+     |      Return the exception that was set on this future.
+     |      
+     |      The exception (or None if no exception was set) is returned only if
+     |      the future is done.  If the future has been cancelled, raises
+     |      CancelledError.  If the future isn't done yet, raises
+     |      InvalidStateError.
+     |  
+     |  get_stack(self, /, *, limit=None)
+     |      Return the list of stack frames for this task's coroutine.
+     |      
+     |      If the coroutine is not done, this returns the stack where it is
+     |      suspended.  If the coroutine has completed successfully or was
+     |      cancelled, this returns an empty list.  If the coroutine was
+     |      terminated by an exception, this returns the list of traceback
+     |      frames.
+     |      
+     |      The frames are always ordered from oldest to newest.
+     |      
+     |      The optional limit gives the maximum number of frames to
+     |      return; by default all available frames are returned.  Its
+     |      meaning differs depending on whether a stack or a traceback is
+     |      returned: the newest frames of a stack are returned, but the
+     |      oldest frames of a traceback are returned.  (This matches the
+     |      behavior of the traceback module.)
+     |      
+     |      For reasons beyond our control, only one stack frame is
+     |      returned for a suspended coroutine.
+     |  
+     |  print_stack(self, /, *, limit=None, file=None)
+     |      Print the stack or traceback for this task's coroutine.
+     |      
+     |      This produces output similar to that of the traceback module,
+     |      for the frames retrieved by get_stack().  The limit argument
+     |      is passed to get_stack().  The file argument is an I/O stream
+     |      to which the output is written; by default output is written
+     |      to sys.stderr.
+     |  
+     |  remove_done_callback(self, fn, /)
+     |      Remove all instances of a callback from the "call when done" list.
+     |      
+     |      Returns the number of callbacks removed.
+     |  
+     |  result(self, /)
+     |      Return the result this future represents.
+     |      
+     |      If the future has been cancelled, raises CancelledError.  If the
+     |      future's result isn't yet available, raises InvalidStateError.  If
+     |      the future is done and has an exception set, this exception is raised.
+     |  
+     |  set_exception(self, exception, /)
+     |      Mark the future done and set an exception.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  set_result(self, result, /)
+     |      Mark the future done and set its result.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  all_tasks(loop=None) from builtins.type
+     |      Return a set of all tasks for an event loop.
+     |      
+     |      By default all tasks for the current event loop are returned.
+     |  
+     |  current_task(loop=None) from builtins.type
+     |      Return the currently running task in an event loop or None.
+     |      
+     |      By default the current task for the current event loop is returned.
+     |      
+     |      None is returned when called not in the context of a Task.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Future:
+     |  
+     |  get_loop(self, /)
+     |      Return the event loop the Future is bound to.
+    
+    class TimeoutError(Error)
+     |  The operation exceeded the given deadline.
+     |  
+     |  Method resolution order:
+     |      TimeoutError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from Error:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class TimerHandle(Handle)
+     |  TimerHandle(when, callback, args, loop, context=None)
+     |  
+     |  Object returned by timed callback registration methods.
+     |  
+     |  Method resolution order:
+     |      TimerHandle
+     |      Handle
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, when, callback, args, loop, context=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __ne__(self, other)
+     |      Return self!=value.
+     |  
+     |  cancel(self)
+     |  
+     |  when(self)
+     |      Return a scheduled callback time.
+     |      
+     |      The time is an absolute timestamp, using the same time
+     |      reference as loop.time().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Handle:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  cancelled(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Handle:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Transport(ReadTransport, WriteTransport)
+     |  Transport(extra=None)
+     |  
+     |  Interface representing a bidirectional transport.
+     |  
+     |  There may be several implementations, but typically, the user does
+     |  not implement new transports; rather, the platform provides some
+     |  useful transports that are implemented using the platform's best
+     |  practices.
+     |  
+     |  The user never instantiates a transport directly; they call a
+     |  utility function, passing it a protocol factory and other
+     |  information necessary to create the transport and protocol.  (E.g.
+     |  EventLoop.create_connection() or EventLoop.create_server().)
+     |  
+     |  The utility function will asynchronously create a transport and a
+     |  protocol and hook them up by calling the protocol's
+     |  connection_made() method, passing it the transport.
+     |  
+     |  The implementation here raises NotImplemented for every method
+     |  except writelines(), which calls write() in a loop.
+     |  
+     |  Method resolution order:
+     |      Transport
+     |      ReadTransport
+     |      WriteTransport
+     |      BaseTransport
+     |      builtins.object
+     |  
+     |  Methods inherited from ReadTransport:
+     |  
+     |  is_reading(self)
+     |      Return True if the transport is receiving.
+     |  
+     |  pause_reading(self)
+     |      Pause the receiving end.
+     |      
+     |      No data will be passed to the protocol's data_received()
+     |      method until resume_reading() is called.
+     |  
+     |  resume_reading(self)
+     |      Resume the receiving end.
+     |      
+     |      Data received will once again be passed to the protocol's
+     |      data_received() method.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from WriteTransport:
+     |  
+     |  abort(self)
+     |      Close the transport immediately.
+     |      
+     |      Buffered data will be lost.  No more data will be received.
+     |      The protocol's connection_lost() method will (eventually) be
+     |      called with None as its argument.
+     |  
+     |  can_write_eof(self)
+     |      Return True if this transport supports write_eof(), False if not.
+     |  
+     |  get_write_buffer_size(self)
+     |      Return the current size of the write buffer.
+     |  
+     |  set_write_buffer_limits(self, high=None, low=None)
+     |      Set the high- and low-water limits for write flow control.
+     |      
+     |      These two values control when to call the protocol's
+     |      pause_writing() and resume_writing() methods.  If specified,
+     |      the low-water limit must be less than or equal to the
+     |      high-water limit.  Neither value can be negative.
+     |      
+     |      The defaults are implementation-specific.  If only the
+     |      high-water limit is given, the low-water limit defaults to an
+     |      implementation-specific value less than or equal to the
+     |      high-water limit.  Setting high to zero forces low to zero as
+     |      well, and causes pause_writing() to be called whenever the
+     |      buffer becomes non-empty.  Setting low to zero causes
+     |      resume_writing() to be called only once the buffer is empty.
+     |      Use of zero for either limit is generally sub-optimal as it
+     |      reduces opportunities for doing I/O and computation
+     |      concurrently.
+     |  
+     |  write(self, data)
+     |      Write some data bytes to the transport.
+     |      
+     |      This does not block; it buffers the data and arranges for it
+     |      to be sent out asynchronously.
+     |  
+     |  write_eof(self)
+     |      Close the write end after flushing buffered data.
+     |      
+     |      (This is like typing ^D into a UNIX program reading from stdin.)
+     |      
+     |      Data may still be received.
+     |  
+     |  writelines(self, list_of_data)
+     |      Write a list (or any iterable) of data bytes to the transport.
+     |      
+     |      The default implementation concatenates the arguments and
+     |      calls write() on the result.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseTransport:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseTransport:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class WindowsProactorEventLoopPolicy(asyncio.events.BaseDefaultEventLoopPolicy)
+     |  Default policy implementation for accessing the event loop.
+     |  
+     |  In this policy, each thread has its own event loop.  However, we
+     |  only automatically create an event loop by default for the main
+     |  thread; other threads by default have no event loop.
+     |  
+     |  Other policies may have different rules (e.g. a single global
+     |  event loop, or automatically creating an event loop per thread, or
+     |  using some other notion of context to which an event loop is
+     |  associated).
+     |  
+     |  Method resolution order:
+     |      WindowsProactorEventLoopPolicy
+     |      asyncio.events.BaseDefaultEventLoopPolicy
+     |      asyncio.events.AbstractEventLoopPolicy
+     |      builtins.object
+     |  
+     |  Methods inherited from asyncio.events.BaseDefaultEventLoopPolicy:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  get_event_loop(self)
+     |      Get the event loop.
+     |      
+     |      This may be None or an instance of EventLoop.
+     |  
+     |  new_event_loop(self)
+     |      Create a new event loop.
+     |      
+     |      You must call set_event_loop() to make this the current event
+     |      loop.
+     |  
+     |  set_event_loop(self, loop)
+     |      Set the event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  get_child_watcher(self)
+     |      Get the watcher for child processes.
+     |  
+     |  set_child_watcher(self, watcher)
+     |      Set the watcher for child processes.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class WindowsSelectorEventLoopPolicy(asyncio.events.BaseDefaultEventLoopPolicy)
+     |  Default policy implementation for accessing the event loop.
+     |  
+     |  In this policy, each thread has its own event loop.  However, we
+     |  only automatically create an event loop by default for the main
+     |  thread; other threads by default have no event loop.
+     |  
+     |  Other policies may have different rules (e.g. a single global
+     |  event loop, or automatically creating an event loop per thread, or
+     |  using some other notion of context to which an event loop is
+     |  associated).
+     |  
+     |  Method resolution order:
+     |      WindowsSelectorEventLoopPolicy
+     |      asyncio.events.BaseDefaultEventLoopPolicy
+     |      asyncio.events.AbstractEventLoopPolicy
+     |      builtins.object
+     |  
+     |  Methods inherited from asyncio.events.BaseDefaultEventLoopPolicy:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  get_event_loop(self)
+     |      Get the event loop.
+     |      
+     |      This may be None or an instance of EventLoop.
+     |  
+     |  new_event_loop(self)
+     |      Create a new event loop.
+     |      
+     |      You must call set_event_loop() to make this the current event
+     |      loop.
+     |  
+     |  set_event_loop(self, loop)
+     |      Set the event loop.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  get_child_watcher(self)
+     |      Get the watcher for child processes.
+     |  
+     |  set_child_watcher(self, watcher)
+     |      Set the watcher for child processes.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncio.events.AbstractEventLoopPolicy:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class WriteTransport(BaseTransport)
+     |  WriteTransport(extra=None)
+     |  
+     |  Interface for write-only transports.
+     |  
+     |  Method resolution order:
+     |      WriteTransport
+     |      BaseTransport
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  abort(self)
+     |      Close the transport immediately.
+     |      
+     |      Buffered data will be lost.  No more data will be received.
+     |      The protocol's connection_lost() method will (eventually) be
+     |      called with None as its argument.
+     |  
+     |  can_write_eof(self)
+     |      Return True if this transport supports write_eof(), False if not.
+     |  
+     |  get_write_buffer_size(self)
+     |      Return the current size of the write buffer.
+     |  
+     |  set_write_buffer_limits(self, high=None, low=None)
+     |      Set the high- and low-water limits for write flow control.
+     |      
+     |      These two values control when to call the protocol's
+     |      pause_writing() and resume_writing() methods.  If specified,
+     |      the low-water limit must be less than or equal to the
+     |      high-water limit.  Neither value can be negative.
+     |      
+     |      The defaults are implementation-specific.  If only the
+     |      high-water limit is given, the low-water limit defaults to an
+     |      implementation-specific value less than or equal to the
+     |      high-water limit.  Setting high to zero forces low to zero as
+     |      well, and causes pause_writing() to be called whenever the
+     |      buffer becomes non-empty.  Setting low to zero causes
+     |      resume_writing() to be called only once the buffer is empty.
+     |      Use of zero for either limit is generally sub-optimal as it
+     |      reduces opportunities for doing I/O and computation
+     |      concurrently.
+     |  
+     |  write(self, data)
+     |      Write some data bytes to the transport.
+     |      
+     |      This does not block; it buffers the data and arranges for it
+     |      to be sent out asynchronously.
+     |  
+     |  write_eof(self)
+     |      Close the write end after flushing buffered data.
+     |      
+     |      (This is like typing ^D into a UNIX program reading from stdin.)
+     |      
+     |      Data may still be received.
+     |  
+     |  writelines(self, list_of_data)
+     |      Write a list (or any iterable) of data bytes to the transport.
+     |      
+     |      The default implementation concatenates the arguments and
+     |      calls write() on the result.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseTransport:
+     |  
+     |  __init__(self, extra=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close the transport.
+     |      
+     |      Buffered data will be flushed asynchronously.  No more data
+     |      will be received.  After all buffered data is flushed, the
+     |      protocol's connection_lost() method will (eventually) called
+     |      with None as its argument.
+     |  
+     |  get_extra_info(self, name, default=None)
+     |      Get optional transport information.
+     |  
+     |  get_protocol(self)
+     |      Return the current protocol.
+     |  
+     |  is_closing(self)
+     |      Return True if the transport is closing or closed.
+     |  
+     |  set_protocol(self, protocol)
+     |      Set a new protocol.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseTransport:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    _enter_task(loop, task)
+        Enter into task execution or resume suspended task.
+        
+        Task belongs to loop.
+        
+        Returns None.
+    
+    _get_running_loop()
+        Return the running event loop or None.
+        
+        This is a low-level function intended to be used by event loops.
+        This function is thread-specific.
+    
+    _leave_task(loop, task)
+        Leave task execution or suspend a task.
+        
+        Task belongs to loop.
+        
+        Returns None.
+    
+    _register_task(task)
+        Register a new task in asyncio as executed by loop.
+        
+        Returns None.
+    
+    _set_running_loop(loop, /)
+        Set the running event loop.
+        
+        This is a low-level function intended to be used by event loops.
+        This function is thread-specific.
+    
+    _unregister_task(task)
+        Unregister a task.
+        
+        Returns None.
+    
+    all_tasks(loop=None)
+        Return a set of all tasks for the loop.
+    
+    as_completed(fs, *, loop=None, timeout=None)
+        Return an iterator whose values are coroutines.
+        
+        When waiting for the yielded coroutines you'll get the results (or
+        exceptions!) of the original Futures (or coroutines), in the order
+        in which and as soon as they complete.
+        
+        This differs from PEP 3148; the proper way to use this is:
+        
+            for f in as_completed(fs):
+                result = await f  # The 'await' may raise.
+                # Use result.
+        
+        If a timeout is specified, the 'await' will raise
+        TimeoutError when the timeout occurs before all Futures are done.
+        
+        Note: The futures 'f' are not necessarily members of fs.
+    
+    coroutine(func)
+        Decorator to mark coroutines.
+        
+        If the coroutine is not yielded from before it is destroyed,
+        an error message is logged.
+    
+    create_subprocess_exec(program, *args, stdin=None, stdout=None, stderr=None, loop=None, limit=65536, **kwds)
+    
+    create_subprocess_shell(cmd, stdin=None, stdout=None, stderr=None, loop=None, limit=65536, **kwds)
+    
+    create_task(coro)
+        Schedule the execution of a coroutine object in a spawn task.
+        
+        Return a Task object.
+    
+    current_task(loop=None)
+        Return a currently executed task.
+    
+    ensure_future(coro_or_future, *, loop=None)
+        Wrap a coroutine or an awaitable in a future.
+        
+        If the argument is a Future, it is returned directly.
+    
+    gather(*coros_or_futures, loop=None, return_exceptions=False)
+        Return a future aggregating results from the given coroutines/futures.
+        
+        Coroutines will be wrapped in a future and scheduled in the event
+        loop. They will not necessarily be scheduled in the same order as
+        passed in.
+        
+        All futures must share the same event loop.  If all the tasks are
+        done successfully, the returned future's result is the list of
+        results (in the order of the original sequence, not necessarily
+        the order of results arrival).  If *return_exceptions* is True,
+        exceptions in the tasks are treated the same as successful
+        results, and gathered in the result list; otherwise, the first
+        raised exception will be immediately propagated to the returned
+        future.
+        
+        Cancellation: if the outer Future is cancelled, all children (that
+        have not completed yet) are also cancelled.  If any child is
+        cancelled, this is treated as if it raised CancelledError --
+        the outer Future is *not* cancelled in this case.  (This is to
+        prevent the cancellation of one child to cause other children to
+        be cancelled.)
+    
+    get_child_watcher()
+        Equivalent to calling get_event_loop_policy().get_child_watcher().
+    
+    get_event_loop()
+        Return an asyncio event loop.
+        
+        When called from a coroutine or a callback (e.g. scheduled with
+        call_soon or similar API), this function will always return the
+        running event loop.
+        
+        If there is no running event loop set, the function will return
+        the result of `get_event_loop_policy().get_event_loop()` call.
+    
+    get_event_loop_policy()
+        Get the current event loop policy.
+    
+    get_running_loop()
+        Return the running event loop.  Raise a RuntimeError if there is none.
+        
+        This function is thread-specific.
+    
+    iscoroutine(obj)
+        Return True if obj is a coroutine object.
+    
+    iscoroutinefunction(func)
+        Return True if func is a decorated coroutine function.
+    
+    isfuture(obj)
+        Check for a Future.
+        
+        This returns True when obj is a Future instance or is advertising
+        itself as duck-type compatible by setting _asyncio_future_blocking.
+        See comment in Future for more details.
+    
+    new_event_loop()
+        Equivalent to calling get_event_loop_policy().new_event_loop().
+    
+    open_connection(host=None, port=None, *, loop=None, limit=65536, **kwds)
+        A wrapper for create_connection() returning a (reader, writer) pair.
+        
+        The reader returned is a StreamReader instance; the writer is a
+        StreamWriter instance.
+        
+        The arguments are all the usual arguments to create_connection()
+        except protocol_factory; most common are positional host and port,
+        with various optional keyword arguments following.
+        
+        Additional optional keyword arguments are loop (to set the event loop
+        instance to use) and limit (to set the buffer limit passed to the
+        StreamReader).
+        
+        (If you want to customize the StreamReader and/or
+        StreamReaderProtocol classes, just copy the code -- there's
+        really nothing special here except some convenience.)
+    
+    run(main, *, debug=False)
+        Run a coroutine.
+        
+        This function runs the passed coroutine, taking care of
+        managing the asyncio event loop and finalizing asynchronous
+        generators.
+        
+        This function cannot be called when another asyncio event loop is
+        running in the same thread.
+        
+        If debug is True, the event loop will be run in debug mode.
+        
+        This function always creates a new event loop and closes it at the end.
+        It should be used as a main entry point for asyncio programs, and should
+        ideally only be called once.
+        
+        Example:
+        
+            async def main():
+                await asyncio.sleep(1)
+                print('hello')
+        
+            asyncio.run(main())
+    
+    run_coroutine_threadsafe(coro, loop)
+        Submit a coroutine object to a given event loop.
+        
+        Return a concurrent.futures.Future to access the result.
+    
+    set_child_watcher(watcher)
+        Equivalent to calling
+        get_event_loop_policy().set_child_watcher(watcher).
+    
+    set_event_loop(loop)
+        Equivalent to calling get_event_loop_policy().set_event_loop(loop).
+    
+    set_event_loop_policy(policy)
+        Set the current event loop policy.
+        
+        If policy is None, the default policy is restored.
+    
+    shield(arg, *, loop=None)
+        Wait for a future, shielding it from cancellation.
+        
+        The statement
+        
+            res = await shield(something())
+        
+        is exactly equivalent to the statement
+        
+            res = await something()
+        
+        *except* that if the coroutine containing it is cancelled, the
+        task running in something() is not cancelled.  From the POV of
+        something(), the cancellation did not happen.  But its caller is
+        still cancelled, so the yield-from expression still raises
+        CancelledError.  Note: If something() is cancelled by other means
+        this will still cancel shield().
+        
+        If you want to completely ignore cancellation (not recommended)
+        you can combine shield() with a try/except clause, as follows:
+        
+            try:
+                res = await shield(something())
+            except CancelledError:
+                res = None
+    
+    sleep(delay, result=None, *, loop=None)
+        Coroutine that completes after a given time (in seconds).
+    
+    start_server(client_connected_cb, host=None, port=None, *, loop=None, limit=65536, **kwds)
+        Start a socket server, call back for each client connected.
+        
+        The first parameter, `client_connected_cb`, takes two parameters:
+        client_reader, client_writer.  client_reader is a StreamReader
+        object, while client_writer is a StreamWriter object.  This
+        parameter can either be a plain callback function or a coroutine;
+        if it is a coroutine, it will be automatically converted into a
+        Task.
+        
+        The rest of the arguments are all the usual arguments to
+        loop.create_server() except protocol_factory; most common are
+        positional host and port, with various optional keyword arguments
+        following.  The return value is the same as loop.create_server().
+        
+        Additional optional keyword arguments are loop (to set the event loop
+        instance to use) and limit (to set the buffer limit passed to the
+        StreamReader).
+        
+        The return value is the same as loop.create_server(), i.e. a
+        Server object which can be used to stop the service.
+    
+    wait(fs, *, loop=None, timeout=None, return_when='ALL_COMPLETED')
+        Wait for the Futures and coroutines given by fs to complete.
+        
+        The sequence futures must not be empty.
+        
+        Coroutines will be wrapped in Tasks.
+        
+        Returns two sets of Future: (done, pending).
+        
+        Usage:
+        
+            done, pending = await asyncio.wait(fs)
+        
+        Note: This does not raise TimeoutError! Futures that aren't done
+        when the timeout occurs are returned in the second set.
+    
+    wait_for(fut, timeout, *, loop=None)
+        Wait for the single Future or coroutine to complete, with timeout.
+        
+        Coroutine will be wrapped in Task.
+        
+        Returns result of the Future or coroutine.  When a timeout occurs,
+        it cancels the task and raises TimeoutError.  To avoid the task
+        cancellation, wrap it in shield().
+        
+        If the wait is cancelled, the task is also cancelled.
+        
+        This function is a coroutine.
+    
+    wrap_future(future, *, loop=None)
+        Wrap concurrent.futures.Future object.
+
+DATA
+    ALL_COMPLETED = 'ALL_COMPLETED'
+    FIRST_COMPLETED = 'FIRST_COMPLETED'
+    FIRST_EXCEPTION = 'FIRST_EXCEPTION'
+    __all__ = ('BaseEventLoop', 'coroutine', 'iscoroutinefunction', 'iscor...
+
+FILE
+    c:\program files\python37\lib\asyncio\__init__.py
+
+

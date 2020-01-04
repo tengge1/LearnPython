@@ -1,0 +1,631 @@
+Help on module zipfile:
+
+NAME
+    zipfile - Read and write ZIP files.
+
+DESCRIPTION
+    XXX references to utf-8 need further investigation.
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        BadZipFile
+        LargeZipFile
+    builtins.object
+        ZipFile
+            PyZipFile
+        ZipInfo
+    
+    class BadZipFile(builtins.Exception)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      BadZipFile
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    BadZipfile = class BadZipFile(builtins.Exception)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      BadZipFile
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class LargeZipFile(builtins.Exception)
+     |  Raised when writing a zipfile, the zipfile requires ZIP64 extensions
+     |  and those extensions are disabled.
+     |  
+     |  Method resolution order:
+     |      LargeZipFile
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class PyZipFile(ZipFile)
+     |  PyZipFile(file, mode='r', compression=0, allowZip64=True, optimize=-1)
+     |  
+     |  Class to create ZIP archives with Python library files and packages.
+     |  
+     |  Method resolution order:
+     |      PyZipFile
+     |      ZipFile
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, file, mode='r', compression=0, allowZip64=True, optimize=-1)
+     |      Open the ZIP file with mode read 'r', write 'w', exclusive create 'x',
+     |      or append 'a'.
+     |  
+     |  writepy(self, pathname, basename='', filterfunc=None)
+     |      Add all files from "pathname" to the ZIP archive.
+     |      
+     |      If pathname is a package directory, search the directory and
+     |      all package subdirectories recursively for all *.py and enter
+     |      the modules into the archive.  If pathname is a plain
+     |      directory, listdir *.py and enter all modules.  Else, pathname
+     |      must be a Python *.py file and the module will be put into the
+     |      archive.  Added modules are always module.pyc.
+     |      This method will compile the module.py into module.pyc if
+     |      necessary.
+     |      If filterfunc(pathname) is given, it is called with every argument.
+     |      When it is False, the file or directory is skipped.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ZipFile:
+     |  
+     |  __del__(self)
+     |      Call the "close()" method in case the user forgot.
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  close(self)
+     |      Close the file, and for mode 'w', 'x' and 'a' write the ending
+     |      records.
+     |  
+     |  extract(self, member, path=None, pwd=None)
+     |      Extract a member from the archive to the current working directory,
+     |      using its full name. Its file information is extracted as accurately
+     |      as possible. `member' may be a filename or a ZipInfo object. You can
+     |      specify a different directory using `path'.
+     |  
+     |  extractall(self, path=None, members=None, pwd=None)
+     |      Extract all members from the archive to the current working
+     |      directory. `path' specifies a different directory to extract to.
+     |      `members' is optional and must be a subset of the list returned
+     |      by namelist().
+     |  
+     |  getinfo(self, name)
+     |      Return the instance of ZipInfo given 'name'.
+     |  
+     |  infolist(self)
+     |      Return a list of class ZipInfo instances for files in the
+     |      archive.
+     |  
+     |  namelist(self)
+     |      Return a list of file names in the archive.
+     |  
+     |  open(self, name, mode='r', pwd=None, *, force_zip64=False)
+     |      Return file-like object for 'name'.
+     |      
+     |      name is a string for the file name within the ZIP file, or a ZipInfo
+     |      object.
+     |      
+     |      mode should be 'r' to read a file already in the ZIP file, or 'w' to
+     |      write to a file newly added to the archive.
+     |      
+     |      pwd is the password to decrypt files (only used for reading).
+     |      
+     |      When writing, if the file size is not known in advance but may exceed
+     |      2 GiB, pass force_zip64 to use the ZIP64 format, which can handle large
+     |      files.  If the size is known in advance, it is best to pass a ZipInfo
+     |      instance for name, with zinfo.file_size set.
+     |  
+     |  printdir(self, file=None)
+     |      Print a table of contents for the zip file.
+     |  
+     |  read(self, name, pwd=None)
+     |      Return file bytes for name.
+     |  
+     |  setpassword(self, pwd)
+     |      Set default password for encrypted files.
+     |  
+     |  testzip(self)
+     |      Read all the files and check the CRC.
+     |  
+     |  write(self, filename, arcname=None, compress_type=None, compresslevel=None)
+     |      Put the bytes from filename into the archive under the name
+     |      arcname.
+     |  
+     |  writestr(self, zinfo_or_arcname, data, compress_type=None, compresslevel=None)
+     |      Write a file into the archive.  The contents is 'data', which
+     |      may be either a 'str' or a 'bytes' instance; if it is a 'str',
+     |      it is encoded as UTF-8 first.
+     |      'zinfo_or_arcname' is either a ZipInfo instance or
+     |      the name of the file in the archive.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ZipFile:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  comment
+     |      The comment text associated with the ZIP file.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from ZipFile:
+     |  
+     |  fp = None
+    
+    class ZipFile(builtins.object)
+     |  ZipFile(file, mode='r', compression=0, allowZip64=True, compresslevel=None)
+     |  
+     |  Class with methods to open, read, write, close, list zip files.
+     |  
+     |  z = ZipFile(file, mode="r", compression=ZIP_STORED, allowZip64=True,
+     |              compresslevel=None)
+     |  
+     |  file: Either the path to the file, or a file-like object.
+     |        If it is a path, the file will be opened and closed by ZipFile.
+     |  mode: The mode can be either read 'r', write 'w', exclusive create 'x',
+     |        or append 'a'.
+     |  compression: ZIP_STORED (no compression), ZIP_DEFLATED (requires zlib),
+     |               ZIP_BZIP2 (requires bz2) or ZIP_LZMA (requires lzma).
+     |  allowZip64: if True ZipFile will create files with ZIP64 extensions when
+     |              needed, otherwise it will raise an exception when this would
+     |              be necessary.
+     |  compresslevel: None (default for the given compression type) or an integer
+     |                 specifying the level to pass to the compressor.
+     |                 When using ZIP_STORED or ZIP_LZMA this keyword has no effect.
+     |                 When using ZIP_DEFLATED integers 0 through 9 are accepted.
+     |                 When using ZIP_BZIP2 integers 1 through 9 are accepted.
+     |  
+     |  Methods defined here:
+     |  
+     |  __del__(self)
+     |      Call the "close()" method in case the user forgot.
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __init__(self, file, mode='r', compression=0, allowZip64=True, compresslevel=None)
+     |      Open the ZIP file with mode read 'r', write 'w', exclusive create 'x',
+     |      or append 'a'.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  close(self)
+     |      Close the file, and for mode 'w', 'x' and 'a' write the ending
+     |      records.
+     |  
+     |  extract(self, member, path=None, pwd=None)
+     |      Extract a member from the archive to the current working directory,
+     |      using its full name. Its file information is extracted as accurately
+     |      as possible. `member' may be a filename or a ZipInfo object. You can
+     |      specify a different directory using `path'.
+     |  
+     |  extractall(self, path=None, members=None, pwd=None)
+     |      Extract all members from the archive to the current working
+     |      directory. `path' specifies a different directory to extract to.
+     |      `members' is optional and must be a subset of the list returned
+     |      by namelist().
+     |  
+     |  getinfo(self, name)
+     |      Return the instance of ZipInfo given 'name'.
+     |  
+     |  infolist(self)
+     |      Return a list of class ZipInfo instances for files in the
+     |      archive.
+     |  
+     |  namelist(self)
+     |      Return a list of file names in the archive.
+     |  
+     |  open(self, name, mode='r', pwd=None, *, force_zip64=False)
+     |      Return file-like object for 'name'.
+     |      
+     |      name is a string for the file name within the ZIP file, or a ZipInfo
+     |      object.
+     |      
+     |      mode should be 'r' to read a file already in the ZIP file, or 'w' to
+     |      write to a file newly added to the archive.
+     |      
+     |      pwd is the password to decrypt files (only used for reading).
+     |      
+     |      When writing, if the file size is not known in advance but may exceed
+     |      2 GiB, pass force_zip64 to use the ZIP64 format, which can handle large
+     |      files.  If the size is known in advance, it is best to pass a ZipInfo
+     |      instance for name, with zinfo.file_size set.
+     |  
+     |  printdir(self, file=None)
+     |      Print a table of contents for the zip file.
+     |  
+     |  read(self, name, pwd=None)
+     |      Return file bytes for name.
+     |  
+     |  setpassword(self, pwd)
+     |      Set default password for encrypted files.
+     |  
+     |  testzip(self)
+     |      Read all the files and check the CRC.
+     |  
+     |  write(self, filename, arcname=None, compress_type=None, compresslevel=None)
+     |      Put the bytes from filename into the archive under the name
+     |      arcname.
+     |  
+     |  writestr(self, zinfo_or_arcname, data, compress_type=None, compresslevel=None)
+     |      Write a file into the archive.  The contents is 'data', which
+     |      may be either a 'str' or a 'bytes' instance; if it is a 'str',
+     |      it is encoded as UTF-8 first.
+     |      'zinfo_or_arcname' is either a ZipInfo instance or
+     |      the name of the file in the archive.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  comment
+     |      The comment text associated with the ZIP file.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  fp = None
+    
+    class ZipInfo(builtins.object)
+     |  ZipInfo(filename='NoName', date_time=(1980, 1, 1, 0, 0, 0))
+     |  
+     |  Class with attributes describing each file in the ZIP archive.
+     |  
+     |  Methods defined here:
+     |  
+     |  FileHeader(self, zip64=None)
+     |      Return the per-file header as a bytes object.
+     |  
+     |  __init__(self, filename='NoName', date_time=(1980, 1, 1, 0, 0, 0))
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  is_dir(self)
+     |      Return True if this archive member is a directory.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_file(filename, arcname=None) from builtins.type
+     |      Construct an appropriate ZipInfo for a file on the filesystem.
+     |      
+     |      filename should be the path to a file or directory on the filesystem.
+     |      
+     |      arcname is the name which it will have within the archive (by default,
+     |      this will be the same as filename, but without a drive letter and with
+     |      leading path separators removed).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  CRC
+     |  
+     |  comment
+     |  
+     |  compress_size
+     |  
+     |  compress_type
+     |  
+     |  create_system
+     |  
+     |  create_version
+     |  
+     |  date_time
+     |  
+     |  external_attr
+     |  
+     |  extra
+     |  
+     |  extract_version
+     |  
+     |  file_size
+     |  
+     |  filename
+     |  
+     |  flag_bits
+     |  
+     |  header_offset
+     |  
+     |  internal_attr
+     |  
+     |  orig_filename
+     |  
+     |  reserved
+     |  
+     |  volume
+    
+    error = class BadZipFile(builtins.Exception)
+     |  Common base class for all non-exit exceptions.
+     |  
+     |  Method resolution order:
+     |      BadZipFile
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    is_zipfile(filename)
+        Quickly see if a file is a ZIP file by checking the magic number.
+        
+        The filename argument may be a file or file-like object too.
+
+DATA
+    ZIP_BZIP2 = 12
+    ZIP_DEFLATED = 8
+    ZIP_LZMA = 14
+    ZIP_STORED = 0
+    __all__ = ['BadZipFile', 'BadZipfile', 'error', 'ZIP_STORED', 'ZIP_DEF...
+
+FILE
+    c:\program files\python37\lib\zipfile.py
+
+

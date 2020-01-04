@@ -1,0 +1,331 @@
+Help on package msilib:
+
+NAME
+    msilib
+
+DESCRIPTION
+    # Copyright (C) 2005 Martin v. L\xf6wis
+    # Licensed to PSF under a Contributor Agreement.
+
+PACKAGE CONTENTS
+    schema
+    sequence
+    text
+
+CLASSES
+    builtins.object
+        Binary
+        CAB
+        Control
+            RadioButtonGroup
+        Dialog
+        Directory
+        Feature
+        Table
+    
+    class Binary(builtins.object)
+     |  Binary(fname)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, fname)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class CAB(builtins.object)
+     |  CAB(name)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  append(self, full, file, logical)
+     |  
+     |  commit(self, db)
+     |  
+     |  gen_id(self, file)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Control(builtins.object)
+     |  Control(dlg, name)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, dlg, name)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  condition(self, action, condition)
+     |  
+     |  event(self, event, argument, condition='1', ordering=None)
+     |  
+     |  mapping(self, event, attribute)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Dialog(builtins.object)
+     |  Dialog(db, name, x, y, w, h, attr, title, first, default, cancel)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, db, name, x, y, w, h, attr, title, first, default, cancel)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  bitmap(self, name, x, y, w, h, text)
+     |  
+     |  checkbox(self, name, x, y, w, h, attr, prop, text, next)
+     |  
+     |  control(self, name, type, x, y, w, h, attr, prop, text, next, help)
+     |  
+     |  line(self, name, x, y, w, h)
+     |  
+     |  pushbutton(self, name, x, y, w, h, attr, text, next)
+     |  
+     |  radiogroup(self, name, x, y, w, h, attr, prop, text, next)
+     |  
+     |  text(self, name, x, y, w, h, attr, text)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Directory(builtins.object)
+     |  Directory(db, cab, basedir, physical, _logical, default, componentflags=None)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, db, cab, basedir, physical, _logical, default, componentflags=None)
+     |      Create a new directory in the Directory table. There is a current component
+     |      at each point in time for the directory, which is either explicitly created
+     |      through start_component, or implicitly when files are added for the first
+     |      time. Files are added into the current component, and into the cab file.
+     |      To create a directory, a base directory object needs to be specified (can be
+     |      None), the path to the physical directory, and a logical directory name.
+     |      Default specifies the DefaultDir slot in the directory table. componentflags
+     |      specifies the default flags that new components get.
+     |  
+     |  add_file(self, file, src=None, version=None, language=None)
+     |      Add a file to the current component of the directory, starting a new one
+     |      if there is no current component. By default, the file name in the source
+     |      and the file table will be identical. If the src file is specified, it is
+     |      interpreted relative to the current directory. Optionally, a version and a
+     |      language can be specified for the entry in the File table.
+     |  
+     |  glob(self, pattern, exclude=None)
+     |      Add a list of files to the current component as specified in the
+     |      glob pattern. Individual files can be excluded in the exclude list.
+     |  
+     |  make_short(self, file)
+     |  
+     |  remove_pyc(self)
+     |      Remove .pyc files on uninstall
+     |  
+     |  start_component(self, component=None, feature=None, flags=None, keyfile=None, uuid=None)
+     |      Add an entry to the Component table, and make this component the current for this
+     |      directory. If no component name is given, the directory name is used. If no feature
+     |      is given, the current feature is used. If no flags are given, the directory's default
+     |      flags are used. If no keyfile is given, the KeyPath is left null in the Component
+     |      table.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Feature(builtins.object)
+     |  Feature(db, id, title, desc, display, level=1, parent=None, directory=None, attributes=0)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, db, id, title, desc, display, level=1, parent=None, directory=None, attributes=0)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  set_current(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class RadioButtonGroup(Control)
+     |  RadioButtonGroup(dlg, name, property)
+     |  
+     |  Method resolution order:
+     |      RadioButtonGroup
+     |      Control
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, dlg, name, property)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add(self, name, x, y, w, h, text, value=None)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Control:
+     |  
+     |  condition(self, action, condition)
+     |  
+     |  event(self, event, argument, condition='1', ordering=None)
+     |  
+     |  mapping(self, event, attribute)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Control:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Table(builtins.object)
+     |  Table(name)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_field(self, index, name, type)
+     |  
+     |  create(self, db)
+     |  
+     |  sql(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    CreateRecord(...)
+        OpenDatabase(name, flags) -> dbobj
+        Wraps MsiCreateRecord
+    
+    FCICreate(...)
+        fcicreate(cabname,files) -> None
+    
+    OpenDatabase(...)
+        OpenDatabase(name, flags) -> dbobj
+        Wraps MsiOpenDatabase
+    
+    UuidCreate(...)
+        UuidCreate() -> string
+    
+    add_data(db, table, values)
+    
+    add_stream(db, name, path)
+    
+    add_tables(db, module)
+    
+    change_sequence(seq, action, seqno=<class 'msilib._Unspecified'>, cond=<class 'msilib._Unspecified'>)
+        Change the sequence number of an action in a sequence list
+    
+    gen_uuid()
+    
+    init_database(name, schema, ProductName, ProductCode, ProductVersion, Manufacturer)
+    
+    make_id(str)
+
+DATA
+    AMD64 = True
+    MSICOLINFO_NAMES = 0
+    MSICOLINFO_TYPES = 1
+    MSIDBOPEN_CREATE = 3
+    MSIDBOPEN_CREATEDIRECT = 4
+    MSIDBOPEN_DIRECT = 2
+    MSIDBOPEN_PATCHFILE = 32
+    MSIDBOPEN_READONLY = 0
+    MSIDBOPEN_TRANSACT = 1
+    MSIMODIFY_ASSIGN = 3
+    MSIMODIFY_DELETE = 6
+    MSIMODIFY_INSERT = 1
+    MSIMODIFY_INSERT_TEMPORARY = 7
+    MSIMODIFY_MERGE = 5
+    MSIMODIFY_REFRESH = 0
+    MSIMODIFY_REPLACE = 4
+    MSIMODIFY_SEEK = -1
+    MSIMODIFY_UPDATE = 2
+    MSIMODIFY_VALIDATE = 8
+    MSIMODIFY_VALIDATE_DELETE = 11
+    MSIMODIFY_VALIDATE_FIELD = 10
+    MSIMODIFY_VALIDATE_NEW = 9
+    PID_APPNAME = 18
+    PID_AUTHOR = 4
+    PID_CHARCOUNT = 16
+    PID_CODEPAGE = 1
+    PID_COMMENTS = 6
+    PID_CREATE_DTM = 12
+    PID_KEYWORDS = 5
+    PID_LASTAUTHOR = 8
+    PID_LASTPRINTED = 11
+    PID_LASTSAVE_DTM = 13
+    PID_PAGECOUNT = 14
+    PID_REVNUMBER = 9
+    PID_SECURITY = 19
+    PID_SUBJECT = 3
+    PID_TEMPLATE = 7
+    PID_TITLE = 2
+    PID_WORDCOUNT = 15
+    Win64 = True
+    datasizemask = 255
+    knownbits = 16383
+    type_binary = 2048
+    type_key = 8192
+    type_localizable = 512
+    type_long = 0
+    type_nullable = 4096
+    type_short = 1024
+    type_string = 3072
+    type_valid = 256
+    typemask = 3072
+
+FILE
+    c:\program files\python37\lib\msilib\__init__.py
+
+

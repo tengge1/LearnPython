@@ -1,0 +1,835 @@
+Help on module tarfile:
+
+NAME
+    tarfile - Read from and write to tar format archives.
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        TarError
+            CompressionError
+            ExtractError
+            HeaderError
+            ReadError
+            StreamError
+    builtins.object
+        TarFile
+        TarInfo
+    
+    class CompressionError(TarError)
+     |  Exception for unavailable compression methods.
+     |  
+     |  Method resolution order:
+     |      CompressionError
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from TarError:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class ExtractError(TarError)
+     |  General exception for extract errors.
+     |  
+     |  Method resolution order:
+     |      ExtractError
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from TarError:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class HeaderError(TarError)
+     |  Base exception for header errors.
+     |  
+     |  Method resolution order:
+     |      HeaderError
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from TarError:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class ReadError(TarError)
+     |  Exception for unreadable tar archives.
+     |  
+     |  Method resolution order:
+     |      ReadError
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from TarError:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class StreamError(TarError)
+     |  Exception for unsupported operations on stream-like TarFiles.
+     |  
+     |  Method resolution order:
+     |      StreamError
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors inherited from TarError:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class TarError(builtins.Exception)
+     |  Base exception.
+     |  
+     |  Method resolution order:
+     |      TarError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class TarFile(builtins.object)
+     |  TarFile(name=None, mode='r', fileobj=None, format=None, tarinfo=None, dereference=None, ignore_zeros=None, encoding=None, errors='surrogateescape', pax_headers=None, debug=None, errorlevel=None, copybufsize=None)
+     |  
+     |  The TarFile Class provides an interface to tar archives.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, type, value, traceback)
+     |  
+     |  __init__(self, name=None, mode='r', fileobj=None, format=None, tarinfo=None, dereference=None, ignore_zeros=None, encoding=None, errors='surrogateescape', pax_headers=None, debug=None, errorlevel=None, copybufsize=None)
+     |      Open an (uncompressed) tar archive `name'. `mode' is either 'r' to
+     |      read from an existing archive, 'a' to append data to an existing
+     |      file or 'w' to create a new file overwriting an existing one. `mode'
+     |      defaults to 'r'.
+     |      If `fileobj' is given, it is used for reading or writing data. If it
+     |      can be determined, `mode' is overridden by `fileobj's mode.
+     |      `fileobj' is not closed, when TarFile is closed.
+     |  
+     |  __iter__(self)
+     |      Provide an iterator object.
+     |  
+     |  add(self, name, arcname=None, recursive=True, *, filter=None)
+     |      Add the file `name' to the archive. `name' may be any type of file
+     |      (directory, fifo, symbolic link, etc.). If given, `arcname'
+     |      specifies an alternative name for the file in the archive.
+     |      Directories are added recursively by default. This can be avoided by
+     |      setting `recursive' to False. `filter' is a function
+     |      that expects a TarInfo object argument and returns the changed
+     |      TarInfo object, if it returns None the TarInfo object will be
+     |      excluded from the archive.
+     |  
+     |  addfile(self, tarinfo, fileobj=None)
+     |      Add the TarInfo object `tarinfo' to the archive. If `fileobj' is
+     |      given, it should be a binary file, and tarinfo.size bytes are read
+     |      from it and added to the archive. You can create TarInfo objects
+     |      directly, or by using gettarinfo().
+     |  
+     |  chmod(self, tarinfo, targetpath)
+     |      Set file permissions of targetpath according to tarinfo.
+     |  
+     |  chown(self, tarinfo, targetpath, numeric_owner)
+     |      Set owner of targetpath according to tarinfo. If numeric_owner
+     |      is True, use .gid/.uid instead of .gname/.uname. If numeric_owner
+     |      is False, fall back to .gid/.uid when the search based on name
+     |      fails.
+     |  
+     |  close(self)
+     |      Close the TarFile. In write-mode, two finishing zero blocks are
+     |      appended to the archive.
+     |  
+     |  extract(self, member, path='', set_attrs=True, *, numeric_owner=False)
+     |      Extract a member from the archive to the current working directory,
+     |      using its full name. Its file information is extracted as accurately
+     |      as possible. `member' may be a filename or a TarInfo object. You can
+     |      specify a different directory using `path'. File attributes (owner,
+     |      mtime, mode) are set unless `set_attrs' is False. If `numeric_owner`
+     |      is True, only the numbers for user/group names are used and not
+     |      the names.
+     |  
+     |  extractall(self, path='.', members=None, *, numeric_owner=False)
+     |      Extract all members from the archive to the current working
+     |      directory and set owner, modification time and permissions on
+     |      directories afterwards. `path' specifies a different directory
+     |      to extract to. `members' is optional and must be a subset of the
+     |      list returned by getmembers(). If `numeric_owner` is True, only
+     |      the numbers for user/group names are used and not the names.
+     |  
+     |  extractfile(self, member)
+     |      Extract a member from the archive as a file object. `member' may be
+     |      a filename or a TarInfo object. If `member' is a regular file or a
+     |      link, an io.BufferedReader object is returned. Otherwise, None is
+     |      returned.
+     |  
+     |  getmember(self, name)
+     |      Return a TarInfo object for member `name'. If `name' can not be
+     |      found in the archive, KeyError is raised. If a member occurs more
+     |      than once in the archive, its last occurrence is assumed to be the
+     |      most up-to-date version.
+     |  
+     |  getmembers(self)
+     |      Return the members of the archive as a list of TarInfo objects. The
+     |      list has the same order as the members in the archive.
+     |  
+     |  getnames(self)
+     |      Return the members of the archive as a list of their names. It has
+     |      the same order as the list returned by getmembers().
+     |  
+     |  gettarinfo(self, name=None, arcname=None, fileobj=None)
+     |      Create a TarInfo object from the result of os.stat or equivalent
+     |      on an existing file. The file is either named by `name', or
+     |      specified as a file object `fileobj' with a file descriptor. If
+     |      given, `arcname' specifies an alternative name for the file in the
+     |      archive, otherwise, the name is taken from the 'name' attribute of
+     |      'fileobj', or the 'name' argument. The name should be a text
+     |      string.
+     |  
+     |  list(self, verbose=True, *, members=None)
+     |      Print a table of contents to sys.stdout. If `verbose' is False, only
+     |      the names of the members are printed. If it is True, an `ls -l'-like
+     |      output is produced. `members' is optional and must be a subset of the
+     |      list returned by getmembers().
+     |  
+     |  makedev(self, tarinfo, targetpath)
+     |      Make a character or block device called targetpath.
+     |  
+     |  makedir(self, tarinfo, targetpath)
+     |      Make a directory called targetpath.
+     |  
+     |  makefifo(self, tarinfo, targetpath)
+     |      Make a fifo called targetpath.
+     |  
+     |  makefile(self, tarinfo, targetpath)
+     |      Make a file called targetpath.
+     |  
+     |  makelink(self, tarinfo, targetpath)
+     |      Make a (symbolic) link called targetpath. If it cannot be created
+     |      (platform limitation), we try to make a copy of the referenced file
+     |      instead of a link.
+     |  
+     |  makeunknown(self, tarinfo, targetpath)
+     |      Make a file from a TarInfo object with an unknown type
+     |      at targetpath.
+     |  
+     |  next(self)
+     |      Return the next member of the archive as a TarInfo object, when
+     |      TarFile is opened for reading. Return None if there is no more
+     |      available.
+     |  
+     |  utime(self, tarinfo, targetpath)
+     |      Set modification time of targetpath according to tarinfo.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  bz2open(name, mode='r', fileobj=None, compresslevel=9, **kwargs) from builtins.type
+     |      Open bzip2 compressed tar archive name for reading or writing.
+     |      Appending is not allowed.
+     |  
+     |  gzopen(name, mode='r', fileobj=None, compresslevel=9, **kwargs) from builtins.type
+     |      Open gzip compressed tar archive name for reading or writing.
+     |      Appending is not allowed.
+     |  
+     |  open(name=None, mode='r', fileobj=None, bufsize=10240, **kwargs) from builtins.type
+     |      Open a tar archive for reading, writing or appending. Return
+     |      an appropriate TarFile class.
+     |      
+     |      mode:
+     |      'r' or 'r:*' open for reading with transparent compression
+     |      'r:'         open for reading exclusively uncompressed
+     |      'r:gz'       open for reading with gzip compression
+     |      'r:bz2'      open for reading with bzip2 compression
+     |      'r:xz'       open for reading with lzma compression
+     |      'a' or 'a:'  open for appending, creating the file if necessary
+     |      'w' or 'w:'  open for writing without compression
+     |      'w:gz'       open for writing with gzip compression
+     |      'w:bz2'      open for writing with bzip2 compression
+     |      'w:xz'       open for writing with lzma compression
+     |      
+     |      'x' or 'x:'  create a tarfile exclusively without compression, raise
+     |                   an exception if the file is already created
+     |      'x:gz'       create a gzip compressed tarfile, raise an exception
+     |                   if the file is already created
+     |      'x:bz2'      create a bzip2 compressed tarfile, raise an exception
+     |                   if the file is already created
+     |      'x:xz'       create an lzma compressed tarfile, raise an exception
+     |                   if the file is already created
+     |      
+     |      'r|*'        open a stream of tar blocks with transparent compression
+     |      'r|'         open an uncompressed stream of tar blocks for reading
+     |      'r|gz'       open a gzip compressed stream of tar blocks
+     |      'r|bz2'      open a bzip2 compressed stream of tar blocks
+     |      'r|xz'       open an lzma compressed stream of tar blocks
+     |      'w|'         open an uncompressed stream for writing
+     |      'w|gz'       open a gzip compressed stream for writing
+     |      'w|bz2'      open a bzip2 compressed stream for writing
+     |      'w|xz'       open an lzma compressed stream for writing
+     |  
+     |  taropen(name, mode='r', fileobj=None, **kwargs) from builtins.type
+     |      Open uncompressed tar archive name for reading or writing.
+     |  
+     |  xzopen(name, mode='r', fileobj=None, preset=None, **kwargs) from builtins.type
+     |      Open lzma compressed tar archive name for reading or writing.
+     |      Appending is not allowed.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  OPEN_METH = {'bz2': 'bz2open', 'gz': 'gzopen', 'tar': 'taropen', 'xz':...
+     |  
+     |  debug = 0
+     |  
+     |  dereference = False
+     |  
+     |  encoding = 'utf-8'
+     |  
+     |  errorlevel = 1
+     |  
+     |  errors = None
+     |  
+     |  fileobject = <class 'tarfile.ExFileObject'>
+     |      Create a new buffered reader using the given readable raw IO object.
+     |  
+     |  format = 1
+     |  
+     |  ignore_zeros = False
+     |  
+     |  tarinfo = <class 'tarfile.TarInfo'>
+     |      Informational class which holds the details about an
+     |      archive member given by a tar header block.
+     |      TarInfo objects are returned by TarFile.getmember(),
+     |      TarFile.getmembers() and TarFile.gettarinfo() and are
+     |      usually created internally.
+    
+    class TarInfo(builtins.object)
+     |  TarInfo(name='')
+     |  
+     |  Informational class which holds the details about an
+     |  archive member given by a tar header block.
+     |  TarInfo objects are returned by TarFile.getmember(),
+     |  TarFile.getmembers() and TarFile.gettarinfo() and are
+     |  usually created internally.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name='')
+     |      Construct a TarInfo object. name is the optional name
+     |      of the member.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  create_gnu_header(self, info, encoding, errors)
+     |      Return the object as a GNU header block sequence.
+     |  
+     |  create_pax_header(self, info, encoding)
+     |      Return the object as a ustar header block. If it cannot be
+     |      represented this way, prepend a pax extended header sequence
+     |      with supplement information.
+     |  
+     |  create_ustar_header(self, info, encoding, errors)
+     |      Return the object as a ustar header block.
+     |  
+     |  get_info(self)
+     |      Return the TarInfo's attributes as a dictionary.
+     |  
+     |  isblk(self)
+     |  
+     |  ischr(self)
+     |  
+     |  isdev(self)
+     |  
+     |  isdir(self)
+     |  
+     |  isfifo(self)
+     |  
+     |  isfile(self)
+     |  
+     |  islnk(self)
+     |  
+     |  isreg(self)
+     |  
+     |  issparse(self)
+     |  
+     |  issym(self)
+     |  
+     |  tobuf(self, format=1, encoding='utf-8', errors='surrogateescape')
+     |      Return a tar header as a string of 512 byte blocks.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  create_pax_global_header(pax_headers) from builtins.type
+     |      Return the object as a pax global header block sequence.
+     |  
+     |  frombuf(buf, encoding, errors) from builtins.type
+     |      Construct a TarInfo object from a 512 byte bytes object.
+     |  
+     |  fromtarfile(tarfile) from builtins.type
+     |      Return the next TarInfo object from TarFile object
+     |      tarfile.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  chksum
+     |  
+     |  devmajor
+     |  
+     |  devminor
+     |  
+     |  gid
+     |  
+     |  gname
+     |  
+     |  linkname
+     |  
+     |  linkpath
+     |  
+     |  mode
+     |  
+     |  mtime
+     |  
+     |  name
+     |  
+     |  offset
+     |  
+     |  offset_data
+     |  
+     |  path
+     |  
+     |  pax_headers
+     |  
+     |  size
+     |  
+     |  sparse
+     |  
+     |  tarfile
+     |  
+     |  type
+     |  
+     |  uid
+     |  
+     |  uname
+
+FUNCTIONS
+    is_tarfile(name)
+        Return True if name points to a tar archive that we
+        are able to handle, else return False.
+    
+    open(name=None, mode='r', fileobj=None, bufsize=10240, **kwargs) method of builtins.type instance
+        Open a tar archive for reading, writing or appending. Return
+        an appropriate TarFile class.
+        
+        mode:
+        'r' or 'r:*' open for reading with transparent compression
+        'r:'         open for reading exclusively uncompressed
+        'r:gz'       open for reading with gzip compression
+        'r:bz2'      open for reading with bzip2 compression
+        'r:xz'       open for reading with lzma compression
+        'a' or 'a:'  open for appending, creating the file if necessary
+        'w' or 'w:'  open for writing without compression
+        'w:gz'       open for writing with gzip compression
+        'w:bz2'      open for writing with bzip2 compression
+        'w:xz'       open for writing with lzma compression
+        
+        'x' or 'x:'  create a tarfile exclusively without compression, raise
+                     an exception if the file is already created
+        'x:gz'       create a gzip compressed tarfile, raise an exception
+                     if the file is already created
+        'x:bz2'      create a bzip2 compressed tarfile, raise an exception
+                     if the file is already created
+        'x:xz'       create an lzma compressed tarfile, raise an exception
+                     if the file is already created
+        
+        'r|*'        open a stream of tar blocks with transparent compression
+        'r|'         open an uncompressed stream of tar blocks for reading
+        'r|gz'       open a gzip compressed stream of tar blocks
+        'r|bz2'      open a bzip2 compressed stream of tar blocks
+        'r|xz'       open an lzma compressed stream of tar blocks
+        'w|'         open an uncompressed stream for writing
+        'w|gz'       open a gzip compressed stream for writing
+        'w|bz2'      open a bzip2 compressed stream for writing
+        'w|xz'       open an lzma compressed stream for writing
+
+DATA
+    DEFAULT_FORMAT = 1
+    ENCODING = 'utf-8'
+    GNU_FORMAT = 1
+    PAX_FORMAT = 2
+    USTAR_FORMAT = 0
+    __all__ = ['TarFile', 'TarInfo', 'is_tarfile', 'TarError', 'ReadError'...
+
+AUTHOR
+    Lars Gust\xe4bel (lars@gustaebel.de)
+
+CREDITS
+    Gustavo Niemeyer, Niels Gust\xe4bel, Richard Townsend.
+
+FILE
+    c:\program files\python37\lib\tarfile.py
+
+

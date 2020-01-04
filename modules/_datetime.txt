@@ -1,0 +1,14 @@
+Help on built-in module _datetime:
+
+NAME
+    _datetime - Fast implementation of the datetime type.
+
+DATA
+    MAXYEAR = 9999
+    MINYEAR = 1
+    datetime_CAPI = <capsule object "datetime.datetime_CAPI">
+
+FILE
+    (built-in)
+
+

@@ -1,0 +1,12 @@
+Help on built-in module _codecs_hk:
+
+NAME
+    _codecs_hk
+
+FUNCTIONS
+    getcodec(...)
+
+FILE
+    (built-in)
+
+

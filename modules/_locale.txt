@@ -1,0 +1,33 @@
+Help on built-in module _locale:
+
+NAME
+    _locale - Support for POSIX locales.
+
+FUNCTIONS
+    localeconv(...)
+        () -> dict. Returns numeric and monetary locale-specific parameters.
+    
+    setlocale(...)
+        (integer,string=None) -> string. Activates/queries locale processing.
+    
+    strcoll(...)
+        string,string -> int. Compares two strings according to the locale.
+    
+    strxfrm(...)
+        strxfrm(string) -> string.
+        
+        Return a string that can be used as a key for locale-aware comparisons.
+
+DATA
+    CHAR_MAX = 127
+    LC_ALL = 0
+    LC_COLLATE = 1
+    LC_CTYPE = 2
+    LC_MONETARY = 3
+    LC_NUMERIC = 4
+    LC_TIME = 5
+
+FILE
+    (built-in)
+
+

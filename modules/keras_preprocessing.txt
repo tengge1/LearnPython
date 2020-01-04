@@ -1,0 +1,27 @@
+Help on package keras_preprocessing:
+
+NAME
+    keras_preprocessing - Enables dynamic setting of underlying Keras module.
+
+PACKAGE CONTENTS
+    image (package)
+    sequence
+    text
+
+FUNCTIONS
+    get_keras_submodule(name)
+    
+    set_keras_submodules(backend, utils)
+
+DATA
+    absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
+    division = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192...
+    print_function = _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0)...
+
+VERSION
+    1.1.0
+
+FILE
+    c:\program files\python37\lib\site-packages\keras_preprocessing\__init__.py
+
+

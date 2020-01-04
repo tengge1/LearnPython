@@ -1,0 +1,109 @@
+Help on module zipapp:
+
+NAME
+    zipapp
+
+CLASSES
+    builtins.ValueError(builtins.Exception)
+        ZipAppError
+    
+    class ZipAppError(builtins.ValueError)
+     |  Inappropriate argument value (of correct type).
+     |  
+     |  Method resolution order:
+     |      ZipAppError
+     |      builtins.ValueError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.ValueError:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.ValueError:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    create_archive(source, target=None, interpreter=None, main=None, filter=None, compressed=False)
+        Create an application archive from SOURCE.
+        
+        The SOURCE can be the name of a directory, or a filename or a file-like
+        object referring to an existing archive.
+        
+        The content of SOURCE is packed into an application archive in TARGET,
+        which can be a filename or a file-like object.  If SOURCE is a directory,
+        TARGET can be omitted and will default to the name of SOURCE with .pyz
+        appended.
+        
+        The created application archive will have a shebang line specifying
+        that it should run with INTERPRETER (there will be no shebang line if
+        INTERPRETER is None), and a __main__.py which runs MAIN (if MAIN is
+        not specified, an existing __main__.py will be used).  It is an error
+        to specify MAIN for anything other than a directory source with no
+        __main__.py, and it is an error to omit MAIN if the directory has no
+        __main__.py.
+    
+    get_interpreter(archive)
+
+DATA
+    __all__ = ['ZipAppError', 'create_archive', 'get_interpreter']
+
+FILE
+    c:\program files\python37\lib\zipapp.py
+
+

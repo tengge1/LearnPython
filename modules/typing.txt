@@ -1,0 +1,1082 @@
+Help on module typing:
+
+NAME
+    typing - The typing module: Support for gradual typing as defined by PEP 484.
+
+DESCRIPTION
+    At large scale, the structure of the module is following:
+    * Imports and exports, all public names should be explicitly added to __all__.
+    * Internal helper functions: these should never be used in code outside this module.
+    * _SpecialForm and its instances (special forms): Any, NoReturn, ClassVar, Union, Optional
+    * Two classes whose instances can be type arguments in addition to types: ForwardRef and TypeVar
+    * The core of internal generics API: _GenericAlias and _VariadicGenericAlias, the latter is
+      currently only used by Tuple and Callable. All subscripted types like X[int], Union[int, str],
+      etc., are instances of either of these classes.
+    * The public counterpart of the generics API consists of two classes: Generic and Protocol
+      (the latter is currently private, but will be made public after PEP 544 acceptance).
+    * Public helper functions: get_type_hints, overload, cast, no_type_check,
+      no_type_check_decorator.
+    * Generic aliases for collections.abc ABCs and few additional protocols.
+    * Special types: NewType, NamedTuple, TypedDict (may be added soon).
+    * Wrapper submodules for re and io related types.
+
+CLASSES
+    builtins.object
+        builtins.str
+        Generic
+        NamedTuple
+    _Final(builtins.object)
+        ForwardRef
+        TypeVar(_Final, _Immutable)
+    _Immutable(builtins.object)
+        TypeVar(_Final, _Immutable)
+    _Protocol(Generic)
+        SupportsAbs
+        SupportsBytes
+        SupportsComplex
+        SupportsFloat
+        SupportsInt
+        SupportsRound
+    
+    class ForwardRef(_Final)
+     |  ForwardRef(arg, is_argument=True)
+     |  
+     |  Internal wrapper to hold a forward reference.
+     |  
+     |  Method resolution order:
+     |      ForwardRef
+     |      _Final
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, arg, is_argument=True)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __forward_arg__
+     |  
+     |  __forward_code__
+     |  
+     |  __forward_evaluated__
+     |  
+     |  __forward_is_argument__
+     |  
+     |  __forward_value__
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Final:
+     |  
+     |  __init_subclass__(*args, **kwds) from builtins.type
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _Final:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Generic(builtins.object)
+     |  Generic(*args, **kwds)
+     |  
+     |  Abstract base class for generic types.
+     |  
+     |  A generic type is typically declared by inheriting from
+     |  this class parameterized with one or more type variables.
+     |  For example, a generic mapping type might be defined as::
+     |  
+     |    class Mapping(Generic[KT, VT]):
+     |        def __getitem__(self, key: KT) -> VT:
+     |            ...
+     |        # Etc.
+     |  
+     |  This class can then be used as follows::
+     |  
+     |    def lookup_name(mapping: Mapping[KT, VT], key: KT, default: VT) -> VT:
+     |        try:
+     |            return mapping[key]
+     |        except KeyError:
+     |            return default
+     |  
+     |  Class methods defined here:
+     |  
+     |  __class_getitem__(params) from builtins.type
+     |  
+     |  __init_subclass__(*args, **kwargs) from builtins.type
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class NamedTuple(builtins.object)
+     |  NamedTuple(typename, fields=None, **kwargs)
+     |  
+     |  Typed version of namedtuple.
+     |  
+     |  Usage in Python versions >= 3.6::
+     |  
+     |      class Employee(NamedTuple):
+     |          name: str
+     |          id: int
+     |  
+     |  This is equivalent to::
+     |  
+     |      Employee = collections.namedtuple('Employee', ['name', 'id'])
+     |  
+     |  The resulting class has extra __annotations__ and _field_types
+     |  attributes, giving an ordered dict mapping field names to types.
+     |  __annotations__ should be preferred, while _field_types
+     |  is kept to maintain pre PEP 526 compatibility. (The field names
+     |  are in the _fields attribute, which is part of the namedtuple
+     |  API.) Alternative equivalent keyword syntax is also accepted::
+     |  
+     |      Employee = NamedTuple('Employee', name=str, id=int)
+     |  
+     |  In Python versions <= 3.5 use::
+     |  
+     |      Employee = NamedTuple('Employee', [('name', str), ('id', int)])
+     |  
+     |  Static methods defined here:
+     |  
+     |  __new__(self, typename, fields=None, **kwargs)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class SupportsAbs(_Protocol)
+     |  SupportsAbs(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsAbs
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __abs__(self) -> +T_co
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __orig_bases__ = (typing._Protocol[+T_co],)
+     |  
+     |  __parameters__ = (+T_co,)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class SupportsBytes(_Protocol)
+     |  SupportsBytes(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsBytes
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __bytes__(self) -> bytes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __parameters__ = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class SupportsComplex(_Protocol)
+     |  SupportsComplex(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsComplex
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __complex__(self) -> complex
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __parameters__ = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class SupportsFloat(_Protocol)
+     |  SupportsFloat(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsFloat
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __float__(self) -> float
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __parameters__ = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class SupportsInt(_Protocol)
+     |  SupportsInt(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsInt
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __int__(self) -> int
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __parameters__ = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class SupportsRound(_Protocol)
+     |  SupportsRound(*args, **kwds)
+     |  
+     |  Internal base class for protocol classes.
+     |  
+     |  This implements a simple-minded structural issubclass check
+     |  (similar but more general than the one-offs in collections.abc
+     |  such as Hashable).
+     |  
+     |  Method resolution order:
+     |      SupportsRound
+     |      _Protocol
+     |      Generic
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __round__(self, ndigits: int = 0) -> +T_co
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __orig_bases__ = (typing._Protocol[+T_co],)
+     |  
+     |  __parameters__ = (+T_co,)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Protocol:
+     |  
+     |  __class_getitem__(params) from _ProtocolMeta
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Generic:
+     |  
+     |  __init_subclass__(*args, **kwargs) from _ProtocolMeta
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from Generic:
+     |  
+     |  __new__(cls, *args, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    Text = class str(object)
+     |  str(object='') -> str
+     |  str(bytes_or_buffer[, encoding[, errors]]) -> str
+     |  
+     |  Create a new string object from the given object. If encoding or
+     |  errors is specified, then the object must expose a data buffer
+     |  that will be decoded using the given encoding and error handler.
+     |  Otherwise, returns the result of object.__str__() (if defined)
+     |  or repr(object).
+     |  encoding defaults to sys.getdefaultencoding().
+     |  errors defaults to 'strict'.
+     |  
+     |  Methods defined here:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __format__(self, format_spec, /)
+     |      Return a formatted version of the string as described by format_spec.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __getnewargs__(...)
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __sizeof__(self, /)
+     |      Return the size of the string in memory, in bytes.
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  capitalize(self, /)
+     |      Return a capitalized version of the string.
+     |      
+     |      More specifically, make the first character have upper case and the rest lower
+     |      case.
+     |  
+     |  casefold(self, /)
+     |      Return a version of the string suitable for caseless comparisons.
+     |  
+     |  center(self, width, fillchar=' ', /)
+     |      Return a centered string of length width.
+     |      
+     |      Padding is done using the specified fill character (default is a space).
+     |  
+     |  count(...)
+     |      S.count(sub[, start[, end]]) -> int
+     |      
+     |      Return the number of non-overlapping occurrences of substring sub in
+     |      string S[start:end].  Optional arguments start and end are
+     |      interpreted as in slice notation.
+     |  
+     |  encode(self, /, encoding='utf-8', errors='strict')
+     |      Encode the string using the codec registered for encoding.
+     |      
+     |      encoding
+     |        The encoding in which to encode the string.
+     |      errors
+     |        The error handling scheme to use for encoding errors.
+     |        The default is 'strict' meaning that encoding errors raise a
+     |        UnicodeEncodeError.  Other possible values are 'ignore', 'replace' and
+     |        'xmlcharrefreplace' as well as any other name registered with
+     |        codecs.register_error that can handle UnicodeEncodeErrors.
+     |  
+     |  endswith(...)
+     |      S.endswith(suffix[, start[, end]]) -> bool
+     |      
+     |      Return True if S ends with the specified suffix, False otherwise.
+     |      With optional start, test S beginning at that position.
+     |      With optional end, stop comparing S at that position.
+     |      suffix can also be a tuple of strings to try.
+     |  
+     |  expandtabs(self, /, tabsize=8)
+     |      Return a copy where all tab characters are expanded using spaces.
+     |      
+     |      If tabsize is not given, a tab size of 8 characters is assumed.
+     |  
+     |  find(...)
+     |      S.find(sub[, start[, end]]) -> int
+     |      
+     |      Return the lowest index in S where substring sub is found,
+     |      such that sub is contained within S[start:end].  Optional
+     |      arguments start and end are interpreted as in slice notation.
+     |      
+     |      Return -1 on failure.
+     |  
+     |  format(...)
+     |      S.format(*args, **kwargs) -> str
+     |      
+     |      Return a formatted version of S, using substitutions from args and kwargs.
+     |      The substitutions are identified by braces ('{' and '}').
+     |  
+     |  format_map(...)
+     |      S.format_map(mapping) -> str
+     |      
+     |      Return a formatted version of S, using substitutions from mapping.
+     |      The substitutions are identified by braces ('{' and '}').
+     |  
+     |  index(...)
+     |      S.index(sub[, start[, end]]) -> int
+     |      
+     |      Return the lowest index in S where substring sub is found, 
+     |      such that sub is contained within S[start:end].  Optional
+     |      arguments start and end are interpreted as in slice notation.
+     |      
+     |      Raises ValueError when the substring is not found.
+     |  
+     |  isalnum(self, /)
+     |      Return True if the string is an alpha-numeric string, False otherwise.
+     |      
+     |      A string is alpha-numeric if all characters in the string are alpha-numeric and
+     |      there is at least one character in the string.
+     |  
+     |  isalpha(self, /)
+     |      Return True if the string is an alphabetic string, False otherwise.
+     |      
+     |      A string is alphabetic if all characters in the string are alphabetic and there
+     |      is at least one character in the string.
+     |  
+     |  isascii(self, /)
+     |      Return True if all characters in the string are ASCII, False otherwise.
+     |      
+     |      ASCII characters have code points in the range U+0000-U+007F.
+     |      Empty string is ASCII too.
+     |  
+     |  isdecimal(self, /)
+     |      Return True if the string is a decimal string, False otherwise.
+     |      
+     |      A string is a decimal string if all characters in the string are decimal and
+     |      there is at least one character in the string.
+     |  
+     |  isdigit(self, /)
+     |      Return True if the string is a digit string, False otherwise.
+     |      
+     |      A string is a digit string if all characters in the string are digits and there
+     |      is at least one character in the string.
+     |  
+     |  isidentifier(self, /)
+     |      Return True if the string is a valid Python identifier, False otherwise.
+     |      
+     |      Use keyword.iskeyword() to test for reserved identifiers such as "def" and
+     |      "class".
+     |  
+     |  islower(self, /)
+     |      Return True if the string is a lowercase string, False otherwise.
+     |      
+     |      A string is lowercase if all cased characters in the string are lowercase and
+     |      there is at least one cased character in the string.
+     |  
+     |  isnumeric(self, /)
+     |      Return True if the string is a numeric string, False otherwise.
+     |      
+     |      A string is numeric if all characters in the string are numeric and there is at
+     |      least one character in the string.
+     |  
+     |  isprintable(self, /)
+     |      Return True if the string is printable, False otherwise.
+     |      
+     |      A string is printable if all of its characters are considered printable in
+     |      repr() or if it is empty.
+     |  
+     |  isspace(self, /)
+     |      Return True if the string is a whitespace string, False otherwise.
+     |      
+     |      A string is whitespace if all characters in the string are whitespace and there
+     |      is at least one character in the string.
+     |  
+     |  istitle(self, /)
+     |      Return True if the string is a title-cased string, False otherwise.
+     |      
+     |      In a title-cased string, upper- and title-case characters may only
+     |      follow uncased characters and lowercase characters only cased ones.
+     |  
+     |  isupper(self, /)
+     |      Return True if the string is an uppercase string, False otherwise.
+     |      
+     |      A string is uppercase if all cased characters in the string are uppercase and
+     |      there is at least one cased character in the string.
+     |  
+     |  join(self, iterable, /)
+     |      Concatenate any number of strings.
+     |      
+     |      The string whose method is called is inserted in between each given string.
+     |      The result is returned as a new string.
+     |      
+     |      Example: '.'.join(['ab', 'pq', 'rs']) -> 'ab.pq.rs'
+     |  
+     |  ljust(self, width, fillchar=' ', /)
+     |      Return a left-justified string of length width.
+     |      
+     |      Padding is done using the specified fill character (default is a space).
+     |  
+     |  lower(self, /)
+     |      Return a copy of the string converted to lowercase.
+     |  
+     |  lstrip(self, chars=None, /)
+     |      Return a copy of the string with leading whitespace removed.
+     |      
+     |      If chars is given and not None, remove characters in chars instead.
+     |  
+     |  partition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |      
+     |      This will search for the separator in the string.  If the separator is found,
+     |      returns a 3-tuple containing the part before the separator, the separator
+     |      itself, and the part after it.
+     |      
+     |      If the separator is not found, returns a 3-tuple containing the original string
+     |      and two empty strings.
+     |  
+     |  replace(self, old, new, count=-1, /)
+     |      Return a copy with all occurrences of substring old replaced by new.
+     |      
+     |        count
+     |          Maximum number of occurrences to replace.
+     |          -1 (the default value) means replace all occurrences.
+     |      
+     |      If the optional argument count is given, only the first count occurrences are
+     |      replaced.
+     |  
+     |  rfind(...)
+     |      S.rfind(sub[, start[, end]]) -> int
+     |      
+     |      Return the highest index in S where substring sub is found,
+     |      such that sub is contained within S[start:end].  Optional
+     |      arguments start and end are interpreted as in slice notation.
+     |      
+     |      Return -1 on failure.
+     |  
+     |  rindex(...)
+     |      S.rindex(sub[, start[, end]]) -> int
+     |      
+     |      Return the highest index in S where substring sub is found,
+     |      such that sub is contained within S[start:end].  Optional
+     |      arguments start and end are interpreted as in slice notation.
+     |      
+     |      Raises ValueError when the substring is not found.
+     |  
+     |  rjust(self, width, fillchar=' ', /)
+     |      Return a right-justified string of length width.
+     |      
+     |      Padding is done using the specified fill character (default is a space).
+     |  
+     |  rpartition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |      
+     |      This will search for the separator in the string, starting at the end. If
+     |      the separator is found, returns a 3-tuple containing the part before the
+     |      separator, the separator itself, and the part after it.
+     |      
+     |      If the separator is not found, returns a 3-tuple containing two empty strings
+     |      and the original string.
+     |  
+     |  rsplit(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the words in the string, using sep as the delimiter string.
+     |      
+     |        sep
+     |          The delimiter according which to split the string.
+     |          None (the default value) means split according to any whitespace,
+     |          and discard empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits to do.
+     |          -1 (the default value) means no limit.
+     |      
+     |      Splits are done starting at the end of the string and working to the front.
+     |  
+     |  rstrip(self, chars=None, /)
+     |      Return a copy of the string with trailing whitespace removed.
+     |      
+     |      If chars is given and not None, remove characters in chars instead.
+     |  
+     |  split(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the words in the string, using sep as the delimiter string.
+     |      
+     |      sep
+     |        The delimiter according which to split the string.
+     |        None (the default value) means split according to any whitespace,
+     |        and discard empty strings from the result.
+     |      maxsplit
+     |        Maximum number of splits to do.
+     |        -1 (the default value) means no limit.
+     |  
+     |  splitlines(self, /, keepends=False)
+     |      Return a list of the lines in the string, breaking at line boundaries.
+     |      
+     |      Line breaks are not included in the resulting list unless keepends is given and
+     |      true.
+     |  
+     |  startswith(...)
+     |      S.startswith(prefix[, start[, end]]) -> bool
+     |      
+     |      Return True if S starts with the specified prefix, False otherwise.
+     |      With optional start, test S beginning at that position.
+     |      With optional end, stop comparing S at that position.
+     |      prefix can also be a tuple of strings to try.
+     |  
+     |  strip(self, chars=None, /)
+     |      Return a copy of the string with leading and trailing whitespace remove.
+     |      
+     |      If chars is given and not None, remove characters in chars instead.
+     |  
+     |  swapcase(self, /)
+     |      Convert uppercase characters to lowercase and lowercase characters to uppercase.
+     |  
+     |  title(self, /)
+     |      Return a version of the string where each word is titlecased.
+     |      
+     |      More specifically, words start with uppercased characters and all remaining
+     |      cased characters have lower case.
+     |  
+     |  translate(self, table, /)
+     |      Replace each character in the string using the given translation table.
+     |      
+     |        table
+     |          Translation table, which must be a mapping of Unicode ordinals to
+     |          Unicode ordinals, strings, or None.
+     |      
+     |      The table must implement lookup/indexing via __getitem__, for instance a
+     |      dictionary or list.  If this operation raises LookupError, the character is
+     |      left untouched.  Characters mapped to None are deleted.
+     |  
+     |  upper(self, /)
+     |      Return a copy of the string converted to uppercase.
+     |  
+     |  zfill(self, width, /)
+     |      Pad a numeric string with zeros on the left, to fill a field of the given width.
+     |      
+     |      The string is never truncated.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  maketrans(x, y=None, z=None, /)
+     |      Return a translation table usable for str.translate().
+     |      
+     |      If there is only one argument, it must be a dictionary mapping Unicode
+     |      ordinals (integers) or characters to Unicode ordinals, strings or None.
+     |      Character keys will be then converted to ordinals.
+     |      If there are two arguments, they must be strings of equal length, and
+     |      in the resulting dictionary, each character in x will be mapped to the
+     |      character at the same position in y. If there is a third argument, it
+     |      must be a string, whose characters will be mapped to None in the result.
+    
+    class TypeVar(_Final, _Immutable)
+     |  TypeVar(name, *constraints, bound=None, covariant=False, contravariant=False)
+     |  
+     |  Type variable.
+     |  
+     |  Usage::
+     |  
+     |    T = TypeVar('T')  # Can be anything
+     |    A = TypeVar('A', str, bytes)  # Must be str or bytes
+     |  
+     |  Type variables exist primarily for the benefit of static type
+     |  checkers.  They serve as the parameters for generic types as well
+     |  as for generic function definitions.  See class Generic for more
+     |  information on generic types.  Generic functions work as follows:
+     |  
+     |    def repeat(x: T, n: int) -> List[T]:
+     |        '''Return a list containing n references to x.'''
+     |        return [x]*n
+     |  
+     |    def longest(x: A, y: A) -> A:
+     |        '''Return the longest of two strings.'''
+     |        return x if len(x) >= len(y) else y
+     |  
+     |  The latter example's signature is essentially the overloading
+     |  of (str, str) -> str and (bytes, bytes) -> bytes.  Also note
+     |  that if the arguments are instances of some subclass of str,
+     |  the return type is still plain str.
+     |  
+     |  At runtime, isinstance(x, T) and issubclass(C, T) will raise TypeError.
+     |  
+     |  Type variables defined with covariant=True or contravariant=True
+     |  can be used to declare covariant or contravariant generic types.
+     |  See PEP 484 for more details. By default generic types are invariant
+     |  in all type variables.
+     |  
+     |  Type variables can be introspected. e.g.:
+     |  
+     |    T.__name__ == 'T'
+     |    T.__constraints__ == ()
+     |    T.__covariant__ == False
+     |    T.__contravariant__ = False
+     |    A.__constraints__ == (str, bytes)
+     |  
+     |  Note that only type variables defined in global scope can be pickled.
+     |  
+     |  Method resolution order:
+     |      TypeVar
+     |      _Final
+     |      _Immutable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, name, *constraints, bound=None, covariant=False, contravariant=False)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(self)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __bound__
+     |  
+     |  __constraints__
+     |  
+     |  __contravariant__
+     |  
+     |  __covariant__
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Final:
+     |  
+     |  __init_subclass__(*args, **kwds) from builtins.type
+     |      This method is called when a class is subclassed.
+     |      
+     |      The default implementation does nothing. It may be
+     |      overridden to extend subclasses.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _Final:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _Immutable:
+     |  
+     |  __copy__(self)
+     |  
+     |  __deepcopy__(self, memo)
+
+FUNCTIONS
+    NewType(name, tp)
+        NewType creates simple unique types with almost zero
+        runtime overhead. NewType(name, tp) is considered a subtype of tp
+        by static type checkers. At runtime, NewType(name, tp) returns
+        a dummy function that simply returns its argument. Usage::
+        
+            UserId = NewType('UserId', int)
+        
+            def name_by_id(user_id: UserId) -> str:
+                ...
+        
+            UserId('user')          # Fails type check
+        
+            name_by_id(42)          # Fails type check
+            name_by_id(UserId(42))  # OK
+        
+            num = UserId(5) + 1     # type: int
+    
+    cast(typ, val)
+        Cast a value to a type.
+        
+        This returns the value unchanged.  To the type checker this
+        signals that the return value has the designated type, but at
+        runtime we intentionally don't check anything (we want this
+        to be as fast as possible).
+    
+    get_type_hints(obj, globalns=None, localns=None)
+        Return type hints for an object.
+        
+        This is often the same as obj.__annotations__, but it handles
+        forward references encoded as string literals, and if necessary
+        adds Optional[t] if a default value equal to None is set.
+        
+        The argument may be a module, class, method, or function. The annotations
+        are returned as a dictionary. For classes, annotations include also
+        inherited members.
+        
+        TypeError is raised if the argument is not of a type that can contain
+        annotations, and an empty dictionary is returned if no annotations are
+        present.
+        
+        BEWARE -- the behavior of globalns and localns is counterintuitive
+        (unless you are familiar with how eval() and exec() work).  The
+        search order is locals first, then globals.
+        
+        - If no dict arguments are passed, an attempt is made to use the
+          globals from obj (or the respective module's globals for classes),
+          and these are also used as the locals.  If the object does not appear
+          to have globals, an empty dictionary is used.
+        
+        - If one dict argument is passed, it is used for both globals and
+          locals.
+        
+        - If two dict arguments are passed, they specify globals and
+          locals, respectively.
+    
+    no_type_check(arg)
+        Decorator to indicate that annotations are not type hints.
+        
+        The argument must be a class or function; if it is a class, it
+        applies recursively to all methods and classes defined in that class
+        (but not to methods defined in its superclasses or subclasses).
+        
+        This mutates the function(s) or class(es) in place.
+    
+    no_type_check_decorator(decorator)
+        Decorator to give another decorator the @no_type_check effect.
+        
+        This wraps the decorator with something that wraps the decorated
+        function in @no_type_check.
+    
+    overload(func)
+        Decorator for overloaded functions/methods.
+        
+        In a stub file, place two or more stub definitions for the same
+        function in a row, each decorated with @overload.  For example:
+        
+          @overload
+          def utf8(value: None) -> None: ...
+          @overload
+          def utf8(value: bytes) -> bytes: ...
+          @overload
+          def utf8(value: str) -> bytes: ...
+        
+        In a non-stub file (i.e. a regular .py file), do the same but
+        follow it with an implementation.  The implementation should *not*
+        be decorated with @overload.  For example:
+        
+          @overload
+          def utf8(value: None) -> None: ...
+          @overload
+          def utf8(value: bytes) -> bytes: ...
+          @overload
+          def utf8(value: str) -> bytes: ...
+          def utf8(value):
+              # implementation goes here
+
+DATA
+    AbstractSet = typing.AbstractSet
+    Any = typing.Any
+    AnyStr = ~AnyStr
+    AsyncContextManager = typing.AbstractAsyncContextManager
+    AsyncGenerator = typing.AsyncGenerator
+    AsyncIterable = typing.AsyncIterable
+    AsyncIterator = typing.AsyncIterator
+    Awaitable = typing.Awaitable
+    ByteString = typing.ByteString
+    Callable = typing.Callable
+    ChainMap = typing.ChainMap
+    ClassVar = typing.ClassVar
+    Collection = typing.Collection
+    Container = typing.Container
+    ContextManager = typing.AbstractContextManager
+    Coroutine = typing.Coroutine
+    Counter = typing.Counter
+    DefaultDict = typing.DefaultDict
+    Deque = typing.Deque
+    Dict = typing.Dict
+    FrozenSet = typing.FrozenSet
+    Generator = typing.Generator
+    Hashable = typing.Hashable
+    ItemsView = typing.ItemsView
+    Iterable = typing.Iterable
+    Iterator = typing.Iterator
+    KeysView = typing.KeysView
+    List = typing.List
+    Mapping = typing.Mapping
+    MappingView = typing.MappingView
+    MutableMapping = typing.MutableMapping
+    MutableSequence = typing.MutableSequence
+    MutableSet = typing.MutableSet
+    NoReturn = typing.NoReturn
+    Optional = typing.Optional
+    OrderedDict = typing.OrderedDict
+    Reversible = typing.Reversible
+    Sequence = typing.Sequence
+    Set = typing.Set
+    Sized = typing.Sized
+    TYPE_CHECKING = False
+    Tuple = typing.Tuple
+    Type = typing.Type
+    Union = typing.Union
+    ValuesView = typing.ValuesView
+    __all__ = ['Any', 'Callable', 'ClassVar', 'ForwardRef', 'Generic', 'Op...
+
+FILE
+    c:\program files\python37\lib\typing.py
+
+

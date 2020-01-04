@@ -1,0 +1,19 @@
+Help on package gast:
+
+NAME
+    gast
+
+PACKAGE CONTENTS
+    ast2
+    ast3
+    astn
+    gast
+
+DATA
+    descr = (('context_expr', 'optional_vars'), (), (<class '_ast.AST'>,))
+    name = 'withitem'
+
+FILE
+    c:\program files\python37\lib\site-packages\gast\__init__.py
+
+

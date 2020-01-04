@@ -1,0 +1,18 @@
+Help on module brain_subprocess:
+
+NAME
+    brain_subprocess
+
+DESCRIPTION
+    # Copyright (c) 2016-2017 Claudiu Popa <pcmanticore@gmail.com>
+    # Copyright (c) 2017 Hugo <hugovk@users.noreply.github.com>
+    # Copyright (c) 2018 Bryce Guinta <bryce.paul.guinta@gmail.com>
+
+DATA
+    PY36 = True
+    PY37 = True
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_subprocess.py
+
+

@@ -1,0 +1,2357 @@
+Help on package grpc:
+
+NAME
+    grpc - gRPC's Python API.
+
+PACKAGE CONTENTS
+    _auth
+    _channel
+    _common
+    _compression
+    _cython (package)
+    _grpcio_metadata
+    _interceptor
+    _plugin_wrapping
+    _server
+    _utilities
+    beta (package)
+    experimental (package)
+    framework (package)
+
+SUBMODULES
+    _cygrpc
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        FutureCancelledError
+        FutureTimeoutError
+        RpcError
+    builtins.object
+        AuthMetadataContext
+        AuthMetadataPlugin
+        AuthMetadataPluginCallback
+        CallCredentials
+        Channel
+        ChannelCredentials
+        ClientCallDetails
+        Future
+        GenericRpcHandler
+            ServiceRpcHandler
+        HandlerCallDetails
+        RpcContext
+            Call
+            ServicerContext
+        RpcMethodHandler
+        Server
+        ServerCertificateConfiguration
+        ServerCredentials
+        ServerInterceptor
+        Status
+        StreamStreamClientInterceptor
+        StreamStreamMultiCallable
+        StreamUnaryClientInterceptor
+        StreamUnaryMultiCallable
+        UnaryStreamClientInterceptor
+        UnaryStreamMultiCallable
+        UnaryUnaryClientInterceptor
+        UnaryUnaryMultiCallable
+    enum.Enum(builtins.object)
+        ChannelConnectivity
+        LocalConnectionType
+        StatusCode
+    enum.IntEnum(builtins.int, enum.Enum)
+        Compression
+    
+    class AuthMetadataContext(builtins.object)
+     |  Provides information to call credentials metadata plugins.
+     |  
+     |  Attributes:
+     |    service_url: A string URL of the service being called into.
+     |    method_name: A string of the fully qualified method name being called.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class AuthMetadataPlugin(builtins.object)
+     |  A specification for custom authentication.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, context, callback)
+     |      Implements authentication by passing metadata to a callback.
+     |      
+     |      Implementations of this method must not block.
+     |      
+     |      Args:
+     |        context: An AuthMetadataContext providing information on the RPC that
+     |          the plugin is being called to authenticate.
+     |        callback: An AuthMetadataPluginCallback to be invoked either
+     |          synchronously or asynchronously.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class AuthMetadataPluginCallback(builtins.object)
+     |  Callback object received by a metadata plugin.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, metadata, error)
+     |      Passes to the gRPC runtime authentication metadata for an RPC.
+     |      
+     |      Args:
+     |        metadata: The :term:`metadata` used to construct the CallCredentials.
+     |        error: An Exception to indicate error or None to indicate success.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class Call(RpcContext)
+     |  Invocation-side utility object for an RPC.
+     |  
+     |  Method resolution order:
+     |      Call
+     |      RpcContext
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  code(self)
+     |      Accesses the status code sent by the server.
+     |      
+     |      This method blocks until the value is available.
+     |      
+     |      Returns:
+     |        The StatusCode value for the RPC.
+     |  
+     |  details(self)
+     |      Accesses the details sent by the server.
+     |      
+     |      This method blocks until the value is available.
+     |      
+     |      Returns:
+     |        The details string of the RPC.
+     |  
+     |  initial_metadata(self)
+     |      Accesses the initial metadata sent by the server.
+     |      
+     |      This method blocks until the value is available.
+     |      
+     |      Returns:
+     |        The initial :term:`metadata`.
+     |  
+     |  trailing_metadata(self)
+     |      Accesses the trailing metadata sent by the server.
+     |      
+     |      This method blocks until the value is available.
+     |      
+     |      Returns:
+     |        The trailing :term:`metadata`.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'add_callback', 'cancel', 'code', 'de...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from RpcContext:
+     |  
+     |  add_callback(self, callback)
+     |      Registers a callback to be called on RPC termination.
+     |      
+     |      Args:
+     |        callback: A no-parameter callable to be called on RPC termination.
+     |      
+     |      Returns:
+     |        True if the callback was added and will be called later; False if
+     |          the callback was not added and will not be called (because the RPC
+     |          already terminated or some other reason).
+     |  
+     |  cancel(self)
+     |      Cancels the RPC.
+     |      
+     |      Idempotent and has no effect if the RPC has already terminated.
+     |  
+     |  is_active(self)
+     |      Describes whether the RPC is active or has terminated.
+     |      
+     |      Returns:
+     |        bool:
+     |        True if RPC is active, False otherwise.
+     |  
+     |  time_remaining(self)
+     |      Describes the length of allowed time remaining for the RPC.
+     |      
+     |      Returns:
+     |        A nonnegative float indicating the length of allowed time in seconds
+     |        remaining for the RPC to complete before it is considered to have
+     |        timed out, or None if no deadline was specified for the RPC.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from RpcContext:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class CallCredentials(builtins.object)
+     |  CallCredentials(credentials)
+     |  
+     |  An encapsulation of the data required to assert an identity over a call.
+     |  
+     |  A CallCredentials has to be used with secure Channel, otherwise the
+     |  metadata will not be transmitted to the server.
+     |  
+     |  A CallCredentials may be composed with ChannelCredentials to always assert
+     |  identity for every call over that Channel.
+     |  
+     |  This class has no supported interface - it exists to define the type of its
+     |  instances and its instances exist to be passed to other functions.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, credentials)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Channel(builtins.object)
+     |  Affords RPC invocation via generic methods on client-side.
+     |  
+     |  Channel objects implement the Context Manager type, although they need not
+     |  support being entered and exited multiple times.
+     |  
+     |  Methods defined here:
+     |  
+     |  close(self)
+     |      Closes this Channel and releases all resources held by it.
+     |      
+     |      Closing the Channel will immediately terminate all RPCs active with the
+     |      Channel and it is not valid to invoke new RPCs with the Channel.
+     |      
+     |      This method is idempotent.
+     |  
+     |  stream_stream(self, method, request_serializer=None, response_deserializer=None)
+     |      Creates a StreamStreamMultiCallable for a stream-stream method.
+     |      
+     |      Args:
+     |        method: The name of the RPC method.
+     |        request_serializer: Optional behaviour for serializing the request
+     |          message. Request goes unserialized in case None is passed.
+     |        response_deserializer: Optional behaviour for deserializing the
+     |          response message. Response goes undeserialized in case None
+     |          is passed.
+     |      
+     |      Returns:
+     |        A StreamStreamMultiCallable value for the named stream-stream method.
+     |  
+     |  stream_unary(self, method, request_serializer=None, response_deserializer=None)
+     |      Creates a StreamUnaryMultiCallable for a stream-unary method.
+     |      
+     |      Args:
+     |        method: The name of the RPC method.
+     |        request_serializer: Optional behaviour for serializing the request
+     |          message. Request goes unserialized in case None is passed.
+     |        response_deserializer: Optional behaviour for deserializing the
+     |          response message. Response goes undeserialized in case None is
+     |          passed.
+     |      
+     |      Returns:
+     |        A StreamUnaryMultiCallable value for the named stream-unary method.
+     |  
+     |  subscribe(self, callback, try_to_connect=False)
+     |      Subscribe to this Channel's connectivity state machine.
+     |      
+     |      A Channel may be in any of the states described by ChannelConnectivity.
+     |      This method allows application to monitor the state transitions.
+     |      The typical use case is to debug or gain better visibility into gRPC
+     |      runtime's state.
+     |      
+     |      Args:
+     |        callback: A callable to be invoked with ChannelConnectivity argument.
+     |          ChannelConnectivity describes current state of the channel.
+     |          The callable will be invoked immediately upon subscription
+     |          and again for every change to ChannelConnectivity until it
+     |          is unsubscribed or this Channel object goes out of scope.
+     |        try_to_connect: A boolean indicating whether or not this Channel
+     |          should attempt to connect immediately. If set to False, gRPC
+     |          runtime decides when to connect.
+     |  
+     |  unary_stream(self, method, request_serializer=None, response_deserializer=None)
+     |      Creates a UnaryStreamMultiCallable for a unary-stream method.
+     |      
+     |      Args:
+     |        method: The name of the RPC method.
+     |        request_serializer: Optional behaviour for serializing the request
+     |          message. Request goes unserialized in case None is passed.
+     |        response_deserializer: Optional behaviour for deserializing the
+     |          response message. Response goes undeserialized in case None is
+     |          passed.
+     |      
+     |      Returns:
+     |        A UnaryStreamMultiCallable value for the name unary-stream method.
+     |  
+     |  unary_unary(self, method, request_serializer=None, response_deserializer=None)
+     |      Creates a UnaryUnaryMultiCallable for a unary-unary method.
+     |      
+     |      Args:
+     |        method: The name of the RPC method.
+     |        request_serializer: Optional behaviour for serializing the request
+     |          message. Request goes unserialized in case None is passed.
+     |        response_deserializer: Optional behaviour for deserializing the
+     |          response message. Response goes undeserialized in case None
+     |          is passed.
+     |      
+     |      Returns:
+     |        A UnaryUnaryMultiCallable value for the named unary-unary method.
+     |  
+     |  unsubscribe(self, callback)
+     |      Unsubscribes a subscribed callback from this Channel's connectivity.
+     |      
+     |      Args:
+     |        callback: A callable previously registered with this Channel from
+     |        having been passed to its "subscribe" method.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'close', 'stream_stream', 'stream_una...
+    
+    class ChannelConnectivity(enum.Enum)
+     |  ChannelConnectivity(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Mirrors grpc_connectivity_state in the gRPC Core.
+     |  
+     |  Attributes:
+     |    IDLE: The channel is idle.
+     |    CONNECTING: The channel is connecting.
+     |    READY: The channel is ready to conduct RPCs.
+     |    TRANSIENT_FAILURE: The channel has seen a failure from which it expects
+     |      to recover.
+     |    SHUTDOWN: The channel has seen a failure from which it cannot recover.
+     |  
+     |  Method resolution order:
+     |      ChannelConnectivity
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  CONNECTING = <ChannelConnectivity.CONNECTING: (1, 'connecting')>
+     |  
+     |  IDLE = <ChannelConnectivity.IDLE: (0, 'idle')>
+     |  
+     |  READY = <ChannelConnectivity.READY: (2, 'ready')>
+     |  
+     |  SHUTDOWN = <ChannelConnectivity.SHUTDOWN: (4, 'shutdown')>
+     |  
+     |  TRANSIENT_FAILURE = <ChannelConnectivity.TRANSIENT_FAILURE: (3, 'trans...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class ChannelCredentials(builtins.object)
+     |  ChannelCredentials(credentials)
+     |  
+     |  An encapsulation of the data required to create a secure Channel.
+     |  
+     |  This class has no supported interface - it exists to define the type of its
+     |  instances and its instances exist to be passed to other functions. For
+     |  example, ssl_channel_credentials returns an instance of this class and
+     |  secure_channel requires an instance of this class.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, credentials)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ClientCallDetails(builtins.object)
+     |  Describes an RPC to be invoked.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Attributes:
+     |    method: The method name of the RPC.
+     |    timeout: An optional duration of time in seconds to allow for the RPC.
+     |    metadata: Optional :term:`metadata` to be transmitted to
+     |      the service-side of the RPC.
+     |    credentials: An optional CallCredentials for the RPC.
+     |    wait_for_ready: This is an EXPERIMENTAL argument. An optional flag t
+     |      enable wait for ready mechanism.
+     |    compression: An element of grpc.compression, e.g.
+     |      grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class Compression(enum.IntEnum)
+     |  Compression(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Indicates the compression method to be used for an RPC.
+     |  
+     |  This enumeration is part of an EXPERIMENTAL API.
+     |  
+     |  Attributes:
+     |   NoCompression: Do not use compression algorithm.
+     |   Deflate: Use "Deflate" compression algorithm.
+     |   Gzip: Use "Gzip" compression algorithm.
+     |  
+     |  Method resolution order:
+     |      Compression
+     |      enum.IntEnum
+     |      builtins.int
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  Deflate = <Compression.Deflate: 1>
+     |  
+     |  Gzip = <Compression.Gzip: 2>
+     |  
+     |  NoCompression = <Compression.NoCompression: 0>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class Future(builtins.object)
+     |  A representation of a computation in another control flow.
+     |  
+     |  Computations represented by a Future may be yet to be begun,
+     |  may be ongoing, or may have already completed.
+     |  
+     |  Methods defined here:
+     |  
+     |  add_done_callback(self, fn)
+     |      Adds a function to be called at completion of the computation.
+     |      
+     |      The callback will be passed this Future object describing the outcome
+     |      of the computation.  Callbacks will be invoked after the future is
+     |      terimated, whether successfully or not.
+     |      
+     |      If the computation has already completed, the callback will be called
+     |      immediately.
+     |      
+     |      Exceptions raised in the callback will be logged at ERROR level, but
+     |      will not terminate any threads of execution.
+     |      
+     |      Args:
+     |        fn: A callable taking this Future object as its single parameter.
+     |  
+     |  cancel(self)
+     |      Attempts to cancel the computation.
+     |      
+     |      This method does not block.
+     |      
+     |      Returns:
+     |          bool:
+     |          Returns True if the computation was canceled.
+     |      
+     |          Returns False under all other circumstances, for example:
+     |      
+     |          1. computation has begun and could not be canceled.
+     |          2. computation has finished
+     |          3. computation is scheduled for execution and it is impossible
+     |              to determine its state without blocking.
+     |  
+     |  cancelled(self)
+     |      Describes whether the computation was cancelled.
+     |      
+     |      This method does not block.
+     |      
+     |      Returns:
+     |          bool:
+     |          Returns True if the computation was cancelled before its result became
+     |          available.
+     |      
+     |          Returns False under all other circumstances, for example:
+     |      
+     |          1. computation was not cancelled.
+     |          2. computation's result is available.
+     |  
+     |  done(self)
+     |      Describes whether the computation has taken place.
+     |      
+     |      This method does not block.
+     |      
+     |      Returns:
+     |          bool:
+     |          Returns True if the computation already executed or was cancelled.
+     |          Returns False if the computation is scheduled for execution or
+     |          currently executing.
+     |          This is exactly opposite of the running() method's result.
+     |  
+     |  exception(self, timeout=None)
+     |      Return the exception raised by the computation.
+     |      
+     |      This method may return immediately or may block.
+     |      
+     |      Args:
+     |        timeout: The length of time in seconds to wait for the computation to
+     |          terminate or be cancelled. If None, the call will block until the
+     |          computations's termination.
+     |      
+     |      Returns:
+     |          The exception raised by the computation, or None if the computation
+     |          did not raise an exception.
+     |      
+     |      Raises:
+     |        FutureTimeoutError: If a timeout value is passed and the computation
+     |          does not terminate within the allotted time.
+     |        FutureCancelledError: If the computation was cancelled.
+     |  
+     |  result(self, timeout=None)
+     |      Returns the result of the computation or raises its exception.
+     |      
+     |      This method may return immediately or may block.
+     |      
+     |      Args:
+     |        timeout: The length of time in seconds to wait for the computation to
+     |          finish or be cancelled. If None, the call will block until the
+     |          computations's termination.
+     |      
+     |      Returns:
+     |        The return value of the computation.
+     |      
+     |      Raises:
+     |        FutureTimeoutError: If a timeout value is passed and the computation
+     |          does not terminate within the allotted time.
+     |        FutureCancelledError: If the computation was cancelled.
+     |        Exception: If the computation raised an exception, this call will
+     |          raise the same exception.
+     |  
+     |  running(self)
+     |      Describes whether the computation is taking place.
+     |      
+     |      This method does not block.
+     |      
+     |      Returns:
+     |          Returns True if the computation is scheduled for execution or
+     |          currently executing.
+     |      
+     |          Returns False if the computation already executed or was cancelled.
+     |  
+     |  traceback(self, timeout=None)
+     |      Access the traceback of the exception raised by the computation.
+     |      
+     |      This method may return immediately or may block.
+     |      
+     |      Args:
+     |        timeout: The length of time in seconds to wait for the computation
+     |          to terminate or be cancelled. If None, the call will block until
+     |          the computation's termination.
+     |      
+     |      Returns:
+     |          The traceback of the exception raised by the computation, or None
+     |          if the computation did not raise an exception.
+     |      
+     |      Raises:
+     |        FutureTimeoutError: If a timeout value is passed and the computation
+     |          does not terminate within the allotted time.
+     |        FutureCancelledError: If the computation was cancelled.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'add_done_callback', 'cancel', 'cance...
+    
+    class FutureCancelledError(builtins.Exception)
+     |  Indicates that the computation underlying a Future was cancelled.
+     |  
+     |  Method resolution order:
+     |      FutureCancelledError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class FutureTimeoutError(builtins.Exception)
+     |  Indicates that a method call on a Future timed out.
+     |  
+     |  Method resolution order:
+     |      FutureTimeoutError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class GenericRpcHandler(builtins.object)
+     |  An implementation of arbitrarily many RPC methods.
+     |  
+     |  Methods defined here:
+     |  
+     |  service(self, handler_call_details)
+     |      Returns the handler for servicing the RPC.
+     |      
+     |      Args:
+     |        handler_call_details: A HandlerCallDetails describing the RPC.
+     |      
+     |      Returns:
+     |        An RpcMethodHandler with which the RPC may be serviced if the
+     |        implementation chooses to service this RPC, or None otherwise.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'service'})
+    
+    class HandlerCallDetails(builtins.object)
+     |  Describes an RPC that has just arrived for service.
+     |  
+     |  Attributes:
+     |    method: The method name of the RPC.
+     |    invocation_metadata: The :term:`metadata` sent by the client.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class LocalConnectionType(enum.Enum)
+     |  LocalConnectionType(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Types of local connection for local credential creation.
+     |  
+     |  Attributes:
+     |    UDS: Unix domain socket connections
+     |    LOCAL_TCP: Local TCP connections.
+     |  
+     |  Method resolution order:
+     |      LocalConnectionType
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  LOCAL_TCP = <LocalConnectionType.LOCAL_TCP: 1>
+     |  
+     |  UDS = <LocalConnectionType.UDS: 0>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class RpcContext(builtins.object)
+     |  Provides RPC-related information and action.
+     |  
+     |  Methods defined here:
+     |  
+     |  add_callback(self, callback)
+     |      Registers a callback to be called on RPC termination.
+     |      
+     |      Args:
+     |        callback: A no-parameter callable to be called on RPC termination.
+     |      
+     |      Returns:
+     |        True if the callback was added and will be called later; False if
+     |          the callback was not added and will not be called (because the RPC
+     |          already terminated or some other reason).
+     |  
+     |  cancel(self)
+     |      Cancels the RPC.
+     |      
+     |      Idempotent and has no effect if the RPC has already terminated.
+     |  
+     |  is_active(self)
+     |      Describes whether the RPC is active or has terminated.
+     |      
+     |      Returns:
+     |        bool:
+     |        True if RPC is active, False otherwise.
+     |  
+     |  time_remaining(self)
+     |      Describes the length of allowed time remaining for the RPC.
+     |      
+     |      Returns:
+     |        A nonnegative float indicating the length of allowed time in seconds
+     |        remaining for the RPC to complete before it is considered to have
+     |        timed out, or None if no deadline was specified for the RPC.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'add_callback', 'cancel', 'is_active'...
+    
+    class RpcError(builtins.Exception)
+     |  Raised by the gRPC library to indicate non-OK-status RPC termination.
+     |  
+     |  Method resolution order:
+     |      RpcError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class RpcMethodHandler(builtins.object)
+     |  An implementation of a single RPC method.
+     |  
+     |  Attributes:
+     |    request_streaming: Whether the RPC supports exactly one request message
+     |      or any arbitrary number of request messages.
+     |    response_streaming: Whether the RPC supports exactly one response message
+     |      or any arbitrary number of response messages.
+     |    request_deserializer: A callable behavior that accepts a byte string and
+     |      returns an object suitable to be passed to this object's business
+     |      logic, or None to indicate that this object's business logic should be
+     |      passed the raw request bytes.
+     |    response_serializer: A callable behavior that accepts an object produced
+     |      by this object's business logic and returns a byte string, or None to
+     |      indicate that the byte strings produced by this object's business logic
+     |      should be transmitted on the wire as they are.
+     |    unary_unary: This object's application-specific business logic as a
+     |      callable value that takes a request value and a ServicerContext object
+     |      and returns a response value. Only non-None if both request_streaming
+     |      and response_streaming are False.
+     |    unary_stream: This object's application-specific business logic as a
+     |      callable value that takes a request value and a ServicerContext object
+     |      and returns an iterator of response values. Only non-None if
+     |      request_streaming is False and response_streaming is True.
+     |    stream_unary: This object's application-specific business logic as a
+     |      callable value that takes an iterator of request values and a
+     |      ServicerContext object and returns a response value. Only non-None if
+     |      request_streaming is True and response_streaming is False.
+     |    stream_stream: This object's application-specific business logic as a
+     |      callable value that takes an iterator of request values and a
+     |      ServicerContext object and returns an iterator of response values.
+     |      Only non-None if request_streaming and response_streaming are both
+     |      True.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class Server(builtins.object)
+     |  Services RPCs.
+     |  
+     |  Methods defined here:
+     |  
+     |  add_generic_rpc_handlers(self, generic_rpc_handlers)
+     |      Registers GenericRpcHandlers with this Server.
+     |      
+     |      This method is only safe to call before the server is started.
+     |      
+     |      Args:
+     |        generic_rpc_handlers: An iterable of GenericRpcHandlers that will be
+     |        used to service RPCs.
+     |  
+     |  add_insecure_port(self, address)
+     |      Opens an insecure port for accepting RPCs.
+     |      
+     |      This method may only be called before starting the server.
+     |      
+     |      Args:
+     |        address: The address for which to open a port. If the port is 0,
+     |          or not specified in the address, then gRPC runtime will choose a port.
+     |      
+     |      Returns:
+     |        An integer port on which server will accept RPC requests.
+     |  
+     |  add_secure_port(self, address, server_credentials)
+     |      Opens a secure port for accepting RPCs.
+     |      
+     |      This method may only be called before starting the server.
+     |      
+     |      Args:
+     |        address: The address for which to open a port.
+     |          if the port is 0, or not specified in the address, then gRPC
+     |          runtime will choose a port.
+     |        server_credentials: A ServerCredentials object.
+     |      
+     |      Returns:
+     |        An integer port on which server will accept RPC requests.
+     |  
+     |  start(self)
+     |      Starts this Server.
+     |      
+     |      This method may only be called once. (i.e. it is not idempotent).
+     |  
+     |  stop(self, grace)
+     |      Stops this Server.
+     |      
+     |      This method immediately stop service of new RPCs in all cases.
+     |      
+     |      If a grace period is specified, this method returns immediately
+     |      and all RPCs active at the end of the grace period are aborted.
+     |      If a grace period is not specified (by passing None for `grace`),
+     |      all existing RPCs are aborted immediately and this method
+     |      blocks until the last RPC handler terminates.
+     |      
+     |      This method is idempotent and may be called at any time.
+     |      Passing a smaller grace value in a subsequent call will have
+     |      the effect of stopping the Server sooner (passing None will
+     |      have the effect of stopping the server immediately). Passing
+     |      a larger grace value in a subsequent call *will not* have the
+     |      effect of stopping the server later (i.e. the most restrictive
+     |      grace value is used).
+     |      
+     |      Args:
+     |        grace: A duration of time in seconds or None.
+     |      
+     |      Returns:
+     |        A threading.Event that will be set when this Server has completely
+     |        stopped, i.e. when running RPCs either complete or are aborted and
+     |        all handlers have terminated.
+     |  
+     |  wait_for_termination(self, timeout=None)
+     |      Block current thread until the server stops.
+     |      
+     |      This is an EXPERIMENTAL API.
+     |      
+     |      The wait will not consume computational resources during blocking, and
+     |      it will block until one of the two following conditions are met:
+     |      
+     |      1) The server is stopped or terminated;
+     |      2) A timeout occurs if timeout is not `None`.
+     |      
+     |      The timeout argument works in the same way as `threading.Event.wait()`.
+     |      https://docs.python.org/3/library/threading.html#threading.Event.wait
+     |      
+     |      Args:
+     |        timeout: A floating point number specifying a timeout for the
+     |          operation in seconds.
+     |      
+     |      Returns:
+     |        A bool indicates if the operation times out.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'add_generic_rpc_handlers', 'add_inse...
+    
+    class ServerCertificateConfiguration(builtins.object)
+     |  ServerCertificateConfiguration(certificate_configuration)
+     |  
+     |  A certificate configuration for use with an SSL-enabled Server.
+     |  
+     |  Instances of this class can be returned in the certificate configuration
+     |  fetching callback.
+     |  
+     |  This class has no supported interface -- it exists to define the
+     |  type of its instances and its instances exist to be passed to
+     |  other functions.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, certificate_configuration)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ServerCredentials(builtins.object)
+     |  ServerCredentials(credentials)
+     |  
+     |  An encapsulation of the data required to open a secure port on a Server.
+     |  
+     |  This class has no supported interface - it exists to define the type of its
+     |  instances and its instances exist to be passed to other functions.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, credentials)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ServerInterceptor(builtins.object)
+     |  Affords intercepting incoming RPCs on the service-side.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Methods defined here:
+     |  
+     |  intercept_service(self, continuation, handler_call_details)
+     |      Intercepts incoming RPCs before handing them over to a handler.
+     |      
+     |      Args:
+     |        continuation: A function that takes a HandlerCallDetails and
+     |          proceeds to invoke the next interceptor in the chain, if any,
+     |          or the RPC handler lookup logic, with the call details passed
+     |          as an argument, and returns an RpcMethodHandler instance if
+     |          the RPC is considered serviced, or None otherwise.
+     |        handler_call_details: A HandlerCallDetails describing the RPC.
+     |      
+     |      Returns:
+     |        An RpcMethodHandler with which the RPC may be serviced if the
+     |        interceptor chooses to service this RPC, or None otherwise.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'intercept_service'})
+    
+    class ServiceRpcHandler(GenericRpcHandler)
+     |  An implementation of RPC methods belonging to a service.
+     |  
+     |  A service handles RPC methods with structured names of the form
+     |  '/Service.Name/Service.Method', where 'Service.Name' is the value
+     |  returned by service_name(), and 'Service.Method' is the method
+     |  name.  A service can have multiple method names, but only a single
+     |  service name.
+     |  
+     |  Method resolution order:
+     |      ServiceRpcHandler
+     |      GenericRpcHandler
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  service_name(self)
+     |      Returns this service's name.
+     |      
+     |      Returns:
+     |        The service name.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'service', 'service_name'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from GenericRpcHandler:
+     |  
+     |  service(self, handler_call_details)
+     |      Returns the handler for servicing the RPC.
+     |      
+     |      Args:
+     |        handler_call_details: A HandlerCallDetails describing the RPC.
+     |      
+     |      Returns:
+     |        An RpcMethodHandler with which the RPC may be serviced if the
+     |        implementation chooses to service this RPC, or None otherwise.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from GenericRpcHandler:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ServicerContext(RpcContext)
+     |  A context object passed to method implementations.
+     |  
+     |  Method resolution order:
+     |      ServicerContext
+     |      RpcContext
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  abort(self, code, details)
+     |      Raises an exception to terminate the RPC with a non-OK status.
+     |      
+     |      The code and details passed as arguments will supercede any existing
+     |      ones.
+     |      
+     |      Args:
+     |        code: A StatusCode object to be sent to the client.
+     |          It must not be StatusCode.OK.
+     |        details: A UTF-8-encodable string to be sent to the client upon
+     |          termination of the RPC.
+     |      
+     |      Raises:
+     |        Exception: An exception is always raised to signal the abortion the
+     |          RPC to the gRPC runtime.
+     |  
+     |  abort_with_status(self, status)
+     |      Raises an exception to terminate the RPC with a non-OK status.
+     |      
+     |      The status passed as argument will supercede any existing status code,
+     |      status message and trailing metadata.
+     |      
+     |      This is an EXPERIMENTAL API.
+     |      
+     |      Args:
+     |        status: A grpc.Status object. The status code in it must not be
+     |          StatusCode.OK.
+     |      
+     |      Raises:
+     |        Exception: An exception is always raised to signal the abortion the
+     |          RPC to the gRPC runtime.
+     |  
+     |  auth_context(self)
+     |      Gets the auth context for the call.
+     |      
+     |      Returns:
+     |        A map of strings to an iterable of bytes for each auth property.
+     |  
+     |  disable_next_message_compression(self)
+     |      Disables compression for the next response message.
+     |      
+     |      This is an EXPERIMENTAL method.
+     |      
+     |      This method will override any compression configuration set during
+     |      server creation or set on the call.
+     |  
+     |  invocation_metadata(self)
+     |      Accesses the metadata from the sent by the client.
+     |      
+     |      Returns:
+     |        The invocation :term:`metadata`.
+     |  
+     |  peer(self)
+     |      Identifies the peer that invoked the RPC being serviced.
+     |      
+     |      Returns:
+     |        A string identifying the peer that invoked the RPC being serviced.
+     |        The string format is determined by gRPC runtime.
+     |  
+     |  peer_identities(self)
+     |      Gets one or more peer identity(s).
+     |      
+     |      Equivalent to
+     |      servicer_context.auth_context().get(servicer_context.peer_identity_key())
+     |      
+     |      Returns:
+     |        An iterable of the identities, or None if the call is not
+     |        authenticated. Each identity is returned as a raw bytes type.
+     |  
+     |  peer_identity_key(self)
+     |      The auth property used to identify the peer.
+     |      
+     |      For example, "x509_common_name" or "x509_subject_alternative_name" are
+     |      used to identify an SSL peer.
+     |      
+     |      Returns:
+     |        The auth property (string) that indicates the
+     |        peer identity, or None if the call is not authenticated.
+     |  
+     |  send_initial_metadata(self, initial_metadata)
+     |      Sends the initial metadata value to the client.
+     |      
+     |      This method need not be called by implementations if they have no
+     |      metadata to add to what the gRPC runtime will transmit.
+     |      
+     |      Args:
+     |        initial_metadata: The initial :term:`metadata`.
+     |  
+     |  set_code(self, code)
+     |      Sets the value to be used as status code upon RPC completion.
+     |      
+     |      This method need not be called by method implementations if they wish
+     |      the gRPC runtime to determine the status code of the RPC.
+     |      
+     |      Args:
+     |        code: A StatusCode object to be sent to the client.
+     |  
+     |  set_compression(self, compression)
+     |      Set the compression algorithm to be used for the entire call.
+     |      
+     |      This is an EXPERIMENTAL method.
+     |      
+     |      Args:
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip.
+     |  
+     |  set_details(self, details)
+     |      Sets the value to be used as detail string upon RPC completion.
+     |      
+     |      This method need not be called by method implementations if they have
+     |      no details to transmit.
+     |      
+     |      Args:
+     |        details: A UTF-8-encodable string to be sent to the client upon
+     |          termination of the RPC.
+     |  
+     |  set_trailing_metadata(self, trailing_metadata)
+     |      Sends the trailing metadata for the RPC.
+     |      
+     |      This method need not be called by implementations if they have no
+     |      metadata to add to what the gRPC runtime will transmit.
+     |      
+     |      Args:
+     |        trailing_metadata: The trailing :term:`metadata`.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'abort', 'abort_with_status', 'add_ca...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from RpcContext:
+     |  
+     |  add_callback(self, callback)
+     |      Registers a callback to be called on RPC termination.
+     |      
+     |      Args:
+     |        callback: A no-parameter callable to be called on RPC termination.
+     |      
+     |      Returns:
+     |        True if the callback was added and will be called later; False if
+     |          the callback was not added and will not be called (because the RPC
+     |          already terminated or some other reason).
+     |  
+     |  cancel(self)
+     |      Cancels the RPC.
+     |      
+     |      Idempotent and has no effect if the RPC has already terminated.
+     |  
+     |  is_active(self)
+     |      Describes whether the RPC is active or has terminated.
+     |      
+     |      Returns:
+     |        bool:
+     |        True if RPC is active, False otherwise.
+     |  
+     |  time_remaining(self)
+     |      Describes the length of allowed time remaining for the RPC.
+     |      
+     |      Returns:
+     |        A nonnegative float indicating the length of allowed time in seconds
+     |        remaining for the RPC to complete before it is considered to have
+     |        timed out, or None if no deadline was specified for the RPC.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from RpcContext:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Status(builtins.object)
+     |  Describes the status of an RPC.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Attributes:
+     |    code: A StatusCode object to be sent to the client.
+     |    details: A UTF-8-encodable string to be sent to the client upon
+     |      termination of the RPC.
+     |    trailing_metadata: The trailing :term:`metadata` in the RPC.
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+    
+    class StatusCode(enum.Enum)
+     |  StatusCode(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  Mirrors grpc_status_code in the gRPC Core.
+     |  
+     |  Attributes:
+     |    OK: Not an error; returned on success
+     |    CANCELLED: The operation was cancelled (typically by the caller).
+     |    UNKNOWN: Unknown error.
+     |    INVALID_ARGUMENT: Client specified an invalid argument.
+     |    DEADLINE_EXCEEDED: Deadline expired before operation could complete.
+     |    NOT_FOUND: Some requested entity (e.g., file or directory) was not found.
+     |    ALREADY_EXISTS: Some entity that we attempted to create (e.g., file or directory)
+     |      already exists.
+     |    PERMISSION_DENIED: The caller does not have permission to execute the specified
+     |      operation.
+     |    UNAUTHENTICATED: The request does not have valid authentication credentials for the
+     |      operation.
+     |    RESOURCE_EXHAUSTED: Some resource has been exhausted, perhaps a per-user quota, or
+     |      perhaps the entire file system is out of space.
+     |    FAILED_PRECONDITION: Operation was rejected because the system is not in a state
+     |      required for the operation's execution.
+     |    ABORTED: The operation was aborted, typically due to a concurrency issue
+     |      like sequencer check failures, transaction aborts, etc.
+     |    UNIMPLEMENTED: Operation is not implemented or not supported/enabled in this service.
+     |    INTERNAL: Internal errors.  Means some invariants expected by underlying
+     |      system has been broken.
+     |    UNAVAILABLE: The service is currently unavailable.
+     |    DATA_LOSS: Unrecoverable data loss or corruption.
+     |  
+     |  Method resolution order:
+     |      StatusCode
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  ABORTED = <StatusCode.ABORTED: (10, 'aborted')>
+     |  
+     |  ALREADY_EXISTS = <StatusCode.ALREADY_EXISTS: (6, 'already exists')>
+     |  
+     |  CANCELLED = <StatusCode.CANCELLED: (1, 'cancelled')>
+     |  
+     |  DATA_LOSS = <StatusCode.DATA_LOSS: (15, 'data loss')>
+     |  
+     |  DEADLINE_EXCEEDED = <StatusCode.DEADLINE_EXCEEDED: (4, 'deadline excee...
+     |  
+     |  FAILED_PRECONDITION = <StatusCode.FAILED_PRECONDITION: (9, 'failed pre...
+     |  
+     |  INTERNAL = <StatusCode.INTERNAL: (13, 'internal')>
+     |  
+     |  INVALID_ARGUMENT = <StatusCode.INVALID_ARGUMENT: (3, 'invalid argument...
+     |  
+     |  NOT_FOUND = <StatusCode.NOT_FOUND: (5, 'not found')>
+     |  
+     |  OK = <StatusCode.OK: (0, 'ok')>
+     |  
+     |  OUT_OF_RANGE = <StatusCode.OUT_OF_RANGE: (11, 'out of range')>
+     |  
+     |  PERMISSION_DENIED = <StatusCode.PERMISSION_DENIED: (7, 'permission den...
+     |  
+     |  RESOURCE_EXHAUSTED = <StatusCode.RESOURCE_EXHAUSTED: (8, 'resource exh...
+     |  
+     |  UNAUTHENTICATED = <StatusCode.UNAUTHENTICATED: (16, 'unauthenticated')...
+     |  
+     |  UNAVAILABLE = <StatusCode.UNAVAILABLE: (14, 'unavailable')>
+     |  
+     |  UNIMPLEMENTED = <StatusCode.UNIMPLEMENTED: (12, 'unimplemented')>
+     |  
+     |  UNKNOWN = <StatusCode.UNKNOWN: (2, 'unknown')>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class StreamStreamClientInterceptor(builtins.object)
+     |  Affords intercepting stream-stream invocations.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Methods defined here:
+     |  
+     |  intercept_stream_stream(self, continuation, client_call_details, request_iterator)
+     |      Intercepts a stream-stream invocation.
+     |      
+     |      Args:
+     |        continuation: A function that proceeds with the invocation by
+     |          executing the next interceptor in chain or invoking the
+     |          actual RPC on the underlying Channel. It is the interceptor's
+     |          responsibility to call it if it decides to move the RPC forward.
+     |          The interceptor can use
+     |          `response_iterator = continuation(client_call_details, request_iterator)`
+     |          to continue with the RPC. `continuation` returns an object that is
+     |          both a Call for the RPC and an iterator for response values.
+     |          Drawing response values from the returned Call-iterator may
+     |          raise RpcError indicating termination of the RPC with non-OK
+     |          status.
+     |        client_call_details: A ClientCallDetails object describing the
+     |          outgoing RPC.
+     |        request_iterator: An iterator that yields request values for the RPC.
+     |      
+     |      Returns:
+     |        An object that is both a Call for the RPC and an iterator of
+     |        response values. Drawing response values from the returned
+     |        Call-iterator may raise RpcError indicating termination of
+     |        the RPC with non-OK status.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'intercept_stream_stream'})
+    
+    class StreamStreamMultiCallable(builtins.object)
+     |  Affords invoking a stream-stream RPC on client-side.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, request_iterator, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Invokes the underlying RPC on the client.
+     |      
+     |      Args:
+     |        request_iterator: An iterator that yields request values for the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC. If not specified, the timeout is considered infinite.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and an iterator of
+     |          response values. Drawing response values from the returned
+     |          Call-iterator may raise RpcError indicating termination of the
+     |          RPC with non-OK status.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__call__'})
+    
+    class StreamUnaryClientInterceptor(builtins.object)
+     |  Affords intercepting stream-unary invocations.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Methods defined here:
+     |  
+     |  intercept_stream_unary(self, continuation, client_call_details, request_iterator)
+     |      Intercepts a stream-unary invocation asynchronously.
+     |      
+     |      Args:
+     |        continuation: A function that proceeds with the invocation by
+     |          executing the next interceptor in chain or invoking the
+     |          actual RPC on the underlying Channel. It is the interceptor's
+     |          responsibility to call it if it decides to move the RPC forward.
+     |          The interceptor can use
+     |          `response_future = continuation(client_call_details, request_iterator)`
+     |          to continue with the RPC. `continuation` returns an object that is
+     |          both a Call for the RPC and a Future. In the event of RPC completion,
+     |          the return Call-Future's result value will be the response message
+     |          of the RPC. Should the event terminate with non-OK status, the
+     |          returned Call-Future's exception value will be an RpcError.
+     |        client_call_details: A ClientCallDetails object describing the
+     |          outgoing RPC.
+     |        request_iterator: An iterator that yields request values for the RPC.
+     |      
+     |      Returns:
+     |        An object that is both a Call for the RPC and a Future.
+     |        In the event of RPC completion, the return Call-Future's
+     |        result value will be the response message of the RPC.
+     |        Should the event terminate with non-OK status, the returned
+     |        Call-Future's exception value will be an RpcError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'intercept_stream_unary'})
+    
+    class StreamUnaryMultiCallable(builtins.object)
+     |  Affords invoking a stream-unary RPC from client-side.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, request_iterator, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Synchronously invokes the underlying RPC.
+     |      
+     |      Args:
+     |        request_iterator: An iterator that yields request values for
+     |          the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC. If None, the timeout is considered infinite.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |        The response value for the RPC.
+     |      
+     |      Raises:
+     |        RpcError: Indicating that the RPC terminated with non-OK status. The
+     |          raised RpcError will also implement grpc.Call, affording methods
+     |          such as metadata, code, and details.
+     |  
+     |  future(self, request_iterator, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Asynchronously invokes the underlying RPC on the client.
+     |      
+     |      Args:
+     |        request_iterator: An iterator that yields request values for the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC. If None, the timeout is considered infinite.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and a Future.
+     |          In the event of RPC completion, the return Call-Future's result value
+     |          will be the response message of the RPC. Should the event terminate
+     |          with non-OK status, the returned Call-Future's exception value will
+     |          be an RpcError.
+     |  
+     |  with_call(self, request_iterator, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Synchronously invokes the underlying RPC on the client.
+     |      
+     |      Args:
+     |        request_iterator: An iterator that yields request values for
+     |          the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC. If None, the timeout is considered infinite.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |        The response value for the RPC and a Call object for the RPC.
+     |      
+     |      Raises:
+     |        RpcError: Indicating that the RPC terminated with non-OK status. The
+     |          raised RpcError will also be a Call for the RPC affording the RPC's
+     |          metadata, status code, and details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__call__', 'future', 'with_call'})
+    
+    class UnaryStreamClientInterceptor(builtins.object)
+     |  Affords intercepting unary-stream invocations.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Methods defined here:
+     |  
+     |  intercept_unary_stream(self, continuation, client_call_details, request)
+     |      Intercepts a unary-stream invocation.
+     |      
+     |      Args:
+     |        continuation: A function that proceeds with the invocation by
+     |          executing the next interceptor in chain or invoking the
+     |          actual RPC on the underlying Channel. It is the interceptor's
+     |          responsibility to call it if it decides to move the RPC forward.
+     |          The interceptor can use
+     |          `response_iterator = continuation(client_call_details, request)`
+     |          to continue with the RPC. `continuation` returns an object that is
+     |          both a Call for the RPC and an iterator for response values.
+     |          Drawing response values from the returned Call-iterator may
+     |          raise RpcError indicating termination of the RPC with non-OK
+     |          status.
+     |        client_call_details: A ClientCallDetails object describing the
+     |          outgoing RPC.
+     |        request: The request value for the RPC.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and an iterator of
+     |          response values. Drawing response values from the returned
+     |          Call-iterator may raise RpcError indicating termination of
+     |          the RPC with non-OK status.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'intercept_unary_stream'})
+    
+    class UnaryStreamMultiCallable(builtins.object)
+     |  Affords invoking a unary-stream RPC from client-side.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, request, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Invokes the underlying RPC.
+     |      
+     |      Args:
+     |        request: The request value for the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC. If None, the timeout is considered infinite.
+     |        metadata: An optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and an iterator of
+     |          response values. Drawing response values from the returned
+     |          Call-iterator may raise RpcError indicating termination of the
+     |          RPC with non-OK status.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__call__'})
+    
+    class UnaryUnaryClientInterceptor(builtins.object)
+     |  Affords intercepting unary-unary invocations.
+     |  
+     |  This is an EXPERIMENTAL API.
+     |  
+     |  Methods defined here:
+     |  
+     |  intercept_unary_unary(self, continuation, client_call_details, request)
+     |      Intercepts a unary-unary invocation asynchronously.
+     |      
+     |      Args:
+     |        continuation: A function that proceeds with the invocation by
+     |          executing the next interceptor in chain or invoking the
+     |          actual RPC on the underlying Channel. It is the interceptor's
+     |          responsibility to call it if it decides to move the RPC forward.
+     |          The interceptor can use
+     |          `response_future = continuation(client_call_details, request)`
+     |          to continue with the RPC. `continuation` returns an object that is
+     |          both a Call for the RPC and a Future. In the event of RPC
+     |          completion, the return Call-Future's result value will be
+     |          the response message of the RPC. Should the event terminate
+     |          with non-OK status, the returned Call-Future's exception value
+     |          will be an RpcError.
+     |        client_call_details: A ClientCallDetails object describing the
+     |          outgoing RPC.
+     |        request: The request value for the RPC.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and a Future.
+     |          In the event of RPC completion, the return Call-Future's
+     |          result value will be the response message of the RPC.
+     |          Should the event terminate with non-OK status, the returned
+     |          Call-Future's exception value will be an RpcError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'intercept_unary_unary'})
+    
+    class UnaryUnaryMultiCallable(builtins.object)
+     |  Affords invoking a unary-unary RPC from client-side.
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, request, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Synchronously invokes the underlying RPC.
+     |      
+     |      Args:
+     |        request: The request value for the RPC.
+     |        timeout: An optional duration of time in seconds to allow
+     |          for the RPC.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |        The response value for the RPC.
+     |      
+     |      Raises:
+     |        RpcError: Indicating that the RPC terminated with non-OK status. The
+     |          raised RpcError will also be a Call for the RPC affording the RPC's
+     |          metadata, status code, and details.
+     |  
+     |  future(self, request, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Asynchronously invokes the underlying RPC.
+     |      
+     |      Args:
+     |        request: The request value for the RPC.
+     |        timeout: An optional duration of time in seconds to allow for
+     |          the RPC.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |          An object that is both a Call for the RPC and a Future.
+     |          In the event of RPC completion, the return Call-Future's result
+     |          value will be the response message of the RPC.
+     |          Should the event terminate with non-OK status,
+     |          the returned Call-Future's exception value will be an RpcError.
+     |  
+     |  with_call(self, request, timeout=None, metadata=None, credentials=None, wait_for_ready=None, compression=None)
+     |      Synchronously invokes the underlying RPC.
+     |      
+     |      Args:
+     |        request: The request value for the RPC.
+     |        timeout: An optional durating of time in seconds to allow for
+     |          the RPC.
+     |        metadata: Optional :term:`metadata` to be transmitted to the
+     |          service-side of the RPC.
+     |        credentials: An optional CallCredentials for the RPC. Only valid for
+     |          secure Channel.
+     |        wait_for_ready: This is an EXPERIMENTAL argument. An optional
+     |          flag to enable wait for ready mechanism
+     |        compression: An element of grpc.compression, e.g.
+     |          grpc.compression.Gzip. This is an EXPERIMENTAL option.
+     |      
+     |      Returns:
+     |        The response value for the RPC and a Call value for the RPC.
+     |      
+     |      Raises:
+     |        RpcError: Indicating that the RPC terminated with non-OK status. The
+     |          raised RpcError will also be a Call for the RPC affording the RPC's
+     |          metadata, status code, and details.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__call__', 'future', 'with_call'})
+
+FUNCTIONS
+    access_token_call_credentials(access_token)
+        Construct CallCredentials from an access token.
+        
+        Args:
+          access_token: A string to place directly in the http request
+            authorization header, for example
+            "authorization: Bearer <access_token>".
+        
+        Returns:
+          A CallCredentials.
+    
+    channel_ready_future(channel)
+        Creates a Future that tracks when a Channel is ready.
+        
+        Cancelling the Future does not affect the channel's state machine.
+        It merely decouples the Future from channel state machine.
+        
+        Args:
+          channel: A Channel object.
+        
+        Returns:
+          A Future object that matures when the channel connectivity is
+          ChannelConnectivity.READY.
+    
+    composite_call_credentials(*call_credentials)
+        Compose multiple CallCredentials to make a new CallCredentials.
+        
+        Args:
+          *call_credentials: At least two CallCredentials objects.
+        
+        Returns:
+          A CallCredentials object composed of the given CallCredentials objects.
+    
+    composite_channel_credentials(channel_credentials, *call_credentials)
+        Compose a ChannelCredentials and one or more CallCredentials objects.
+        
+        Args:
+          channel_credentials: A ChannelCredentials object.
+          *call_credentials: One or more CallCredentials objects.
+        
+        Returns:
+          A ChannelCredentials composed of the given ChannelCredentials and
+            CallCredentials objects.
+    
+    dynamic_ssl_server_credentials(initial_certificate_configuration, certificate_configuration_fetcher, require_client_authentication=False)
+        Creates a ServerCredentials for use with an SSL-enabled Server.
+        
+        Args:
+          initial_certificate_configuration (ServerCertificateConfiguration): The
+            certificate configuration with which the server will be initialized.
+          certificate_configuration_fetcher (callable): A callable that takes no
+            arguments and should return a ServerCertificateConfiguration to
+            replace the server's current certificate, or None for no change
+            (i.e., the server will continue its current certificate
+            config). The library will call this callback on *every* new
+            client connection before starting the TLS handshake with the
+            client, thus allowing the user application to optionally
+            return a new ServerCertificateConfiguration that the server will then
+            use for the handshake.
+          require_client_authentication: A boolean indicating whether or not to
+            require clients to be authenticated.
+        
+        Returns:
+          A ServerCredentials.
+    
+    insecure_channel(target, options=None, compression=None)
+        Creates an insecure Channel to a server.
+        
+        The returned Channel is thread-safe.
+        
+        Args:
+          target: The server address
+          options: An optional list of key-value pairs (channel args
+            in gRPC Core runtime) to configure the channel.
+          compression: An optional value indicating the compression method to be
+            used over the lifetime of the channel. This is an EXPERIMENTAL option.
+        
+        Returns:
+          A Channel.
+    
+    intercept_channel(channel, *interceptors)
+        Intercepts a channel through a set of interceptors.
+        
+        This is an EXPERIMENTAL API.
+        
+        Args:
+          channel: A Channel.
+          interceptors: Zero or more objects of type
+            UnaryUnaryClientInterceptor,
+            UnaryStreamClientInterceptor,
+            StreamUnaryClientInterceptor, or
+            StreamStreamClientInterceptor.
+            Interceptors are given control in the order they are listed.
+        
+        Returns:
+          A Channel that intercepts each invocation via the provided interceptors.
+        
+        Raises:
+          TypeError: If interceptor does not derive from any of
+            UnaryUnaryClientInterceptor,
+            UnaryStreamClientInterceptor,
+            StreamUnaryClientInterceptor, or
+            StreamStreamClientInterceptor.
+    
+    local_channel_credentials(local_connect_type=<LocalConnectionType.LOCAL_TCP: 1>)
+        Creates a local ChannelCredentials used for local connections.
+        
+        This is an EXPERIMENTAL API.
+        
+        Local credentials are used by local TCP endpoints (e.g. localhost:10000)
+        also UDS connections. It allows them to create secure channel, hence
+        transmitting call credentials become possible.
+        
+        It is useful for 1) eliminating insecure_channel usage; 2) enable unit
+        testing for call credentials without setting up secrets.
+        
+        Args:
+          local_connect_type: Local connection type (either
+            grpc.LocalConnectionType.UDS or grpc.LocalConnectionType.LOCAL_TCP)
+        
+        Returns:
+          A ChannelCredentials for use with a local Channel
+    
+    local_server_credentials(local_connect_type=<LocalConnectionType.LOCAL_TCP: 1>)
+        Creates a local ServerCredentials used for local connections.
+        
+        This is an EXPERIMENTAL API.
+        
+        Local credentials are used by local TCP endpoints (e.g. localhost:10000)
+        also UDS connections. It allows them to create secure channel, hence
+        transmitting call credentials become possible.
+        
+        It is useful for 1) eliminating insecure_channel usage; 2) enable unit
+        testing for call credentials without setting up secrets.
+        
+        Args:
+          local_connect_type: Local connection type (either
+            grpc.LocalConnectionType.UDS or grpc.LocalConnectionType.LOCAL_TCP)
+        
+        Returns:
+          A ServerCredentials for use with a local Server
+    
+    metadata_call_credentials(metadata_plugin, name=None)
+        Construct CallCredentials from an AuthMetadataPlugin.
+        
+        Args:
+          metadata_plugin: An AuthMetadataPlugin to use for authentication.
+          name: An optional name for the plugin.
+        
+        Returns:
+          A CallCredentials.
+    
+    method_handlers_generic_handler(service, method_handlers)
+        Creates a GenericRpcHandler from RpcMethodHandlers.
+        
+        Args:
+          service: The name of the service that is implemented by the
+            method_handlers.
+          method_handlers: A dictionary that maps method names to corresponding
+            RpcMethodHandler.
+        
+        Returns:
+          A GenericRpcHandler. This is typically added to the grpc.Server object
+          with add_generic_rpc_handlers() before starting the server.
+    
+    secure_channel(target, credentials, options=None, compression=None)
+        Creates a secure Channel to a server.
+        
+        The returned Channel is thread-safe.
+        
+        Args:
+          target: The server address.
+          credentials: A ChannelCredentials instance.
+          options: An optional list of key-value pairs (channel args
+            in gRPC Core runtime) to configure the channel.
+          compression: An optional value indicating the compression method to be
+            used over the lifetime of the channel. This is an EXPERIMENTAL option.
+        
+        Returns:
+          A Channel.
+    
+    server(thread_pool, handlers=None, interceptors=None, options=None, maximum_concurrent_rpcs=None, compression=None)
+        Creates a Server with which RPCs can be serviced.
+        
+        Args:
+          thread_pool: A futures.ThreadPoolExecutor to be used by the Server
+            to execute RPC handlers.
+          handlers: An optional list of GenericRpcHandlers used for executing RPCs.
+            More handlers may be added by calling add_generic_rpc_handlers any time
+            before the server is started.
+          interceptors: An optional list of ServerInterceptor objects that observe
+            and optionally manipulate the incoming RPCs before handing them over to
+            handlers. The interceptors are given control in the order they are
+            specified. This is an EXPERIMENTAL API.
+          options: An optional list of key-value pairs (channel args in gRPC runtime)
+            to configure the channel.
+          maximum_concurrent_rpcs: The maximum number of concurrent RPCs this server
+            will service before returning RESOURCE_EXHAUSTED status, or None to
+            indicate no limit.
+          compression: An element of grpc.compression, e.g.
+            grpc.compression.Gzip. This compression algorithm will be used for the
+            lifetime of the server unless overridden. This is an EXPERIMENTAL option.
+        
+        Returns:
+          A Server object.
+    
+    ssl_channel_credentials(root_certificates=None, private_key=None, certificate_chain=None)
+        Creates a ChannelCredentials for use with an SSL-enabled Channel.
+        
+        Args:
+          root_certificates: The PEM-encoded root certificates as a byte string,
+            or None to retrieve them from a default location chosen by gRPC
+            runtime.
+          private_key: The PEM-encoded private key as a byte string, or None if no
+            private key should be used.
+          certificate_chain: The PEM-encoded certificate chain as a byte string
+            to use or or None if no certificate chain should be used.
+        
+        Returns:
+          A ChannelCredentials for use with an SSL-enabled Channel.
+    
+    ssl_server_certificate_configuration(private_key_certificate_chain_pairs, root_certificates=None)
+        Creates a ServerCertificateConfiguration for use with a Server.
+        
+        Args:
+          private_key_certificate_chain_pairs: A collection of pairs of
+            the form [PEM-encoded private key, PEM-encoded certificate
+            chain].
+          root_certificates: An optional byte string of PEM-encoded client root
+            certificates that the server will use to verify client authentication.
+        
+        Returns:
+          A ServerCertificateConfiguration that can be returned in the certificate
+            configuration fetching callback.
+    
+    ssl_server_credentials(private_key_certificate_chain_pairs, root_certificates=None, require_client_auth=False)
+        Creates a ServerCredentials for use with an SSL-enabled Server.
+        
+        Args:
+          private_key_certificate_chain_pairs: A list of pairs of the form
+            [PEM-encoded private key, PEM-encoded certificate chain].
+          root_certificates: An optional byte string of PEM-encoded client root
+            certificates that the server will use to verify client authentication.
+            If omitted, require_client_auth must also be False.
+          require_client_auth: A boolean indicating whether or not to require
+            clients to be authenticated. May only be True if root_certificates
+            is not None.
+        
+        Returns:
+          A ServerCredentials for use with an SSL-enabled Server. Typically, this
+          object is an argument to add_secure_port() method during server setup.
+    
+    stream_stream_rpc_method_handler(behavior, request_deserializer=None, response_serializer=None)
+        Creates an RpcMethodHandler for a stream-stream RPC method.
+        
+        Args:
+          behavior: The implementation of an RPC that accepts an iterator of
+            request values and returns an iterator of response values.
+          request_deserializer: An optional behavior for request deserialization.
+          response_serializer: An optional behavior for response serialization.
+        
+        Returns:
+          An RpcMethodHandler object that is typically used by grpc.Server.
+    
+    stream_unary_rpc_method_handler(behavior, request_deserializer=None, response_serializer=None)
+        Creates an RpcMethodHandler for a stream-unary RPC method.
+        
+        Args:
+          behavior: The implementation of an RPC that accepts an iterator of
+            request values and returns a single response value.
+          request_deserializer: An optional behavior for request deserialization.
+          response_serializer: An optional behavior for response serialization.
+        
+        Returns:
+          An RpcMethodHandler object that is typically used by grpc.Server.
+    
+    unary_stream_rpc_method_handler(behavior, request_deserializer=None, response_serializer=None)
+        Creates an RpcMethodHandler for a unary-stream RPC method.
+        
+        Args:
+          behavior: The implementation of an RPC that accepts one request
+            and returns an iterator of response values.
+          request_deserializer: An optional behavior for request deserialization.
+          response_serializer: An optional behavior for response serialization.
+        
+        Returns:
+          An RpcMethodHandler object that is typically used by grpc.Server.
+    
+    unary_unary_rpc_method_handler(behavior, request_deserializer=None, response_serializer=None)
+        Creates an RpcMethodHandler for a unary-unary RPC method.
+        
+        Args:
+          behavior: The implementation of an RPC that accepts one request
+            and returns one response.
+          request_deserializer: An optional behavior for request deserialization.
+          response_serializer: An optional behavior for response serialization.
+        
+        Returns:
+          An RpcMethodHandler object that is typically used by grpc.Server.
+
+DATA
+    __all__ = ('FutureTimeoutError', 'FutureCancelledError', 'Future', 'Ch...
+
+VERSION
+    1.24.1
+
+FILE
+    c:\program files\python37\lib\site-packages\grpc\__init__.py
+
+

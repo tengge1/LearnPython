@@ -1,0 +1,205 @@
+Help on module py_compile:
+
+NAME
+    py_compile - Routine to "compile" a .py file to a .pyc file.
+
+DESCRIPTION
+    This module has intimate knowledge of the format of .pyc files.
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        PyCompileError
+    enum.Enum(builtins.object)
+        PycInvalidationMode
+    
+    class PyCompileError(builtins.Exception)
+     |  PyCompileError(exc_type, exc_value, file, msg='')
+     |  
+     |  Exception raised when an error occurs while attempting to
+     |  compile the file.
+     |  
+     |  To raise this exception, use
+     |  
+     |      raise PyCompileError(exc_type,exc_value,file[,msg])
+     |  
+     |  where
+     |  
+     |      exc_type:   exception type to be used in error message
+     |                  type name can be accesses as class variable
+     |                  'exc_type_name'
+     |  
+     |      exc_value:  exception value to be used in error message
+     |                  can be accesses as class variable 'exc_value'
+     |  
+     |      file:       name of file being compiled to be used in error message
+     |                  can be accesses as class variable 'file'
+     |  
+     |      msg:        string message to be written as error message
+     |                  If no value is given, a default exception message will be
+     |                  given, consistent with 'standard' py_compile output.
+     |                  message (or default) can be accesses as class variable
+     |                  'msg'
+     |  
+     |  Method resolution order:
+     |      PyCompileError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, exc_type, exc_value, file, msg='')
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class PycInvalidationMode(enum.Enum)
+     |  PycInvalidationMode(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  An enumeration.
+     |  
+     |  Method resolution order:
+     |      PycInvalidationMode
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  CHECKED_HASH = <PycInvalidationMode.CHECKED_HASH: 2>
+     |  
+     |  TIMESTAMP = <PycInvalidationMode.TIMESTAMP: 1>
+     |  
+     |  UNCHECKED_HASH = <PycInvalidationMode.UNCHECKED_HASH: 3>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+FUNCTIONS
+    compile(file, cfile=None, dfile=None, doraise=False, optimize=-1, invalidation_mode=None)
+        Byte-compile one Python source file to Python bytecode.
+        
+        :param file: The source file name.
+        :param cfile: The target byte compiled file name.  When not given, this
+            defaults to the PEP 3147/PEP 488 location.
+        :param dfile: Purported file name, i.e. the file name that shows up in
+            error messages.  Defaults to the source file name.
+        :param doraise: Flag indicating whether or not an exception should be
+            raised when a compile error is found.  If an exception occurs and this
+            flag is set to False, a string indicating the nature of the exception
+            will be printed, and the function will return to the caller. If an
+            exception occurs and this flag is set to True, a PyCompileError
+            exception will be raised.
+        :param optimize: The optimization level for the compiler.  Valid values
+            are -1, 0, 1 and 2.  A value of -1 means to use the optimization
+            level of the current interpreter, as given by -O command line options.
+        :param invalidation_mode:
+        
+        :return: Path to the resulting byte compiled file.
+        
+        Note that it isn't necessary to byte-compile Python modules for
+        execution efficiency -- Python itself byte-compiles a module when
+        it is loaded, and if it can, writes out the bytecode to the
+        corresponding .pyc file.
+        
+        However, if a Python installation is shared between users, it is a
+        good idea to byte-compile all modules upon installation, since
+        other users may not be able to write in the source directories,
+        and thus they won't be able to write the .pyc file, and then
+        they would be byte-compiling every module each time it is loaded.
+        This can slow down program start-up considerably.
+        
+        See compileall.py for a script/module that uses this module to
+        byte-compile all installed files (or all files in selected
+        directories).
+        
+        Do note that FileExistsError is raised if cfile ends up pointing at a
+        non-regular file or symlink. Because the compilation uses a file renaming,
+        the resulting file would be regular and thus not the same type of file as
+        it was previously.
+    
+    main(args=None)
+        Compile several source files.
+        
+        The files named in 'args' (or on the command line, if 'args' is
+        not specified) are compiled and the resulting bytecode is cached
+        in the normal manner.  This function does not search a directory
+        structure to locate source files; it only compiles files named
+        explicitly.  If '-' is the only parameter in args, the list of
+        files is taken from standard input.
+
+DATA
+    __all__ = ['compile', 'main', 'PyCompileError', 'PycInvalidationMode']
+
+FILE
+    c:\program files\python37\lib\py_compile.py
+
+

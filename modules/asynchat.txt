@@ -1,0 +1,197 @@
+Help on module asynchat:
+
+NAME
+    asynchat - A class supporting chat-style (command/response) protocols.
+
+DESCRIPTION
+    This class adds support for 'chat' style protocols - where one side
+    sends a 'command', and the other sends a response (examples would be
+    the common internet protocols - smtp, nntp, ftp, etc..).
+    
+    The handle_read() method looks at the input stream for the current
+    'terminator' (usually '\r\n' for single-line responses, '\r\n.\r\n'
+    for multi-line output), calling self.found_terminator() on its
+    receipt.
+    
+    for example:
+    Say you build an async nntp client using this class.  At the start
+    of the connection, you'll have self.terminator set to '\r\n', in
+    order to process the single-line greeting.  Just before issuing a
+    'LIST' command you'll set it to '\r\n.\r\n'.  The output of the LIST
+    command will be accumulated (using your own 'collect_incoming_data'
+    method) up to the terminator, and then control will be returned to
+    you - by calling your self.found_terminator() method.
+
+CLASSES
+    asyncore.dispatcher(builtins.object)
+        async_chat
+    builtins.object
+        simple_producer
+    
+    class async_chat(asyncore.dispatcher)
+     |  async_chat(sock=None, map=None)
+     |  
+     |  This is an abstract class.  You must derive from this class, and add
+     |  the two methods collect_incoming_data() and found_terminator()
+     |  
+     |  Method resolution order:
+     |      async_chat
+     |      asyncore.dispatcher
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, sock=None, map=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close_when_done(self)
+     |      automatically close this channel once the outgoing queue is empty
+     |  
+     |  collect_incoming_data(self, data)
+     |  
+     |  discard_buffers(self)
+     |  
+     |  found_terminator(self)
+     |  
+     |  get_terminator(self)
+     |  
+     |  handle_close(self)
+     |  
+     |  handle_read(self)
+     |  
+     |  handle_write(self)
+     |  
+     |  initiate_send(self)
+     |  
+     |  push(self, data)
+     |  
+     |  push_with_producer(self, producer)
+     |  
+     |  readable(self)
+     |      predicate for inclusion in the readable for select()
+     |  
+     |  set_terminator(self, term)
+     |      Set the input delimiter.
+     |      
+     |      Can be a fixed string of any length, an integer, or None.
+     |  
+     |  writable(self)
+     |      predicate for inclusion in the writable for select()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  ac_in_buffer_size = 65536
+     |  
+     |  ac_out_buffer_size = 65536
+     |  
+     |  encoding = 'latin-1'
+     |  
+     |  use_encoding = 0
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from asyncore.dispatcher:
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__ = __repr__(self)
+     |  
+     |  accept(self)
+     |  
+     |  add_channel(self, map=None)
+     |  
+     |  bind(self, addr)
+     |  
+     |  close(self)
+     |  
+     |  connect(self, address)
+     |  
+     |  create_socket(self, family=<AddressFamily.AF_INET: 2>, type=<SocketKind.SOCK_STREAM: 1>)
+     |  
+     |  del_channel(self, map=None)
+     |  
+     |  handle_accept(self)
+     |  
+     |  handle_accepted(self, sock, addr)
+     |  
+     |  handle_connect(self)
+     |  
+     |  handle_connect_event(self)
+     |  
+     |  handle_error(self)
+     |  
+     |  handle_expt(self)
+     |  
+     |  handle_expt_event(self)
+     |  
+     |  handle_read_event(self)
+     |  
+     |  handle_write_event(self)
+     |  
+     |  listen(self, num)
+     |  
+     |  log(self, message)
+     |  
+     |  log_info(self, message, type='info')
+     |  
+     |  recv(self, buffer_size)
+     |  
+     |  send(self, data)
+     |  
+     |  set_reuse_addr(self)
+     |  
+     |  set_socket(self, sock, map=None)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from asyncore.dispatcher:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from asyncore.dispatcher:
+     |  
+     |  accepting = False
+     |  
+     |  addr = None
+     |  
+     |  closing = False
+     |  
+     |  connected = False
+     |  
+     |  connecting = False
+     |  
+     |  debug = False
+     |  
+     |  ignore_log_types = frozenset({'warning'})
+    
+    class simple_producer(builtins.object)
+     |  simple_producer(data, buffer_size=512)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, data, buffer_size=512)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  more(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    find_prefix_at_end(haystack, needle)
+
+FILE
+    c:\program files\python37\lib\asynchat.py
+
+

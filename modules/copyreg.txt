@@ -1,0 +1,35 @@
+Help on module copyreg:
+
+NAME
+    copyreg - Helper to provide extensibility for pickle.
+
+DESCRIPTION
+    This is only useful to add pickle support for extension types defined in
+    C, not for instances of user-defined classes.
+
+FUNCTIONS
+    __newobj__(cls, *args)
+    
+    __newobj_ex__(cls, args, kwargs)
+        Used by pickle protocol 4, instead of __newobj__ to allow classes with
+        keyword-only arguments to be pickled correctly.
+    
+    add_extension(module, name, code)
+        Register an extension code.
+    
+    clear_extension_cache()
+    
+    constructor(object)
+    
+    pickle(ob_type, pickle_function, constructor_ob=None)
+    
+    remove_extension(module, name, code)
+        Unregister an extension code.  For testing only.
+
+DATA
+    __all__ = ['pickle', 'constructor', 'add_extension', 'remove_extension...
+
+FILE
+    c:\program files\python37\lib\copyreg.py
+
+

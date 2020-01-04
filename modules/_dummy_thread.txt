@@ -1,0 +1,222 @@
+Help on module _dummy_thread:
+
+NAME
+    _dummy_thread - Drop-in replacement for the thread module.
+
+DESCRIPTION
+    Meant to be used as a brain-dead substitute so that threaded code does
+    not need to be rewritten for when the thread module is not present.
+    
+    Suggested usage is::
+    
+        try:
+            import _thread
+        except ImportError:
+            import _dummy_thread as _thread
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        builtins.RuntimeError
+    builtins.object
+        LockType
+            RLock
+    
+    class LockType(builtins.object)
+     |  Class implementing dummy implementation of _thread.LockType.
+     |  
+     |  Compatibility is maintained by maintaining self.locked_status
+     |  which is a boolean that stores the state of the lock.  Pickling of
+     |  the lock, though, should not be done since if the _thread module is
+     |  then used with an unpickled ``lock()`` from here problems could
+     |  occur from this class not having atomic methods.
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__ = acquire(self, waitflag=None, timeout=-1)
+     |  
+     |  __exit__(self, typ, val, tb)
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  acquire(self, waitflag=None, timeout=-1)
+     |      Dummy implementation of acquire().
+     |      
+     |      For blocking calls, self.locked_status is automatically set to
+     |      True and returned appropriately based on value of
+     |      ``waitflag``.  If it is non-blocking, then the value is
+     |      actually checked and not set if it is already acquired.  This
+     |      is all done so that threading.Condition's assert statements
+     |      aren't triggered and throw a little fit.
+     |  
+     |  locked(self)
+     |  
+     |  release(self)
+     |      Release the dummy lock.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class RLock(LockType)
+     |  Dummy implementation of threading._RLock.
+     |  
+     |  Re-entrant lock can be aquired multiple times and needs to be released
+     |  just as many times. This dummy implemention does not check wheter the
+     |  current thread actually owns the lock, but does accounting on the call
+     |  counts.
+     |  
+     |  Method resolution order:
+     |      RLock
+     |      LockType
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  acquire(self, waitflag=None, timeout=-1)
+     |      Aquire the lock, can be called multiple times in succession.
+     |  
+     |  release(self)
+     |      Release needs to be called once for every call to acquire().
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from LockType:
+     |  
+     |  __enter__ = acquire(self, waitflag=None, timeout=-1)
+     |      Dummy implementation of acquire().
+     |      
+     |      For blocking calls, self.locked_status is automatically set to
+     |      True and returned appropriately based on value of
+     |      ``waitflag``.  If it is non-blocking, then the value is
+     |      actually checked and not set if it is already acquired.  This
+     |      is all done so that threading.Condition's assert statements
+     |      aren't triggered and throw a little fit.
+     |  
+     |  __exit__(self, typ, val, tb)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  locked(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from LockType:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    error = class RuntimeError(Exception)
+     |  Unspecified run-time error.
+     |  
+     |  Method resolution order:
+     |      RuntimeError
+     |      Exception
+     |      BaseException
+     |      object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+
+FUNCTIONS
+    allocate_lock()
+        Dummy implementation of _thread.allocate_lock().
+    
+    exit()
+        Dummy implementation of _thread.exit().
+    
+    get_ident()
+        Dummy implementation of _thread.get_ident().
+        
+        Since this module should only be used when _threadmodule is not
+        available, it is safe to assume that the current process is the
+        only thread.  Thus a constant can be safely returned.
+    
+    interrupt_main()
+        Set _interrupt flag to True to have start_new_thread raise
+        KeyboardInterrupt upon exiting.
+    
+    start_new_thread(function, args, kwargs={})
+        Dummy implementation of _thread.start_new_thread().
+        
+        Compatibility is maintained by making sure that ``args`` is a
+        tuple and ``kwargs`` is a dictionary.  If an exception is raised
+        and it is SystemExit (which can be done by _thread.exit()) it is
+        caught and nothing is done; all other exceptions are printed out
+        by using traceback.print_exc().
+        
+        If the executed function calls interrupt_main the KeyboardInterrupt will be
+        raised when the function returns.
+
+DATA
+    __all__ = ['error', 'start_new_thread', 'exit', 'get_ident', 'allocate...
+
+FILE
+    c:\program files\python37\lib\_dummy_thread.py
+
+

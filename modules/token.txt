@@ -1,0 +1,80 @@
+Help on module token:
+
+NAME
+    token - Token constants (from "token.h").
+
+FUNCTIONS
+    ISEOF(x)
+    
+    ISNONTERMINAL(x)
+    
+    ISTERMINAL(x)
+
+DATA
+    AMPER = 19
+    AMPEREQUAL = 41
+    AT = 49
+    ATEQUAL = 50
+    CIRCUMFLEX = 32
+    CIRCUMFLEXEQUAL = 43
+    COLON = 11
+    COMMA = 12
+    COMMENT = 55
+    DEDENT = 6
+    DOT = 23
+    DOUBLESLASH = 47
+    DOUBLESLASHEQUAL = 48
+    DOUBLESTAR = 35
+    DOUBLESTAREQUAL = 46
+    ELLIPSIS = 52
+    ENCODING = 57
+    ENDMARKER = 0
+    EQEQUAL = 27
+    EQUAL = 22
+    ERRORTOKEN = 54
+    GREATER = 21
+    GREATEREQUAL = 30
+    INDENT = 5
+    LBRACE = 25
+    LEFTSHIFT = 33
+    LEFTSHIFTEQUAL = 44
+    LESS = 20
+    LESSEQUAL = 29
+    LPAR = 7
+    LSQB = 9
+    MINEQUAL = 37
+    MINUS = 15
+    NAME = 1
+    NEWLINE = 4
+    NL = 56
+    NOTEQUAL = 28
+    NT_OFFSET = 256
+    NUMBER = 2
+    N_TOKENS = 58
+    OP = 53
+    PERCENT = 24
+    PERCENTEQUAL = 40
+    PLUS = 14
+    PLUSEQUAL = 36
+    RARROW = 51
+    RBRACE = 26
+    RIGHTSHIFT = 34
+    RIGHTSHIFTEQUAL = 45
+    RPAR = 8
+    RSQB = 10
+    SEMI = 13
+    SLASH = 17
+    SLASHEQUAL = 39
+    STAR = 16
+    STAREQUAL = 38
+    STRING = 3
+    TILDE = 31
+    VBAR = 18
+    VBAREQUAL = 42
+    __all__ = ['tok_name', 'ISTERMINAL', 'ISNONTERMINAL', 'ISEOF', 'ENDMAR...
+    tok_name = {0: 'ENDMARKER', 1: 'NAME', 2: 'NUMBER', 3: 'STRING', 4: 'N...
+
+FILE
+    c:\program files\python37\lib\token.py
+
+

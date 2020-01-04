@@ -1,0 +1,5916 @@
+Help on built-in module _ast:
+
+NAME
+    _ast
+
+CLASSES
+    builtins.object
+        AST
+            alias
+            arg
+            arguments
+            boolop
+                And
+                Or
+            cmpop
+                Eq
+                Gt
+                GtE
+                In
+                Is
+                IsNot
+                Lt
+                LtE
+                NotEq
+                NotIn
+            comprehension
+            excepthandler
+                ExceptHandler
+            expr
+                Attribute
+                Await
+                BinOp
+                BoolOp
+                Bytes
+                Call
+                Compare
+                Constant
+                Dict
+                DictComp
+                Ellipsis
+                FormattedValue
+                GeneratorExp
+                IfExp
+                JoinedStr
+                Lambda
+                List
+                ListComp
+                Name
+                NameConstant
+                Num
+                Set
+                SetComp
+                Starred
+                Str
+                Subscript
+                Tuple
+                UnaryOp
+                Yield
+                YieldFrom
+            expr_context
+                AugLoad
+                AugStore
+                Del
+                Load
+                Param
+                Store
+            keyword
+            mod
+                Expression
+                Interactive
+                Module
+                Suite
+            operator
+                Add
+                BitAnd
+                BitOr
+                BitXor
+                Div
+                FloorDiv
+                LShift
+                MatMult
+                Mod
+                Mult
+                Pow
+                RShift
+                Sub
+            slice
+                ExtSlice
+                Index
+                Slice
+            stmt
+                AnnAssign
+                Assert
+                Assign
+                AsyncFor
+                AsyncFunctionDef
+                AsyncWith
+                AugAssign
+                Break
+                ClassDef
+                Continue
+                Delete
+                Expr
+                For
+                FunctionDef
+                Global
+                If
+                Import
+                ImportFrom
+                Nonlocal
+                Pass
+                Raise
+                Return
+                Try
+                While
+                With
+            unaryop
+                Invert
+                Not
+                UAdd
+                USub
+            withitem
+    
+    class AST(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+    
+    class Add(operator)
+     |  Method resolution order:
+     |      Add
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class And(boolop)
+     |  Method resolution order:
+     |      And
+     |      boolop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from boolop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from boolop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AnnAssign(stmt)
+     |  Method resolution order:
+     |      AnnAssign
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('target', 'annotation', 'value', 'simple')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Assert(stmt)
+     |  Method resolution order:
+     |      Assert
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('test', 'msg')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Assign(stmt)
+     |  Method resolution order:
+     |      Assign
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('targets', 'value')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AsyncFor(stmt)
+     |  Method resolution order:
+     |      AsyncFor
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('target', 'iter', 'body', 'orelse')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AsyncFunctionDef(stmt)
+     |  Method resolution order:
+     |      AsyncFunctionDef
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('name', 'args', 'body', 'decorator_list', 'returns')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AsyncWith(stmt)
+     |  Method resolution order:
+     |      AsyncWith
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('items', 'body')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Attribute(expr)
+     |  Method resolution order:
+     |      Attribute
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value', 'attr', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AugAssign(stmt)
+     |  Method resolution order:
+     |      AugAssign
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('target', 'op', 'value')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AugLoad(expr_context)
+     |  Method resolution order:
+     |      AugLoad
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class AugStore(expr_context)
+     |  Method resolution order:
+     |      AugStore
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Await(expr)
+     |  Method resolution order:
+     |      Await
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class BinOp(expr)
+     |  Method resolution order:
+     |      BinOp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('left', 'op', 'right')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class BitAnd(operator)
+     |  Method resolution order:
+     |      BitAnd
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class BitOr(operator)
+     |  Method resolution order:
+     |      BitOr
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class BitXor(operator)
+     |  Method resolution order:
+     |      BitXor
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class BoolOp(expr)
+     |  Method resolution order:
+     |      BoolOp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('op', 'values')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Break(stmt)
+     |  Method resolution order:
+     |      Break
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Bytes(expr)
+     |  Method resolution order:
+     |      Bytes
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('s',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Call(expr)
+     |  Method resolution order:
+     |      Call
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('func', 'args', 'keywords')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class ClassDef(stmt)
+     |  Method resolution order:
+     |      ClassDef
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('name', 'bases', 'keywords', 'body', 'decorator_list')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Compare(expr)
+     |  Method resolution order:
+     |      Compare
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('left', 'ops', 'comparators')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Constant(expr)
+     |  Method resolution order:
+     |      Constant
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Continue(stmt)
+     |  Method resolution order:
+     |      Continue
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Del(expr_context)
+     |  Method resolution order:
+     |      Del
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Delete(stmt)
+     |  Method resolution order:
+     |      Delete
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('targets',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Dict(expr)
+     |  Method resolution order:
+     |      Dict
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('keys', 'values')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class DictComp(expr)
+     |  Method resolution order:
+     |      DictComp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('key', 'value', 'generators')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Div(operator)
+     |  Method resolution order:
+     |      Div
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Ellipsis(expr)
+     |  Method resolution order:
+     |      Ellipsis
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Eq(cmpop)
+     |  Method resolution order:
+     |      Eq
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class ExceptHandler(excepthandler)
+     |  Method resolution order:
+     |      ExceptHandler
+     |      excepthandler
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('type', 'name', 'body')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from excepthandler:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from excepthandler:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Expr(stmt)
+     |  Method resolution order:
+     |      Expr
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Expression(mod)
+     |  Method resolution order:
+     |      Expression
+     |      mod
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('body',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from mod:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from mod:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class ExtSlice(slice)
+     |  Method resolution order:
+     |      ExtSlice
+     |      slice
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('dims',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from slice:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from slice:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class FloorDiv(operator)
+     |  Method resolution order:
+     |      FloorDiv
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class For(stmt)
+     |  Method resolution order:
+     |      For
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('target', 'iter', 'body', 'orelse')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class FormattedValue(expr)
+     |  Method resolution order:
+     |      FormattedValue
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value', 'conversion', 'format_spec')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class FunctionDef(stmt)
+     |  Method resolution order:
+     |      FunctionDef
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('name', 'args', 'body', 'decorator_list', 'returns')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class GeneratorExp(expr)
+     |  Method resolution order:
+     |      GeneratorExp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elt', 'generators')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Global(stmt)
+     |  Method resolution order:
+     |      Global
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('names',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Gt(cmpop)
+     |  Method resolution order:
+     |      Gt
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class GtE(cmpop)
+     |  Method resolution order:
+     |      GtE
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class If(stmt)
+     |  Method resolution order:
+     |      If
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('test', 'body', 'orelse')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class IfExp(expr)
+     |  Method resolution order:
+     |      IfExp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('test', 'body', 'orelse')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Import(stmt)
+     |  Method resolution order:
+     |      Import
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('names',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class ImportFrom(stmt)
+     |  Method resolution order:
+     |      ImportFrom
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('module', 'names', 'level')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class In(cmpop)
+     |  Method resolution order:
+     |      In
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Index(slice)
+     |  Method resolution order:
+     |      Index
+     |      slice
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from slice:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from slice:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Interactive(mod)
+     |  Method resolution order:
+     |      Interactive
+     |      mod
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('body',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from mod:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from mod:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Invert(unaryop)
+     |  Method resolution order:
+     |      Invert
+     |      unaryop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from unaryop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from unaryop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Is(cmpop)
+     |  Method resolution order:
+     |      Is
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class IsNot(cmpop)
+     |  Method resolution order:
+     |      IsNot
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class JoinedStr(expr)
+     |  Method resolution order:
+     |      JoinedStr
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('values',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class LShift(operator)
+     |  Method resolution order:
+     |      LShift
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Lambda(expr)
+     |  Method resolution order:
+     |      Lambda
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('args', 'body')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class List(expr)
+     |  Method resolution order:
+     |      List
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elts', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class ListComp(expr)
+     |  Method resolution order:
+     |      ListComp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elt', 'generators')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Load(expr_context)
+     |  Method resolution order:
+     |      Load
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Lt(cmpop)
+     |  Method resolution order:
+     |      Lt
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class LtE(cmpop)
+     |  Method resolution order:
+     |      LtE
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class MatMult(operator)
+     |  Method resolution order:
+     |      MatMult
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Mod(operator)
+     |  Method resolution order:
+     |      Mod
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Module(mod)
+     |  Method resolution order:
+     |      Module
+     |      mod
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('body',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from mod:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from mod:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Mult(operator)
+     |  Method resolution order:
+     |      Mult
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Name(expr)
+     |  Method resolution order:
+     |      Name
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('id', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class NameConstant(expr)
+     |  Method resolution order:
+     |      NameConstant
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Nonlocal(stmt)
+     |  Method resolution order:
+     |      Nonlocal
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('names',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Not(unaryop)
+     |  Method resolution order:
+     |      Not
+     |      unaryop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from unaryop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from unaryop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class NotEq(cmpop)
+     |  Method resolution order:
+     |      NotEq
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class NotIn(cmpop)
+     |  Method resolution order:
+     |      NotIn
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from cmpop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from cmpop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Num(expr)
+     |  Method resolution order:
+     |      Num
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('n',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Or(boolop)
+     |  Method resolution order:
+     |      Or
+     |      boolop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from boolop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from boolop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Param(expr_context)
+     |  Method resolution order:
+     |      Param
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Pass(stmt)
+     |  Method resolution order:
+     |      Pass
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Pow(operator)
+     |  Method resolution order:
+     |      Pow
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class RShift(operator)
+     |  Method resolution order:
+     |      RShift
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Raise(stmt)
+     |  Method resolution order:
+     |      Raise
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('exc', 'cause')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Return(stmt)
+     |  Method resolution order:
+     |      Return
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Set(expr)
+     |  Method resolution order:
+     |      Set
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elts',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class SetComp(expr)
+     |  Method resolution order:
+     |      SetComp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elt', 'generators')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Slice(slice)
+     |  Method resolution order:
+     |      Slice
+     |      slice
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('lower', 'upper', 'step')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from slice:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from slice:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Starred(expr)
+     |  Method resolution order:
+     |      Starred
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Store(expr_context)
+     |  Method resolution order:
+     |      Store
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr_context:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr_context:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Str(expr)
+     |  Method resolution order:
+     |      Str
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('s',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Sub(operator)
+     |  Method resolution order:
+     |      Sub
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from operator:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from operator:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Subscript(expr)
+     |  Method resolution order:
+     |      Subscript
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value', 'slice', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Suite(mod)
+     |  Method resolution order:
+     |      Suite
+     |      mod
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('body',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from mod:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from mod:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Try(stmt)
+     |  Method resolution order:
+     |      Try
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('body', 'handlers', 'orelse', 'finalbody')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Tuple(expr)
+     |  Method resolution order:
+     |      Tuple
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('elts', 'ctx')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class UAdd(unaryop)
+     |  Method resolution order:
+     |      UAdd
+     |      unaryop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from unaryop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from unaryop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class USub(unaryop)
+     |  Method resolution order:
+     |      USub
+     |      unaryop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from unaryop:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from unaryop:
+     |  
+     |  _attributes = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class UnaryOp(expr)
+     |  Method resolution order:
+     |      UnaryOp
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('op', 'operand')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class While(stmt)
+     |  Method resolution order:
+     |      While
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('test', 'body', 'orelse')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class With(stmt)
+     |  Method resolution order:
+     |      With
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('items', 'body')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from stmt:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from stmt:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class Yield(expr)
+     |  Method resolution order:
+     |      Yield
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class YieldFrom(expr)
+     |  Method resolution order:
+     |      YieldFrom
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  _fields = ('value',)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from expr:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from expr:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class alias(AST)
+     |  Method resolution order:
+     |      alias
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ('name', 'asname')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class arg(AST)
+     |  Method resolution order:
+     |      arg
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  _fields = ('arg', 'annotation')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class arguments(AST)
+     |  Method resolution order:
+     |      arguments
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ('args', 'vararg', 'kwonlyargs', 'kw_defaults', 'kwarg', 'de...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class boolop(AST)
+     |  Method resolution order:
+     |      boolop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class cmpop(AST)
+     |  Method resolution order:
+     |      cmpop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class comprehension(AST)
+     |  Method resolution order:
+     |      comprehension
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ('target', 'iter', 'ifs', 'is_async')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class excepthandler(AST)
+     |  Method resolution order:
+     |      excepthandler
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class expr(AST)
+     |  Method resolution order:
+     |      expr
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class expr_context(AST)
+     |  Method resolution order:
+     |      expr_context
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class keyword(AST)
+     |  Method resolution order:
+     |      keyword
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ('arg', 'value')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class mod(AST)
+     |  Method resolution order:
+     |      mod
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class operator(AST)
+     |  Method resolution order:
+     |      operator
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class slice(AST)
+     |  Method resolution order:
+     |      slice
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class stmt(AST)
+     |  Method resolution order:
+     |      stmt
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ('lineno', 'col_offset')
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class unaryop(AST)
+     |  Method resolution order:
+     |      unaryop
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+    
+    class withitem(AST)
+     |  Method resolution order:
+     |      withitem
+     |      AST
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _attributes = ()
+     |  
+     |  _fields = ('context_expr', 'optional_vars')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AST:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from AST:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from AST:
+     |  
+     |  __dict__
+
+DATA
+    PyCF_ONLY_AST = 1024
+
+FILE
+    (built-in)
+
+

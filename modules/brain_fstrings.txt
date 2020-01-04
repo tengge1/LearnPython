@@ -1,0 +1,9 @@
+Help on module brain_fstrings:
+
+NAME
+    brain_fstrings - # Copyright (c) 2017 Claudiu Popa <pcmanticore@gmail.com>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_fstrings.py
+
+

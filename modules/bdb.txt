@@ -1,0 +1,391 @@
+Help on module bdb:
+
+NAME
+    bdb - Debugger basics
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        BdbQuit
+    builtins.object
+        Bdb
+        Breakpoint
+    
+    class Bdb(builtins.object)
+     |  Bdb(skip=None)
+     |  
+     |  Generic Python debugger base class.
+     |  
+     |  This class takes care of details of the trace facility;
+     |  a derived class should implement user interaction.
+     |  The standard debugger class (pdb.Pdb) is an example.
+     |  
+     |  The optional skip argument must be an iterable of glob-style
+     |  module name patterns.  The debugger will not step into frames
+     |  that originate in a module that matches one of these patterns.
+     |  Whether a frame is considered to originate in a certain module
+     |  is determined by the __name__ in the frame globals.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, skip=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  break_anywhere(self, frame)
+     |      Return True if there is any breakpoint for frame's filename.
+     |  
+     |  break_here(self, frame)
+     |      Return True if there is an effective breakpoint for this line.
+     |      
+     |      Check for line or function breakpoint and if in effect.
+     |      Delete temporary breakpoints if effective() says to.
+     |  
+     |  canonic(self, filename)
+     |      Return canonical form of filename.
+     |      
+     |      For real filenames, the canonical form is a case-normalized (on
+     |      case insenstive filesystems) absolute path.  'Filenames' with
+     |      angle brackets, such as "<stdin>", generated in interactive
+     |      mode, are returned unchanged.
+     |  
+     |  clear_all_breaks(self)
+     |      Delete all existing breakpoints.
+     |      
+     |      If none were set, return an error message.
+     |  
+     |  clear_all_file_breaks(self, filename)
+     |      Delete all breakpoints in filename.
+     |      
+     |      If none were set, return an error message.
+     |  
+     |  clear_bpbynumber(self, arg)
+     |      Delete a breakpoint by its index in Breakpoint.bpbynumber.
+     |      
+     |      If arg is invalid, return an error message.
+     |  
+     |  clear_break(self, filename, lineno)
+     |      Delete breakpoints for filename:lineno.
+     |      
+     |      If no breakpoints were set, return an error message.
+     |  
+     |  dispatch_call(self, frame, arg)
+     |      Invoke user function and return trace function for call event.
+     |      
+     |      If the debugger stops on this function call, invoke
+     |      self.user_call(). Raise BbdQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_exception(self, frame, arg)
+     |      Invoke user function and return trace function for exception event.
+     |      
+     |      If the debugger stops on this exception, invoke
+     |      self.user_exception(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_line(self, frame)
+     |      Invoke user function and return trace function for line event.
+     |      
+     |      If the debugger stops on the current line, invoke
+     |      self.user_line(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  dispatch_return(self, frame, arg)
+     |      Invoke user function and return trace function for return event.
+     |      
+     |      If the debugger stops on this function return, invoke
+     |      self.user_return(). Raise BdbQuit if self.quitting is set.
+     |      Return self.trace_dispatch to continue tracing in this scope.
+     |  
+     |  do_clear(self, arg)
+     |      Remove temporary breakpoint.
+     |      
+     |      Must implement in derived classes or get NotImplementedError.
+     |  
+     |  format_stack_entry(self, frame_lineno, lprefix=': ')
+     |      Return a string with information about a stack entry.
+     |      
+     |      The stack entry frame_lineno is a (frame, lineno) tuple.  The
+     |      return string contains the canonical filename, the function name
+     |      or '<lambda>', the input arguments, the return value, and the
+     |      line of code (if it exists).
+     |  
+     |  get_all_breaks(self)
+     |      Return all breakpoints that are set.
+     |  
+     |  get_bpbynumber(self, arg)
+     |      Return a breakpoint by its index in Breakpoint.bybpnumber.
+     |      
+     |      For invalid arg values or if the breakpoint doesn't exist,
+     |      raise a ValueError.
+     |  
+     |  get_break(self, filename, lineno)
+     |      Return True if there is a breakpoint for filename:lineno.
+     |  
+     |  get_breaks(self, filename, lineno)
+     |      Return all breakpoints for filename:lineno.
+     |      
+     |      If no breakpoints are set, return an empty list.
+     |  
+     |  get_file_breaks(self, filename)
+     |      Return all lines with breakpoints for filename.
+     |      
+     |      If no breakpoints are set, return an empty list.
+     |  
+     |  get_stack(self, f, t)
+     |      Return a list of (frame, lineno) in a stack trace and a size.
+     |      
+     |      List starts with original calling frame, if there is one.
+     |      Size may be number of frames above or below f.
+     |  
+     |  is_skipped_module(self, module_name)
+     |      Return True if module_name matches any skip pattern.
+     |  
+     |  reset(self)
+     |      Set values of attributes as ready to start debugging.
+     |  
+     |  run(self, cmd, globals=None, locals=None)
+     |      Debug a statement executed via the exec() function.
+     |      
+     |      globals defaults to __main__.dict; locals defaults to globals.
+     |  
+     |  runcall(*args, **kwds)
+     |      Debug a single function call.
+     |      
+     |      Return the result of the function call.
+     |  
+     |  runctx(self, cmd, globals, locals)
+     |      For backwards-compatibility.  Defers to run().
+     |  
+     |  runeval(self, expr, globals=None, locals=None)
+     |      Debug an expression executed via the eval() function.
+     |      
+     |      globals defaults to __main__.dict; locals defaults to globals.
+     |  
+     |  set_break(self, filename, lineno, temporary=False, cond=None, funcname=None)
+     |      Set a new breakpoint for filename:lineno.
+     |      
+     |      If lineno doesn't exist for the filename, return an error message.
+     |      The filename should be in canonical form.
+     |  
+     |  set_continue(self)
+     |      Stop only at breakpoints or when finished.
+     |      
+     |      If there are no breakpoints, set the system trace function to None.
+     |  
+     |  set_next(self, frame)
+     |      Stop on the next line in or below the given frame.
+     |  
+     |  set_quit(self)
+     |      Set quitting attribute to True.
+     |      
+     |      Raises BdbQuit exception in the next call to a dispatch_*() method.
+     |  
+     |  set_return(self, frame)
+     |      Stop when returning from the given frame.
+     |  
+     |  set_step(self)
+     |      Stop after one line of code.
+     |  
+     |  set_trace(self, frame=None)
+     |      Start debugging from frame.
+     |      
+     |      If frame is not specified, debugging starts from caller's frame.
+     |  
+     |  set_until(self, frame, lineno=None)
+     |      Stop when the line with the lineno greater than the current one is
+     |      reached or when returning from current frame.
+     |  
+     |  stop_here(self, frame)
+     |      Return True if frame is below the starting frame in the stack.
+     |  
+     |  trace_dispatch(self, frame, event, arg)
+     |      Dispatch a trace function for debugged frames based on the event.
+     |      
+     |      This function is installed as the trace function for debugged
+     |      frames. Its return value is the new trace function, which is
+     |      usually itself. The default implementation decides how to
+     |      dispatch a frame, depending on the type of event (passed in as a
+     |      string) that is about to be executed.
+     |      
+     |      The event can be one of the following:
+     |          line: A new line of code is going to be executed.
+     |          call: A function is about to be called or another code block
+     |                is entered.
+     |          return: A function or other code block is about to return.
+     |          exception: An exception has occurred.
+     |          c_call: A C function is about to be called.
+     |          c_return: A C function has returned.
+     |          c_exception: A C function has raised an exception.
+     |      
+     |      For the Python events, specialized functions (see the dispatch_*()
+     |      methods) are called.  For the C events, no action is taken.
+     |      
+     |      The arg parameter depends on the previous event.
+     |  
+     |  user_call(self, frame, argument_list)
+     |      Called if we might stop in a function.
+     |  
+     |  user_exception(self, frame, exc_info)
+     |      Called when we stop on an exception.
+     |  
+     |  user_line(self, frame)
+     |      Called when we stop or break at a line.
+     |  
+     |  user_return(self, frame, return_value)
+     |      Called when a return trap is set here.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class BdbQuit(builtins.Exception)
+     |  Exception to give up completely.
+     |  
+     |  Method resolution order:
+     |      BdbQuit
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Breakpoint(builtins.object)
+     |  Breakpoint(file, line, temporary=False, cond=None, funcname=None)
+     |  
+     |  Breakpoint class.
+     |  
+     |  Implements temporary breakpoints, ignore counts, disabling and
+     |  (re)-enabling, and conditionals.
+     |  
+     |  Breakpoints are indexed by number through bpbynumber and by
+     |  the (file, line) tuple using bplist.  The former points to a
+     |  single instance of class Breakpoint.  The latter points to a
+     |  list of such instances since there may be more than one
+     |  breakpoint per line.
+     |  
+     |  When creating a breakpoint, its associated filename should be
+     |  in canonical form.  If funcname is defined, a breakpoint hit will be
+     |  counted when the first line of that function is executed.  A
+     |  conditional breakpoint always counts a hit.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, file, line, temporary=False, cond=None, funcname=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return a condensed description of the breakpoint.
+     |  
+     |  bpformat(self)
+     |      Return a string with information about the breakpoint.
+     |      
+     |      The information includes the breakpoint number, temporary
+     |      status, file:line position, break condition, number of times to
+     |      ignore, and number of times hit.
+     |  
+     |  bpprint(self, out=None)
+     |      Print the output of bpformat().
+     |      
+     |      The optional out argument directs where the output is sent
+     |      and defaults to standard output.
+     |  
+     |  deleteMe(self)
+     |      Delete the breakpoint from the list associated to a file:line.
+     |      
+     |      If it is the last breakpoint in that position, it also deletes
+     |      the entry for the file:line.
+     |  
+     |  disable(self)
+     |      Mark the breakpoint as disabled.
+     |  
+     |  enable(self)
+     |      Mark the breakpoint as enabled.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  bpbynumber = [None]
+     |  
+     |  bplist = {}
+     |  
+     |  next = 1
+
+DATA
+    __all__ = ['BdbQuit', 'Bdb', 'Breakpoint']
+
+FILE
+    c:\program files\python37\lib\bdb.py
+
+

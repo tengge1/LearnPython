@@ -1,0 +1,26 @@
+Help on module brain_typing:
+
+NAME
+    brain_typing - Astroid hooks for typing.py support.
+
+FUNCTIONS
+    infer_typing_attr(node, context=None)
+        Infer a typing.X[...] subscript
+    
+    infer_typing_typevar_or_newtype(node, context=None)
+        Infer a typing.TypeVar(...) or typing.NewType(...) call
+    
+    looks_like_typing_typevar_or_newtype(node)
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+    TYPING_MEMBERS = {'AbstractSet', 'Any', 'AnyStr', 'AsyncContextManager...
+    TYPING_NAMEDTUPLE_BASENAMES = {'NamedTuple', 'typing.NamedTuple'}
+    TYPING_TYPEVARS = {'NewType', 'TypeVar'}
+    TYPING_TYPEVARS_QUALIFIED = {'typing.NewType', 'typing.TypeVar'}
+    TYPING_TYPE_TEMPLATE = '\nclass Meta(type):\n    def __getitem__(self,...
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_typing.py
+
+

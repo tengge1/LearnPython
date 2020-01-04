@@ -1,0 +1,404 @@
+Help on module tracemalloc:
+
+NAME
+    tracemalloc
+
+CLASSES
+    builtins.object
+        BaseFilter
+            DomainFilter
+            Filter
+        Frame
+        Snapshot
+        Statistic
+        StatisticDiff
+        Trace
+    collections.abc.Sequence(collections.abc.Reversible, collections.abc.Collection)
+        Traceback
+    
+    class BaseFilter(builtins.object)
+     |  BaseFilter(inclusive)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, inclusive)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class DomainFilter(BaseFilter)
+     |  DomainFilter(inclusive, domain)
+     |  
+     |  Method resolution order:
+     |      DomainFilter
+     |      BaseFilter
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, inclusive, domain)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  domain
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseFilter:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Filter(BaseFilter)
+     |  Filter(inclusive, filename_pattern, lineno=None, all_frames=False, domain=None)
+     |  
+     |  Method resolution order:
+     |      Filter
+     |      BaseFilter
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, inclusive, filename_pattern, lineno=None, all_frames=False, domain=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  filename_pattern
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseFilter:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Frame(builtins.object)
+     |  Frame(frame)
+     |  
+     |  Frame of a traceback.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other, NotImplemented=NotImplemented)
+     |      Return a >= b.  Computed by @total_ordering from (not a < b).
+     |  
+     |  __gt__(self, other, NotImplemented=NotImplemented)
+     |      Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, frame)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, other, NotImplemented=NotImplemented)
+     |      Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  filename
+     |  
+     |  lineno
+    
+    class Snapshot(builtins.object)
+     |  Snapshot(traces, traceback_limit)
+     |  
+     |  Snapshot of traces of memory blocks allocated by Python.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, traces, traceback_limit)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  compare_to(self, old_snapshot, key_type, cumulative=False)
+     |      Compute the differences with an old snapshot old_snapshot. Get
+     |      statistics as a sorted list of StatisticDiff instances, grouped by
+     |      group_by.
+     |  
+     |  dump(self, filename)
+     |      Write the snapshot into a file.
+     |  
+     |  filter_traces(self, filters)
+     |      Create a new Snapshot instance with a filtered traces sequence, filters
+     |      is a list of Filter or DomainFilter instances.  If filters is an empty
+     |      list, return a new Snapshot instance with a copy of the traces.
+     |  
+     |  statistics(self, key_type, cumulative=False)
+     |      Group statistics by key_type. Return a sorted list of Statistic
+     |      instances.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  load(filename)
+     |      Load a snapshot from a file.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Statistic(builtins.object)
+     |  Statistic(traceback, size, count)
+     |  
+     |  Statistic difference on memory allocations between two Snapshot instance.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, traceback, size, count)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  count
+     |  
+     |  size
+     |  
+     |  traceback
+    
+    class StatisticDiff(builtins.object)
+     |  StatisticDiff(traceback, size, size_diff, count, count_diff)
+     |  
+     |  Statistic difference on memory allocations between an old and a new
+     |  Snapshot instance.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, traceback, size, size_diff, count, count_diff)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  count
+     |  
+     |  count_diff
+     |  
+     |  size
+     |  
+     |  size_diff
+     |  
+     |  traceback
+    
+    class Trace(builtins.object)
+     |  Trace(trace)
+     |  
+     |  Trace of a memory block.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, trace)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  domain
+     |  
+     |  size
+     |  
+     |  traceback
+    
+    class Traceback(collections.abc.Sequence)
+     |  Traceback(frames)
+     |  
+     |  Sequence of Frame instances sorted from the oldest frame
+     |  to the most recent frame.
+     |  
+     |  Method resolution order:
+     |      Traceback
+     |      collections.abc.Sequence
+     |      collections.abc.Reversible
+     |      collections.abc.Collection
+     |      collections.abc.Sized
+     |      collections.abc.Iterable
+     |      collections.abc.Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, frame)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other, NotImplemented=NotImplemented)
+     |      Return a >= b.  Computed by @total_ordering from (not a < b).
+     |  
+     |  __getitem__(self, index)
+     |  
+     |  __gt__(self, other, NotImplemented=NotImplemented)
+     |      Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  __init__(self, frames)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __le__(self, other, NotImplemented=NotImplemented)
+     |      Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).
+     |  
+     |  __len__(self)
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  format(self, limit=None, most_recent_first=False)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from collections.abc.Sequence:
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  count(self, value)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  index(self, value, start=0, stop=None)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from collections.abc.Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+
+FUNCTIONS
+    clear_traces()
+        Clear traces of memory blocks allocated by Python.
+    
+    get_object_traceback(obj)
+        Get the traceback where the Python object *obj* was allocated.
+        Return a Traceback instance.
+        
+        Return None if the tracemalloc module is not tracing memory allocations or
+        did not trace the allocation of the object.
+    
+    get_traceback_limit()
+        Get the maximum number of frames stored in the traceback of a trace.
+        
+        By default, a trace of an allocated memory block only stores
+        the most recent frame: the limit is 1.
+    
+    get_traced_memory()
+        Get the current size and peak size of memory blocks traced by tracemalloc.
+        
+        Returns a tuple: (current: int, peak: int).
+    
+    get_tracemalloc_memory()
+        Get the memory usage in bytes of the tracemalloc module.
+        
+        This memory is used internally to trace memory allocations.
+    
+    is_tracing()
+        Return True if the tracemalloc module is tracing Python memory allocations.
+    
+    start(nframe=1, /)
+        Start tracing Python memory allocations.
+        
+        Also set the maximum number of frames stored in the traceback of a
+        trace to nframe.
+    
+    stop()
+        Stop tracing Python memory allocations.
+        
+        Also clear traces of memory blocks allocated by Python.
+    
+    take_snapshot()
+        Take a snapshot of traces of memory blocks allocated by Python.
+
+FILE
+    c:\program files\python37\lib\tracemalloc.py
+
+

@@ -1,0 +1,1279 @@
+Help on module collections.abc:
+
+NAME
+    collections.abc - Abstract Base Classes (ABCs) for collections, according to PEP 3119.
+
+DESCRIPTION
+    Unit tests are in test_collections.
+
+CLASSES
+    builtins.object
+        AsyncIterable
+            AsyncIterator
+                AsyncGenerator
+        Awaitable
+            Coroutine
+        Callable
+        Container
+        Hashable
+        Iterable
+            Iterator
+                Generator
+            Reversible
+                Sequence(Reversible, Collection)
+                    ByteString
+                    MutableSequence
+        Sized
+            Collection(Sized, Iterable, Container)
+                Mapping
+                    MutableMapping
+                Set
+                    MutableSet
+            MappingView
+                ItemsView(MappingView, Set)
+                KeysView(MappingView, Set)
+                ValuesView(MappingView, Collection)
+    
+    class AsyncGenerator(AsyncIterator)
+     |  Method resolution order:
+     |      AsyncGenerator
+     |      AsyncIterator
+     |      AsyncIterable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __anext__(self)
+     |      Return the next item from the asynchronous generator.
+     |      When exhausted, raise StopAsyncIteration.
+     |  
+     |  aclose(self)
+     |      Raise GeneratorExit inside coroutine.
+     |  
+     |  asend(self, value)
+     |      Send a value into the asynchronous generator.
+     |      Return next yielded value or raise StopAsyncIteration.
+     |  
+     |  athrow(self, typ, val=None, tb=None)
+     |      Raise an exception in the asynchronous generator.
+     |      Return next yielded value or raise StopAsyncIteration.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'asend', 'athrow'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AsyncIterator:
+     |  
+     |  __aiter__(self)
+    
+    class AsyncIterable(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __aiter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__aiter__'})
+    
+    class AsyncIterator(AsyncIterable)
+     |  Method resolution order:
+     |      AsyncIterator
+     |      AsyncIterable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __aiter__(self)
+     |  
+     |  __anext__(self)
+     |      Return the next item or raise StopAsyncIteration when exhausted.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__anext__'})
+    
+    class Awaitable(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __await__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__await__'})
+    
+    class ByteString(Sequence)
+     |  This unifies bytes and bytearray.
+     |  
+     |  XXX Should add all their methods.
+     |  
+     |  Method resolution order:
+     |      ByteString
+     |      Sequence
+     |      Reversible
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__getitem__', '__len__'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sequence:
+     |  
+     |  __contains__(self, value)
+     |  
+     |  __getitem__(self, index)
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  count(self, value)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  index(self, value, start=0, stop=None)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+    
+    class Callable(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __call__(self, *args, **kwds)
+     |      Call self as a function.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__call__'})
+    
+    class Collection(Sized, Iterable, Container)
+     |  Method resolution order:
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__contains__', '__iter__', '__len__'...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Container:
+     |  
+     |  __contains__(self, x)
+    
+    class Container(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __contains__(self, x)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__contains__'})
+    
+    class Coroutine(Awaitable)
+     |  Method resolution order:
+     |      Coroutine
+     |      Awaitable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  close(self)
+     |      Raise GeneratorExit inside coroutine.
+     |  
+     |  send(self, value)
+     |      Send a value into the coroutine.
+     |      Return next yielded value or raise StopIteration.
+     |  
+     |  throw(self, typ, val=None, tb=None)
+     |      Raise an exception in the coroutine.
+     |      Return next yielded value or raise StopIteration.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__await__', 'send', 'throw'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Awaitable:
+     |  
+     |  __await__(self)
+    
+    class Generator(Iterator)
+     |  Method resolution order:
+     |      Generator
+     |      Iterator
+     |      Iterable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __next__(self)
+     |      Return the next item from the generator.
+     |      When exhausted, raise StopIteration.
+     |  
+     |  close(self)
+     |      Raise GeneratorExit inside generator.
+     |  
+     |  send(self, value)
+     |      Send a value into the generator.
+     |      Return next yielded value or raise StopIteration.
+     |  
+     |  throw(self, typ, val=None, tb=None)
+     |      Raise an exception in the generator.
+     |      Return next yielded value or raise StopIteration.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'send', 'throw'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterator:
+     |  
+     |  __iter__(self)
+    
+    class Hashable(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __hash__(self)
+     |      Return hash(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__hash__'})
+    
+    class ItemsView(MappingView, Set)
+     |  ItemsView(mapping)
+     |  
+     |  A set is a finite, iterable container.
+     |  
+     |  This class provides concrete generic implementations of all
+     |  methods except for __contains__, __iter__ and __len__.
+     |  
+     |  To override the comparisons (presumably for speed, as the
+     |  semantics are fixed), redefine __le__ and __ge__,
+     |  then the other operations will automatically follow suit.
+     |  
+     |  Method resolution order:
+     |      ItemsView
+     |      MappingView
+     |      Set
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, item)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from MappingView:
+     |  
+     |  __init__(self, mapping)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Set:
+     |  
+     |  __and__(self, other)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__(self, other)
+     |  
+     |  __rand__ = __and__(self, other)
+     |  
+     |  __ror__ = __or__(self, other)
+     |  
+     |  __rsub__(self, other)
+     |  
+     |  __rxor__ = __xor__(self, other)
+     |  
+     |  __sub__(self, other)
+     |  
+     |  __xor__(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |      Return True if two sets have a null intersection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Set:
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class Iterable(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__iter__'})
+    
+    class Iterator(Iterable)
+     |  Method resolution order:
+     |      Iterator
+     |      Iterable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __iter__(self)
+     |  
+     |  __next__(self)
+     |      Return the next item from the iterator. When exhausted, raise StopIteration
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__next__'})
+    
+    class KeysView(MappingView, Set)
+     |  KeysView(mapping)
+     |  
+     |  A set is a finite, iterable container.
+     |  
+     |  This class provides concrete generic implementations of all
+     |  methods except for __contains__, __iter__ and __len__.
+     |  
+     |  To override the comparisons (presumably for speed, as the
+     |  semantics are fixed), redefine __le__ and __ge__,
+     |  then the other operations will automatically follow suit.
+     |  
+     |  Method resolution order:
+     |      KeysView
+     |      MappingView
+     |      Set
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from MappingView:
+     |  
+     |  __init__(self, mapping)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Set:
+     |  
+     |  __and__(self, other)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__(self, other)
+     |  
+     |  __rand__ = __and__(self, other)
+     |  
+     |  __ror__ = __or__(self, other)
+     |  
+     |  __rsub__(self, other)
+     |  
+     |  __rxor__ = __xor__(self, other)
+     |  
+     |  __sub__(self, other)
+     |  
+     |  __xor__(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |      Return True if two sets have a null intersection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Set:
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class Mapping(Collection)
+     |  Method resolution order:
+     |      Mapping
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__getitem__', '__iter__', '__len__'}...
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+    
+    class MappingView(Sized)
+     |  MappingView(mapping)
+     |  
+     |  Method resolution order:
+     |      MappingView
+     |      Sized
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, mapping)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Sized:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+    
+    class MutableMapping(Mapping)
+     |  Method resolution order:
+     |      MutableMapping
+     |      Mapping
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __delitem__(self, key)
+     |  
+     |  __setitem__(self, key, value)
+     |  
+     |  clear(self)
+     |      D.clear() -> None.  Remove all items from D.
+     |  
+     |  pop(self, key, default=<object object at 0x000001E148267140>)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |      If key is not found, d is returned if given, otherwise KeyError is raised.
+     |  
+     |  popitem(self)
+     |      D.popitem() -> (k, v), remove and return some (key, value) pair
+     |      as a 2-tuple; but raise KeyError if D is empty.
+     |  
+     |  setdefault(self, key, default=None)
+     |      D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D
+     |  
+     |  update(*args, **kwds)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
+     |      If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
+     |      In either case, this is followed by: for k, v in F.items(): D[k] = v
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__delitem__', '__getitem__', '__iter...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Mapping:
+     |  
+     |  __contains__(self, key)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __getitem__(self, key)
+     |  
+     |  get(self, key, default=None)
+     |      D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None.
+     |  
+     |  items(self)
+     |      D.items() -> a set-like object providing a view on D's items
+     |  
+     |  keys(self)
+     |      D.keys() -> a set-like object providing a view on D's keys
+     |  
+     |  values(self)
+     |      D.values() -> an object providing a view on D's values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Mapping:
+     |  
+     |  __hash__ = None
+     |  
+     |  __reversed__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+    
+    class MutableSequence(Sequence)
+     |  All the operations on a read-only sequence.
+     |  
+     |  Concrete subclasses must override __new__ or __init__,
+     |  __getitem__, and __len__.
+     |  
+     |  Method resolution order:
+     |      MutableSequence
+     |      Sequence
+     |      Reversible
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __delitem__(self, index)
+     |  
+     |  __iadd__(self, values)
+     |  
+     |  __setitem__(self, index, value)
+     |  
+     |  append(self, value)
+     |      S.append(value) -- append value to the end of the sequence
+     |  
+     |  clear(self)
+     |      S.clear() -> None -- remove all items from S
+     |  
+     |  extend(self, values)
+     |      S.extend(iterable) -- extend sequence by appending elements from the iterable
+     |  
+     |  insert(self, index, value)
+     |      S.insert(index, value) -- insert value before index
+     |  
+     |  pop(self, index=-1)
+     |      S.pop([index]) -> item -- remove and return item at index (default last).
+     |      Raise IndexError if list is empty or index is out of range.
+     |  
+     |  remove(self, value)
+     |      S.remove(value) -- remove first occurrence of value.
+     |      Raise ValueError if the value is not present.
+     |  
+     |  reverse(self)
+     |      S.reverse() -- reverse *IN PLACE*
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__delitem__', '__getitem__', '__len_...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sequence:
+     |  
+     |  __contains__(self, value)
+     |  
+     |  __getitem__(self, index)
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  count(self, value)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  index(self, value, start=0, stop=None)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+    
+    class MutableSet(Set)
+     |  A mutable set is a finite, iterable container.
+     |  
+     |  This class provides concrete generic implementations of all
+     |  methods except for __contains__, __iter__, __len__,
+     |  add(), and discard().
+     |  
+     |  To override the comparisons (presumably for speed, as the
+     |  semantics are fixed), all you have to do is redefine __le__ and
+     |  then the other operations will automatically follow suit.
+     |  
+     |  Method resolution order:
+     |      MutableSet
+     |      Set
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __iand__(self, it)
+     |  
+     |  __ior__(self, it)
+     |  
+     |  __isub__(self, it)
+     |  
+     |  __ixor__(self, it)
+     |  
+     |  add(self, value)
+     |      Add an element.
+     |  
+     |  clear(self)
+     |      This is slow (creates N new iterators!) but effective.
+     |  
+     |  discard(self, value)
+     |      Remove an element.  Do not raise an exception if absent.
+     |  
+     |  pop(self)
+     |      Return the popped value.  Raise KeyError if empty.
+     |  
+     |  remove(self, value)
+     |      Remove an element. If not a member, raise a KeyError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__contains__', '__iter__', '__len__'...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Set:
+     |  
+     |  __and__(self, other)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__(self, other)
+     |  
+     |  __rand__ = __and__(self, other)
+     |  
+     |  __ror__ = __or__(self, other)
+     |  
+     |  __rsub__(self, other)
+     |  
+     |  __rxor__ = __xor__(self, other)
+     |  
+     |  __sub__(self, other)
+     |  
+     |  __xor__(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |      Return True if two sets have a null intersection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Set:
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Container:
+     |  
+     |  __contains__(self, x)
+    
+    class Reversible(Iterable)
+     |  Method resolution order:
+     |      Reversible
+     |      Iterable
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __reversed__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__iter__', '__reversed__'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+    
+    class Sequence(Reversible, Collection)
+     |  All the operations on a read-only sequence.
+     |  
+     |  Concrete subclasses must override __new__ or __init__,
+     |  __getitem__, and __len__.
+     |  
+     |  Method resolution order:
+     |      Sequence
+     |      Reversible
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, value)
+     |  
+     |  __getitem__(self, index)
+     |  
+     |  __iter__(self)
+     |  
+     |  __reversed__(self)
+     |  
+     |  count(self, value)
+     |      S.count(value) -> integer -- return number of occurrences of value
+     |  
+     |  index(self, value, start=0, stop=None)
+     |      S.index(value, [start, [stop]]) -> integer -- return first index of value.
+     |      Raises ValueError if the value is not present.
+     |      
+     |      Supporting start and stop arguments is optional, but
+     |      recommended.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__getitem__', '__len__'})
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Reversible:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+    
+    class Set(Collection)
+     |  A set is a finite, iterable container.
+     |  
+     |  This class provides concrete generic implementations of all
+     |  methods except for __contains__, __iter__ and __len__.
+     |  
+     |  To override the comparisons (presumably for speed, as the
+     |  semantics are fixed), redefine __le__ and __ge__,
+     |  then the other operations will automatically follow suit.
+     |  
+     |  Method resolution order:
+     |      Set
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __and__(self, other)
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __ge__(self, other)
+     |      Return self>=value.
+     |  
+     |  __gt__(self, other)
+     |      Return self>value.
+     |  
+     |  __le__(self, other)
+     |      Return self<=value.
+     |  
+     |  __lt__(self, other)
+     |      Return self<value.
+     |  
+     |  __or__(self, other)
+     |  
+     |  __rand__ = __and__(self, other)
+     |  
+     |  __ror__ = __or__(self, other)
+     |  
+     |  __rsub__(self, other)
+     |  
+     |  __rxor__ = __xor__(self, other)
+     |  
+     |  __sub__(self, other)
+     |  
+     |  __xor__(self, other)
+     |  
+     |  isdisjoint(self, other)
+     |      Return True if two sets have a null intersection.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__contains__', '__iter__', '__len__'...
+     |  
+     |  __hash__ = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sized:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Iterable:
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Container:
+     |  
+     |  __contains__(self, x)
+    
+    class Sized(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __len__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset({'__len__'})
+    
+    class ValuesView(MappingView, Collection)
+     |  ValuesView(mapping)
+     |  
+     |  Method resolution order:
+     |      ValuesView
+     |      MappingView
+     |      Collection
+     |      Sized
+     |      Iterable
+     |      Container
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __contains__(self, value)
+     |  
+     |  __iter__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from MappingView:
+     |  
+     |  __init__(self, mapping)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __len__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from Collection:
+     |  
+     |  __subclasshook__(C) from abc.ABCMeta
+     |      Abstract classes can override this to customize issubclass().
+     |      
+     |      This is invoked early on by abc.ABCMeta.__subclasscheck__().
+     |      It should return True, False or NotImplemented.  If it returns
+     |      NotImplemented, the normal algorithm is used.  Otherwise, it
+     |      overrides the normal algorithm (and the outcome is cached).
+
+DATA
+    __all__ = ['Awaitable', 'Coroutine', 'AsyncIterable', 'AsyncIterator',...
+
+FILE
+    c:\program files\python37\lib\_collections_abc.py
+
+

@@ -1,0 +1,9 @@
+Help on module brain_http:
+
+NAME
+    brain_http - Astroid brain hints for some of the `http` module.
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_http.py
+
+

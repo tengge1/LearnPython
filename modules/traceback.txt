@@ -1,0 +1,445 @@
+Help on module traceback:
+
+NAME
+    traceback - Extract, format and print information about Python stack traces.
+
+CLASSES
+    builtins.list(builtins.object)
+        StackSummary
+    builtins.object
+        FrameSummary
+        TracebackException
+    
+    class FrameSummary(builtins.object)
+     |  FrameSummary(filename, lineno, name, *, lookup_line=True, locals=None, line=None)
+     |  
+     |  A single frame from a traceback.
+     |  
+     |  - :attr:`filename` The filename for the frame.
+     |  - :attr:`lineno` The line within filename for the frame that was
+     |    active when the frame was captured.
+     |  - :attr:`name` The name of the function or method that was executing
+     |    when the frame was captured.
+     |  - :attr:`line` The text from the linecache module for the
+     |    of code that was running when the frame was captured.
+     |  - :attr:`locals` Either None if locals were not supplied, or a dict
+     |    mapping the name to the repr() of the variable.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __getitem__(self, pos)
+     |  
+     |  __init__(self, filename, lineno, name, *, lookup_line=True, locals=None, line=None)
+     |      Construct a FrameSummary.
+     |      
+     |      :param lookup_line: If True, `linecache` is consulted for the source
+     |          code line. Otherwise, the line will be looked up when first needed.
+     |      :param locals: If supplied the frame locals, which will be captured as
+     |          object representations.
+     |      :param line: If provided, use this instead of looking up the line in
+     |          the linecache.
+     |  
+     |  __iter__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  filename
+     |  
+     |  line
+     |  
+     |  lineno
+     |  
+     |  locals
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    class StackSummary(builtins.list)
+     |  StackSummary(iterable=(), /)
+     |  
+     |  A stack of frames.
+     |  
+     |  Method resolution order:
+     |      StackSummary
+     |      builtins.list
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  format(self)
+     |      Format the stack ready for printing.
+     |      
+     |      Returns a list of strings ready for printing.  Each string in the
+     |      resulting list corresponds to a single frame from the stack.
+     |      Each string ends in a newline; the strings may contain internal
+     |      newlines as well, for those items with source text lines.
+     |      
+     |      For long sequences of the same frame and line, the first few
+     |      repetitions are shown, followed by a summary line stating the exact
+     |      number of further repetitions.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  extract(frame_gen, *, limit=None, lookup_lines=True, capture_locals=False) from builtins.type
+     |      Create a StackSummary from a traceback or stack object.
+     |      
+     |      :param frame_gen: A generator that yields (frame, lineno) tuples to
+     |          include in the stack.
+     |      :param limit: None to include all frames or the number of frames to
+     |          include.
+     |      :param lookup_lines: If True, lookup lines for each frame immediately,
+     |          otherwise lookup is deferred until the frame is rendered.
+     |      :param capture_locals: If True, the local variables from each frame will
+     |          be captured as object representations into the FrameSummary.
+     |  
+     |  from_list(a_list) from builtins.type
+     |      Create a StackSummary object from a supplied list of
+     |      FrameSummary objects or old-style list of tuples.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.list:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iadd__(self, value, /)
+     |      Implement self+=value.
+     |  
+     |  __imul__(self, value, /)
+     |      Implement self*=value.
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __reversed__(self, /)
+     |      Return a reverse iterator over the list.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  __sizeof__(self, /)
+     |      Return the size of the list in memory, in bytes.
+     |  
+     |  append(self, object, /)
+     |      Append object to the end of the list.
+     |  
+     |  clear(self, /)
+     |      Remove all items from list.
+     |  
+     |  copy(self, /)
+     |      Return a shallow copy of the list.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  extend(self, iterable, /)
+     |      Extend list by appending elements from the iterable.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+     |  
+     |  insert(self, index, object, /)
+     |      Insert object before index.
+     |  
+     |  pop(self, index=-1, /)
+     |      Remove and return item at index (default last).
+     |      
+     |      Raises IndexError if list is empty or index is out of range.
+     |  
+     |  remove(self, value, /)
+     |      Remove first occurrence of value.
+     |      
+     |      Raises ValueError if the value is not present.
+     |  
+     |  reverse(self, /)
+     |      Reverse *IN PLACE*.
+     |  
+     |  sort(self, /, *, key=None, reverse=False)
+     |      Stable sort *IN PLACE*.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.list:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.list:
+     |  
+     |  __hash__ = None
+    
+    class TracebackException(builtins.object)
+     |  TracebackException(exc_type, exc_value, exc_traceback, *, limit=None, lookup_lines=True, capture_locals=False, _seen=None)
+     |  
+     |  An exception ready for rendering.
+     |  
+     |  The traceback module captures enough attributes from the original exception
+     |  to this intermediary form to ensure that no references are held, while
+     |  still being able to fully print or format it.
+     |  
+     |  Use `from_exception` to create TracebackException instances from exception
+     |  objects, or the constructor to create TracebackException instances from
+     |  individual components.
+     |  
+     |  - :attr:`__cause__` A TracebackException of the original *__cause__*.
+     |  - :attr:`__context__` A TracebackException of the original *__context__*.
+     |  - :attr:`__suppress_context__` The *__suppress_context__* value from the
+     |    original exception.
+     |  - :attr:`stack` A `StackSummary` representing the traceback.
+     |  - :attr:`exc_type` The class of the original traceback.
+     |  - :attr:`filename` For syntax errors - the filename where the error
+     |    occurred.
+     |  - :attr:`lineno` For syntax errors - the linenumber where the error
+     |    occurred.
+     |  - :attr:`text` For syntax errors - the text where the error
+     |    occurred.
+     |  - :attr:`offset` For syntax errors - the offset into the text where the
+     |    error occurred.
+     |  - :attr:`msg` For syntax errors - the compiler error message.
+     |  
+     |  Methods defined here:
+     |  
+     |  __eq__(self, other)
+     |      Return self==value.
+     |  
+     |  __init__(self, exc_type, exc_value, exc_traceback, *, limit=None, lookup_lines=True, capture_locals=False, _seen=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  format(self, *, chain=True)
+     |      Format the exception.
+     |      
+     |      If chain is not *True*, *__cause__* and *__context__* will not be formatted.
+     |      
+     |      The return value is a generator of strings, each ending in a newline and
+     |      some containing internal newlines. `print_exception` is a wrapper around
+     |      this method which just prints the lines to a file.
+     |      
+     |      The message indicating which exception occurred is always the last
+     |      string in the output.
+     |  
+     |  format_exception_only(self)
+     |      Format the exception part of the traceback.
+     |      
+     |      The return value is a generator of strings, each ending in a newline.
+     |      
+     |      Normally, the generator emits a single string; however, for
+     |      SyntaxError exceptions, it emites several lines that (when
+     |      printed) display detailed information about where the syntax
+     |      error occurred.
+     |      
+     |      The message indicating which exception occurred is always the last
+     |      string in the output.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_exception(exc, *args, **kwargs) from builtins.type
+     |      Create a TracebackException from an exception.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+
+FUNCTIONS
+    clear_frames(tb)
+        Clear all references to local variables in the frames of a traceback.
+    
+    extract_stack(f=None, limit=None)
+        Extract the raw traceback from the current stack frame.
+        
+        The return value has the same format as for extract_tb().  The
+        optional 'f' and 'limit' arguments have the same meaning as for
+        print_stack().  Each item in the list is a quadruple (filename,
+        line number, function name, text), and the entries are in order
+        from oldest to newest stack frame.
+    
+    extract_tb(tb, limit=None)
+        Return a StackSummary object representing a list of
+        pre-processed entries from traceback.
+        
+        This is useful for alternate formatting of stack traces.  If
+        'limit' is omitted or None, all entries are extracted.  A
+        pre-processed stack trace entry is a FrameSummary object
+        containing attributes filename, lineno, name, and line
+        representing the information that is usually printed for a stack
+        trace.  The line is a string with leading and trailing
+        whitespace stripped; if the source is not available it is None.
+    
+    format_exc(limit=None, chain=True)
+        Like print_exc() but return a string.
+    
+    format_exception(etype, value, tb, limit=None, chain=True)
+        Format a stack trace and the exception information.
+        
+        The arguments have the same meaning as the corresponding arguments
+        to print_exception().  The return value is a list of strings, each
+        ending in a newline and some containing internal newlines.  When
+        these lines are concatenated and printed, exactly the same text is
+        printed as does print_exception().
+    
+    format_exception_only(etype, value)
+        Format the exception part of a traceback.
+        
+        The arguments are the exception type and value such as given by
+        sys.last_type and sys.last_value. The return value is a list of
+        strings, each ending in a newline.
+        
+        Normally, the list contains a single string; however, for
+        SyntaxError exceptions, it contains several lines that (when
+        printed) display detailed information about where the syntax
+        error occurred.
+        
+        The message indicating which exception occurred is always the last
+        string in the list.
+    
+    format_list(extracted_list)
+        Format a list of tuples or FrameSummary objects for printing.
+        
+        Given a list of tuples or FrameSummary objects as returned by
+        extract_tb() or extract_stack(), return a list of strings ready
+        for printing.
+        
+        Each string in the resulting list corresponds to the item with the
+        same index in the argument list.  Each string ends in a newline;
+        the strings may contain internal newlines as well, for those items
+        whose source text line is not None.
+    
+    format_stack(f=None, limit=None)
+        Shorthand for 'format_list(extract_stack(f, limit))'.
+    
+    format_tb(tb, limit=None)
+        A shorthand for 'format_list(extract_tb(tb, limit))'.
+    
+    print_exc(limit=None, file=None, chain=True)
+        Shorthand for 'print_exception(*sys.exc_info(), limit, file)'.
+    
+    print_exception(etype, value, tb, limit=None, file=None, chain=True)
+        Print exception up to 'limit' stack trace entries from 'tb' to 'file'.
+        
+        This differs from print_tb() in the following ways: (1) if
+        traceback is not None, it prints a header "Traceback (most recent
+        call last):"; (2) it prints the exception type and value after the
+        stack trace; (3) if type is SyntaxError and value has the
+        appropriate format, it prints the line where the syntax error
+        occurred with a caret on the next line indicating the approximate
+        position of the error.
+    
+    print_last(limit=None, file=None, chain=True)
+        This is a shorthand for 'print_exception(sys.last_type,
+        sys.last_value, sys.last_traceback, limit, file)'.
+    
+    print_stack(f=None, limit=None, file=None)
+        Print a stack trace from its invocation point.
+        
+        The optional 'f' argument can be used to specify an alternate
+        stack frame at which to start. The optional 'limit' and 'file'
+        arguments have the same meaning as for print_exception().
+    
+    print_tb(tb, limit=None, file=None)
+        Print up to 'limit' stack trace entries from the traceback 'tb'.
+        
+        If 'limit' is omitted or None, all entries are printed.  If 'file'
+        is omitted or None, the output goes to sys.stderr; otherwise
+        'file' should be an open file or file-like object with a write()
+        method.
+    
+    walk_stack(f)
+        Walk a stack yielding the frame and line number for each frame.
+        
+        This will follow f.f_back from the given frame. If no frame is given, the
+        current stack is used. Usually used with StackSummary.extract.
+    
+    walk_tb(tb)
+        Walk a traceback yielding the frame and line number for each frame.
+        
+        This will follow tb.tb_next (and thus is in the opposite order to
+        walk_stack). Usually used with StackSummary.extract.
+
+DATA
+    __all__ = ['extract_stack', 'extract_tb', 'format_exception', 'format_...
+
+FILE
+    c:\program files\python37\lib\traceback.py
+
+

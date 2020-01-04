@@ -1,0 +1,19 @@
+Help on module brain_qt:
+
+NAME
+    brain_qt - Astroid hooks for the PyQT library.
+
+FUNCTIONS
+    pyqt4_qtcore_transform()
+    
+    transform_pyqt_signal(node)
+    
+    transform_pyside_signal(node)
+
+DATA
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_qt.py
+
+

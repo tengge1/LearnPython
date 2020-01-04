@@ -1,0 +1,20 @@
+Help on module brain_dataclasses:
+
+NAME
+    brain_dataclasses - Astroid hook for the dataclasses library
+
+FUNCTIONS
+    dataclass_transform(node)
+        Rewrite a dataclass to be easily understood by pylint
+    
+    is_decorated_with_dataclass(node, decorator_names=frozenset({'dataclasses.dataclass', 'dataclass'}))
+        Return True if a decorated node has a `dataclass` decorator applied.
+
+DATA
+    DATACLASSES_DECORATORS = frozenset({'dataclass', 'dataclasses.dataclas...
+    MANAGER = <astroid.manager.AstroidManager object>
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_dataclasses.py
+
+

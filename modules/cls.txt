@@ -1,0 +1,40 @@
+Help on module cls:
+
+NAME
+    cls
+
+CLASSES
+    builtins.object
+        MyClass
+    
+    class MyClass(builtins.object)
+     |  Methods defined here:
+     |  
+     |  func1(cls, a, b)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  func2(a, b) from builtins.type
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  func3(cls, a, b)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+DATA
+    x = <cls.MyClass object>
+
+FILE
+    e:\github\learnpython\python\cls.py
+
+

@@ -1,0 +1,41 @@
+Help on built-in module _sha1:
+
+NAME
+    _sha1
+
+CLASSES
+    builtins.object
+        sha1
+    
+    SHA1Type = class sha1(builtins.object)
+     |  Methods defined here:
+     |  
+     |  copy(self, /)
+     |      Return a copy of the hash object.
+     |  
+     |  digest(self, /)
+     |      Return the digest value as a bytes object.
+     |  
+     |  hexdigest(self, /)
+     |      Return the digest value as a string of hexadecimal digits.
+     |  
+     |  update(self, obj, /)
+     |      Update this hash object's state with the provided string.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  block_size
+     |  
+     |  digest_size
+     |  
+     |  name
+
+FUNCTIONS
+    sha1(string=b'')
+        Return a new SHA1 hash object; optionally initialized with a string.
+
+FILE
+    (built-in)
+
+

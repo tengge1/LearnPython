@@ -1,0 +1,295 @@
+Help on module tokenize:
+
+NAME
+    tokenize - Tokenization help for Python programs.
+
+DESCRIPTION
+    tokenize(readline) is a generator that breaks a stream of bytes into
+    Python tokens.  It decodes the bytes according to PEP-0263 for
+    determining source file encoding.
+    
+    It accepts a readline-like method which is called repeatedly to get the
+    next line of input (or b"" for EOF).  It generates 5-tuples with these
+    members:
+    
+        the token type (see token.py)
+        the token (a string)
+        the starting (row, column) indices of the token (a 2-tuple of ints)
+        the ending (row, column) indices of the token (a 2-tuple of ints)
+        the original line (string)
+    
+    It is designed to match the working of the Python tokenizer exactly, except
+    that it produces COMMENT tokens for comments and gives type OP for all
+    operators.  Additionally, all token lists start with an ENCODING token
+    which tells you which encoding was used to decode the bytes stream.
+
+CLASSES
+    TokenInfo(builtins.tuple)
+        TokenInfo
+    
+    class TokenInfo(TokenInfo)
+     |  TokenInfo(type, string, start, end, line)
+     |  
+     |  TokenInfo(type, string, start, end, line)
+     |  
+     |  Method resolution order:
+     |      TokenInfo
+     |      TokenInfo
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __repr__(self)
+     |      Return a nicely formatted representation string
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  exact_type
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from TokenInfo:
+     |  
+     |  __getnewargs__(self)
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |  
+     |  _asdict(self)
+     |      Return a new OrderedDict which maps field names to their values.
+     |  
+     |  _replace(_self, **kwds)
+     |      Return a new TokenInfo object replacing specified fields with new values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from TokenInfo:
+     |  
+     |  _make(iterable) from builtins.type
+     |      Make a new TokenInfo object from a sequence or iterable
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from TokenInfo:
+     |  
+     |  __new__(_cls, type, string, start, end, line)
+     |      Create new instance of TokenInfo(type, string, start, end, line)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from TokenInfo:
+     |  
+     |  type
+     |      Alias for field number 0
+     |  
+     |  string
+     |      Alias for field number 1
+     |  
+     |  start
+     |      Alias for field number 2
+     |  
+     |  end
+     |      Alias for field number 3
+     |  
+     |  line
+     |      Alias for field number 4
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from TokenInfo:
+     |  
+     |  _field_defaults = {}
+     |  
+     |  _fields = ('type', 'string', 'start', 'end', 'line')
+     |  
+     |  _fields_defaults = {}
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+
+FUNCTIONS
+    ISEOF(x)
+    
+    ISNONTERMINAL(x)
+    
+    ISTERMINAL(x)
+    
+    detect_encoding(readline)
+        The detect_encoding() function is used to detect the encoding that should
+        be used to decode a Python source file.  It requires one argument, readline,
+        in the same way as the tokenize() generator.
+        
+        It will call readline a maximum of twice, and return the encoding used
+        (as a string) and a list of any lines (left as bytes) it has read in.
+        
+        It detects the encoding from the presence of a utf-8 bom or an encoding
+        cookie as specified in pep-0263.  If both a bom and a cookie are present,
+        but disagree, a SyntaxError will be raised.  If the encoding cookie is an
+        invalid charset, raise a SyntaxError.  Note that if a utf-8 bom is found,
+        'utf-8-sig' is returned.
+        
+        If no encoding is specified, then the default of 'utf-8' will be returned.
+    
+    tokenize(readline)
+        The tokenize() generator requires one argument, readline, which
+        must be a callable object which provides the same interface as the
+        readline() method of built-in file objects.  Each call to the function
+        should return one line of input as bytes.  Alternatively, readline
+        can be a callable function terminating with StopIteration:
+            readline = open(myfile, 'rb').__next__  # Example of alternate readline
+        
+        The generator produces 5-tuples with these members: the token type; the
+        token string; a 2-tuple (srow, scol) of ints specifying the row and
+        column where the token begins in the source; a 2-tuple (erow, ecol) of
+        ints specifying the row and column where the token ends in the source;
+        and the line on which the token was found.  The line passed is the
+        logical line; continuation lines are included.
+        
+        The first token sequence will always be an ENCODING token
+        which tells you which encoding was used to decode the bytes stream.
+    
+    untokenize(iterable)
+        Transform tokens back into Python source code.
+        It returns a bytes object, encoded using the ENCODING
+        token, which is the first token sequence output by tokenize.
+        
+        Each element returned by the iterable must be a token sequence
+        with at least two elements, a token number and token value.  If
+        only two tokens are passed, the resulting output is poor.
+        
+        Round-trip invariant for full input:
+            Untokenized source will match input source exactly
+        
+        Round-trip invariant for limited input:
+            # Output bytes will tokenize back to the input
+            t1 = [tok[:2] for tok in tokenize(f.readline)]
+            newcode = untokenize(t1)
+            readline = BytesIO(newcode).readline
+            t2 = [tok[:2] for tok in tokenize(readline)]
+            assert t1 == t2
+
+DATA
+    AMPER = 19
+    AMPEREQUAL = 41
+    AT = 49
+    ATEQUAL = 50
+    CIRCUMFLEX = 32
+    CIRCUMFLEXEQUAL = 43
+    COLON = 11
+    COMMA = 12
+    COMMENT = 55
+    DEDENT = 6
+    DOT = 23
+    DOUBLESLASH = 47
+    DOUBLESLASHEQUAL = 48
+    DOUBLESTAR = 35
+    DOUBLESTAREQUAL = 46
+    ELLIPSIS = 52
+    ENCODING = 57
+    ENDMARKER = 0
+    EQEQUAL = 27
+    EQUAL = 22
+    ERRORTOKEN = 54
+    GREATER = 21
+    GREATEREQUAL = 30
+    INDENT = 5
+    LBRACE = 25
+    LEFTSHIFT = 33
+    LEFTSHIFTEQUAL = 44
+    LESS = 20
+    LESSEQUAL = 29
+    LPAR = 7
+    LSQB = 9
+    MINEQUAL = 37
+    MINUS = 15
+    NAME = 1
+    NEWLINE = 4
+    NL = 56
+    NOTEQUAL = 28
+    NT_OFFSET = 256
+    NUMBER = 2
+    N_TOKENS = 58
+    OP = 53
+    PERCENT = 24
+    PERCENTEQUAL = 40
+    PLUS = 14
+    PLUSEQUAL = 36
+    RARROW = 51
+    RBRACE = 26
+    RIGHTSHIFT = 34
+    RIGHTSHIFTEQUAL = 45
+    RPAR = 8
+    RSQB = 10
+    SEMI = 13
+    SLASH = 17
+    SLASHEQUAL = 39
+    STAR = 16
+    STAREQUAL = 38
+    STRING = 3
+    TILDE = 31
+    VBAR = 18
+    VBAREQUAL = 42
+    __all__ = ['tok_name', 'ISTERMINAL', 'ISNONTERMINAL', 'ISEOF', 'ENDMAR...
+    tok_name = {0: 'ENDMARKER', 1: 'NAME', 2: 'NUMBER', 3: 'STRING', 4: 'N...
+
+AUTHOR
+    Ka-Ping Yee <ping@lfw.org>
+
+CREDITS
+    GvR, ESR, Tim Peters, Thomas Wouters, Fred Drake, Skip Montanaro, Raymond Hettinger, Trent Nelson, Michael Foord
+
+FILE
+    c:\program files\python37\lib\tokenize.py
+
+

@@ -1,0 +1,176 @@
+Help on built-in module _operator:
+
+NAME
+    _operator - Operator interface.
+
+DESCRIPTION
+    This module exports a set of functions implemented in C corresponding
+    to the intrinsic operators of Python.  For example, operator.add(x, y)
+    is equivalent to the expression x+y.  The function names are those
+    used for special methods; variants without leading and trailing
+    '__' are also provided for convenience.
+
+FUNCTIONS
+    abs(a, /)
+        Same as abs(a).
+    
+    add(a, b, /)
+        Same as a + b.
+    
+    and_(a, b, /)
+        Same as a & b.
+    
+    concat(a, b, /)
+        Same as a + b, for a and b sequences.
+    
+    contains(a, b, /)
+        Same as b in a (note reversed operands).
+    
+    countOf(a, b, /)
+        Return the number of times b occurs in a.
+    
+    delitem(a, b, /)
+        Same as del a[b].
+    
+    eq(a, b, /)
+        Same as a == b.
+    
+    floordiv(a, b, /)
+        Same as a // b.
+    
+    ge(a, b, /)
+        Same as a >= b.
+    
+    getitem(a, b, /)
+        Same as a[b].
+    
+    gt(a, b, /)
+        Same as a > b.
+    
+    iadd(a, b, /)
+        Same as a += b.
+    
+    iand(a, b, /)
+        Same as a &= b.
+    
+    iconcat(a, b, /)
+        Same as a += b, for a and b sequences.
+    
+    ifloordiv(a, b, /)
+        Same as a //= b.
+    
+    ilshift(a, b, /)
+        Same as a <<= b.
+    
+    imatmul(a, b, /)
+        Same as a @= b.
+    
+    imod(a, b, /)
+        Same as a %= b.
+    
+    imul(a, b, /)
+        Same as a *= b.
+    
+    index(a, /)
+        Same as a.__index__()
+    
+    indexOf(a, b, /)
+        Return the first index of b in a.
+    
+    inv(a, /)
+        Same as ~a.
+    
+    invert(a, /)
+        Same as ~a.
+    
+    ior(a, b, /)
+        Same as a |= b.
+    
+    ipow(a, b, /)
+        Same as a **= b.
+    
+    irshift(a, b, /)
+        Same as a >>= b.
+    
+    is_(a, b, /)
+        Same as a is b.
+    
+    is_not(a, b, /)
+        Same as a is not b.
+    
+    isub(a, b, /)
+        Same as a -= b.
+    
+    itruediv(a, b, /)
+        Same as a /= b.
+    
+    ixor(a, b, /)
+        Same as a ^= b.
+    
+    le(a, b, /)
+        Same as a <= b.
+    
+    length_hint(obj, default=0, /)
+        Return an estimate of the number of items in obj.
+        
+        This is useful for presizing containers when building from an iterable.
+        
+        If the object supports len(), the result will be exact.
+        Otherwise, it may over- or under-estimate by an arbitrary amount.
+        The result will be an integer >= 0.
+    
+    lshift(a, b, /)
+        Same as a << b.
+    
+    lt(a, b, /)
+        Same as a < b.
+    
+    matmul(a, b, /)
+        Same as a @ b.
+    
+    mod(a, b, /)
+        Same as a % b.
+    
+    mul(a, b, /)
+        Same as a * b.
+    
+    ne(a, b, /)
+        Same as a != b.
+    
+    neg(a, /)
+        Same as -a.
+    
+    not_(a, /)
+        Same as not a.
+    
+    or_(a, b, /)
+        Same as a | b.
+    
+    pos(a, /)
+        Same as +a.
+    
+    pow(a, b, /)
+        Same as a ** b.
+    
+    rshift(a, b, /)
+        Same as a >> b.
+    
+    setitem(a, b, c, /)
+        Same as a[b] = c.
+    
+    sub(a, b, /)
+        Same as a - b.
+    
+    truediv(a, b, /)
+        Same as a / b.
+    
+    truth(a, /)
+        Return True if a is true, False otherwise.
+    
+    xor(a, b, /)
+        Same as a ^ b.
+
+FILE
+    (built-in)
+
+

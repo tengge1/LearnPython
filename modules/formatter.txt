@@ -1,0 +1,317 @@
+Help on module formatter:
+
+NAME
+    formatter - Generic output formatting.
+
+DESCRIPTION
+    Formatter objects transform an abstract flow of formatting events into
+    specific output events on writer objects. Formatters manage several stack
+    structures to allow various properties of a writer object to be changed and
+    restored; writers need not be able to handle relative changes nor any sort
+    of ``change back'' operation. Specific writer properties which may be
+    controlled via formatter objects are horizontal alignment, font, and left
+    margin indentations. A mechanism is provided which supports providing
+    arbitrary, non-exclusive style settings to a writer as well. Additional
+    interfaces facilitate formatting events which are not reversible, such as
+    paragraph separation.
+    
+    Writer objects encapsulate device interfaces. Abstract devices, such as
+    file formats, are supported as well as physical devices. The provided
+    implementations all work with abstract devices. The interface makes
+    available mechanisms for setting the properties which formatter objects
+    manage and inserting data into the output.
+
+CLASSES
+    builtins.object
+        AbstractFormatter
+        NullFormatter
+        NullWriter
+            AbstractWriter
+            DumbWriter
+    
+    class AbstractFormatter(builtins.object)
+     |  AbstractFormatter(writer)
+     |  
+     |  The standard formatter.
+     |  
+     |  This implementation has demonstrated wide applicability to many writers,
+     |  and may be used directly in most circumstances.  It has been used to
+     |  implement a full-featured World Wide Web browser.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, writer)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_flowing_data(self, data)
+     |  
+     |  add_hor_rule(self, *args, **kw)
+     |  
+     |  add_label_data(self, format, counter, blankline=None)
+     |  
+     |  add_line_break(self)
+     |  
+     |  add_literal_data(self, data)
+     |  
+     |  assert_line_data(self, flag=1)
+     |  
+     |  end_paragraph(self, blankline)
+     |  
+     |  flush_softspace(self)
+     |  
+     |  format_counter(self, format, counter)
+     |  
+     |  format_letter(self, case, counter)
+     |  
+     |  format_roman(self, case, counter)
+     |  
+     |  pop_alignment(self)
+     |  
+     |  pop_font(self)
+     |  
+     |  pop_margin(self)
+     |  
+     |  pop_style(self, n=1)
+     |  
+     |  push_alignment(self, align)
+     |  
+     |  push_font(self, font)
+     |  
+     |  push_margin(self, margin)
+     |  
+     |  push_style(self, *styles)
+     |  
+     |  set_spacing(self, spacing)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class AbstractWriter(NullWriter)
+     |  A writer which can be used in debugging formatters, but not much else.
+     |  
+     |  Each method simply announces itself by printing its name and
+     |  arguments on standard output.
+     |  
+     |  Method resolution order:
+     |      AbstractWriter
+     |      NullWriter
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  new_alignment(self, align)
+     |  
+     |  new_font(self, font)
+     |  
+     |  new_margin(self, margin, level)
+     |  
+     |  new_spacing(self, spacing)
+     |  
+     |  new_styles(self, styles)
+     |  
+     |  send_flowing_data(self, data)
+     |  
+     |  send_hor_rule(self, *args, **kw)
+     |  
+     |  send_label_data(self, data)
+     |  
+     |  send_line_break(self)
+     |  
+     |  send_literal_data(self, data)
+     |  
+     |  send_paragraph(self, blankline)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from NullWriter:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  flush(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from NullWriter:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class DumbWriter(NullWriter)
+     |  DumbWriter(file=None, maxcol=72)
+     |  
+     |  Simple writer class which writes output on the file object passed in
+     |  as the file parameter or, if file is omitted, on standard output.  The
+     |  output is simply word-wrapped to the number of columns specified by
+     |  the maxcol parameter.  This class is suitable for reflowing a sequence
+     |  of paragraphs.
+     |  
+     |  Method resolution order:
+     |      DumbWriter
+     |      NullWriter
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, file=None, maxcol=72)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  reset(self)
+     |  
+     |  send_flowing_data(self, data)
+     |  
+     |  send_hor_rule(self, *args, **kw)
+     |  
+     |  send_line_break(self)
+     |  
+     |  send_literal_data(self, data)
+     |  
+     |  send_paragraph(self, blankline)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from NullWriter:
+     |  
+     |  flush(self)
+     |  
+     |  new_alignment(self, align)
+     |  
+     |  new_font(self, font)
+     |  
+     |  new_margin(self, margin, level)
+     |  
+     |  new_spacing(self, spacing)
+     |  
+     |  new_styles(self, styles)
+     |  
+     |  send_label_data(self, data)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from NullWriter:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class NullFormatter(builtins.object)
+     |  NullFormatter(writer=None)
+     |  
+     |  A formatter which does nothing.
+     |  
+     |  If the writer parameter is omitted, a NullWriter instance is created.
+     |  No methods of the writer are called by NullFormatter instances.
+     |  
+     |  Implementations should inherit from this class if implementing a writer
+     |  interface but don't need to inherit any implementation.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, writer=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  add_flowing_data(self, data)
+     |  
+     |  add_hor_rule(self, *args, **kw)
+     |  
+     |  add_label_data(self, format, counter, blankline=None)
+     |  
+     |  add_line_break(self)
+     |  
+     |  add_literal_data(self, data)
+     |  
+     |  assert_line_data(self, flag=1)
+     |  
+     |  end_paragraph(self, blankline)
+     |  
+     |  flush_softspace(self)
+     |  
+     |  pop_alignment(self)
+     |  
+     |  pop_font(self)
+     |  
+     |  pop_margin(self)
+     |  
+     |  pop_style(self, n=1)
+     |  
+     |  push_alignment(self, align)
+     |  
+     |  push_font(self, x)
+     |  
+     |  push_margin(self, margin)
+     |  
+     |  push_style(self, *styles)
+     |  
+     |  set_spacing(self, spacing)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class NullWriter(builtins.object)
+     |  Minimal writer interface to use in testing & inheritance.
+     |  
+     |  A writer which only provides the interface definition; no actions are
+     |  taken on any methods.  This should be the base class for all writers
+     |  which do not need to inherit any implementation methods.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  flush(self)
+     |  
+     |  new_alignment(self, align)
+     |  
+     |  new_font(self, font)
+     |  
+     |  new_margin(self, margin, level)
+     |  
+     |  new_spacing(self, spacing)
+     |  
+     |  new_styles(self, styles)
+     |  
+     |  send_flowing_data(self, data)
+     |  
+     |  send_hor_rule(self, *args, **kw)
+     |  
+     |  send_label_data(self, data)
+     |  
+     |  send_line_break(self)
+     |  
+     |  send_literal_data(self, data)
+     |  
+     |  send_paragraph(self, blankline)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    test(file=None)
+
+DATA
+    AS_IS = None
+
+FILE
+    c:\program files\python37\lib\formatter.py
+
+

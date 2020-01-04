@@ -1,0 +1,34 @@
+Help on module brain_namedtuple_enum:
+
+NAME
+    brain_namedtuple_enum - Astroid hooks for the Python standard library.
+
+FUNCTIONS
+    infer_enum(node, context=None)
+        Specific inference function for enum Call node.
+    
+    infer_enum_class(node)
+        Specific inference for enums.
+    
+    infer_func_form(node, base_type, context=None, enum=False)
+        Specific inference function for namedtuple or Python 3 enum.
+    
+    infer_named_tuple(node, context=None)
+        Specific inference function for namedtuple Call node
+    
+    infer_typing_namedtuple(node, context=None)
+        Infer a typing.NamedTuple(...) call.
+    
+    infer_typing_namedtuple_class(class_node, context=None)
+        Infer a subclass of typing.NamedTuple
+
+DATA
+    ENUM_BASE_NAMES = {'Enum', 'IntEnum', 'IntFlag', 'enum.Enum', 'enum.In...
+    INT_FLAG_ADDITION_METHODS = '\n    def __or__(self, other):\n        r...
+    MANAGER = <astroid.manager.AstroidManager object>
+    TYPING_NAMEDTUPLE_BASENAMES = {'NamedTuple', 'typing.NamedTuple'}
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_namedtuple_enum.py
+
+

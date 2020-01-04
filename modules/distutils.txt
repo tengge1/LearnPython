@@ -1,0 +1,51 @@
+Help on package distutils:
+
+NAME
+    distutils - distutils
+
+DESCRIPTION
+    The main package for the Python Module Distribution Utilities.  Normally
+    used from a setup script as
+    
+       from distutils.core import setup
+    
+       setup (...)
+
+PACKAGE CONTENTS
+    _msvccompiler
+    archive_util
+    bcppcompiler
+    ccompiler
+    cmd
+    command (package)
+    config
+    core
+    cygwinccompiler
+    debug
+    dep_util
+    dir_util
+    dist
+    errors
+    extension
+    fancy_getopt
+    file_util
+    filelist
+    log
+    msvc9compiler
+    msvccompiler
+    spawn
+    sysconfig
+    tests (package)
+    text_file
+    unixccompiler
+    util
+    version
+    versionpredicate
+
+VERSION
+    3.7.4
+
+FILE
+    c:\program files\python37\lib\distutils\__init__.py
+
+

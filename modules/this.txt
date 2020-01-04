@@ -1,0 +1,15 @@
+Help on module this:
+
+NAME
+    this
+
+DATA
+    c = 97
+    d = {'A': 'N', 'B': 'O', 'C': 'P', 'D': 'Q', 'E': 'R', 'F': 'S', 'G': ...
+    i = 25
+    s = "Gur Mra bs Clguba, ol Gvz Crgref\n\nOrnhgvshy vf o...bar ubaxvat ...
+
+FILE
+    c:\program files\python37\lib\this.py
+
+

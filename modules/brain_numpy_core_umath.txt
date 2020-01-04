@@ -1,0 +1,12 @@
+Help on module brain_numpy_core_umath:
+
+NAME
+    brain_numpy_core_umath - Astroid hooks for numpy.core.umath module.
+
+FUNCTIONS
+    numpy_core_umath_transform()
+
+FILE
+    c:\users\liteng\appdata\roaming\python\python37\site-packages\astroid\brain\brain_numpy_core_umath.py
+
+

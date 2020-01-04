@@ -1,0 +1,329 @@
+Help on module pkgutil:
+
+NAME
+    pkgutil - Utilities to support packages.
+
+CLASSES
+    builtins.object
+        ImpImporter
+        ImpLoader
+    builtins.tuple(builtins.object)
+        ModuleInfo
+    
+    class ImpImporter(builtins.object)
+     |  ImpImporter(path=None)
+     |  
+     |  PEP 302 Finder that wraps Python's "classic" import algorithm
+     |  
+     |  ImpImporter(dirname) produces a PEP 302 finder that searches that
+     |  directory.  ImpImporter(None) produces a PEP 302 finder that searches
+     |  the current sys.path, plus any modules that are frozen or built-in.
+     |  
+     |  Note that ImpImporter does not currently support being used by placement
+     |  on sys.meta_path.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, path=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  find_module(self, fullname, path=None)
+     |  
+     |  iter_modules(self, prefix='')
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ImpLoader(builtins.object)
+     |  ImpLoader(fullname, file, filename, etc)
+     |  
+     |  PEP 302 Loader that wraps Python's "classic" import algorithm
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, fullname, file, filename, etc)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  get_code(self, fullname=None)
+     |  
+     |  get_data(self, pathname)
+     |  
+     |  get_filename(self, fullname=None)
+     |  
+     |  get_source(self, fullname=None)
+     |  
+     |  is_package(self, fullname)
+     |  
+     |  load_module(self, fullname)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  code = None
+     |  
+     |  source = None
+    
+    class ModuleInfo(builtins.tuple)
+     |  ModuleInfo(module_finder, name, ispkg)
+     |  
+     |  A namedtuple with minimal info about a module.
+     |  
+     |  Method resolution order:
+     |      ModuleInfo
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __getnewargs__(self)
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |  
+     |  __repr__(self)
+     |      Return a nicely formatted representation string
+     |  
+     |  _asdict(self)
+     |      Return a new OrderedDict which maps field names to their values.
+     |  
+     |  _replace(_self, **kwds)
+     |      Return a new ModuleInfo object replacing specified fields with new values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  _make(iterable) from builtins.type
+     |      Make a new ModuleInfo object from a sequence or iterable
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(_cls, module_finder, name, ispkg)
+     |      Create new instance of ModuleInfo(module_finder, name, ispkg)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  module_finder
+     |      Alias for field number 0
+     |  
+     |  name
+     |      Alias for field number 1
+     |  
+     |  ispkg
+     |      Alias for field number 2
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  _field_defaults = {}
+     |  
+     |  _fields = ('module_finder', 'name', 'ispkg')
+     |  
+     |  _fields_defaults = {}
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+
+FUNCTIONS
+    extend_path(path, name)
+        Extend a package's path.
+        
+        Intended use is to place the following code in a package's __init__.py:
+        
+            from pkgutil import extend_path
+            __path__ = extend_path(__path__, __name__)
+        
+        This will add to the package's __path__ all subdirectories of
+        directories on sys.path named after the package.  This is useful
+        if one wants to distribute different parts of a single logical
+        package as multiple directories.
+        
+        It also looks for *.pkg files beginning where * matches the name
+        argument.  This feature is similar to *.pth files (see site.py),
+        except that it doesn't special-case lines starting with 'import'.
+        A *.pkg file is trusted at face value: apart from checking for
+        duplicates, all entries found in a *.pkg file are added to the
+        path, regardless of whether they are exist the filesystem.  (This
+        is a feature.)
+        
+        If the input path is not a list (as is the case for frozen
+        packages) it is returned unchanged.  The input path is not
+        modified; an extended copy is returned.  Items are only appended
+        to the copy at the end.
+        
+        It is assumed that sys.path is a sequence.  Items of sys.path that
+        are not (unicode or 8-bit) strings referring to existing
+        directories are ignored.  Unicode items of sys.path that cause
+        errors when used as filenames may cause this function to raise an
+        exception (in line with os.path.isdir() behavior).
+    
+    find_loader(fullname)
+        Find a "loader" object for fullname
+        
+        This is a backwards compatibility wrapper around
+        importlib.util.find_spec that converts most failures to ImportError
+        and only returns the loader rather than the full spec
+    
+    get_data(package, resource)
+        Get a resource from a package.
+        
+        This is a wrapper round the PEP 302 loader get_data API. The package
+        argument should be the name of a package, in standard module format
+        (foo.bar). The resource argument should be in the form of a relative
+        filename, using '/' as the path separator. The parent directory name '..'
+        is not allowed, and nor is a rooted name (starting with a '/').
+        
+        The function returns a binary string, which is the contents of the
+        specified resource.
+        
+        For packages located in the filesystem, which have already been imported,
+        this is the rough equivalent of
+        
+            d = os.path.dirname(sys.modules[package].__file__)
+            data = open(os.path.join(d, resource), 'rb').read()
+        
+        If the package cannot be located or loaded, or it uses a PEP 302 loader
+        which does not support get_data(), then None is returned.
+    
+    get_importer(path_item)
+        Retrieve a finder for the given path item
+        
+        The returned finder is cached in sys.path_importer_cache
+        if it was newly created by a path hook.
+        
+        The cache (or part of it) can be cleared manually if a
+        rescan of sys.path_hooks is necessary.
+    
+    get_loader(module_or_name)
+        Get a "loader" object for module_or_name
+        
+        Returns None if the module cannot be found or imported.
+        If the named module is not already imported, its containing package
+        (if any) is imported, in order to establish the package __path__.
+    
+    iter_importers(fullname='')
+        Yield finders for the given module name
+        
+        If fullname contains a '.', the finders will be for the package
+        containing fullname, otherwise they will be all registered top level
+        finders (i.e. those on both sys.meta_path and sys.path_hooks).
+        
+        If the named module is in a package, that package is imported as a side
+        effect of invoking this function.
+        
+        If no module name is specified, all top level finders are produced.
+    
+    iter_modules(path=None, prefix='')
+        Yields ModuleInfo for all submodules on path,
+        or, if path is None, all top-level modules on sys.path.
+        
+        'path' should be either None or a list of paths to look for
+        modules in.
+        
+        'prefix' is a string to output on the front of every module name
+        on output.
+    
+    read_code(stream)
+    
+    walk_packages(path=None, prefix='', onerror=None)
+        Yields ModuleInfo for all modules recursively
+        on path, or, if path is None, all accessible modules.
+        
+        'path' should be either None or a list of paths to look for
+        modules in.
+        
+        'prefix' is a string to output on the front of every module name
+        on output.
+        
+        Note that this function must import all *packages* (NOT all
+        modules!) on the given path, in order to access the __path__
+        attribute to find submodules.
+        
+        'onerror' is a function which gets called with one argument (the
+        name of the package which was being imported) if any exception
+        occurs while trying to import a package.  If no onerror function is
+        supplied, ImportErrors are caught and ignored, while all other
+        exceptions are propagated, terminating the search.
+        
+        Examples:
+        
+        # list all modules python can access
+        walk_packages()
+        
+        # list all submodules of ctypes
+        walk_packages(ctypes.__path__, ctypes.__name__+'.')
+
+DATA
+    __all__ = ['get_importer', 'iter_importers', 'get_loader', 'find_loade...
+
+FILE
+    c:\program files\python37\lib\pkgutil.py
+
+

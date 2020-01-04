@@ -1,0 +1,140 @@
+Help on module contextvars:
+
+NAME
+    contextvars
+
+CLASSES
+    builtins.object
+        builtins.Context
+        builtins.ContextVar
+        builtins.Token
+    
+    class Context(object)
+     |  Methods defined here:
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  copy(self, /)
+     |  
+     |  get(self, key, default=None, /)
+     |  
+     |  items(self, /)
+     |  
+     |  keys(self, /)
+     |  
+     |  run(...)
+     |  
+     |  values(self, /)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  __hash__ = None
+    
+    class ContextVar(object)
+     |  Methods defined here:
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  get(self, default=None, /)
+     |  
+     |  reset(self, token, /)
+     |  
+     |  set(self, value, /)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __class_getitem__(...)
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  name
+    
+    class Token(object)
+     |  Methods defined here:
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  old_value
+     |  
+     |  var
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  MISSING = <Token.MISSING>
+     |  
+     |  __hash__ = None
+
+FUNCTIONS
+    copy_context()
+
+DATA
+    __all__ = ('Context', 'ContextVar', 'Token', 'copy_context')
+
+FILE
+    c:\program files\python37\lib\contextvars.py
+
+

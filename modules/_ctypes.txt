@@ -1,0 +1,322 @@
+Help on module _ctypes:
+
+NAME
+    _ctypes - Create and manipulate C compatible data types in Python.
+
+CLASSES
+    _CData(builtins.object)
+        Array
+        PyCFuncPtr
+        Structure
+        Union
+    builtins.Exception(builtins.BaseException)
+        COMError
+    
+    class Array(_CData)
+     |  XXX to be provided
+     |  
+     |  Method resolution order:
+     |      Array
+     |      _CData
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from PyCArrayType
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _CData:
+     |  
+     |  __ctypes_from_outparam__(...)
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setstate__(...)
+    
+    CFuncPtr = class PyCFuncPtr(_CData)
+     |  Function Pointer
+     |  
+     |  Method resolution order:
+     |      PyCFuncPtr
+     |      _CData
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __bool__(self, /)
+     |      self != 0
+     |  
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from PyCFuncPtrType
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  argtypes
+     |      specify the argument types
+     |  
+     |  errcheck
+     |      a function to check for errors
+     |  
+     |  restype
+     |      specify the result type
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _CData:
+     |  
+     |  __ctypes_from_outparam__(...)
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setstate__(...)
+    
+    class COMError(builtins.Exception)
+     |  Raised when a COM method call failed.
+     |  
+     |  Method resolution order:
+     |      COMError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Structure(_CData)
+     |  Structure base class
+     |  
+     |  Method resolution order:
+     |      Structure
+     |      _CData
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from PyCStructType
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _CData:
+     |  
+     |  __ctypes_from_outparam__(...)
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setstate__(...)
+    
+    class Union(_CData)
+     |  Union base class
+     |  
+     |  Method resolution order:
+     |      Union
+     |      _CData
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from UnionType
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _CData:
+     |  
+     |  __ctypes_from_outparam__(...)
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __setstate__(...)
+
+FUNCTIONS
+    CopyComPointer(...)
+        CopyComPointer(src, dst) -> HRESULT value
+    
+    FormatError(...)
+        FormatError([integer]) -> string
+        
+        Convert a win32 error code into a string. If the error code is not
+        given, the return value of a call to GetLastError() is used.
+    
+    FreeLibrary(...)
+        FreeLibrary(handle) -> void
+        
+        Free the handle of an executable previously loaded by LoadLibrary.
+    
+    LoadLibrary(...)
+        LoadLibrary(name) -> handle
+        
+        Load an executable (usually a DLL), and return a handle to it.
+        The handle may be used to locate exported functions in this
+        module.
+    
+    POINTER(...)
+    
+    PyObj_FromPtr(...)
+    
+    Py_DECREF(...)
+    
+    Py_INCREF(...)
+    
+    addressof(...)
+        addressof(C instance) -> integer
+        Return the address of the C instance internal buffer
+    
+    alignment(...)
+        alignment(C type) -> integer
+        alignment(C instance) -> integer
+        Return the alignment requirements of a C instance
+    
+    buffer_info(...)
+        Return buffer interface information
+    
+    byref(...)
+        byref(C instance[, offset=0]) -> byref-object
+        Return a pointer lookalike to a C instance, only usable
+        as function argument
+    
+    call_cdeclfunction(...)
+    
+    call_function(...)
+    
+    get_errno(...)
+    
+    get_last_error(...)
+    
+    pointer(...)
+    
+    resize(...)
+        Resize the memory buffer of a ctypes instance
+    
+    set_errno(...)
+    
+    set_last_error(...)
+    
+    sizeof(...)
+        sizeof(C type) -> integer
+        sizeof(C instance) -> integer
+        Return the size in bytes of a C instance
+
+DATA
+    FUNCFLAG_CDECL = 1
+    FUNCFLAG_HRESULT = 2
+    FUNCFLAG_PYTHONAPI = 4
+    FUNCFLAG_STDCALL = 0
+    FUNCFLAG_USE_ERRNO = 8
+    FUNCFLAG_USE_LASTERROR = 16
+    RTLD_GLOBAL = 0
+    RTLD_LOCAL = 0
+
+VERSION
+    1.1.0
+
+FILE
+    c:\program files\python37\dlls\_ctypes.pyd
+
+

@@ -1,0 +1,32 @@
+Help on built-in module atexit:
+
+NAME
+    atexit - allow programmer to define multiple exit functions to be executedupon normal program termination.
+
+DESCRIPTION
+    Two public functions, register and unregister, are defined.
+
+FUNCTIONS
+    register(...)
+        register(func, *args, **kwargs) -> func
+        
+        Register a function to be executed upon normal program termination
+        
+            func - function to be called at exit
+            args - optional arguments to pass to func
+            kwargs - optional keyword arguments to pass to func
+        
+            func is returned to facilitate usage as a decorator.
+    
+    unregister(...)
+        unregister(func) -> None
+        
+        Unregister an exit function which was previously registered using
+        atexit.register
+        
+            func - function to be unregistered
+
+FILE
+    (built-in)
+
+

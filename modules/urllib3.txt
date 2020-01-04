@@ -1,0 +1,1610 @@
+Help on package urllib3:
+
+NAME
+    urllib3 - urllib3 - Thread-safe connection pooling and re-using.
+
+PACKAGE CONTENTS
+    _collections
+    connection
+    connectionpool
+    contrib (package)
+    exceptions
+    fields
+    filepost
+    packages (package)
+    poolmanager
+    request
+    response
+    util (package)
+
+CLASSES
+    builtins.object
+        urllib3.util.retry.Retry
+        urllib3.util.timeout.Timeout
+    io.IOBase(_io._IOBase)
+        urllib3.response.HTTPResponse
+    urllib3.connectionpool.ConnectionPool(builtins.object)
+        urllib3.connectionpool.HTTPConnectionPool(urllib3.connectionpool.ConnectionPool, urllib3.request.RequestMethods)
+            urllib3.connectionpool.HTTPSConnectionPool
+    urllib3.request.RequestMethods(builtins.object)
+        urllib3.connectionpool.HTTPConnectionPool(urllib3.connectionpool.ConnectionPool, urllib3.request.RequestMethods)
+            urllib3.connectionpool.HTTPSConnectionPool
+        urllib3.poolmanager.PoolManager
+            urllib3.poolmanager.ProxyManager
+    
+    class HTTPConnectionPool(ConnectionPool, urllib3.request.RequestMethods)
+     |  HTTPConnectionPool(host, port=None, strict=False, timeout=<object object at 0x000001E148267E00>, maxsize=1, block=False, headers=None, retries=None, _proxy=None, _proxy_headers=None, **conn_kw)
+     |  
+     |  Thread-safe connection pool for one host.
+     |  
+     |  :param host:
+     |      Host used for this HTTP Connection (e.g. "localhost"), passed into
+     |      :class:`httplib.HTTPConnection`.
+     |  
+     |  :param port:
+     |      Port used for this HTTP Connection (None is equivalent to 80), passed
+     |      into :class:`httplib.HTTPConnection`.
+     |  
+     |  :param strict:
+     |      Causes BadStatusLine to be raised if the status line can't be parsed
+     |      as a valid HTTP/1.0 or 1.1 status line, passed into
+     |      :class:`httplib.HTTPConnection`.
+     |  
+     |      .. note::
+     |         Only works in Python 2. This parameter is ignored in Python 3.
+     |  
+     |  :param timeout:
+     |      Socket timeout in seconds for each individual connection. This can
+     |      be a float or integer, which sets the timeout for the HTTP request,
+     |      or an instance of :class:`urllib3.util.Timeout` which gives you more
+     |      fine-grained control over request timeouts. After the constructor has
+     |      been parsed, this is always a `urllib3.util.Timeout` object.
+     |  
+     |  :param maxsize:
+     |      Number of connections to save that can be reused. More than 1 is useful
+     |      in multithreaded situations. If ``block`` is set to False, more
+     |      connections will be created but they will not be saved once they've
+     |      been used.
+     |  
+     |  :param block:
+     |      If set to True, no more than ``maxsize`` connections will be used at
+     |      a time. When no free connections are available, the call will block
+     |      until a connection has been released. This is a useful side effect for
+     |      particular multithreaded situations where one does not want to use more
+     |      than maxsize connections per host to prevent flooding.
+     |  
+     |  :param headers:
+     |      Headers to include with all requests, unless other headers are given
+     |      explicitly.
+     |  
+     |  :param retries:
+     |      Retry configuration to use by default with requests in this pool.
+     |  
+     |  :param _proxy:
+     |      Parsed proxy URL, should not be used directly, instead, see
+     |      :class:`urllib3.connectionpool.ProxyManager`"
+     |  
+     |  :param _proxy_headers:
+     |      A dictionary with proxy headers, should not be used directly,
+     |      instead, see :class:`urllib3.connectionpool.ProxyManager`"
+     |  
+     |  :param \**conn_kw:
+     |      Additional parameters are used to create fresh :class:`urllib3.connection.HTTPConnection`,
+     |      :class:`urllib3.connection.HTTPSConnection` instances.
+     |  
+     |  Method resolution order:
+     |      HTTPConnectionPool
+     |      ConnectionPool
+     |      urllib3.request.RequestMethods
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host, port=None, strict=False, timeout=<object object at 0x000001E148267E00>, maxsize=1, block=False, headers=None, retries=None, _proxy=None, _proxy_headers=None, **conn_kw)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  close(self)
+     |      Close all pooled connections and disable the pool.
+     |  
+     |  is_same_host(self, url)
+     |      Check if the given ``url`` is a member of the same host as this
+     |      connection pool.
+     |  
+     |  urlopen(self, method, url, body=None, headers=None, retries=None, redirect=True, assert_same_host=True, timeout=<object object at 0x000001E148F462B0>, pool_timeout=None, release_conn=None, chunked=False, body_pos=None, **response_kw)
+     |      Get a connection from the pool and perform an HTTP request. This is the
+     |      lowest level call for making a request, so you'll need to specify all
+     |      the raw details.
+     |      
+     |      .. note::
+     |      
+     |         More commonly, it's appropriate to use a convenience method provided
+     |         by :class:`.RequestMethods`, such as :meth:`request`.
+     |      
+     |      .. note::
+     |      
+     |         `release_conn` will only behave as expected if
+     |         `preload_content=False` because we want to make
+     |         `preload_content=False` the default behaviour someday soon without
+     |         breaking backwards compatibility.
+     |      
+     |      :param method:
+     |          HTTP request method (such as GET, POST, PUT, etc.)
+     |      
+     |      :param body:
+     |          Data to send in the request body (useful for creating
+     |          POST requests, see HTTPConnectionPool.post_url for
+     |          more convenience).
+     |      
+     |      :param headers:
+     |          Dictionary of custom headers to send, such as User-Agent,
+     |          If-None-Match, etc. If None, pool headers are used. If provided,
+     |          these headers completely replace any pool-specific headers.
+     |      
+     |      :param retries:
+     |          Configure the number of retries to allow before raising a
+     |          :class:`~urllib3.exceptions.MaxRetryError` exception.
+     |      
+     |          Pass ``None`` to retry until you receive a response. Pass a
+     |          :class:`~urllib3.util.retry.Retry` object for fine-grained control
+     |          over different types of retries.
+     |          Pass an integer number to retry connection errors that many times,
+     |          but no other types of errors. Pass zero to never retry.
+     |      
+     |          If ``False``, then retries are disabled and any exception is raised
+     |          immediately. Also, instead of raising a MaxRetryError on redirects,
+     |          the redirect response will be returned.
+     |      
+     |      :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
+     |      
+     |      :param redirect:
+     |          If True, automatically handle redirects (status codes 301, 302,
+     |          303, 307, 308). Each redirect counts as a retry. Disabling retries
+     |          will disable redirect, too.
+     |      
+     |      :param assert_same_host:
+     |          If ``True``, will make sure that the host of the pool requests is
+     |          consistent else will raise HostChangedError. When False, you can
+     |          use the pool on an HTTP proxy and request foreign hosts.
+     |      
+     |      :param timeout:
+     |          If specified, overrides the default timeout for this one
+     |          request. It may be a float (in seconds) or an instance of
+     |          :class:`urllib3.util.Timeout`.
+     |      
+     |      :param pool_timeout:
+     |          If set and the pool is set to block=True, then this method will
+     |          block for ``pool_timeout`` seconds and raise EmptyPoolError if no
+     |          connection is available within the time period.
+     |      
+     |      :param release_conn:
+     |          If False, then the urlopen call will not release the connection
+     |          back into the pool once a response is received (but will release if
+     |          you read the entire contents of the response such as when
+     |          `preload_content=True`). This is useful if you're not preloading
+     |          the response's content immediately. You will need to call
+     |          ``r.release_conn()`` on the response ``r`` to return the connection
+     |          back into the pool. If None, it takes the value of
+     |          ``response_kw.get('preload_content', True)``.
+     |      
+     |      :param chunked:
+     |          If True, urllib3 will send the body using chunked transfer
+     |          encoding. Otherwise, urllib3 will send the body using the standard
+     |          content-length form. Defaults to False.
+     |      
+     |      :param int body_pos:
+     |          Position to seek to in file-like body in the event of a retry or
+     |          redirect. Typically this won't need to be set because urllib3 will
+     |          auto-populate the value when needed.
+     |      
+     |      :param \**response_kw:
+     |          Additional parameters are passed to
+     |          :meth:`urllib3.response.HTTPResponse.from_httplib`
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  ConnectionCls = <class 'urllib3.connection.HTTPConnection'>
+     |      Based on httplib.HTTPConnection but provides an extra constructor
+     |      backwards-compatibility layer between older and newer Pythons.
+     |      
+     |      Additional keyword parameters are used to configure attributes of the connection.
+     |      Accepted parameters include:
+     |      
+     |        - ``strict``: See the documentation on :class:`urllib3.connectionpool.HTTPConnectionPool`
+     |        - ``source_address``: Set the source address for the current connection.
+     |        - ``socket_options``: Set specific options on the underlying socket. If not specified, then
+     |          defaults are loaded from ``HTTPConnection.default_socket_options`` which includes disabling
+     |          Nagle's algorithm (sets TCP_NODELAY to 1) unless the connection is behind a proxy.
+     |      
+     |          For example, if you wish to enable TCP Keep Alive in addition to the defaults,
+     |          you might pass::
+     |      
+     |              HTTPConnection.default_socket_options + [
+     |                  (socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1),
+     |              ]
+     |      
+     |          Or you may want to disable the defaults by passing an empty list (e.g., ``[]``).
+     |  
+     |  ResponseCls = <class 'urllib3.response.HTTPResponse'>
+     |      HTTP Response container.
+     |      
+     |      Backwards-compatible to httplib's HTTPResponse but the response ``body`` is
+     |      loaded and decoded on-demand when the ``data`` property is accessed.  This
+     |      class is also compatible with the Python standard library's :mod:`io`
+     |      module, and can hence be treated as a readable object in the context of that
+     |      framework.
+     |      
+     |      Extra parameters for behaviour not present in httplib.HTTPResponse:
+     |      
+     |      :param preload_content:
+     |          If True, the response's body will be preloaded during construction.
+     |      
+     |      :param decode_content:
+     |          If True, will attempt to decode the body based on the
+     |          'content-encoding' header.
+     |      
+     |      :param original_response:
+     |          When this HTTPResponse wrapper is generated from an httplib.HTTPResponse
+     |          object, it's convenient to include the original for debug purposes. It's
+     |          otherwise unused.
+     |      
+     |      :param retries:
+     |          The retries contains the last :class:`~urllib3.util.retry.Retry` that
+     |          was used during the request.
+     |      
+     |      :param enforce_content_length:
+     |          Enforce content length checking. Body returned by server must match
+     |          value of Content-Length header, if present. Otherwise, raise error.
+     |  
+     |  scheme = 'http'
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ConnectionPool:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, exc_type, exc_val, exc_tb)
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ConnectionPool:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from ConnectionPool:
+     |  
+     |  QueueCls = <class 'urllib3.util.queue.LifoQueue'>
+     |      Create a queue object with a given maximum size.
+     |      
+     |      If maxsize is <= 0, the queue size is infinite.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from urllib3.request.RequestMethods:
+     |  
+     |  request(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the appropriate encoding of
+     |      ``fields`` based on the ``method`` used.
+     |      
+     |      This is a convenience method that requires the least amount of manual
+     |      effort. It can be used in most situations, while still having the
+     |      option to drop down to more specific methods when necessary, such as
+     |      :meth:`request_encode_url`, :meth:`request_encode_body`,
+     |      or even the lowest level :meth:`urlopen`.
+     |  
+     |  request_encode_body(self, method, url, fields=None, headers=None, encode_multipart=True, multipart_boundary=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the body. This is useful for request methods like POST, PUT, PATCH, etc.
+     |      
+     |      When ``encode_multipart=True`` (default), then
+     |      :meth:`urllib3.filepost.encode_multipart_formdata` is used to encode
+     |      the payload with the appropriate content type. Otherwise
+     |      :meth:`urllib.urlencode` is used with the
+     |      'application/x-www-form-urlencoded' content type.
+     |      
+     |      Multipart encoding must be used when posting files, and it's reasonably
+     |      safe to use it in other times too. However, it may break request
+     |      signing, such as with OAuth.
+     |      
+     |      Supports an optional ``fields`` parameter of key/value strings AND
+     |      key/filetuple. A filetuple is a (filename, data, MIME type) tuple where
+     |      the MIME type is optional. For example::
+     |      
+     |          fields = {
+     |              'foo': 'bar',
+     |              'fakefile': ('foofile.txt', 'contents of foofile'),
+     |              'realfile': ('barfile.txt', open('realfile').read()),
+     |              'typedfile': ('bazfile.bin', open('bazfile').read(),
+     |                            'image/jpeg'),
+     |              'nonamefile': 'contents of nonamefile field',
+     |          }
+     |      
+     |      When uploading a file, providing a filename (the first parameter of the
+     |      tuple) is optional but recommended to best mimic behavior of browsers.
+     |      
+     |      Note that if ``headers`` are supplied, the 'Content-Type' header will
+     |      be overwritten because it depends on the dynamic random boundary string
+     |      which is used to compose the body of the request. The random boundary
+     |      string can be explicitly set with the ``multipart_boundary`` parameter.
+     |  
+     |  request_encode_url(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the url. This is useful for request methods like GET, HEAD, DELETE, etc.
+    
+    class HTTPResponse(io.IOBase)
+     |  HTTPResponse(body='', headers=None, status=0, version=0, reason=None, strict=0, preload_content=True, decode_content=True, original_response=None, pool=None, connection=None, msg=None, retries=None, enforce_content_length=False, request_method=None, request_url=None, auto_close=True)
+     |  
+     |  HTTP Response container.
+     |  
+     |  Backwards-compatible to httplib's HTTPResponse but the response ``body`` is
+     |  loaded and decoded on-demand when the ``data`` property is accessed.  This
+     |  class is also compatible with the Python standard library's :mod:`io`
+     |  module, and can hence be treated as a readable object in the context of that
+     |  framework.
+     |  
+     |  Extra parameters for behaviour not present in httplib.HTTPResponse:
+     |  
+     |  :param preload_content:
+     |      If True, the response's body will be preloaded during construction.
+     |  
+     |  :param decode_content:
+     |      If True, will attempt to decode the body based on the
+     |      'content-encoding' header.
+     |  
+     |  :param original_response:
+     |      When this HTTPResponse wrapper is generated from an httplib.HTTPResponse
+     |      object, it's convenient to include the original for debug purposes. It's
+     |      otherwise unused.
+     |  
+     |  :param retries:
+     |      The retries contains the last :class:`~urllib3.util.retry.Retry` that
+     |      was used during the request.
+     |  
+     |  :param enforce_content_length:
+     |      Enforce content length checking. Body returned by server must match
+     |      value of Content-Length header, if present. Otherwise, raise error.
+     |  
+     |  Method resolution order:
+     |      HTTPResponse
+     |      io.IOBase
+     |      _io._IOBase
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, body='', headers=None, status=0, version=0, reason=None, strict=0, preload_content=True, decode_content=True, original_response=None, pool=None, connection=None, msg=None, retries=None, enforce_content_length=False, request_method=None, request_url=None, auto_close=True)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self)
+     |      Implement iter(self).
+     |  
+     |  close(self)
+     |      Flush and close the IO object.
+     |      
+     |      This method has no effect if the file is already closed.
+     |  
+     |  fileno(self)
+     |      Returns underlying file descriptor if one exists.
+     |      
+     |      OSError is raised if the IO object does not use a file descriptor.
+     |  
+     |  flush(self)
+     |      Flush write buffers, if applicable.
+     |      
+     |      This is not implemented for read-only and non-blocking streams.
+     |  
+     |  get_redirect_location(self)
+     |      Should we redirect and where to?
+     |      
+     |      :returns: Truthy redirect location string if we got a redirect status
+     |          code and valid location. ``None`` if redirect status and no
+     |          location. ``False`` if not a redirect status code.
+     |  
+     |  getheader(self, name, default=None)
+     |  
+     |  getheaders(self)
+     |      # Backwards-compatibility methods for httplib.HTTPResponse
+     |  
+     |  geturl(self)
+     |      Returns the URL that was the source of this response.
+     |      If the request that generated this response redirected, this method
+     |      will return the final redirect location.
+     |  
+     |  info(self)
+     |      # Backwards compatibility for http.cookiejar
+     |  
+     |  isclosed(self)
+     |  
+     |  read(self, amt=None, decode_content=None, cache_content=False)
+     |      Similar to :meth:`httplib.HTTPResponse.read`, but with two additional
+     |      parameters: ``decode_content`` and ``cache_content``.
+     |      
+     |      :param amt:
+     |          How much of the content to read. If specified, caching is skipped
+     |          because it doesn't make sense to cache partial content as the full
+     |          response.
+     |      
+     |      :param decode_content:
+     |          If True, will attempt to decode the body based on the
+     |          'content-encoding' header.
+     |      
+     |      :param cache_content:
+     |          If True, will save the returned data such that the same result is
+     |          returned despite of the state of the underlying file object. This
+     |          is useful if you want the ``.data`` property to continue working
+     |          after having ``.read()`` the file object. (Overridden if ``amt`` is
+     |          set.)
+     |  
+     |  read_chunked(self, amt=None, decode_content=None)
+     |      Similar to :meth:`HTTPResponse.read`, but with an additional
+     |      parameter: ``decode_content``.
+     |      
+     |      :param amt:
+     |          How much of the content to read. If specified, caching is skipped
+     |          because it doesn't make sense to cache partial content as the full
+     |          response.
+     |      
+     |      :param decode_content:
+     |          If True, will attempt to decode the body based on the
+     |          'content-encoding' header.
+     |  
+     |  readable(self)
+     |      Return whether object was opened for reading.
+     |      
+     |      If False, read() will raise OSError.
+     |  
+     |  readinto(self, b)
+     |  
+     |  release_conn(self)
+     |  
+     |  stream(self, amt=65536, decode_content=None)
+     |      A generator wrapper for the read() method. A call will block until
+     |      ``amt`` bytes have been read from the connection or until the
+     |      connection is closed.
+     |      
+     |      :param amt:
+     |          How much of the content to read. The generator will return up to
+     |          much data per iteration, but may return less. This is particularly
+     |          likely when using compressed data. However, the empty string will
+     |          never be returned.
+     |      
+     |      :param decode_content:
+     |          If True, will attempt to decode the body based on the
+     |          'content-encoding' header.
+     |  
+     |  supports_chunked_reads(self)
+     |      Checks if the underlying file-like object looks like a
+     |      httplib.HTTPResponse object. We do this by testing for the fp
+     |      attribute. If it is present we assume it returns raw chunks as
+     |      processed by read_chunked().
+     |  
+     |  tell(self)
+     |      Obtain the number of bytes pulled over the wire so far. May differ from
+     |      the amount of content returned by :meth:``HTTPResponse.read`` if bytes
+     |      are encoded on the wire (e.g, compressed).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_httplib(r, **response_kw) from abc.ABCMeta
+     |      Given an :class:`httplib.HTTPResponse` instance ``r``, return a
+     |      corresponding :class:`urllib3.response.HTTPResponse` object.
+     |      
+     |      Remaining parameters are passed to the HTTPResponse constructor, along
+     |      with ``original_response=r``.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  closed
+     |  
+     |  connection
+     |  
+     |  data
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  CONTENT_DECODERS = ['gzip', 'deflate']
+     |  
+     |  DECODER_ERROR_CLASSES = (<class 'OSError'>, <class 'zlib.error'>)
+     |  
+     |  REDIRECT_STATUSES = [301, 302, 303, 307, 308]
+     |  
+     |  __abstractmethods__ = frozenset()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _io._IOBase:
+     |  
+     |  __del__(...)
+     |  
+     |  __enter__(...)
+     |  
+     |  __exit__(...)
+     |  
+     |  __next__(self, /)
+     |      Implement next(self).
+     |  
+     |  isatty(self, /)
+     |      Return whether this is an 'interactive' stream.
+     |      
+     |      Return False if it can't be determined.
+     |  
+     |  readline(self, size=-1, /)
+     |      Read and return a line from the stream.
+     |      
+     |      If size is specified, at most size bytes will be read.
+     |      
+     |      The line terminator is always b'\n' for binary files; for text
+     |      files, the newlines argument to open can be used to select the line
+     |      terminator(s) recognized.
+     |  
+     |  readlines(self, hint=-1, /)
+     |      Return a list of lines from the stream.
+     |      
+     |      hint can be specified to control the number of lines read: no more
+     |      lines will be read if the total size (in bytes/characters) of all
+     |      lines so far exceeds hint.
+     |  
+     |  seek(...)
+     |      Change stream position.
+     |      
+     |      Change the stream position to the given byte offset. The offset is
+     |      interpreted relative to the position indicated by whence.  Values
+     |      for whence are:
+     |      
+     |      * 0 -- start of stream (the default); offset should be zero or positive
+     |      * 1 -- current stream position; offset may be negative
+     |      * 2 -- end of stream; offset is usually negative
+     |      
+     |      Return the new absolute position.
+     |  
+     |  seekable(self, /)
+     |      Return whether object supports random access.
+     |      
+     |      If False, seek(), tell() and truncate() will raise OSError.
+     |      This method may need to do a test seek().
+     |  
+     |  truncate(...)
+     |      Truncate file to size bytes.
+     |      
+     |      File pointer is left unchanged.  Size defaults to the current IO
+     |      position as reported by tell().  Returns the new size.
+     |  
+     |  writable(self, /)
+     |      Return whether object was opened for writing.
+     |      
+     |      If False, write() will raise OSError.
+     |  
+     |  writelines(self, lines, /)
+     |      Write a list of lines to stream.
+     |      
+     |      Line separators are not added, so it is usual for each of the
+     |      lines provided to have a line separator at the end.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from _io._IOBase:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _io._IOBase:
+     |  
+     |  __dict__
+    
+    class HTTPSConnectionPool(HTTPConnectionPool)
+     |  HTTPSConnectionPool(host, port=None, strict=False, timeout=<object object at 0x000001E148267E00>, maxsize=1, block=False, headers=None, retries=None, _proxy=None, _proxy_headers=None, key_file=None, cert_file=None, cert_reqs=None, key_password=None, ca_certs=None, ssl_version=None, assert_hostname=None, assert_fingerprint=None, ca_cert_dir=None, **conn_kw)
+     |  
+     |  Same as :class:`.HTTPConnectionPool`, but HTTPS.
+     |  
+     |  When Python is compiled with the :mod:`ssl` module, then
+     |  :class:`.VerifiedHTTPSConnection` is used, which *can* verify certificates,
+     |  instead of :class:`.HTTPSConnection`.
+     |  
+     |  :class:`.VerifiedHTTPSConnection` uses one of ``assert_fingerprint``,
+     |  ``assert_hostname`` and ``host`` in this order to verify connections.
+     |  If ``assert_hostname`` is False, no verification is done.
+     |  
+     |  The ``key_file``, ``cert_file``, ``cert_reqs``, ``ca_certs``,
+     |  ``ca_cert_dir``, ``ssl_version``, ``key_password`` are only used if :mod:`ssl`
+     |  is available and are fed into :meth:`urllib3.util.ssl_wrap_socket` to upgrade
+     |  the connection socket into an SSL socket.
+     |  
+     |  Method resolution order:
+     |      HTTPSConnectionPool
+     |      HTTPConnectionPool
+     |      ConnectionPool
+     |      urllib3.request.RequestMethods
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, host, port=None, strict=False, timeout=<object object at 0x000001E148267E00>, maxsize=1, block=False, headers=None, retries=None, _proxy=None, _proxy_headers=None, key_file=None, cert_file=None, cert_reqs=None, key_password=None, ca_certs=None, ssl_version=None, assert_hostname=None, assert_fingerprint=None, ca_cert_dir=None, **conn_kw)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  ConnectionCls = <class 'urllib3.connection.VerifiedHTTPSConnection'>
+     |      Based on httplib.HTTPSConnection but wraps the socket with
+     |      SSL certification.
+     |  
+     |  scheme = 'https'
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from HTTPConnectionPool:
+     |  
+     |  close(self)
+     |      Close all pooled connections and disable the pool.
+     |  
+     |  is_same_host(self, url)
+     |      Check if the given ``url`` is a member of the same host as this
+     |      connection pool.
+     |  
+     |  urlopen(self, method, url, body=None, headers=None, retries=None, redirect=True, assert_same_host=True, timeout=<object object at 0x000001E148F462B0>, pool_timeout=None, release_conn=None, chunked=False, body_pos=None, **response_kw)
+     |      Get a connection from the pool and perform an HTTP request. This is the
+     |      lowest level call for making a request, so you'll need to specify all
+     |      the raw details.
+     |      
+     |      .. note::
+     |      
+     |         More commonly, it's appropriate to use a convenience method provided
+     |         by :class:`.RequestMethods`, such as :meth:`request`.
+     |      
+     |      .. note::
+     |      
+     |         `release_conn` will only behave as expected if
+     |         `preload_content=False` because we want to make
+     |         `preload_content=False` the default behaviour someday soon without
+     |         breaking backwards compatibility.
+     |      
+     |      :param method:
+     |          HTTP request method (such as GET, POST, PUT, etc.)
+     |      
+     |      :param body:
+     |          Data to send in the request body (useful for creating
+     |          POST requests, see HTTPConnectionPool.post_url for
+     |          more convenience).
+     |      
+     |      :param headers:
+     |          Dictionary of custom headers to send, such as User-Agent,
+     |          If-None-Match, etc. If None, pool headers are used. If provided,
+     |          these headers completely replace any pool-specific headers.
+     |      
+     |      :param retries:
+     |          Configure the number of retries to allow before raising a
+     |          :class:`~urllib3.exceptions.MaxRetryError` exception.
+     |      
+     |          Pass ``None`` to retry until you receive a response. Pass a
+     |          :class:`~urllib3.util.retry.Retry` object for fine-grained control
+     |          over different types of retries.
+     |          Pass an integer number to retry connection errors that many times,
+     |          but no other types of errors. Pass zero to never retry.
+     |      
+     |          If ``False``, then retries are disabled and any exception is raised
+     |          immediately. Also, instead of raising a MaxRetryError on redirects,
+     |          the redirect response will be returned.
+     |      
+     |      :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
+     |      
+     |      :param redirect:
+     |          If True, automatically handle redirects (status codes 301, 302,
+     |          303, 307, 308). Each redirect counts as a retry. Disabling retries
+     |          will disable redirect, too.
+     |      
+     |      :param assert_same_host:
+     |          If ``True``, will make sure that the host of the pool requests is
+     |          consistent else will raise HostChangedError. When False, you can
+     |          use the pool on an HTTP proxy and request foreign hosts.
+     |      
+     |      :param timeout:
+     |          If specified, overrides the default timeout for this one
+     |          request. It may be a float (in seconds) or an instance of
+     |          :class:`urllib3.util.Timeout`.
+     |      
+     |      :param pool_timeout:
+     |          If set and the pool is set to block=True, then this method will
+     |          block for ``pool_timeout`` seconds and raise EmptyPoolError if no
+     |          connection is available within the time period.
+     |      
+     |      :param release_conn:
+     |          If False, then the urlopen call will not release the connection
+     |          back into the pool once a response is received (but will release if
+     |          you read the entire contents of the response such as when
+     |          `preload_content=True`). This is useful if you're not preloading
+     |          the response's content immediately. You will need to call
+     |          ``r.release_conn()`` on the response ``r`` to return the connection
+     |          back into the pool. If None, it takes the value of
+     |          ``response_kw.get('preload_content', True)``.
+     |      
+     |      :param chunked:
+     |          If True, urllib3 will send the body using chunked transfer
+     |          encoding. Otherwise, urllib3 will send the body using the standard
+     |          content-length form. Defaults to False.
+     |      
+     |      :param int body_pos:
+     |          Position to seek to in file-like body in the event of a retry or
+     |          redirect. Typically this won't need to be set because urllib3 will
+     |          auto-populate the value when needed.
+     |      
+     |      :param \**response_kw:
+     |          Additional parameters are passed to
+     |          :meth:`urllib3.response.HTTPResponse.from_httplib`
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from HTTPConnectionPool:
+     |  
+     |  ResponseCls = <class 'urllib3.response.HTTPResponse'>
+     |      HTTP Response container.
+     |      
+     |      Backwards-compatible to httplib's HTTPResponse but the response ``body`` is
+     |      loaded and decoded on-demand when the ``data`` property is accessed.  This
+     |      class is also compatible with the Python standard library's :mod:`io`
+     |      module, and can hence be treated as a readable object in the context of that
+     |      framework.
+     |      
+     |      Extra parameters for behaviour not present in httplib.HTTPResponse:
+     |      
+     |      :param preload_content:
+     |          If True, the response's body will be preloaded during construction.
+     |      
+     |      :param decode_content:
+     |          If True, will attempt to decode the body based on the
+     |          'content-encoding' header.
+     |      
+     |      :param original_response:
+     |          When this HTTPResponse wrapper is generated from an httplib.HTTPResponse
+     |          object, it's convenient to include the original for debug purposes. It's
+     |          otherwise unused.
+     |      
+     |      :param retries:
+     |          The retries contains the last :class:`~urllib3.util.retry.Retry` that
+     |          was used during the request.
+     |      
+     |      :param enforce_content_length:
+     |          Enforce content length checking. Body returned by server must match
+     |          value of Content-Length header, if present. Otherwise, raise error.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ConnectionPool:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, exc_type, exc_val, exc_tb)
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ConnectionPool:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from ConnectionPool:
+     |  
+     |  QueueCls = <class 'urllib3.util.queue.LifoQueue'>
+     |      Create a queue object with a given maximum size.
+     |      
+     |      If maxsize is <= 0, the queue size is infinite.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from urllib3.request.RequestMethods:
+     |  
+     |  request(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the appropriate encoding of
+     |      ``fields`` based on the ``method`` used.
+     |      
+     |      This is a convenience method that requires the least amount of manual
+     |      effort. It can be used in most situations, while still having the
+     |      option to drop down to more specific methods when necessary, such as
+     |      :meth:`request_encode_url`, :meth:`request_encode_body`,
+     |      or even the lowest level :meth:`urlopen`.
+     |  
+     |  request_encode_body(self, method, url, fields=None, headers=None, encode_multipart=True, multipart_boundary=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the body. This is useful for request methods like POST, PUT, PATCH, etc.
+     |      
+     |      When ``encode_multipart=True`` (default), then
+     |      :meth:`urllib3.filepost.encode_multipart_formdata` is used to encode
+     |      the payload with the appropriate content type. Otherwise
+     |      :meth:`urllib.urlencode` is used with the
+     |      'application/x-www-form-urlencoded' content type.
+     |      
+     |      Multipart encoding must be used when posting files, and it's reasonably
+     |      safe to use it in other times too. However, it may break request
+     |      signing, such as with OAuth.
+     |      
+     |      Supports an optional ``fields`` parameter of key/value strings AND
+     |      key/filetuple. A filetuple is a (filename, data, MIME type) tuple where
+     |      the MIME type is optional. For example::
+     |      
+     |          fields = {
+     |              'foo': 'bar',
+     |              'fakefile': ('foofile.txt', 'contents of foofile'),
+     |              'realfile': ('barfile.txt', open('realfile').read()),
+     |              'typedfile': ('bazfile.bin', open('bazfile').read(),
+     |                            'image/jpeg'),
+     |              'nonamefile': 'contents of nonamefile field',
+     |          }
+     |      
+     |      When uploading a file, providing a filename (the first parameter of the
+     |      tuple) is optional but recommended to best mimic behavior of browsers.
+     |      
+     |      Note that if ``headers`` are supplied, the 'Content-Type' header will
+     |      be overwritten because it depends on the dynamic random boundary string
+     |      which is used to compose the body of the request. The random boundary
+     |      string can be explicitly set with the ``multipart_boundary`` parameter.
+     |  
+     |  request_encode_url(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the url. This is useful for request methods like GET, HEAD, DELETE, etc.
+    
+    class PoolManager(urllib3.request.RequestMethods)
+     |  PoolManager(num_pools=10, headers=None, **connection_pool_kw)
+     |  
+     |  Allows for arbitrary requests while transparently keeping track of
+     |  necessary connection pools for you.
+     |  
+     |  :param num_pools:
+     |      Number of connection pools to cache before discarding the least
+     |      recently used pool.
+     |  
+     |  :param headers:
+     |      Headers to include with all requests, unless other headers are given
+     |      explicitly.
+     |  
+     |  :param \**connection_pool_kw:
+     |      Additional parameters are used to create fresh
+     |      :class:`urllib3.connectionpool.ConnectionPool` instances.
+     |  
+     |  Example::
+     |  
+     |      >>> manager = PoolManager(num_pools=2)
+     |      >>> r = manager.request('GET', 'http://google.com/')
+     |      >>> r = manager.request('GET', 'http://google.com/mail')
+     |      >>> r = manager.request('GET', 'http://yahoo.com/')
+     |      >>> len(manager.pools)
+     |      2
+     |  
+     |  Method resolution order:
+     |      PoolManager
+     |      urllib3.request.RequestMethods
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, exc_type, exc_val, exc_tb)
+     |  
+     |  __init__(self, num_pools=10, headers=None, **connection_pool_kw)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  clear(self)
+     |      Empty our store of pools and direct them all to close.
+     |      
+     |      This will not affect in-flight connections, but they will not be
+     |      re-used after completion.
+     |  
+     |  connection_from_context(self, request_context)
+     |      Get a :class:`ConnectionPool` based on the request context.
+     |      
+     |      ``request_context`` must at least contain the ``scheme`` key and its
+     |      value must be a key in ``key_fn_by_scheme`` instance variable.
+     |  
+     |  connection_from_host(self, host, port=None, scheme='http', pool_kwargs=None)
+     |      Get a :class:`ConnectionPool` based on the host, port, and scheme.
+     |      
+     |      If ``port`` isn't given, it will be derived from the ``scheme`` using
+     |      ``urllib3.connectionpool.port_by_scheme``. If ``pool_kwargs`` is
+     |      provided, it is merged with the instance's ``connection_pool_kw``
+     |      variable and used to create the new connection pool, if one is
+     |      needed.
+     |  
+     |  connection_from_pool_key(self, pool_key, request_context=None)
+     |      Get a :class:`ConnectionPool` based on the provided pool key.
+     |      
+     |      ``pool_key`` should be a namedtuple that only contains immutable
+     |      objects. At a minimum it must have the ``scheme``, ``host``, and
+     |      ``port`` fields.
+     |  
+     |  connection_from_url(self, url, pool_kwargs=None)
+     |      Similar to :func:`urllib3.connectionpool.connection_from_url`.
+     |      
+     |      If ``pool_kwargs`` is not provided and a new pool needs to be
+     |      constructed, ``self.connection_pool_kw`` is used to initialize
+     |      the :class:`urllib3.connectionpool.ConnectionPool`. If ``pool_kwargs``
+     |      is provided, it is used instead. Note that if a new pool does not
+     |      need to be created for the request, the provided ``pool_kwargs`` are
+     |      not used.
+     |  
+     |  urlopen(self, method, url, redirect=True, **kw)
+     |      Same as :meth:`urllib3.connectionpool.HTTPConnectionPool.urlopen`
+     |      with custom cross-host redirect logic and only sends the request-uri
+     |      portion of the ``url``.
+     |      
+     |      The given ``url`` parameter must be absolute, such that an appropriate
+     |      :class:`urllib3.connectionpool.ConnectionPool` can be chosen for it.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  proxy = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from urllib3.request.RequestMethods:
+     |  
+     |  request(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the appropriate encoding of
+     |      ``fields`` based on the ``method`` used.
+     |      
+     |      This is a convenience method that requires the least amount of manual
+     |      effort. It can be used in most situations, while still having the
+     |      option to drop down to more specific methods when necessary, such as
+     |      :meth:`request_encode_url`, :meth:`request_encode_body`,
+     |      or even the lowest level :meth:`urlopen`.
+     |  
+     |  request_encode_body(self, method, url, fields=None, headers=None, encode_multipart=True, multipart_boundary=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the body. This is useful for request methods like POST, PUT, PATCH, etc.
+     |      
+     |      When ``encode_multipart=True`` (default), then
+     |      :meth:`urllib3.filepost.encode_multipart_formdata` is used to encode
+     |      the payload with the appropriate content type. Otherwise
+     |      :meth:`urllib.urlencode` is used with the
+     |      'application/x-www-form-urlencoded' content type.
+     |      
+     |      Multipart encoding must be used when posting files, and it's reasonably
+     |      safe to use it in other times too. However, it may break request
+     |      signing, such as with OAuth.
+     |      
+     |      Supports an optional ``fields`` parameter of key/value strings AND
+     |      key/filetuple. A filetuple is a (filename, data, MIME type) tuple where
+     |      the MIME type is optional. For example::
+     |      
+     |          fields = {
+     |              'foo': 'bar',
+     |              'fakefile': ('foofile.txt', 'contents of foofile'),
+     |              'realfile': ('barfile.txt', open('realfile').read()),
+     |              'typedfile': ('bazfile.bin', open('bazfile').read(),
+     |                            'image/jpeg'),
+     |              'nonamefile': 'contents of nonamefile field',
+     |          }
+     |      
+     |      When uploading a file, providing a filename (the first parameter of the
+     |      tuple) is optional but recommended to best mimic behavior of browsers.
+     |      
+     |      Note that if ``headers`` are supplied, the 'Content-Type' header will
+     |      be overwritten because it depends on the dynamic random boundary string
+     |      which is used to compose the body of the request. The random boundary
+     |      string can be explicitly set with the ``multipart_boundary`` parameter.
+     |  
+     |  request_encode_url(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the url. This is useful for request methods like GET, HEAD, DELETE, etc.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from urllib3.request.RequestMethods:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class ProxyManager(PoolManager)
+     |  ProxyManager(proxy_url, num_pools=10, headers=None, proxy_headers=None, **connection_pool_kw)
+     |  
+     |  Behaves just like :class:`PoolManager`, but sends all requests through
+     |  the defined proxy, using the CONNECT method for HTTPS URLs.
+     |  
+     |  :param proxy_url:
+     |      The URL of the proxy to be used.
+     |  
+     |  :param proxy_headers:
+     |      A dictionary containing headers that will be sent to the proxy. In case
+     |      of HTTP they are being sent with each request, while in the
+     |      HTTPS/CONNECT case they are sent only once. Could be used for proxy
+     |      authentication.
+     |  
+     |  Example:
+     |      >>> proxy = urllib3.ProxyManager('http://localhost:3128/')
+     |      >>> r1 = proxy.request('GET', 'http://google.com/')
+     |      >>> r2 = proxy.request('GET', 'http://httpbin.org/')
+     |      >>> len(proxy.pools)
+     |      1
+     |      >>> r3 = proxy.request('GET', 'https://httpbin.org/')
+     |      >>> r4 = proxy.request('GET', 'https://twitter.com/')
+     |      >>> len(proxy.pools)
+     |      3
+     |  
+     |  Method resolution order:
+     |      ProxyManager
+     |      PoolManager
+     |      urllib3.request.RequestMethods
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, proxy_url, num_pools=10, headers=None, proxy_headers=None, **connection_pool_kw)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  connection_from_host(self, host, port=None, scheme='http', pool_kwargs=None)
+     |      Get a :class:`ConnectionPool` based on the host, port, and scheme.
+     |      
+     |      If ``port`` isn't given, it will be derived from the ``scheme`` using
+     |      ``urllib3.connectionpool.port_by_scheme``. If ``pool_kwargs`` is
+     |      provided, it is merged with the instance's ``connection_pool_kw``
+     |      variable and used to create the new connection pool, if one is
+     |      needed.
+     |  
+     |  urlopen(self, method, url, redirect=True, **kw)
+     |      Same as HTTP(S)ConnectionPool.urlopen, ``url`` must be absolute.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from PoolManager:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, exc_type, exc_val, exc_tb)
+     |  
+     |  clear(self)
+     |      Empty our store of pools and direct them all to close.
+     |      
+     |      This will not affect in-flight connections, but they will not be
+     |      re-used after completion.
+     |  
+     |  connection_from_context(self, request_context)
+     |      Get a :class:`ConnectionPool` based on the request context.
+     |      
+     |      ``request_context`` must at least contain the ``scheme`` key and its
+     |      value must be a key in ``key_fn_by_scheme`` instance variable.
+     |  
+     |  connection_from_pool_key(self, pool_key, request_context=None)
+     |      Get a :class:`ConnectionPool` based on the provided pool key.
+     |      
+     |      ``pool_key`` should be a namedtuple that only contains immutable
+     |      objects. At a minimum it must have the ``scheme``, ``host``, and
+     |      ``port`` fields.
+     |  
+     |  connection_from_url(self, url, pool_kwargs=None)
+     |      Similar to :func:`urllib3.connectionpool.connection_from_url`.
+     |      
+     |      If ``pool_kwargs`` is not provided and a new pool needs to be
+     |      constructed, ``self.connection_pool_kw`` is used to initialize
+     |      the :class:`urllib3.connectionpool.ConnectionPool`. If ``pool_kwargs``
+     |      is provided, it is used instead. Note that if a new pool does not
+     |      need to be created for the request, the provided ``pool_kwargs`` are
+     |      not used.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from PoolManager:
+     |  
+     |  proxy = None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from urllib3.request.RequestMethods:
+     |  
+     |  request(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the appropriate encoding of
+     |      ``fields`` based on the ``method`` used.
+     |      
+     |      This is a convenience method that requires the least amount of manual
+     |      effort. It can be used in most situations, while still having the
+     |      option to drop down to more specific methods when necessary, such as
+     |      :meth:`request_encode_url`, :meth:`request_encode_body`,
+     |      or even the lowest level :meth:`urlopen`.
+     |  
+     |  request_encode_body(self, method, url, fields=None, headers=None, encode_multipart=True, multipart_boundary=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the body. This is useful for request methods like POST, PUT, PATCH, etc.
+     |      
+     |      When ``encode_multipart=True`` (default), then
+     |      :meth:`urllib3.filepost.encode_multipart_formdata` is used to encode
+     |      the payload with the appropriate content type. Otherwise
+     |      :meth:`urllib.urlencode` is used with the
+     |      'application/x-www-form-urlencoded' content type.
+     |      
+     |      Multipart encoding must be used when posting files, and it's reasonably
+     |      safe to use it in other times too. However, it may break request
+     |      signing, such as with OAuth.
+     |      
+     |      Supports an optional ``fields`` parameter of key/value strings AND
+     |      key/filetuple. A filetuple is a (filename, data, MIME type) tuple where
+     |      the MIME type is optional. For example::
+     |      
+     |          fields = {
+     |              'foo': 'bar',
+     |              'fakefile': ('foofile.txt', 'contents of foofile'),
+     |              'realfile': ('barfile.txt', open('realfile').read()),
+     |              'typedfile': ('bazfile.bin', open('bazfile').read(),
+     |                            'image/jpeg'),
+     |              'nonamefile': 'contents of nonamefile field',
+     |          }
+     |      
+     |      When uploading a file, providing a filename (the first parameter of the
+     |      tuple) is optional but recommended to best mimic behavior of browsers.
+     |      
+     |      Note that if ``headers`` are supplied, the 'Content-Type' header will
+     |      be overwritten because it depends on the dynamic random boundary string
+     |      which is used to compose the body of the request. The random boundary
+     |      string can be explicitly set with the ``multipart_boundary`` parameter.
+     |  
+     |  request_encode_url(self, method, url, fields=None, headers=None, **urlopen_kw)
+     |      Make a request using :meth:`urlopen` with the ``fields`` encoded in
+     |      the url. This is useful for request methods like GET, HEAD, DELETE, etc.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from urllib3.request.RequestMethods:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Retry(builtins.object)
+     |  Retry(total=10, connect=None, read=None, redirect=None, status=None, method_whitelist=frozenset({'DELETE', 'GET', 'HEAD', 'TRACE', 'PUT', 'OPTIONS'}), status_forcelist=None, backoff_factor=0, raise_on_redirect=True, raise_on_status=True, history=None, respect_retry_after_header=True, remove_headers_on_redirect=frozenset({'Authorization'}))
+     |  
+     |  Retry configuration.
+     |  
+     |  Each retry attempt will create a new Retry object with updated values, so
+     |  they can be safely reused.
+     |  
+     |  Retries can be defined as a default for a pool::
+     |  
+     |      retries = Retry(connect=5, read=2, redirect=5)
+     |      http = PoolManager(retries=retries)
+     |      response = http.request('GET', 'http://example.com/')
+     |  
+     |  Or per-request (which overrides the default for the pool)::
+     |  
+     |      response = http.request('GET', 'http://example.com/', retries=Retry(10))
+     |  
+     |  Retries can be disabled by passing ``False``::
+     |  
+     |      response = http.request('GET', 'http://example.com/', retries=False)
+     |  
+     |  Errors will be wrapped in :class:`~urllib3.exceptions.MaxRetryError` unless
+     |  retries are disabled, in which case the causing exception will be raised.
+     |  
+     |  :param int total:
+     |      Total number of retries to allow. Takes precedence over other counts.
+     |  
+     |      Set to ``None`` to remove this constraint and fall back on other
+     |      counts. It's a good idea to set this to some sensibly-high value to
+     |      account for unexpected edge cases and avoid infinite retry loops.
+     |  
+     |      Set to ``0`` to fail on the first retry.
+     |  
+     |      Set to ``False`` to disable and imply ``raise_on_redirect=False``.
+     |  
+     |  :param int connect:
+     |      How many connection-related errors to retry on.
+     |  
+     |      These are errors raised before the request is sent to the remote server,
+     |      which we assume has not triggered the server to process the request.
+     |  
+     |      Set to ``0`` to fail on the first retry of this type.
+     |  
+     |  :param int read:
+     |      How many times to retry on read errors.
+     |  
+     |      These errors are raised after the request was sent to the server, so the
+     |      request may have side-effects.
+     |  
+     |      Set to ``0`` to fail on the first retry of this type.
+     |  
+     |  :param int redirect:
+     |      How many redirects to perform. Limit this to avoid infinite redirect
+     |      loops.
+     |  
+     |      A redirect is a HTTP response with a status code 301, 302, 303, 307 or
+     |      308.
+     |  
+     |      Set to ``0`` to fail on the first retry of this type.
+     |  
+     |      Set to ``False`` to disable and imply ``raise_on_redirect=False``.
+     |  
+     |  :param int status:
+     |      How many times to retry on bad status codes.
+     |  
+     |      These are retries made on responses, where status code matches
+     |      ``status_forcelist``.
+     |  
+     |      Set to ``0`` to fail on the first retry of this type.
+     |  
+     |  :param iterable method_whitelist:
+     |      Set of uppercased HTTP method verbs that we should retry on.
+     |  
+     |      By default, we only retry on methods which are considered to be
+     |      idempotent (multiple requests with the same parameters end with the
+     |      same state). See :attr:`Retry.DEFAULT_METHOD_WHITELIST`.
+     |  
+     |      Set to a ``False`` value to retry on any verb.
+     |  
+     |  :param iterable status_forcelist:
+     |      A set of integer HTTP status codes that we should force a retry on.
+     |      A retry is initiated if the request method is in ``method_whitelist``
+     |      and the response status code is in ``status_forcelist``.
+     |  
+     |      By default, this is disabled with ``None``.
+     |  
+     |  :param float backoff_factor:
+     |      A backoff factor to apply between attempts after the second try
+     |      (most errors are resolved immediately by a second try without a
+     |      delay). urllib3 will sleep for::
+     |  
+     |          {backoff factor} * (2 ** ({number of total retries} - 1))
+     |  
+     |      seconds. If the backoff_factor is 0.1, then :func:`.sleep` will sleep
+     |      for [0.0s, 0.2s, 0.4s, ...] between retries. It will never be longer
+     |      than :attr:`Retry.BACKOFF_MAX`.
+     |  
+     |      By default, backoff is disabled (set to 0).
+     |  
+     |  :param bool raise_on_redirect: Whether, if the number of redirects is
+     |      exhausted, to raise a MaxRetryError, or to return a response with a
+     |      response code in the 3xx range.
+     |  
+     |  :param bool raise_on_status: Similar meaning to ``raise_on_redirect``:
+     |      whether we should raise an exception, or return a response,
+     |      if status falls in ``status_forcelist`` range and retries have
+     |      been exhausted.
+     |  
+     |  :param tuple history: The history of the request encountered during
+     |      each call to :meth:`~Retry.increment`. The list is in the order
+     |      the requests occurred. Each list item is of class :class:`RequestHistory`.
+     |  
+     |  :param bool respect_retry_after_header:
+     |      Whether to respect Retry-After header on status codes defined as
+     |      :attr:`Retry.RETRY_AFTER_STATUS_CODES` or not.
+     |  
+     |  :param iterable remove_headers_on_redirect:
+     |      Sequence of headers to remove from the request when a response
+     |      indicating a redirect is returned before firing off the redirected
+     |      request.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, total=10, connect=None, read=None, redirect=None, status=None, method_whitelist=frozenset({'DELETE', 'GET', 'HEAD', 'TRACE', 'PUT', 'OPTIONS'}), status_forcelist=None, backoff_factor=0, raise_on_redirect=True, raise_on_status=True, history=None, respect_retry_after_header=True, remove_headers_on_redirect=frozenset({'Authorization'}))
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  get_backoff_time(self)
+     |      Formula for computing the current backoff
+     |      
+     |      :rtype: float
+     |  
+     |  get_retry_after(self, response)
+     |      Get the value of Retry-After in seconds.
+     |  
+     |  increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None)
+     |      Return a new Retry object with incremented retry counters.
+     |      
+     |      :param response: A response object, or None, if the server did not
+     |          return a response.
+     |      :type response: :class:`~urllib3.response.HTTPResponse`
+     |      :param Exception error: An error encountered during the request, or
+     |          None if the response was received successfully.
+     |      
+     |      :return: A new ``Retry`` object.
+     |  
+     |  is_exhausted(self)
+     |      Are we out of retries?
+     |  
+     |  is_retry(self, method, status_code, has_retry_after=False)
+     |      Is this method/status code retryable? (Based on whitelists and control
+     |      variables such as the number of total retries to allow, whether to
+     |      respect the Retry-After header, whether this header is present, and
+     |      whether the returned status code is on the list of status codes to
+     |      be retried upon on the presence of the aforementioned header)
+     |  
+     |  new(self, **kw)
+     |  
+     |  parse_retry_after(self, retry_after)
+     |  
+     |  sleep(self, response=None)
+     |      Sleep between retry attempts.
+     |      
+     |      This method will respect a server's ``Retry-After`` response header
+     |      and sleep the duration of the time requested. If that is not present, it
+     |      will use an exponential backoff. By default, the backoff factor is 0 and
+     |      this method will return immediately.
+     |  
+     |  sleep_for_retry(self, response=None)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_int(retries, redirect=True, default=None) from builtins.type
+     |      Backwards-compatibility for the old retries format.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  BACKOFF_MAX = 120
+     |  
+     |  DEFAULT = Retry(total=3, connect=None, read=None, redirect=None, statu...
+     |  
+     |  DEFAULT_METHOD_WHITELIST = frozenset({'DELETE', 'GET', 'HEAD', 'OPTION...
+     |  
+     |  DEFAULT_REDIRECT_HEADERS_BLACKLIST = frozenset({'Authorization'})
+     |  
+     |  RETRY_AFTER_STATUS_CODES = frozenset({413, 429, 503})
+    
+    class Timeout(builtins.object)
+     |  Timeout(total=None, connect=<object object at 0x000001E148F464E0>, read=<object object at 0x000001E148F464E0>)
+     |  
+     |  Timeout configuration.
+     |  
+     |  Timeouts can be defined as a default for a pool::
+     |  
+     |      timeout = Timeout(connect=2.0, read=7.0)
+     |      http = PoolManager(timeout=timeout)
+     |      response = http.request('GET', 'http://example.com/')
+     |  
+     |  Or per-request (which overrides the default for the pool)::
+     |  
+     |      response = http.request('GET', 'http://example.com/', timeout=Timeout(10))
+     |  
+     |  Timeouts can be disabled by setting all the parameters to ``None``::
+     |  
+     |      no_timeout = Timeout(connect=None, read=None)
+     |      response = http.request('GET', 'http://example.com/, timeout=no_timeout)
+     |  
+     |  
+     |  :param total:
+     |      This combines the connect and read timeouts into one; the read timeout
+     |      will be set to the time leftover from the connect attempt. In the
+     |      event that both a connect timeout and a total are specified, or a read
+     |      timeout and a total are specified, the shorter timeout will be applied.
+     |  
+     |      Defaults to None.
+     |  
+     |  :type total: integer, float, or None
+     |  
+     |  :param connect:
+     |      The maximum amount of time (in seconds) to wait for a connection
+     |      attempt to a server to succeed. Omitting the parameter will default the
+     |      connect timeout to the system default, probably `the global default
+     |      timeout in socket.py
+     |      <http://hg.python.org/cpython/file/603b4d593758/Lib/socket.py#l535>`_.
+     |      None will set an infinite timeout for connection attempts.
+     |  
+     |  :type connect: integer, float, or None
+     |  
+     |  :param read:
+     |      The maximum amount of time (in seconds) to wait between consecutive
+     |      read operations for a response from the server. Omitting the parameter
+     |      will default the read timeout to the system default, probably `the
+     |      global default timeout in socket.py
+     |      <http://hg.python.org/cpython/file/603b4d593758/Lib/socket.py#l535>`_.
+     |      None will set an infinite timeout.
+     |  
+     |  :type read: integer, float, or None
+     |  
+     |  .. note::
+     |  
+     |      Many factors can affect the total amount of time for urllib3 to return
+     |      an HTTP response.
+     |  
+     |      For example, Python's DNS resolver does not obey the timeout specified
+     |      on the socket. Other factors that can affect total request time include
+     |      high CPU load, high swap, the program running at a low priority level,
+     |      or other behaviors.
+     |  
+     |      In addition, the read and total timeouts only measure the time between
+     |      read operations on the socket connecting the client and the server,
+     |      not the total amount of time for the request to return a complete
+     |      response. For most requests, the timeout is raised because the server
+     |      has not sent the first byte in the specified time. This is not always
+     |      the case; if a server streams one byte every fifteen seconds, a timeout
+     |      of 20 seconds will not trigger, even though the request will take
+     |      several minutes to complete.
+     |  
+     |      If your goal is to cut off any request after a set amount of wall clock
+     |      time, consider having a second "watcher" thread to cut off a slow
+     |      request.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, total=None, connect=<object object at 0x000001E148F464E0>, read=<object object at 0x000001E148F464E0>)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  clone(self)
+     |      Create a copy of the timeout object
+     |      
+     |      Timeout properties are stored per-pool but each request needs a fresh
+     |      Timeout object to ensure each one has its own start/stop configured.
+     |      
+     |      :return: a copy of the timeout object
+     |      :rtype: :class:`Timeout`
+     |  
+     |  get_connect_duration(self)
+     |      Gets the time elapsed since the call to :meth:`start_connect`.
+     |      
+     |      :return: Elapsed time in seconds.
+     |      :rtype: float
+     |      :raises urllib3.exceptions.TimeoutStateError: if you attempt
+     |          to get duration for a timer that hasn't been started.
+     |  
+     |  start_connect(self)
+     |      Start the timeout clock, used during a connect() attempt
+     |      
+     |      :raises urllib3.exceptions.TimeoutStateError: if you attempt
+     |          to start a timer that has been started already.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_float(timeout) from builtins.type
+     |      Create a new Timeout from a legacy timeout value.
+     |      
+     |      The timeout value used by httplib.py sets the same timeout on the
+     |      connect(), and recv() socket requests. This creates a :class:`Timeout`
+     |      object that sets the individual timeouts to the ``timeout`` value
+     |      passed to this function.
+     |      
+     |      :param timeout: The legacy timeout value.
+     |      :type timeout: integer, float, sentinel default object, or None
+     |      :return: Timeout object
+     |      :rtype: :class:`Timeout`
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  connect_timeout
+     |      Get the value to use when setting a connection timeout.
+     |      
+     |      This will be a positive float or integer, the value None
+     |      (never timeout), or the default system timeout.
+     |      
+     |      :return: Connect timeout.
+     |      :rtype: int, float, :attr:`Timeout.DEFAULT_TIMEOUT` or None
+     |  
+     |  read_timeout
+     |      Get the value for the read timeout.
+     |      
+     |      This assumes some time has elapsed in the connection timeout and
+     |      computes the read timeout appropriately.
+     |      
+     |      If self.total is set, the read timeout is dependent on the amount of
+     |      time taken by the connect timeout. If the connection time has not been
+     |      established, a :exc:`~urllib3.exceptions.TimeoutStateError` will be
+     |      raised.
+     |      
+     |      :return: Value to use for the read timeout.
+     |      :rtype: int, float, :attr:`Timeout.DEFAULT_TIMEOUT` or None
+     |      :raises urllib3.exceptions.TimeoutStateError: If :meth:`start_connect`
+     |          has not yet been called on this object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  DEFAULT_TIMEOUT = <object object>
+
+FUNCTIONS
+    add_stderr_logger(level=10)
+        Helper for quickly adding a StreamHandler to the logger. Useful for
+        debugging.
+        
+        Returns the handler after adding it.
+    
+    connection_from_url(url, **kw)
+        Given a url, return an :class:`.ConnectionPool` instance of its host.
+        
+        This is a shortcut for not having to parse out the scheme, host, and port
+        of the url before creating an :class:`.ConnectionPool` instance.
+        
+        :param url:
+            Absolute URL string that must include the scheme. Port is optional.
+        
+        :param \**kw:
+            Passes additional parameters to the constructor of the appropriate
+            :class:`.ConnectionPool`. Useful for specifying things like
+            timeout, maxsize, headers, etc.
+        
+        Example::
+        
+            >>> conn = connection_from_url('http://google.com/')
+            >>> r = conn.request('GET', '/')
+    
+    disable_warnings(category=<class 'urllib3.exceptions.HTTPWarning'>)
+        Helper for quickly disabling all urllib3 warnings.
+    
+    encode_multipart_formdata(fields, boundary=None)
+        Encode a dictionary of ``fields`` using the multipart/form-data MIME format.
+        
+        :param fields:
+            Dictionary of fields or list of (key, :class:`~urllib3.fields.RequestField`).
+        
+        :param boundary:
+            If not specified, then a random boundary will be generated using
+            :func:`urllib3.filepost.choose_boundary`.
+    
+    get_host(url)
+        Deprecated. Use :func:`parse_url` instead.
+    
+    make_headers(keep_alive=None, accept_encoding=None, user_agent=None, basic_auth=None, proxy_basic_auth=None, disable_cache=None)
+        Shortcuts for generating request headers.
+        
+        :param keep_alive:
+            If ``True``, adds 'connection: keep-alive' header.
+        
+        :param accept_encoding:
+            Can be a boolean, list, or string.
+            ``True`` translates to 'gzip,deflate'.
+            List will get joined by comma.
+            String will be used as provided.
+        
+        :param user_agent:
+            String representing the user-agent you want, such as
+            "python-urllib3/0.6"
+        
+        :param basic_auth:
+            Colon-separated username:password string for 'authorization: basic ...'
+            auth header.
+        
+        :param proxy_basic_auth:
+            Colon-separated username:password string for 'proxy-authorization: basic ...'
+            auth header.
+        
+        :param disable_cache:
+            If ``True``, adds 'cache-control: no-cache' header.
+        
+        Example::
+        
+            >>> make_headers(keep_alive=True, user_agent="Batman/1.0")
+            {'connection': 'keep-alive', 'user-agent': 'Batman/1.0'}
+            >>> make_headers(accept_encoding=True)
+            {'accept-encoding': 'gzip,deflate'}
+    
+    proxy_from_url(url, **kw)
+
+DATA
+    __all__ = ('HTTPConnectionPool', 'HTTPSConnectionPool', 'PoolManager',...
+    __license__ = 'MIT'
+
+VERSION
+    1.25.7
+
+AUTHOR
+    Andrey Petrov (andrey.petrov@shazow.net)
+
+FILE
+    c:\program files\python37\lib\site-packages\urllib3\__init__.py
+
+

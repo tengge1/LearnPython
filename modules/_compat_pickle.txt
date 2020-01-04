@@ -1,0 +1,25 @@
+Help on module _compat_pickle:
+
+NAME
+    _compat_pickle
+
+DESCRIPTION
+    # This module is used to map the old Python 2 names to the new names used in
+    # Python 3 for the pickle module.  This needed to make pickle streams
+    # generated with Python 2 loadable by Python 3.
+
+DATA
+    IMPORT_MAPPING = {'BaseHTTPServer': 'http.server', 'CGIHTTPServer': 'h...
+    MULTIPROCESSING_EXCEPTIONS = ('AuthenticationError', 'BufferTooShort',...
+    NAME_MAPPING = {('UserDict', 'IterableUserDict'): ('collections', 'Use...
+    PYTHON2_EXCEPTIONS = ('ArithmeticError', 'AssertionError', 'AttributeE...
+    PYTHON3_IMPORTERROR_EXCEPTIONS = ('ModuleNotFoundError',)
+    PYTHON3_OSERROR_EXCEPTIONS = ('BrokenPipeError', 'ChildProcessError', ...
+    REVERSE_IMPORT_MAPPING = {'_bz2': 'bz2', '_dbm': 'dbm', '_dummy_thread...
+    REVERSE_NAME_MAPPING = {('_functools', 'reduce'): ('__builtin__', 'red...
+    excname = 'ModuleNotFoundError'
+
+FILE
+    c:\program files\python37\lib\_compat_pickle.py
+
+

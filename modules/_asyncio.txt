@@ -1,0 +1,277 @@
+Help on module _asyncio:
+
+NAME
+    _asyncio - Accelerator module for asyncio
+
+CLASSES
+    builtins.object
+        Future
+            Task
+    
+    class Future(builtins.object)
+     |  Future(*, loop=None)
+     |  
+     |  This class is *almost* compatible with concurrent.futures.Future.
+     |  
+     |  Differences:
+     |  
+     |  - result() and exception() do not take a timeout argument and
+     |    raise an exception when the future isn't done yet.
+     |  
+     |  - Callbacks registered with add_done_callback() are always called
+     |    via the event loop's call_soon_threadsafe().
+     |  
+     |  - This class is not compatible with the wait() and as_completed()
+     |    methods in the concurrent.futures package.
+     |  
+     |  Methods defined here:
+     |  
+     |  __await__(self, /)
+     |      Return an iterator to be used in await expression.
+     |  
+     |  __del__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  add_done_callback(self, fn, /, *, context=None)
+     |      Add a callback to be run when the future becomes done.
+     |      
+     |      The callback is called with a single argument - the future object. If
+     |      the future is already done when this is called, the callback is
+     |      scheduled with call_soon.
+     |  
+     |  cancel(self, /)
+     |      Cancel the future and schedule callbacks.
+     |      
+     |      If the future is already done or cancelled, return False.  Otherwise,
+     |      change the future's state to cancelled, schedule the callbacks and
+     |      return True.
+     |  
+     |  cancelled(self, /)
+     |      Return True if the future was cancelled.
+     |  
+     |  done(self, /)
+     |      Return True if the future is done.
+     |      
+     |      Done means either that a result / exception are available, or that the
+     |      future was cancelled.
+     |  
+     |  exception(self, /)
+     |      Return the exception that was set on this future.
+     |      
+     |      The exception (or None if no exception was set) is returned only if
+     |      the future is done.  If the future has been cancelled, raises
+     |      CancelledError.  If the future isn't done yet, raises
+     |      InvalidStateError.
+     |  
+     |  get_loop(self, /)
+     |      Return the event loop the Future is bound to.
+     |  
+     |  remove_done_callback(self, fn, /)
+     |      Remove all instances of a callback from the "call when done" list.
+     |      
+     |      Returns the number of callbacks removed.
+     |  
+     |  result(self, /)
+     |      Return the result this future represents.
+     |      
+     |      If the future has been cancelled, raises CancelledError.  If the
+     |      future's result isn't yet available, raises InvalidStateError.  If
+     |      the future is done and has an exception set, this exception is raised.
+     |  
+     |  set_exception(self, exception, /)
+     |      Mark the future done and set an exception.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  set_result(self, result, /)
+     |      Mark the future done and set its result.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+    
+    class Task(Future)
+     |  Task(coro, *, loop=None)
+     |  
+     |  A coroutine wrapped in a Future.
+     |  
+     |  Method resolution order:
+     |      Task
+     |      Future
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __await__(self, /)
+     |      Return an iterator to be used in await expression.
+     |  
+     |  __del__(...)
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  add_done_callback(self, fn, /, *, context=None)
+     |      Add a callback to be run when the future becomes done.
+     |      
+     |      The callback is called with a single argument - the future object. If
+     |      the future is already done when this is called, the callback is
+     |      scheduled with call_soon.
+     |  
+     |  cancel(self, /)
+     |      Request that this task cancel itself.
+     |      
+     |      This arranges for a CancelledError to be thrown into the
+     |      wrapped coroutine on the next cycle through the event loop.
+     |      The coroutine then has a chance to clean up or even deny
+     |      the request using try/except/finally.
+     |      
+     |      Unlike Future.cancel, this does not guarantee that the
+     |      task will be cancelled: the exception might be caught and
+     |      acted upon, delaying cancellation of the task or preventing
+     |      cancellation completely.  The task may also return a value or
+     |      raise a different exception.
+     |      
+     |      Immediately after this method is called, Task.cancelled() will
+     |      not return True (unless the task was already cancelled).  A
+     |      task will be marked as cancelled when the wrapped coroutine
+     |      terminates with a CancelledError exception (even if cancel()
+     |      was not called).
+     |  
+     |  cancelled(self, /)
+     |      Return True if the future was cancelled.
+     |  
+     |  done(self, /)
+     |      Return True if the future is done.
+     |      
+     |      Done means either that a result / exception are available, or that the
+     |      future was cancelled.
+     |  
+     |  exception(self, /)
+     |      Return the exception that was set on this future.
+     |      
+     |      The exception (or None if no exception was set) is returned only if
+     |      the future is done.  If the future has been cancelled, raises
+     |      CancelledError.  If the future isn't done yet, raises
+     |      InvalidStateError.
+     |  
+     |  get_stack(self, /, *, limit=None)
+     |      Return the list of stack frames for this task's coroutine.
+     |      
+     |      If the coroutine is not done, this returns the stack where it is
+     |      suspended.  If the coroutine has completed successfully or was
+     |      cancelled, this returns an empty list.  If the coroutine was
+     |      terminated by an exception, this returns the list of traceback
+     |      frames.
+     |      
+     |      The frames are always ordered from oldest to newest.
+     |      
+     |      The optional limit gives the maximum number of frames to
+     |      return; by default all available frames are returned.  Its
+     |      meaning differs depending on whether a stack or a traceback is
+     |      returned: the newest frames of a stack are returned, but the
+     |      oldest frames of a traceback are returned.  (This matches the
+     |      behavior of the traceback module.)
+     |      
+     |      For reasons beyond our control, only one stack frame is
+     |      returned for a suspended coroutine.
+     |  
+     |  print_stack(self, /, *, limit=None, file=None)
+     |      Print the stack or traceback for this task's coroutine.
+     |      
+     |      This produces output similar to that of the traceback module,
+     |      for the frames retrieved by get_stack().  The limit argument
+     |      is passed to get_stack().  The file argument is an I/O stream
+     |      to which the output is written; by default output is written
+     |      to sys.stderr.
+     |  
+     |  remove_done_callback(self, fn, /)
+     |      Remove all instances of a callback from the "call when done" list.
+     |      
+     |      Returns the number of callbacks removed.
+     |  
+     |  result(self, /)
+     |      Return the result this future represents.
+     |      
+     |      If the future has been cancelled, raises CancelledError.  If the
+     |      future's result isn't yet available, raises InvalidStateError.  If
+     |      the future is done and has an exception set, this exception is raised.
+     |  
+     |  set_exception(self, exception, /)
+     |      Mark the future done and set an exception.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  set_result(self, result, /)
+     |      Mark the future done and set its result.
+     |      
+     |      If the future is already done when this method is called, raises
+     |      InvalidStateError.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  all_tasks(loop=None) from builtins.type
+     |      Return a set of all tasks for an event loop.
+     |      
+     |      By default all tasks for the current event loop are returned.
+     |  
+     |  current_task(loop=None) from builtins.type
+     |      Return the currently running task in an event loop or None.
+     |      
+     |      By default the current task for the current event loop is returned.
+     |      
+     |      None is returned when called not in the context of a Task.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Future:
+     |  
+     |  get_loop(self, /)
+     |      Return the event loop the Future is bound to.
+
+FUNCTIONS
+    get_event_loop()
+        Return an asyncio event loop.
+        
+        When called from a coroutine or a callback (e.g. scheduled with
+        call_soon or similar API), this function will always return the
+        running event loop.
+        
+        If there is no running event loop set, the function will return
+        the result of `get_event_loop_policy().get_event_loop()` call.
+    
+    get_running_loop()
+        Return the running event loop.  Raise a RuntimeError if there is none.
+        
+        This function is thread-specific.
+
+FILE
+    c:\program files\python37\dlls\_asyncio.pyd
+
+

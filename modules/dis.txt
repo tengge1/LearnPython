@@ -1,0 +1,278 @@
+Help on module dis:
+
+NAME
+    dis - Disassembler of Python byte code into mnemonics.
+
+CLASSES
+    builtins.object
+        Bytecode
+    _Instruction(builtins.tuple)
+        Instruction
+    
+    class Bytecode(builtins.object)
+     |  Bytecode(x, *, first_line=None, current_offset=None)
+     |  
+     |  The bytecode operations of a piece of code
+     |  
+     |  Instantiate this with a function, method, other compiled object, string of
+     |  code, or a code object (as returned by compile()).
+     |  
+     |  Iterating over this yields the bytecode operations as Instruction instances.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, x, *, first_line=None, current_offset=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __iter__(self)
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  dis(self)
+     |      Return a formatted view of the bytecode operations.
+     |  
+     |  info(self)
+     |      Return formatted information about the code object.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |  
+     |  from_traceback(tb) from builtins.type
+     |      Construct a Bytecode from the given traceback
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Instruction(_Instruction)
+     |  Instruction(opname, opcode, arg, argval, argrepr, offset, starts_line, is_jump_target)
+     |  
+     |  Details for a bytecode operation
+     |  
+     |  Defined fields:
+     |    opname - human readable name for operation
+     |    opcode - numeric code for operation
+     |    arg - numeric argument to operation (if any), otherwise None
+     |    argval - resolved arg value (if known), otherwise same as arg
+     |    argrepr - human readable description of operation argument
+     |    offset - start index of operation within bytecode sequence
+     |    starts_line - line started by this opcode (if any), otherwise None
+     |    is_jump_target - True if other code jumps to here, otherwise False
+     |  
+     |  Method resolution order:
+     |      Instruction
+     |      _Instruction
+     |      builtins.tuple
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  _disassemble(self, lineno_width=3, mark_as_current=False, offset_width=4)
+     |      Format instruction details for inclusion in disassembly output
+     |      
+     |      *lineno_width* sets the width of the line number field (0 omits it)
+     |      *mark_as_current* inserts a '-->' marker arrow as part of the line
+     |      *offset_width* sets the width of the instruction offset field
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _Instruction:
+     |  
+     |  __getnewargs__(self)
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |  
+     |  __repr__(self)
+     |      Return a nicely formatted representation string
+     |  
+     |  _asdict(self)
+     |      Return a new OrderedDict which maps field names to their values.
+     |  
+     |  _replace(_self, **kwds)
+     |      Return a new _Instruction object replacing specified fields with new values
+     |  
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from _Instruction:
+     |  
+     |  _make(iterable) from builtins.type
+     |      Make a new _Instruction object from a sequence or iterable
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from _Instruction:
+     |  
+     |  __new__(_cls, opname, opcode, arg, argval, argrepr, offset, starts_line, is_jump_target)
+     |      Create new instance of _Instruction(opname, opcode, arg, argval, argrepr, offset, starts_line, is_jump_target)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from _Instruction:
+     |  
+     |  opname
+     |      Human readable name for operation
+     |  
+     |  opcode
+     |      Numeric code for operation
+     |  
+     |  arg
+     |      Numeric argument to operation (if any), otherwise None
+     |  
+     |  argval
+     |      Resolved arg value (if known), otherwise same as arg
+     |  
+     |  argrepr
+     |      Human readable description of operation argument
+     |  
+     |  offset
+     |      Start index of operation within bytecode sequence
+     |  
+     |  starts_line
+     |      Line started by this opcode (if any), otherwise None
+     |  
+     |  is_jump_target
+     |      True if other code jumps to here, otherwise False
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from _Instruction:
+     |  
+     |  _field_defaults = {}
+     |  
+     |  _fields = ('opname', 'opcode', 'arg', 'argval', 'argrepr', 'offset', '...
+     |  
+     |  _fields_defaults = {}
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |  
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |  
+     |  __contains__(self, key, /)
+     |      Return key in self.
+     |  
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |  
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |  
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |  
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |  
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |  
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |  
+     |  __len__(self, /)
+     |      Return len(self).
+     |  
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |  
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |  
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |  
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |  
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |  
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |      
+     |      Raises ValueError if the value is not present.
+
+FUNCTIONS
+    code_info(x)
+        Formatted details of methods, functions, or code.
+    
+    dis(x=None, *, file=None, depth=None)
+        Disassemble classes, methods, functions, and other compiled objects.
+        
+        With no argument, disassemble the last traceback.
+        
+        Compiled objects currently include generator objects, async generator
+        objects, and coroutine objects, all of which store their code object
+        in a special attribute.
+    
+    disassemble(co, lasti=-1, *, file=None)
+        Disassemble a code object.
+    
+    disco = disassemble(co, lasti=-1, *, file=None)
+        Disassemble a code object.
+    
+    distb(tb=None, *, file=None)
+        Disassemble a traceback (default: last traceback).
+    
+    findlabels(code)
+        Detect all offsets in a byte code which are jump targets.
+        
+        Return the list of offsets.
+    
+    findlinestarts(code)
+        Find the offsets in a byte code which are start of lines in the source.
+        
+        Generate pairs (offset, lineno) as described in Python/compile.c.
+    
+    get_instructions(x, *, first_line=None)
+        Iterator for the opcodes in methods, functions or code
+        
+        Generates a series of Instruction named tuples giving the details of
+        each operations in the supplied code.
+        
+        If *first_line* is not None, it indicates the line number that should
+        be reported for the first source line in the disassembled code.
+        Otherwise, the source line information (if any) is taken directly from
+        the disassembled code object.
+    
+    show_code(co, *, file=None)
+        Print details of methods, functions, or code to *file*.
+        
+        If *file* is not provided, the output is printed on stdout.
+    
+    stack_effect(opcode, oparg=None, /)
+        Compute the stack effect of the opcode.
+
+DATA
+    EXTENDED_ARG = 144
+    HAVE_ARGUMENT = 90
+    __all__ = ['code_info', 'dis', 'disassemble', 'distb', 'disco', 'findl...
+    cmp_op = ('<', '<=', '==', '!=', '>', '>=', 'in', 'not in', 'is', 'is ...
+    hascompare = [107]
+    hasconst = [100]
+    hasfree = [135, 136, 137, 138, 148]
+    hasjabs = [111, 112, 113, 114, 115, 119]
+    hasjrel = [93, 110, 120, 121, 122, 143, 154]
+    haslocal = [124, 125, 126]
+    hasname = [90, 91, 95, 96, 97, 98, 101, 106, 108, 109, 116, 160]
+    hasnargs = []
+    opmap = {'BEFORE_ASYNC_WITH': 52, 'BINARY_ADD': 23, 'BINARY_AND': 64, ...
+    opname = ['<0>', 'POP_TOP', 'ROT_TWO', 'ROT_THREE', 'DUP_TOP', 'DUP_TO...
+
+FILE
+    c:\program files\python37\lib\dis.py
+
+
