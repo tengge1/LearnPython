@@ -1,3 +1,4 @@
+import datetime
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.datasets import mnist
@@ -21,5 +22,11 @@ model.compile(
     metrics=['accuracy']
 )
 
-model.fit(x_train, y_train, epochs=5)
-model.evaluate(x_test, y_test, verbose=2)
+log_dir = 'logs\\fit'
+tensorboard_callback = tf.keras.callbacks.TensorBoard(
+    log_dir=log_dir, histogram_freq=1)
+
+model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test),
+          callbacks=[tensorboard_callback])
+
+# model.evaluate(x_test, y_test, verbose=2)

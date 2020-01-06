@@ -117,3 +117,4 @@ dmypy.json
 *.h5
 *.hdf5
 /plot_epoch_001_generated.png
+/logs
