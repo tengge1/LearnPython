@@ -1,1 +1,1 @@
-tensorboard --logdir logs/fit
+tensorboard --logdir logs
