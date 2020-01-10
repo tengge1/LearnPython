@@ -28,6 +28,25 @@ y = 0.5 * x + 2 + np.random.normal(0, 0.05, (data_size, ))
 x_train, y_train = x[:train_size], y[:train_size]
 x_test, y_test = x[train_size:], y[train_size:]
 
+
+def lr_schedule(epoch):
+  """
+  Returns a custom learning rate that decreases as epochs progress.
+  """
+  learning_rate = 0.2
+  if epoch > 10:
+    learning_rate = 0.02
+  if epoch > 20:
+    learning_rate = 0.01
+  if epoch > 50:
+    learning_rate = 0.005
+
+  tf.summary.scalar('learning rate', data=learning_rate, step=epoch)
+  return learning_rate
+
+
+lr_callback = keras.callbacks.LearningRateScheduler(lr_schedule)
+
 logdir = "logs\\scalars\\" + datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 
@@ -49,7 +68,7 @@ training_history = model.fit(
     verbose=0,  # Suppress chatty output; use Tensorboard instead
     epochs=100,
     validation_data=(x_test, y_test),
-    callbacks=[tensorboard_callback],
+    callbacks=[tensorboard_callback, lr_callback],
 )
 
 print("Average test loss: ", np.average(training_history.history['loss']))
