@@ -31,7 +31,14 @@ model.compile(
     metrics=['accuracy']
 )
 
+# 评估
 model.fit(x_train, y_train, epochs=4, batch_size=512)
 results = model.evaluate(x_test, y_test, verbose=2)
 
 print(results)
+
+# 预测
+predicts = model.predict(x_test)
+
+print(predicts[0])
+print(y_test[0])
