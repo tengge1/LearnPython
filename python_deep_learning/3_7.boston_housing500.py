@@ -57,7 +57,7 @@ for i in range(k):
         batch_size=1,
         verbose=0
     )
-    mae_history = history.history['val_mean_absolute_error']
+    mae_history = history.history['val_mae']
     all_mae_histories.append(mae_history)
 
 # 计算所有轮次中的K折验证分数平均值
