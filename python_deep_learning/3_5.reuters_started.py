@@ -47,5 +47,11 @@ history = model.fit(
     validation_data=(x_val, y_val)
 )
 
+# 评估
 results = model.evaluate(x_test, one_hot_test_labels)
 print(results)
+
+# 预测
+predicts = model.predict(x_test)
+print(predicts[0])
+print(test_labels[0])
