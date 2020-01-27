@@ -44,5 +44,29 @@ def generate_pattern(layer_name, filter_index, size=150):
         return deprocess_image(img)
 
 
-plt.imshow(generate_pattern('block3_conv1', 0))
+# plt.imshow(generate_pattern('block3_conv1', 0))
+# plt.show()
+
+layer_name = 'block1_conv1'
+size = 64
+margin = 5
+
+layer_names = ['block1_conv1', 'block2_conv1',
+               'block3_conv1', 'block4_conv1', 'block5_conv1', ]
+
+results = np.zeros((8 * size + 7 * margin, 8 * size + 7 * margin, 3))
+
+for i in range(5):
+    for j in range(8):
+        filter_img = generate_pattern(layer_names[i], j, size=size)
+
+        horizontal_start = i * size + i * margin
+        horizontal_end = horizontal_start + size
+        vertical_start = j * size + j * margin
+        vertical_end = vertical_start + size
+        results[horizontal_start: horizontal_end,
+                vertical_start: vertical_end, :] = filter_img
+
+plt.figure(figsize=(20, 20))
+plt.imshow(results)
 plt.show()
