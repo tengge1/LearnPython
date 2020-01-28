@@ -118,3 +118,4 @@ dmypy.json
 *.hdf5
 /plot_epoch_001_generated.png
 /logs
+/element_cam.jpg
