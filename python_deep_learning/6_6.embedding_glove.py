@@ -103,7 +103,7 @@ model.layers[0].trainable = False
 model.compile(
     optimizer='rmsprop',
     loss='binary_crossentropy',
-    metrics=['accurcy']
+    metrics=['accuracy']
 )
 history = model.fit(
     x_train,
