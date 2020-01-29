@@ -1,4 +1,5 @@
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, Flatten, Dense
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
@@ -22,9 +23,9 @@ for label_type in ['neg', 'pos']:
             else:
                 labels.append(1)
 
-
-maxlen = 100
 max_words = 10000
+embedding_dim = 100
+maxlen = 100
 
 tokenizer = Tokenizer(num_words=max_words)
 tokenizer.fit_on_texts(texts)
