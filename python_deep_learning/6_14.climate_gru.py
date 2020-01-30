@@ -103,7 +103,20 @@ test_steps = (len(float_data) - 300001 - lookback) // batch_size
 # 一种基本的机器学习方法
 
 model = Sequential()
-model.add(layers.GRU(32, input_shape=(None, float_data.shape[-1])))
+model.add(layers.GRU(
+    32,
+    dropout=0.1,
+    recurrent_dropout=0.5,
+    return_sequences=True,
+    input_shape=(None, float_data.shape[-1])
+))
+model.add(layers.GRU(
+    64,
+    activation='relu',
+    dropout=0.1,
+    recurrent_dropout=0.5,
+    input_shape=(None, float_data.shape[-1])
+))
 model.add(layers.Dense(1))
 model.compile(optimizer=RMSprop(), loss='mae')
 
