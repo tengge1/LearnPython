@@ -10,9 +10,6 @@ maxlen = 500
     num_words=max_features
 )
 
-x_train = [x[::-1] for x in x_train]
-x_test = [x[::-1] for x in x_test]
-
 x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
 x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
 
@@ -30,7 +27,7 @@ model.compile(
 history = model.fit(
     x_train,
     y_train,
-    # epochs=10,
+    epochs=10,
     batch_size=128,
     validation_split=0.2
 )
