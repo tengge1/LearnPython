@@ -12,7 +12,7 @@ print('Corpus length:', len(text))
 # 将字符序列向量化
 
 maxlen = 60
-step = 3
+step = 12  # 3
 sentences = []
 next_chars = []
 
@@ -63,7 +63,7 @@ generated_text = text[start_index: start_index + maxlen]
 print('--- Generating with seed: "' + generated_text + '"')
 
 for temperature in [0.2, 0.5, 1.0, 1.2]:
-    print('------ temperature:', temperature)
+    print('\n\n------ temperature:', temperature)
     sys.stdout.write(generated_text)
     for i in range(400):
         sampled = np.zeros((1, maxlen, len(chars)))
@@ -72,7 +72,7 @@ for temperature in [0.2, 0.5, 1.0, 1.2]:
             sampled[0, t, char_indices[char]] = 1
 
         preds = model.predict(sampled, verbose=0)[0]
-        next_index = sample(probas, temperature)
+        next_index = sample(preds, temperature)
         next_char = chars[next_index]
 
         generated_text += next_char
