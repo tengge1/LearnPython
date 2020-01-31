@@ -119,3 +119,4 @@ dmypy.json
 /plot_epoch_001_generated.png
 /logs
 /element_cam.jpg
+/*.npz
