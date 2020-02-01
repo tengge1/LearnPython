@@ -4,6 +4,7 @@ from tensorflow.keras import backend as K
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import scipy
+import scipy.misc
 
 K.set_learning_phase(0)
 
