@@ -134,4 +134,4 @@ for step in range(iterations):
         img.save(os.path.join(save_dir, 'generated_frog' + str(step) + '.png'))
 
         img = image.array_to_img(real_images[0] * 255., scale=False)
-        img.save(os.path.join(save_dir), 'real_frog' + str(step) + '.png')
+        img.save(os.path.join(save_dir, 'real_frog' + str(step) + '.png'))
