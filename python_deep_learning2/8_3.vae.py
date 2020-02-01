@@ -54,7 +54,7 @@ x = layers.Conv2D(1, 3, padding='same', activation='sigmoid')(x)
 
 decoder = Model(decoder_input, x)
 
-z_decoded = decoder_input(z)
+z_decoded = decoder(z)
 
 
 class CustomVariationalLayer(keras.layers.Layer):
@@ -81,7 +81,7 @@ y = CustomVariationalLayer()([input_img, z_decoded])
 # 训练vae
 
 vae = Model(input_img, y)
-vae.compile(optimizer='rmsprop', loss=None)
+vae.compile(optimizer='rmsprop', loss=None, experimental_run_tf_function=False)
 vae.summary()
 
 (x_train, _), (x_test, y_test) = mnist.load_data()
@@ -95,7 +95,7 @@ vae.fit(
     x=x_train,
     y=None,
     shuffle=True,
-    epochs=10,
+    epochs=10,  # epochs=10
     batch_size=batch_size,
     validation_data=(x_test, None)
 )
