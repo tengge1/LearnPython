@@ -89,14 +89,15 @@ def deprocess_image(x):
         x = x.reshape((x.shape[1], x.shape[2], 3))
     x /= 2.
     x += 0.5
-    x += 255.
+    x *= 255.
     x = np.clip(x, 0, 255).astype('uint8')
     return x
 
 
 def save_img(img, fname):
     pil_img = deprocess_image(np.copy(img))
-    scipy.misc.imsave(fname, pil_img)
+    img = image.array_to_img(pil_img)
+    image.save_img(fname, pil_img)
 
 
 def preprocess_image(image_path):
@@ -131,11 +132,11 @@ for shape in successive_shapes:
         step=step,
         max_loss=max_loss
     )
-    unscaled_shrunk_original_img = resize_img(shruk_original_img, shape)
+    upscaled_shrunk_original_img = resize_img(shruk_original_img, shape)
     same_size_original = resize_img(original_img, shape)
-    loss_detail = same_size_original - unscaled_shrunk_original_img
+    lost_detail = same_size_original - upscaled_shrunk_original_img
 
-    img += loss_detail
+    img += lost_detail
     shruk_original_img = resize_img(original_img, shape)
     save_img(img, fname='dream_at_scale_' + str(shape) + '.png')
 
