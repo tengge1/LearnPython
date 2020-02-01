@@ -95,6 +95,9 @@ iterations = 10000
 batch_size = 20
 save_dir = 'temp'
 
+if not os.path.exists(save_dir):
+    os.mkdir(save_dir)
+
 start = 0
 for step in range(iterations):
     random_latent_vectors = np.random.normal(size=(batch_size, latent_dim))
