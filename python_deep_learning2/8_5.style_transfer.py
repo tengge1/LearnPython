@@ -1,9 +1,13 @@
+import tensorflow as tf
 from tensorflow.keras.applications import vgg19
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, save_img
 from tensorflow.keras import backend as K
 from scipy.optimize import fmin_l_bfgs_b
 import numpy as np
 import time
+
+# tensorflow 2.0 禁用eager模式
+tf.compat.v1.disable_eager_execution()
 
 target_image_path = 'img/protrait.jpg'
 style_reference_image_path = 'img/transfer_style_refrence.jpg'
@@ -76,6 +80,8 @@ def total_variation_loss(x):
 
 
 outputs_dict = dict([(layer.name, layer.output) for layer in model.layers])
+
+model.summary()
 
 content_layer = 'block5_conv2'
 style_layers = [
