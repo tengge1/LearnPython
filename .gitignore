@@ -122,3 +122,4 @@ dmypy.json
 /*.npz
 /nietzsche.txt
 /temp
+mnist-go/data
